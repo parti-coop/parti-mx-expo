@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly with defaults 1`] = `
+<View>
+  <ActivityIndicator
+    animating={true}
+    color="#999999"
+    hidesWhenStopped={true}
+    size={50}
+  />
+  <Text>
+    {"isInit":false,"userToken":""}
+  </Text>
+</View>
+`;
