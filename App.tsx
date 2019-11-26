@@ -1,5 +1,4 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import AppNavigator from "./src/AppNavigator";
 import AuthLoading from "./src/screens/AuthLoading";
@@ -8,6 +7,7 @@ import { StoreProvider } from "./src/Store";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import fetch from "node-fetch";
+import * as Font from "expo-font";
 declare global {
   namespace NodeJS {
     interface Global {
@@ -38,7 +38,6 @@ export default () => {
   return (
     <ApolloProvider client={client}>
       <StoreProvider>
-        <StatusBar barStyle="dark-content" />
         <AppContainer />
       </StoreProvider>
     </ApolloProvider>

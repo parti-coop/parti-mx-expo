@@ -1,6 +1,8 @@
 import { createDrawerNavigator } from "react-navigation-drawer";
 import Home from "./screens/Home";
 import Detail from "./screens/Detail";
+import contentComponent from "./components/CustomDrawer";
+
 export default createDrawerNavigator(
   {
     Home,
@@ -9,6 +11,7 @@ export default createDrawerNavigator(
   {
     contentOptions: {
       activeTintColor: "#e91e63"
-    }
+    },
+    contentComponent
   }
 );

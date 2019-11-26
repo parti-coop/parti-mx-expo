@@ -1,9 +1,10 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
-export const getMedia = gql`
+export const getGroups = gql`
   query {
-    medias {
-      name
+    parti_2020_groups {
+      title
+      id
     }
   }
 `;
