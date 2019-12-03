@@ -6,17 +6,19 @@ import { View } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
-import { useQuery } from "@apollo/react-hooks";
-import { getSuggestionsByGroupId } from "../graphql/query";
+import { useQuery, useSubscription } from "@apollo/react-hooks";
+import { subscribeSuggestionsByGroupId } from "../graphql/subscription";
 export default (props: NavigationStackScreenProps) => {
-  const { loading, data } = useQuery(getSuggestionsByGroupId, {
+  const { data, loading } = useSubscription(subscribeSuggestionsByGroupId, {
     variables: { id: 1 }
   });
   const [store, setStore] = useStore();
   if (loading) {
+    console.log(loading, data);
     return LoadingIndicator();
   }
-  if (data) {
+  if (!loading) {
+    console.log(data, loading);
     const board_id = data.parti_2020_groups_by_pk.boardDefault.id;
     const group_id = data.parti_2020_groups_by_pk.id;
     setStore({ group_id, board_id });
