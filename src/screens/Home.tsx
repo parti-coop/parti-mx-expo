@@ -11,10 +11,7 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Image source={icon} style={{ width: 200, height: 200 }} />
       <Text>Parti-2020에 오신것을 환영합니다.</Text>
-      <Button
-        title="전체그룹 확인"
-        onPress={() => navigate("Detail", { name: "Jane" })}
-      />
+      <Button title="2020 제안 " onPress={() => navigate("Suggestions")} />
     </View>
   );
 };
