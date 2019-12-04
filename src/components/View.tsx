@@ -6,3 +6,21 @@ export class View extends React.PureComponent<ViewProps> {
     return <V {...this.props}>{this.props.children}</V>;
   }
 }
+
+export class ViewRow extends React.PureComponent<ViewProps> {
+  render() {
+    return (
+      <V
+        {...this.props}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          ...(this.props.style as Object)
+        }}
+      >
+        {this.props.children}
+      </V>
+    );
+  }
+}

@@ -14,11 +14,9 @@ export default (props: NavigationStackScreenProps) => {
   });
   const [store, setStore] = useStore();
   if (loading) {
-    console.log(loading, data);
     return LoadingIndicator();
   }
-  if (!loading) {
-    console.log(data, loading);
+  if (data) {
     const board_id = data.parti_2020_groups_by_pk.boardDefault.id;
     const group_id = data.parti_2020_groups_by_pk.id;
     setStore({ group_id, board_id });
@@ -75,7 +73,14 @@ export default (props: NavigationStackScreenProps) => {
           <View>
             {data.parti_2020_groups_by_pk.boardDefault.suggestions.map(
               (sugg, index) => (
-                <TouchableOpacity key={index}>
+                <TouchableOpacity
+                  key={index}
+                  onPress={e =>
+                    props.navigation.navigate("SuggestionDetail", {
+                      suggestionId: sugg.id
+                    })
+                  }
+                >
                   <Text>{sugg.body}</Text>
                   <Text>{sugg.created_at}</Text>
                   <Text>{sugg.updatedBy.email}</Text>

@@ -34,3 +34,19 @@ export const getSuggestionsByGroupId = gql`
     }
   }
 `;
+
+export const getSuggestion = gql`
+  query($id: Int!) {
+    parti_2020_suggestions_by_pk(id: $id) {
+      body
+      updatedBy {
+        email
+      }
+      createdBy {
+        email
+      }
+      created_at
+      updated_at
+    }
+  }
+`;
