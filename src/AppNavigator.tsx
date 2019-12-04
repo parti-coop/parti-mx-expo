@@ -3,6 +3,7 @@ import Home from "./screens/Home";
 import Detail from "./screens/Detail";
 import Suggestions from "./screens/Suggestions";
 import SuggestionCreate from "./screens/SuggestionCreate";
+import SuggestionEdit from "./screens/SuggestionEdit";
 import SuggestionDetail from "./screens/SuggestionDetail";
 import contentComponent from "./components/CustomDrawer";
 
@@ -12,7 +13,8 @@ export default createDrawerNavigator(
     Detail,
     Suggestions,
     SuggestionCreate,
-    SuggestionDetail
+    SuggestionDetail,
+    SuggestionEdit
   },
   {
     initialRouteName: "Suggestions",

@@ -27,3 +27,14 @@ export const insertSuggestion = gql`
     }
   }
 `;
+
+export const updateSuggestion = gql`
+  mutation($id: Int!, $body: String!) {
+    update_parti_2020_suggestions(
+      where: { id: { _eq: $id } }
+      _set: { body: $body }
+    ) {
+      affected_rows
+    }
+  }
+`;

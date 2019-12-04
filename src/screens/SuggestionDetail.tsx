@@ -17,11 +17,15 @@ export default (
 ) => {
   const id = props.navigation.getParam("suggestionId");
   const { data, loading } = useQuery(getSuggestion, { variables: { id } });
+
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
+    const { parti_2020_suggestions_by_pk } = data;
     switch (index) {
       case 0:
-        return alert(index);
+        return props.navigation.navigate("SuggestionEdit", {
+          suggestion: parti_2020_suggestions_by_pk
+        });
       default:
         return alert(index);
     }
@@ -29,6 +33,7 @@ export default (
   if (loading) {
     return LoadingIndicator();
   }
+
   return (
     <>
       <View
