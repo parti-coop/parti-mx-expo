@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, ProgressViewIOSComponent } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { View } from "../components/View";
@@ -7,20 +7,24 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { useQuery, useSubscription } from "@apollo/react-hooks";
-import { subscribeSuggestionsByGroupId } from "../graphql/subscription";
-export default (props: NavigationStackScreenProps) => {
-  const { data, loading } = useSubscription(subscribeSuggestionsByGroupId, {
-    variables: { id: 1 }
-  });
+import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
+export default (
+  props: NavigationStackScreenProps<{ id: number; boards: any[] }>
+) => {
   const [store, setStore] = useStore();
+  const board_id = props.navigation.getParam("id");
+  const boards = props.navigation.getParam("boards");
+  const { group_id } = store;
+  React.useEffect(() => {
+    setStore({ group_id, board_id });
+  }, [group_id, board_id]);
+  const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
+    variables: { id: board_id }
+  });
   if (loading) {
     return LoadingIndicator();
   }
-  if (data) {
-    const board_id = data.parti_2020_groups_by_pk.boardDefault.id;
-    const group_id = data.parti_2020_groups_by_pk.id;
-    setStore({ group_id, board_id });
-  }
+  const { suggestions, title } = data.parti_2020_boards_by_pk;
   return (
     <>
       <View
@@ -32,15 +36,14 @@ export default (props: NavigationStackScreenProps) => {
       >
         <TouchableOpacity
           style={{ flex: 1, alignItems: "center", padding: 20 }}
+          onPress={() => props.navigation.navigate("Home")}
         >
           <Text style={{ color: "blue", fontSize: 20 }}>Menu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{ flex: 3, alignItems: "center", padding: 20 }}
         >
-          <Text style={{ color: "black", fontSize: 30 }}>
-            {data.parti_2020_groups_by_pk.title}
-          </Text>
+          <Text style={{ color: "black", fontSize: 30 }}>{title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{ flex: 1, alignItems: "center", padding: 20 }}
@@ -52,7 +55,7 @@ export default (props: NavigationStackScreenProps) => {
         style={{ flex: 1, alignItems: "stretch", justifyContent: "center" }}
       >
         <ScrollView horizontal style={{ flexGrow: 0, flexShrink: 1 }}>
-          {data.parti_2020_groups_by_pk.boards.map((board, index) => (
+          {boards.map((board, index) => (
             <TouchableOpacity key={index}>
               <Text
                 style={{
@@ -69,24 +72,21 @@ export default (props: NavigationStackScreenProps) => {
           ))}
         </ScrollView>
         <View style={{ flex: 1, backgroundColor: "lightblue" }}>
-          <Text style={{ textAlign: "center", fontSize: 20 }}>제안 리스트</Text>
           <View>
-            {data.parti_2020_groups_by_pk.boardDefault.suggestions.map(
-              (sugg, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={e =>
-                    props.navigation.navigate("SuggestionDetail", {
-                      suggestionId: sugg.id
-                    })
-                  }
-                >
-                  <Text>{sugg.body}</Text>
-                  <Text>{sugg.created_at}</Text>
-                  <Text>{sugg.updatedBy.email}</Text>
-                </TouchableOpacity>
-              )
-            )}
+            {suggestions.map((sugg, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={e =>
+                  props.navigation.navigate("SuggestionDetail", {
+                    suggestionId: sugg.id
+                  })
+                }
+              >
+                <Text>{sugg.body}</Text>
+                <Text>{sugg.created_at}</Text>
+                <Text>{sugg.updatedBy.email}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </View>

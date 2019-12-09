@@ -51,3 +51,17 @@ export const getSuggestion = gql`
     }
   }
 `;
+
+export const getBoardsByGroupId = gql`
+  query($id: Int!) {
+    parti_2020_groups_by_pk(id: $id) {
+      id
+      title
+      boards {
+        id
+        title
+        body
+      }
+    }
+  }
+`;

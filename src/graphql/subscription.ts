@@ -34,3 +34,22 @@ export const subscribeSuggestionsByGroupId = gql`
     }
   }
 `;
+
+export const subscribeSuggestionsByBoardId = gql`
+  subscription($id: Int!) {
+    parti_2020_boards_by_pk(id: $id) {
+      id
+      body
+      title
+      slug
+      suggestions {
+        body
+        created_at
+        id
+        updatedBy {
+          email
+        }
+      }
+    }
+  }
+`;

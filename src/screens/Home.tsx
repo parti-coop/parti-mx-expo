@@ -4,11 +4,21 @@ import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { TouchableOpacity, ButtonRound } from "../components/TouchableOpacity";
+import LoadingIndicator from "../components/LoadingIndicator";
 import { Image } from "react-native";
 import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useQuery } from "@apollo/react-hooks";
+import { getBoardsByGroupId } from "../graphql/query";
 export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
   const { navigate } = props.navigation;
+  const { data, loading } = useQuery(getBoardsByGroupId, {
+    variables: { id: 1 }
+  });
+  if (loading) {
+    return LoadingIndicator();
+  }
+  const { title, boards } = data.parti_2020_groups_by_pk;
   return (
     <View style={{ flex: 1 }}>
       <ViewRow
@@ -18,7 +28,7 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
           padding: 10
         }}
       >
-        <ButtonRound>
+        <ButtonRound onPress={() => props.navigation.openDrawer()}>
           <Text>G</Text>
         </ButtonRound>
         <ViewRow>
@@ -48,7 +58,7 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
           style={{ width: 80, height: 80, borderRadius: 40 }}
         />
         <View style={{ paddingLeft: 30, backgroundColor: "chocolate" }}>
-          <Text>빠띠 소프트팀</Text>
+          <Text>{title}</Text>
           <Text
             style={{
               borderWidth: 1,
@@ -69,17 +79,23 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
           <Text>목록</Text>
           <Text>설정</Text>
         </ViewRow>
-        <ViewRow style={{ justifyContent: "flex-start", padding: 10 }}>
-          <MaterialIcons name="move-to-inbox" size={30} />
-          <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
-            <Text>소식 게시판</Text>
-            <Text>11월 워크숍 내용 공유 겸 (시간이 허락한다면) 팀</Text>
-          </View>
-          <View>
-            <Text>50분 전</Text>
-            <Text>111</Text>
-          </View>
-        </ViewRow>
+        {boards.map((b, index) => (
+          <TouchableOpacity
+            style={{ padding: 10, alignItems: "center", flexDirection: "row" }}
+            key={index}
+            onPress={() => navigate("Suggestions", { id: b.id, boards })}
+          >
+            <MaterialIcons name="move-to-inbox" size={30} />
+            <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
+              <Text>{b.title}</Text>
+              <Text>{b.body}</Text>
+            </View>
+            <View>
+              <Text>50분 전</Text>
+              <Text>111</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
       <View>
         <Text style={{ backgroundColor: "crimson" }}>기타</Text>
