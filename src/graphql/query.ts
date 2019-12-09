@@ -61,6 +61,7 @@ export const getBoardsByGroupId = gql`
         id
         title
         body
+        isMemberOnly
       }
     }
   }

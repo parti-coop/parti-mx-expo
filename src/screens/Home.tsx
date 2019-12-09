@@ -91,7 +91,20 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
           >
             <MaterialIcons name="move-to-inbox" size={30} />
             <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
-              <Text>{b.title}</Text>
+              <ViewRow style={{ justifyContent: "flex-start" }}>
+                <Text>{b.title}</Text>
+                {b.isMemberOnly && (
+                  <Text
+                    style={{
+                      paddingHorizontal: 10,
+                      backgroundColor: "gainsboro",
+                      borderWidth: 1
+                    }}
+                  >
+                    전체공개
+                  </Text>
+                )}
+              </ViewRow>
               <Text>{b.body}</Text>
             </View>
             <View>
