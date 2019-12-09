@@ -38,3 +38,11 @@ export const updateSuggestion = gql`
     }
   }
 `;
+
+export const deleteSuggestion = gql`
+  mutation($id: Int!) {
+    delete_parti_2020_suggestions(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;

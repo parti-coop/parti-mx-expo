@@ -1,5 +1,5 @@
 import React from "react";
-import { Share } from "react-native";
+import { Share, Alert } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
@@ -9,14 +9,16 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { Button } from "../components/Button";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import PopupMenu from "../components/PopupMenu";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { getSuggestion } from "../graphql/query";
+import { deleteSuggestion } from "../graphql/mutation";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
   const id = props.navigation.getParam("suggestionId");
   const { data, loading } = useQuery(getSuggestion, { variables: { id } });
+  const [del] = useMutation(deleteSuggestion, { variables: { id } });
 
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
@@ -26,6 +28,25 @@ export default (
         return props.navigation.navigate("SuggestionEdit", {
           suggestion: parti_2020_suggestions_by_pk
         });
+      case 1:
+        return Alert.alert("제안 삭제", "삭제하겠습니까? 복구할 수 없습니다.", [
+          {
+            text: "취소",
+            style: "cancel"
+          },
+          {
+            text: "삭제",
+            onPress: () =>
+              del({
+                variables: {
+                  id
+                }
+              })
+                .then(() => alert("삭제되었습니다."))
+                .then(() => props.navigation.goBack())
+          }
+        ]);
+        return;
       default:
         return alert(index);
     }
