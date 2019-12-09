@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, ProgressViewIOSComponent } from "react-native";
+import { ScrollView, Share } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { View } from "../components/View";
@@ -47,6 +47,7 @@ export default (
         </TouchableOpacity>
         <TouchableOpacity
           style={{ flex: 1, alignItems: "center", padding: 20 }}
+          onPress={e => Share.share({ message: "제안을 공유합니다." })}
         >
           <Text style={{ color: "blue", fontSize: 20 }}>초대</Text>
         </TouchableOpacity>
@@ -56,7 +57,15 @@ export default (
       >
         <ScrollView horizontal style={{ flexGrow: 0, flexShrink: 1 }}>
           {boards.map((board, index) => (
-            <TouchableOpacity key={index}>
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                props.navigation.navigate("Suggestions", {
+                  boards,
+                  id: board.id
+                })
+              }
+            >
               <Text
                 style={{
                   width: 100,

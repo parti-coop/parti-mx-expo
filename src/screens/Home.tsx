@@ -1,11 +1,11 @@
 import React from "react";
+import { Image, Share } from "react-native";
 import { NavigationDrawerScreenProps } from "react-navigation-drawer";
 import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { TouchableOpacity, ButtonRound } from "../components/TouchableOpacity";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { Image } from "react-native";
 import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@apollo/react-hooks";
@@ -41,7 +41,10 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
           >
             <Text>QR</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 10, backgroundColor: "coral" }}>
+          <TouchableOpacity
+            style={{ padding: 10, backgroundColor: "coral" }}
+            onPress={e => Share.share({ message: "제안을 공유합니다." })}
+          >
             <Text>초대</Text>
           </TouchableOpacity>
         </ViewRow>
