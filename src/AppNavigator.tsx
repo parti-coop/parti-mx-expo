@@ -17,7 +17,7 @@ const stack = createStackNavigator(
     SuggestionEdit
   },
   {
-    initialRouteName: "Suggestions",
+    initialRouteName: "Home",
     headerMode: "none"
   }
 );
