@@ -38,6 +38,7 @@ export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
               backgroundColor: "lightgreen",
               marginRight: 10
             }}
+            onPress={() => props.navigation.navigate("QRcode")}
           >
             <Text>QR</Text>
           </TouchableOpacity>
