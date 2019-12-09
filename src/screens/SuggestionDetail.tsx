@@ -18,7 +18,7 @@ export default (
 ) => {
   const id = props.navigation.getParam("suggestionId");
   const { data, loading } = useQuery(getSuggestion, { variables: { id } });
-  const [del] = useMutation(deleteSuggestion, { variables: { id } });
+  const [del, delV] = useMutation(deleteSuggestion, { variables: { id } });
 
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
@@ -51,7 +51,7 @@ export default (
         return alert(index);
     }
   }
-  if (loading) {
+  if (loading || delV.loading) {
     return LoadingIndicator();
   }
 
