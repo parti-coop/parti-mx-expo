@@ -1,11 +1,12 @@
 import React from "react";
+import { Updates } from "expo";
 import { ScrollView, SafeAreaView, Picker } from "react-native";
 import { DrawerContentComponentProps } from "react-navigation-drawer";
-import { Button } from "./Button";
+import { View } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "./View";
+import { ViewRow } from "./View";
 import { useQuery } from "@apollo/react-hooks";
 import { getGroups } from "../graphql/query";
 import Home from "../screens/Home";
@@ -30,9 +31,14 @@ export default (props: DrawerContentComponentProps) => {
     props.navigation.closeDrawer();
   }
   return (
-    <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "floralwhite" }}>
+        <ViewRow
+          style={{
+            justifyContent: "flex-start",
+            backgroundColor: "darkgoldenrod"
+          }}
+        >
           <TouchableOpacity
             style={{ width: 50, padding: 10 }}
             onPress={closeDrawer}
@@ -40,7 +46,14 @@ export default (props: DrawerContentComponentProps) => {
             <Ionicons name="ios-arrow-back" size={60} />
           </TouchableOpacity>
           {dropdownGroups}
-        </View>
+        </ViewRow>
+        <View style={{ flex: 1 }}></View>
+        <TouchableOpacity
+          style={{ padding: 10, backgroundColor: "forestgreen" }}
+          onPress={() => Updates.reload()}
+        >
+          <Text>앱 새로고침</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>
   );
