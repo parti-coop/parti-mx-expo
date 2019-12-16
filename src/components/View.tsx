@@ -16,6 +16,7 @@ export class ViewRow extends React.PureComponent<ViewProps> {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+          paddingHorizontal: 10,
           ...(this.props.style as Object)
         }}
       >

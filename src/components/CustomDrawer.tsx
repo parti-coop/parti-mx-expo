@@ -7,20 +7,27 @@ import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { Ionicons } from "@expo/vector-icons";
 import { ViewRow } from "./View";
-import { useQuery } from "@apollo/react-hooks";
-import { getGroups } from "../graphql/query";
-import Home from "../screens/Home";
-import Detail from "../screens/Detail";
+import { useSubscription } from "@apollo/react-hooks";
+import { subscribeGroups } from "../graphql/subscription";
+import { useStore } from "../Store";
 
 export default (props: DrawerContentComponentProps) => {
-  const { loading, data } = useQuery(getGroups);
-  const [group, setGroup] = React.useState<any>({});
-  // console.log(props);
+  const { loading, data } = useSubscription(subscribeGroups);
+  const [groupId, setGroupId] = React.useState<any>(0);
+  const [store, setStore] = useStore();
+  React.useEffect(() => {
+    setStore({ group_id: groupId });
+    props.navigation.navigate("Home", { groupId });
+    props.navigation.closeDrawer();
+  }, [groupId]);
+  function pickerChangeHandler(groupId: number, i: number) {
+    setGroupId(groupId);
+  }
   const dropdownGroups = !loading && (
     <Picker
-      selectedValue={group.id}
+      selectedValue={groupId}
       style={{ height: 50, width: 200 }}
-      onValueChange={(itemValue, itemIndex) => setGroup(itemValue)}
+      onValueChange={pickerChangeHandler}
     >
       {data.parti_2020_groups.map((g: any, i: number) => (
         <Picker.Item label={g.title} value={g.id} key={i} />

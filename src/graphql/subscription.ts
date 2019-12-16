@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const getGroups = gql`
-  query {
+export const subscribeGroups = gql`
+  subscription {
     parti_2020_groups {
       title
       id

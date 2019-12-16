@@ -10,10 +10,11 @@ import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@apollo/react-hooks";
 import { getBoardsByGroupId } from "../graphql/query";
-export default (props: NavigationDrawerScreenProps<{ name: string }>) => {
+export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
   const { navigate } = props.navigation;
+  const groupId = props.navigation.getParam("groupId") || 1;
   const { data, loading } = useQuery(getBoardsByGroupId, {
-    variables: { id: 1 }
+    variables: { id: groupId }
   });
   if (loading) {
     return LoadingIndicator();
