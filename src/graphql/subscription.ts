@@ -42,12 +42,26 @@ export const subscribeSuggestionsByBoardId = gql`
       body
       title
       slug
-      suggestions {
+      suggestions(where: { is_open: { _eq: true } }) {
+        title
         body
+        context
+        closing_method
         created_at
+        closed_at
         id
+        votes(where: { user_id: { _eq: 1 } }) {
+          count
+        }
+        votes_aggregate {
+          aggregate {
+            sum {
+              count
+            }
+          }
+        }
         updatedBy {
-          email
+          name
         }
       }
     }

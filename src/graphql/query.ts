@@ -35,19 +35,34 @@ export const getSuggestionsByGroupId = gql`
   }
 `;
 
-export const getSuggestion = gql`
+export const getSuggestionList = gql`
   query($id: Int!) {
     parti_2020_suggestions_by_pk(id: $id) {
       id
+      title
       body
+      context
+      closing_method
       updatedBy {
-        email
+        name
       }
       createdBy {
-        email
+        name
       }
       created_at
       updated_at
+      votes_aggregate {
+        aggregate {
+          sum {
+            count
+          }
+        }
+        nodes {
+          user {
+            name
+          }
+        }
+      }
     }
   }
 `;

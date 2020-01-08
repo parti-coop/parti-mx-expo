@@ -1,24 +1,28 @@
 import React from "react";
-import { Share, Alert } from "react-native";
+import { Share, Alert, ScrollView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
+import { Button } from "../components/Button";
 import { View, ViewRow } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { Button } from "../components/Button";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import PopupMenu from "../components/PopupMenu";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
-import { getSuggestion } from "../graphql/query";
-import { deleteSuggestion } from "../graphql/mutation";
+import { getSuggestionList } from "../graphql/query";
+import { deleteSuggestion, voteSuggestion } from "../graphql/mutation";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
+  const [{ user_id }] = useStore();
   const id = props.navigation.getParam("suggestionId");
-  const { data, loading } = useQuery(getSuggestion, { variables: { id } });
+  const { data, loading } = useQuery(getSuggestionList, { variables: { id } });
   const [del, delV] = useMutation(deleteSuggestion, { variables: { id } });
+  const [vote, voteV] = useMutation(voteSuggestion, {
+    variables: { id, user_id }
+  });
 
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
@@ -28,7 +32,7 @@ export default (
         return props.navigation.navigate("SuggestionEdit", {
           suggestion: parti_2020_suggestions_by_pk
         });
-      case 1:
+      case 3:
         return Alert.alert("제안 삭제", "삭제하겠습니까? 복구할 수 없습니다.", [
           {
             text: "취소",
@@ -37,11 +41,7 @@ export default (
           {
             text: "삭제",
             onPress: () =>
-              del({
-                variables: {
-                  id
-                }
-              })
+              del()
                 .then(() => alert("삭제되었습니다."))
                 .then(() => props.navigation.goBack())
           }
@@ -55,6 +55,16 @@ export default (
     return LoadingIndicator();
   }
 
+  const {
+    title,
+    body,
+    createdBy,
+    updated_at,
+    votes_aggregate
+  } = data.parti_2020_suggestions_by_pk;
+  const voteCount = votes_aggregate.aggregate.sum.count;
+  const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
+  console.log(votes_aggregate);
   return (
     <>
       <View
@@ -82,8 +92,8 @@ export default (
           <Text style={{ color: "blue", fontSize: 20 }}>공유</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
+      <ScrollView
+        contentContainerStyle={{
           flex: 1,
           alignItems: "stretch",
           padding: 10,
@@ -115,26 +125,38 @@ export default (
               backgroundColor: "lightgrey"
             }}
           >
-            <Text style={{ fontSize: 20 }}>제안 제목을 따로 넣을것인가?</Text>
+            <Text style={{ fontSize: 20 }}>{title}</Text>
             <ViewRow>
-              <Text>{data.parti_2020_suggestions_by_pk.createdBy.email}</Text>
-              <Text>{data.parti_2020_suggestions_by_pk.updated_at}</Text>
+              <Text>{createdBy.name}</Text>
+              <Text>{updated_at}</Text>
             </ViewRow>
           </View>
-          {/* <TouchableOpacity
-            style={{
-              flexBasis: 30,
-              backgroundColor: "lightpink"
-            }}
-          >
-            <MaterialIcons name="more-vert" size={30} />
-          </TouchableOpacity> */}
-          <PopupMenu actions={["Edit", "Remove"]} onPress={onPopupEvent} />
+          <PopupMenu
+            actions={[
+              "수정하기",
+              "제안 정리",
+              "공지로 올리기/ 공지 내리기",
+              "삭제하기"
+            ]}
+            onPress={onPopupEvent}
+          />
         </ViewRow>
         <View style={{ paddingTop: 10, backgroundColor: "lightblue" }}>
-          <Text>{data.parti_2020_suggestions_by_pk.body}</Text>
+          <Text>{body}</Text>
         </View>
-      </View>
+        <ViewRow>
+          <Button
+            title="이 제안에 동의합니다."
+            color="cadetblue"
+            onPress={e =>
+              vote()
+                .then(console.log)
+                .catch(console.error)
+            }
+          />
+        </ViewRow>
+        {voteV.loading && <LoadingIndicator />}
+      </ScrollView>
     </>
   );
 };

@@ -88,7 +88,7 @@ export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
           <TouchableOpacity
             style={{ padding: 10, alignItems: "center", flexDirection: "row" }}
             key={index}
-            onPress={() => navigate("Suggestions", { id: b.id, boards })}
+            onPress={() => navigate("SuggestionList", { id: b.id, boards })}
           >
             <MaterialIcons name="move-to-inbox" size={30} />
             <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
@@ -118,11 +118,11 @@ export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
       <View>
         <Text style={{ backgroundColor: "crimson" }}>기타</Text>
 
-        <Button title="멤버" onPress={() => navigate("Suggestions")} />
+        <Button title="멤버" onPress={() => navigate("SuggestionList")} />
         <Button
           color="darkblue"
           title="그룹 설정/ 그룹 나가기 (멤버) "
-          onPress={() => navigate("Suggestions")}
+          onPress={() => navigate("SuggestionList")}
         />
       </View>
     </View>

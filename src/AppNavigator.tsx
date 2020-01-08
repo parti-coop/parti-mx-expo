@@ -2,7 +2,7 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
 import Home from "./screens/Home";
 import Detail from "./screens/Detail";
-import Suggestions from "./screens/Suggestions";
+import SuggestionList from "./screens/SuggestionList";
 import SuggestionCreate from "./screens/SuggestionCreate";
 import SuggestionEdit from "./screens/SuggestionEdit";
 import SuggestionDetail from "./screens/SuggestionDetail";
@@ -12,7 +12,7 @@ const stack = createStackNavigator(
   {
     Home,
     Detail,
-    Suggestions,
+    SuggestionList,
     SuggestionCreate,
     SuggestionDetail,
     SuggestionEdit,

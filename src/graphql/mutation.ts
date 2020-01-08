@@ -11,16 +11,22 @@ export const insertGroup = gql`
 export const insertSuggestion = gql`
   mutation(
     $board_id: Int!
-    $body: String!
+    $sTitle: String!
+    $sContext: String!
+    $sBody: String!
     $created_by: Int!
     $updated_by: Int!
+    $closingMethod: Int!
   ) {
     insert_parti_2020_suggestions(
       objects: {
-        body: $body
+        body: $sBody
+        title: $sTitle
+        context: $sContext
         board_id: $board_id
         created_by: $created_by
         updated_by: $updated_by
+        closing_method: $closingMethod
       }
     ) {
       affected_rows
@@ -42,6 +48,14 @@ export const updateSuggestion = gql`
 export const deleteSuggestion = gql`
   mutation($id: Int!) {
     delete_parti_2020_suggestions(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+
+export const voteSuggestion = gql`
+  mutation($id: Int!, $user_id: Int!) {
+    insert_parti_2020_vote(objects: { suggestion_id: $id, user_id: $user_id }) {
       affected_rows
     }
   }

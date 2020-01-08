@@ -44,3 +44,25 @@ export class ViewColumnCenter extends React.PureComponent<ViewProps> {
     );
   }
 }
+
+export class ViewRound extends React.PureComponent<ViewProps> {
+  render() {
+    return (
+      <V
+        {...this.props}
+        style={{
+          width: 56,
+          height: 56,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#03A9F4",
+          borderRadius: 30,
+          elevation: 8,
+          ...(this.props.style as Object)
+        }}
+      >
+        {this.props.children}
+      </V>
+    );
+  }
+}

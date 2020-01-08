@@ -2,6 +2,7 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import AppNavigator from "./src/AppNavigator";
 import AuthLoading from "./src/screens/AuthLoading";
+import LoadingIndicator from "./src/components/LoadingIndicator";
 import AuthMain from "./src/screens/AuthMain";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -16,6 +17,8 @@ import { ApolloLink, split } from "apollo-link";
 
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
+
+import FlashMessage from "react-native-flash-message";
 
 const wsLink = new WebSocketLink({
   uri: `ws://parti-2020.herokuapp.com/v1/graphql`,
@@ -83,12 +86,15 @@ const AppContainer = createAppContainer(
     }
   )
 );
-export default () => {
-  return (
-    <ApolloProvider client={client}>
-      <StoreProvider>
-        <AppContainer />
-      </StoreProvider>
-    </ApolloProvider>
-  );
-};
+export default class App extends React.PureComponent {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <StoreProvider>
+          <AppContainer />
+          <FlashMessage ref="myLocalFlashMessage" />
+        </StoreProvider>
+      </ApolloProvider>
+    );
+  }
+}

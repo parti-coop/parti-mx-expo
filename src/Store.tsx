@@ -8,11 +8,13 @@ export const initialState = {
   group_id: 0,
   board_id: 0,
   created_by: 1,
-  updated_by: 1
+  updated_by: 1,
+  user_id: 1,
+  isLoading: false
 };
 export const StoreContext = React.createContext<
-  [typeof initialState, Function]
->([initialState, () => {}]);
+  [typeof initialState, Function, Function]
+>([initialState, () => {}, () => {}]);
 export const StoreProvider = (props: ComponentProps<any>) => {
   const [store, setStore] = React.useState<typeof initialState>(initialState);
   async function setPersistStore(_store: any) {
@@ -37,7 +39,7 @@ export const StoreProvider = (props: ComponentProps<any>) => {
   }, []);
 
   return (
-    <StoreContext.Provider value={[store, setPersistStore]}>
+    <StoreContext.Provider value={[store, setPersistStore, setStore]}>
       {props.children}
     </StoreContext.Provider>
   );
