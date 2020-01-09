@@ -1,9 +1,5 @@
 import React from "react";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import AppNavigator from "./src/AppNavigator";
-import AuthLoading from "./src/screens/AuthLoading";
-import LoadingIndicator from "./src/components/LoadingIndicator";
-import AuthMain from "./src/screens/AuthMain";
+import AppContainer from "./src/AppContainer";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
 import fetch from "node-fetch";
@@ -74,18 +70,7 @@ const client = new ApolloClient({
   link,
   cache: new InMemoryCache()
 });
-const AppContainer = createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading,
-      AppNavigator,
-      AuthMain
-    },
-    {
-      initialRouteName: "AuthLoading"
-    }
-  )
-);
+
 export default class App extends React.PureComponent {
   render() {
     return (
