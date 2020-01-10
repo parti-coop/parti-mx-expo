@@ -60,3 +60,13 @@ export const voteSuggestion = gql`
     }
   }
 `;
+
+export const devoteSuggestion = gql`
+  mutation($id: Int!, $user_id: Int!) {
+    delete_parti_2020_vote(
+      where: { suggestion_id: { _eq: $id }, user_id: { _eq: $user_id } }
+    ) {
+      affected_rows
+    }
+  }
+`;

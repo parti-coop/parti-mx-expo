@@ -11,19 +11,30 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import UserVote from "../components/UserVote";
 import PopupMenu from "../components/PopupMenu";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
-import { getSuggestionList } from "../graphql/query";
-import { deleteSuggestion, voteSuggestion } from "../graphql/mutation";
+import { getSuggestion } from "../graphql/query";
+import { subscribeSuggestion } from "../graphql/subscription";
+import {
+  deleteSuggestion,
+  voteSuggestion,
+  devoteSuggestion
+} from "../graphql/mutation";
 import SuggestionCreate from "./SuggestionCreate";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
   const [{ user_id }] = useStore();
   const id = props.navigation.getParam("suggestionId");
-  const { data, loading } = useQuery(getSuggestionList, { variables: { id } });
+  // const { data, loading } = useQuery(getSuggestion, { variables: { id } });
+  const { data, loading } = useSubscription(subscribeSuggestion, {
+    variables: { id }
+  });
   const [del, delV] = useMutation(deleteSuggestion, { variables: { id } });
   const [vote, voteV] = useMutation(voteSuggestion, {
+    variables: { id, user_id }
+  });
+  const [devote, devoteV] = useMutation(devoteSuggestion, {
     variables: { id, user_id }
   });
 
@@ -143,15 +154,18 @@ export default (
         </View>
         <ViewRow>
           {voteCount > 0 ? (
-            <Button
-              title="이 제안에 동의했습니다."
-              color="cadetblue"
-              onPress={e =>
-                vote()
-                  .then(console.log)
-                  .catch(console.error)
-              }
-            />
+            <View>
+              <Text>제안 동의함</Text>
+              <Button
+                title="제안 동의 취소"
+                color="cadetblue"
+                onPress={e =>
+                  devote()
+                    .then(console.log)
+                    .catch(console.error)
+                }
+              />
+            </View>
           ) : (
             <Button
               title="이 제안에 동의합니다."
@@ -180,7 +194,10 @@ export default (
             ))}
           </ViewRowLeft>
         </View>
-        <Spinner visible={voteV.loading} textContent="로딩중입니다..." />
+        <Spinner
+          visible={voteV.loading || devoteV.loading}
+          textContent="로딩중입니다..."
+        />
       </ScrollView>
     </>
   );

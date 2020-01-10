@@ -35,7 +35,7 @@ export const getSuggestionsByGroupId = gql`
   }
 `;
 
-export const getSuggestionList = gql`
+export const getSuggestion = gql`
   query($id: Int!) {
     parti_2020_suggestions_by_pk(id: $id) {
       id

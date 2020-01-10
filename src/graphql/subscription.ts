@@ -67,3 +67,35 @@ export const subscribeSuggestionsByBoardId = gql`
     }
   }
 `;
+
+export const subscribeSuggestion = gql`
+  subscription($id: Int!) {
+    parti_2020_suggestions_by_pk(id: $id) {
+      id
+      title
+      body
+      context
+      closing_method
+      updatedBy {
+        name
+      }
+      createdBy {
+        name
+      }
+      created_at
+      updated_at
+      votes_aggregate {
+        aggregate {
+          sum {
+            count
+          }
+        }
+        nodes {
+          user {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
