@@ -30,3 +30,22 @@ export class ButtonRound extends React.PureComponent<TouchableOpacityProps> {
     );
   }
 }
+
+export class TOEasy extends React.PureComponent<TouchableOpacityProps> {
+  render() {
+    return (
+      <TouchableOpacity
+        {...this.props}
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#03A9F4",
+          ...(this.props.style as Object)
+        }}
+      >
+        {this.props.children}
+      </TouchableOpacity>
+    );
+  }
+}

@@ -5,15 +5,17 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
-import { View, ViewRow } from "../components/View";
+import { View, ViewRow, ViewRound, ViewRowLeft } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Spinner from "react-native-loading-spinner-overlay";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import UserVote from "../components/UserVote";
 import PopupMenu from "../components/PopupMenu";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { getSuggestionList } from "../graphql/query";
 import { deleteSuggestion, voteSuggestion } from "../graphql/mutation";
+import SuggestionCreate from "./SuggestionCreate";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
@@ -105,18 +107,13 @@ export default (
             justifyContent: "flex-start"
           }}
         >
-          <View
+          <ViewRound
             style={{
-              width: 56,
-              height: 56,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "lightyellow",
-              borderRadius: 30
+              backgroundColor: "lightyellow"
             }}
           >
             <Text>제안</Text>
-          </View>
+          </ViewRound>
           <View
             style={{
               flex: 1,
@@ -167,6 +164,22 @@ export default (
             />
           )}
         </ViewRow>
+        <ViewRow>
+          <TOEasy style={{ height: 50 }}>
+            <Text>댓글</Text>
+          </TOEasy>
+          <TOEasy style={{ height: 50 }}>
+            <Text>제안 동의</Text>
+          </TOEasy>
+        </ViewRow>
+        <View>
+          <Text>동의 9</Text>
+          <ViewRowLeft>
+            {voteUsers.map((u: any, i: number) => (
+              <UserVote name={u} key={i} />
+            ))}
+          </ViewRowLeft>
+        </View>
         <Spinner visible={voteV.loading} textContent="로딩중입니다..." />
       </ScrollView>
     </>

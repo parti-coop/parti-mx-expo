@@ -26,6 +26,26 @@ export class ViewRow extends React.PureComponent<ViewProps> {
   }
 }
 
+export class ViewRowLeft extends React.PureComponent<ViewProps> {
+  render() {
+    return (
+      <V
+        {...this.props}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          flexWrap: "wrap",
+          paddingHorizontal: 10,
+          ...(this.props.style as Object)
+        }}
+      >
+        {this.props.children}
+      </V>
+    );
+  }
+}
+
 export class ViewColumnCenter extends React.PureComponent<ViewProps> {
   render() {
     return (
