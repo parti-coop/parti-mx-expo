@@ -35,10 +35,23 @@ export const insertSuggestion = gql`
 `;
 
 export const updateSuggestion = gql`
-  mutation($id: Int!, $body: String!) {
+  mutation(
+    $id: Int!
+    $sTitle: String!
+    $sContext: String!
+    $sBody: String!
+    $user_id: Int!
+    $closingMethod: Int!
+  ) {
     update_parti_2020_suggestions(
       where: { id: { _eq: $id } }
-      _set: { body: $body }
+      _set: {
+        body: $sBody
+        title: $sTitle
+        context: $sContext
+        updated_by: $user_id
+        closing_method: $closingMethod
+      }
     ) {
       affected_rows
     }

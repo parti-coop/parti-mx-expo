@@ -1,14 +1,12 @@
 import React from "react";
-import { ScrollView, Picker } from "react-native";
+import {  Picker } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRow } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { Button } from "../components/Button";
 import { TouchableOpacity } from "../components/TouchableOpacity";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import PopupMenu from "../components/PopupMenu";
+import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
 
