@@ -69,6 +69,8 @@ export default (
   const {
     title,
     body,
+    context,
+    closing_method,
     createdBy,
     updated_at,
     votes_aggregate
@@ -110,43 +112,33 @@ export default (
           backgroundColor: "lightgreen"
         }}
       >
-        <ViewRow
-          style={{
-            justifyContent: "flex-start"
-          }}
-        >
-          <ViewRound
-            style={{
-              backgroundColor: "lightyellow"
-            }}
-          >
-            <Text>제안</Text>
-          </ViewRound>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              alignItems: "center",
-              backgroundColor: "lightgrey"
-            }}
-          >
+        <View>
+          <ViewRow>
             <Text style={{ fontSize: 20 }}>{title}</Text>
-            <ViewRow>
-              <Text>{createdBy.name}</Text>
-              <Text>{updated_at}</Text>
-            </ViewRow>
-          </View>
-          <PopupMenu
-            actions={[
-              "수정하기",
-              "제안 정리",
-              "공지로 올리기/ 공지 내리기",
-              "삭제하기"
-            ]}
-            onPress={onPopupEvent}
-          />
-        </ViewRow>
+            <PopupMenu
+              actions={[
+                "수정하기",
+                "제안 정리",
+                "공지로 올리기/ 공지 내리기",
+                "삭제하기"
+              ]}
+              onPress={onPopupEvent}
+            />
+          </ViewRow>
+          <ViewRow>
+            <Text>{updated_at}</Text>
+          </ViewRow>
+        </View>
+        <View>
+          <Text>제안자</Text>
+          <UserVote name={createdBy.name} />
+        </View>
+        <View>
+          <Text>제안 배경</Text>
+          <Text>{context}</Text>
+        </View>
         <View style={{ paddingTop: 10, backgroundColor: "lightblue" }}>
+          <Text>제안 내용</Text>
           <Text>{body}</Text>
         </View>
         <ViewRow>
