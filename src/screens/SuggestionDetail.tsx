@@ -7,6 +7,7 @@ import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { View, ViewRow } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
+import Spinner from "react-native-loading-spinner-overlay";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import PopupMenu from "../components/PopupMenu";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -64,7 +65,6 @@ export default (
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
-  console.log(votes_aggregate);
   return (
     <>
       <View
@@ -145,17 +145,29 @@ export default (
           <Text>{body}</Text>
         </View>
         <ViewRow>
-          <Button
-            title="이 제안에 동의합니다."
-            color="cadetblue"
-            onPress={e =>
-              vote()
-                .then(console.log)
-                .catch(console.error)
-            }
-          />
+          {voteCount > 0 ? (
+            <Button
+              title="이 제안에 동의했습니다."
+              color="cadetblue"
+              onPress={e =>
+                vote()
+                  .then(console.log)
+                  .catch(console.error)
+              }
+            />
+          ) : (
+            <Button
+              title="이 제안에 동의합니다."
+              color="cadetblue"
+              onPress={e =>
+                vote()
+                  .then(console.log)
+                  .catch(console.error)
+              }
+            />
+          )}
         </ViewRow>
-        {voteV.loading && <LoadingIndicator />}
+        <Spinner visible={voteV.loading} textContent="로딩중입니다..." />
       </ScrollView>
     </>
   );

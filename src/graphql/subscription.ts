@@ -36,7 +36,7 @@ export const subscribeSuggestionsByGroupId = gql`
 `;
 
 export const subscribeSuggestionsByBoardId = gql`
-  subscription($id: Int!) {
+  subscription($id: Int!, $userId: Int!) {
     parti_2020_boards_by_pk(id: $id) {
       id
       body
@@ -50,7 +50,7 @@ export const subscribeSuggestionsByBoardId = gql`
         created_at
         closed_at
         id
-        votes(where: { user_id: { _eq: 1 } }) {
+        votes(where: { user_id: { _eq: $userId } }) {
           count
         }
         votes_aggregate {

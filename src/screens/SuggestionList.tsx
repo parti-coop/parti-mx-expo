@@ -15,12 +15,12 @@ export default (
   const [store, setStore] = useStore();
   const board_id = props.navigation.getParam("id");
   const boards = props.navigation.getParam("boards");
-  const { group_id } = store;
+  const { group_id, user_id } = store;
   React.useEffect(() => {
     setStore({ group_id, board_id });
   }, [group_id, board_id]);
   const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
-    variables: { id: board_id }
+    variables: { id: board_id, userId: user_id }
   });
   if (loading) {
     return LoadingIndicator();
@@ -67,6 +67,7 @@ export default (
             <View>
               {suggestions.map((sugg: any, index: number) => {
                 const voteCount = sugg.votes_aggregate.aggregate.sum.count;
+                const votedByMe = sugg.votes.length > 0 && sugg.votes[0].count > 0;
                 return (
                   <TouchableOpacity
                     key={index}
@@ -82,6 +83,7 @@ export default (
                         <Text>{sugg.title}</Text>
                         <ViewRow style={{ justifyContent: "flex-start" }}>
                           <Text>{sugg.updatedBy.name}</Text>
+                          <Text>{votedByMe && "동의함"}</Text>
                           {sugg.closed_at && <Text>{sugg.closed_at}</Text>}
                         </ViewRow>
                       </View>
