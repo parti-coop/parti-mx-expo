@@ -8,6 +8,8 @@ import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
+import Spinner from "react-native-loading-spinner-overlay";
+
 export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
   const suggestion = props.navigation.getParam("suggestion");
   const { id } = suggestion;
@@ -17,8 +19,8 @@ export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
-  const [{ board_id, user_id }] = useStore();
-  const [update] = useMutation(updateSuggestion, {
+  const [{ user_id }] = useStore();
+  const [update, { loading }] = useMutation(updateSuggestion, {
     variables: {
       sBody,
       sTitle,
@@ -100,6 +102,7 @@ export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
           />
         </View>
       </View>
+      <Spinner visible={loading} textContent="로딩중입니다..." />
     </>
   );
 };

@@ -1,15 +1,14 @@
 import React from "react";
-import {  Picker } from "react-native";
+import { Picker } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRow } from "../components/View";
-import LoadingIndicator from "../components/LoadingIndicator";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
-
+import Spinner from "react-native-loading-spinner-overlay";
 import { showMessage } from "react-native-flash-message";
 export default (props: NavigationStackScreenProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
@@ -130,7 +129,7 @@ export default (props: NavigationStackScreenProps) => {
           />
         </View>
       </View>
-      {loading && <LoadingIndicator />}
+      <Spinner visible={loading} textContent="로딩중입니다..." />
     </>
   );
 };

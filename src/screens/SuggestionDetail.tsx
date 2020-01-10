@@ -1,9 +1,7 @@
 import React from "react";
 import { Share, Alert, ScrollView } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
-import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { View, ViewRow, ViewRound, ViewRowLeft } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -11,9 +9,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import UserVote from "../components/UserVote";
 import PopupMenu from "../components/PopupMenu";
-import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
-import { getSuggestion } from "../graphql/query";
 import { subscribeSuggestion } from "../graphql/subscription";
 import {
   deleteSuggestion,
