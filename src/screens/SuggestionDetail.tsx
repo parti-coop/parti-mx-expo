@@ -4,10 +4,13 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { View, ViewRow, ViewRound, ViewRowLeft } from "../components/View";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LoadingIndicator from "../components/LoadingIndicator";
 import Spinner from "react-native-loading-spinner-overlay";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
-import UserVote from "../components/UserVote";
+import UserProfileWithName from "../components/UserProfileWithName";
+import SuggestionVoted from "../components/SuggestionVoted";
+import Comments from "../components/Comments";
 import PopupMenu from "../components/PopupMenu";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
@@ -34,6 +37,7 @@ export default (
   const [devote, devoteV] = useMutation(devoteSuggestion, {
     variables: { id, user_id }
   });
+  const [showComments, setShowComments] = React.useState(true);
 
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
@@ -104,9 +108,8 @@ export default (
           <Text style={{ color: "blue", fontSize: 20 }}>공유</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={{
-          flex: 1,
           alignItems: "stretch",
           padding: 10,
           backgroundColor: "lightgreen"
@@ -131,7 +134,7 @@ export default (
         </View>
         <View>
           <Text>제안자</Text>
-          <UserVote name={createdBy.name} />
+          <UserProfileWithName name={createdBy.name} />
         </View>
         <View>
           <Text>제안 배경</Text>
@@ -168,26 +171,23 @@ export default (
           )}
         </ViewRow>
         <ViewRow>
-          <TOEasy style={{ height: 50 }}>
+          <TOEasy style={{ height: 50 }} onPress={e => setShowComments(true)}>
             <Text>댓글</Text>
           </TOEasy>
-          <TOEasy style={{ height: 50 }}>
+          <TOEasy style={{ height: 50 }} onPress={e => setShowComments(false)}>
             <Text>제안 동의</Text>
           </TOEasy>
         </ViewRow>
-        <View>
-          <Text>동의 9</Text>
-          <ViewRowLeft>
-            {voteUsers.map((u: any, i: number) => (
-              <UserVote name={u} key={i} />
-            ))}
-          </ViewRowLeft>
-        </View>
+        {showComments ? (
+          <Comments comments={[]} />
+        ) : (
+          <SuggestionVoted voteUsers={voteUsers} />
+        )}
         <Spinner
           visible={voteV.loading || devoteV.loading}
           textContent="로딩중입니다..."
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </>
   );
 };
