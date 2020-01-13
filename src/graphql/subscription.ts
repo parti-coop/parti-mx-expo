@@ -42,7 +42,10 @@ export const subscribeSuggestionsByBoardId = gql`
       body
       title
       slug
-      suggestions(where: { is_open: { _eq: true } }) {
+      suggestions(
+        where: { is_open: { _eq: true } }
+        order_by: { updated_at: desc }
+      ) {
         title
         body
         context
