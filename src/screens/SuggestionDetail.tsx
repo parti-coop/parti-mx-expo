@@ -12,20 +12,21 @@ import SuggestionVoted from "../components/SuggestionVoted";
 import Comments from "../components/Comments";
 import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
+import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import PopupMenu from "../components/PopupMenu";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
-import { deleteSuggestion } from "../graphql/mutation";
+
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
   const [, , dispatch] = useStore();
   const id = props.navigation.getParam("suggestionId");
+  const deleteSuggestion = HooksDeleteSuggestion(id, props.navigation.goBack);
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id }
   });
-  const [del, delV] = useMutation(deleteSuggestion, { variables: { id } });
 
   const [showComments, setShowComments] = React.useState(true);
 
@@ -38,20 +39,7 @@ export default (
           suggestion: parti_2020_suggestions_by_pk
         });
       case 3:
-        return Alert.alert("제안 삭제", "삭제하겠습니까? 복구할 수 없습니다.", [
-          {
-            text: "취소",
-            style: "cancel"
-          },
-          {
-            text: "삭제",
-            onPress: () =>
-              del()
-                .then(() => alert("삭제되었습니다."))
-                .then(() => props.navigation.goBack())
-          }
-        ]);
-        return;
+        return deleteSuggestion();
       default:
         return alert(index);
     }
