@@ -12,21 +12,40 @@ export const initialState = {
   user_id: 1,
   isLoading: false
 };
+
+const reducer = (
+  state: typeof initialState,
+  action: { type: string; payload: any }
+) => {
+  switch (action.type) {
+    case "CHANGE_ALL":
+      state = action.payload;
+      return state;
+    case "SET_LOADING":
+      state.isLoading = action.payload;
+      return state;
+  }
+};
+
 export const StoreContext = React.createContext<
-  [typeof initialState, Function, Function]
+  [any, Function, Function]
 >([initialState, () => {}, () => {}]);
 export const StoreProvider = (props: ComponentProps<any>) => {
-  const [store, setStore] = React.useState<typeof initialState>(initialState);
+  // const [store, setStore] = React.useState<typeof initialState>(initialState);
+  const [store, dispatch] = React.useReducer<any>(reducer, initialState);
   async function setPersistStore(_store: any) {
     Object.assign(store, _store);
     await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify(store));
-    setStore(store);
+    dispatch({ type: "CHANGE_ALL", payload: store });
   }
   async function init() {
     const storeJSON = await AsyncStorage.getItem(PERSIST_KEY);
     if (storeJSON) {
       try {
-        setStore({ ...initialState, ...JSON.parse(storeJSON), isInit: true });
+        dispatch({
+          type: "CHANGE_ALL",
+          payload: { ...initialState, ...JSON.parse(storeJSON), isInit: true }
+        });
       } catch (error) {
         alert(error);
       }
@@ -39,7 +58,7 @@ export const StoreProvider = (props: ComponentProps<any>) => {
   }, []);
 
   return (
-    <StoreContext.Provider value={[store, setPersistStore, setStore]}>
+    <StoreContext.Provider value={[store, setPersistStore, dispatch]}>
       {props.children}
     </StoreContext.Provider>
   );
