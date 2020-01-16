@@ -3,40 +3,30 @@ import { Share, Alert } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
-import { View, ViewRow, ViewRound, ViewRowLeft } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LoadingIndicator from "../components/LoadingIndicator";
-import Spinner from "react-native-loading-spinner-overlay";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
 import SuggestionVoted from "../components/SuggestionVoted";
 import Comments from "../components/Comments";
+import ButtonVote from "../components/ButtonVote";
+import ButtonDevote from "../components/ButtonDevote";
 import PopupMenu from "../components/PopupMenu";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
-import {
-  deleteSuggestion,
-  voteSuggestion,
-  devoteSuggestion
-} from "../graphql/mutation";
-import SuggestionCreate from "./SuggestionCreate";
+import { deleteSuggestion } from "../graphql/mutation";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
-  const [{ user_id }] = useStore();
+  const [, , dispatch] = useStore();
   const id = props.navigation.getParam("suggestionId");
-  // const { data, loading } = useQuery(getSuggestion, { variables: { id } });
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id }
   });
   const [del, delV] = useMutation(deleteSuggestion, { variables: { id } });
-  const [vote, voteV] = useMutation(voteSuggestion, {
-    variables: { id, user_id }
-  });
-  const [devote, devoteV] = useMutation(devoteSuggestion, {
-    variables: { id, user_id }
-  });
+
   const [showComments, setShowComments] = React.useState(true);
 
   function onPopupEvent(eventName, index) {
@@ -66,7 +56,7 @@ export default (
         return alert(index);
     }
   }
-  if (loading || delV.loading) {
+  if (loading) {
     return LoadingIndicator();
   }
 
@@ -146,30 +136,7 @@ export default (
           <Text>{body}</Text>
         </View>
         <ViewRow>
-          {voteCount > 0 ? (
-            <View>
-              <Text>제안 동의함</Text>
-              <Button
-                title="제안 동의 취소"
-                color="cadetblue"
-                onPress={e =>
-                  devote()
-                    .then(console.log)
-                    .catch(console.error)
-                }
-              />
-            </View>
-          ) : (
-            <Button
-              title="이 제안에 동의합니다."
-              color="cadetblue"
-              onPress={e =>
-                vote()
-                  .then(console.log)
-                  .catch(console.error)
-              }
-            />
-          )}
+          {voteCount > 0 ? <ButtonDevote id={id} /> : <ButtonVote id={id} />}
         </ViewRow>
         <ViewRow>
           <TOEasy style={{ height: 50 }} onPress={e => setShowComments(true)}>
@@ -184,10 +151,6 @@ export default (
         ) : (
           <SuggestionVoted voteUsers={voteUsers} />
         )}
-        <Spinner
-          visible={voteV.loading || devoteV.loading}
-          textContent="로딩중입니다..."
-        />
       </KeyboardAwareScrollView>
     </>
   );

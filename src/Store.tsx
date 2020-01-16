@@ -12,27 +12,24 @@ export const initialState = {
   user_id: 1,
   isLoading: false
 };
-
-const reducer = (
-  state: typeof initialState,
-  action: { type: string; payload: any }
-) => {
+type Action =
+  | { type: "CHANGE_ALL"; payload: any }
+  | { type: "SET_LOADING"; payload: any };
+const reducer = (state: typeof initialState, action: Action) => {
   switch (action.type) {
     case "CHANGE_ALL":
       state = action.payload;
       return state;
     case "SET_LOADING":
-      state.isLoading = action.payload;
-      return state;
+      return { ...state, isLoading: action.payload };
   }
 };
 
 export const StoreContext = React.createContext<
-  [any, Function, Function]
+  [typeof initialState, Function, Function]
 >([initialState, () => {}, () => {}]);
 export const StoreProvider = (props: ComponentProps<any>) => {
-  // const [store, setStore] = React.useState<typeof initialState>(initialState);
-  const [store, dispatch] = React.useReducer<any>(reducer, initialState);
+  const [store, dispatch] = React.useReducer(reducer, initialState);
   async function setPersistStore(_store: any) {
     Object.assign(store, _store);
     await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify(store));

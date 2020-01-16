@@ -20,7 +20,6 @@ export default (
     }
   });
   React.useEffect(() => {
-    console.log(loading);
     dispatch({ type: "SET_LOADING", payload: loading });
   }, [loading]);
   return (

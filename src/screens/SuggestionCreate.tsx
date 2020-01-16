@@ -8,11 +8,10 @@ import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
-import Spinner from "react-native-loading-spinner-overlay";
 import { showMessage } from "react-native-flash-message";
 export default (props: NavigationStackScreenProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
-  const [{ board_id, created_by, updated_by }] = useStore();
+  const [{ board_id, created_by, updated_by }, , dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
@@ -44,7 +43,9 @@ export default (props: NavigationStackScreenProps) => {
       .then(res => alert(JSON.stringify(res.data)))
       .then(e => props.navigation.goBack());
   }
-
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", payload: loading });
+  }, [loading]);
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;
     switch (index) {
@@ -129,7 +130,6 @@ export default (props: NavigationStackScreenProps) => {
           />
         </View>
       </View>
-      <Spinner visible={loading} textContent="로딩중입니다..." />
     </>
   );
 };
