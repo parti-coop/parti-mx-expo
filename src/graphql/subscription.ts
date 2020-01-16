@@ -85,6 +85,13 @@ export const subscribeSuggestion = gql`
       createdBy {
         name
       }
+      comments{
+        body
+      	user{
+          name
+        }
+        updated_at
+      }
       created_at
       updated_at
       votes_aggregate {

@@ -1,20 +1,43 @@
 import React from "react";
-import { KeyboardAvoidingView } from "react-native";
 import UserProfileWithName from "./UserProfileWithName";
-import { View, ViewRowLeft } from "./View";
+import { View, ViewRowLeft, ViewRow } from "./View";
 import { Text } from "./Text";
 import { TextInput } from "./TextInput";
 import { Button } from "./Button";
-export default (props: React.PropsWithoutRef<{ comments: any[] }>) => {
+import { useMutation } from "@apollo/react-hooks";
+import { insertComment } from "../graphql/mutation";
+import { useStore } from "../Store";
+export default (
+  props: React.PropsWithoutRef<{ comments: any[]; suggestionId: number }>
+) => {
+  const [{ user_id }, , dispatch] = useStore();
   const [comm, setComm] = React.useState("");
+  const [insert, { loading }] = useMutation(insertComment, {
+    variables: {
+      body: comm,
+      suggestion_id: props.suggestionId,
+      user_id: user_id
+    }
+  });
+  React.useEffect(() => {
+    console.log(loading);
+    dispatch({ type: "SET_LOADING", payload: loading });
+  }, [loading]);
   return (
-    // <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
     <View>
       <Text>댓글 {props.comments.length}</Text>
       <ViewRowLeft>
-        {props.comments.map((u: any, i: number) => (
-          <UserProfileWithName name={u} key={i} />
-        ))}
+        {props.comments.map(
+          (
+            u: { body: string; updated_at: string; user: { name: string } },
+            i: number
+          ) => (
+            <ViewRow key={i}>
+              <UserProfileWithName name={u.user.name} key={i} />
+              <Text>{u.body}</Text>
+            </ViewRow>
+          )
+        )}
       </ViewRowLeft>
       <ViewRowLeft>
         <TextInput
@@ -25,9 +48,15 @@ export default (props: React.PropsWithoutRef<{ comments: any[] }>) => {
           multiline
           textAlignVertical="top"
         />
-        <Button title="등록" onPress={e => e} />
+        <Button
+          title="등록"
+          onPress={e =>
+            insert()
+              .then(console.log)
+              .catch(console.error)
+          }
+        />
       </ViewRowLeft>
     </View>
-    // </KeyboardAvoidingView>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Share, Alert, ScrollView } from "react-native";
+import { Share, Alert } from "react-native";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
@@ -77,7 +77,8 @@ export default (
     closing_method,
     createdBy,
     updated_at,
-    votes_aggregate
+    votes_aggregate,
+    comments
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
@@ -179,7 +180,7 @@ export default (
           </TOEasy>
         </ViewRow>
         {showComments ? (
-          <Comments comments={[]} />
+          <Comments comments={comments} suggestionId={id} />
         ) : (
           <SuggestionVoted voteUsers={voteUsers} />
         )}

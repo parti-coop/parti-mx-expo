@@ -83,3 +83,13 @@ export const devoteSuggestion = gql`
     }
   }
 `;
+
+export const insertComment = gql`
+  mutation($user_id: Int!, $suggestion_id: Int!, $body: String!) {
+    insert_parti_2020_comments(
+      objects: { body: $body, suggestion_id: $suggestion_id, user_id: $user_id }
+    ) {
+      affected_rows
+    }
+  }
+`;
