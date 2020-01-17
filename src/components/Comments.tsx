@@ -25,19 +25,19 @@ export default (
   return (
     <View>
       <Text>댓글 {props.comments.length}</Text>
-      <ViewRowLeft>
+      <View>
         {props.comments.map(
           (
             u: { body: string; updated_at: string; user: { name: string } },
             i: number
           ) => (
-            <ViewRow key={i}>
+            <ViewRowLeft key={i}>
               <UserProfileWithName name={u.user.name} key={i} />
               <Text>{u.body}</Text>
-            </ViewRow>
+            </ViewRowLeft>
           )
         )}
-      </ViewRowLeft>
+      </View>
       <ViewRowLeft>
         <TextInput
           value={comm}
