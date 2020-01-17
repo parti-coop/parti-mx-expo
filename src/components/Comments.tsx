@@ -34,7 +34,7 @@ export default (
               id: number;
               body: string;
               updated_at: string;
-              user: { name: string; votes: { count: number } };
+              user: { name: string; votes: [{ count: number }] };
               likes: [
                 {
                   user: {
@@ -58,7 +58,7 @@ export default (
             <View key={i}>
               <ViewRowLeft>
                 <UserProfileWithName name={u.user.name} />
-                <Text>{u.user.votes.count && "동의"}</Text>
+                <Text>{u.user.votes[0] && "동의"}</Text>
                 <Text>{new Date(u.updated_at).toLocaleString()}</Text>
               </ViewRowLeft>
               <Text>{u.body}</Text>
