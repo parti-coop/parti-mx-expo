@@ -93,6 +93,7 @@ export default (
           padding: 10,
           backgroundColor: "lightgreen"
         }}
+        keyboardShouldPersistTaps={"handled"}
       >
         <View>
           <ViewRow>
