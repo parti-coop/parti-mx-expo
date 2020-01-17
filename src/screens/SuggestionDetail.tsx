@@ -21,11 +21,11 @@ import { subscribeSuggestion } from "../graphql/subscription";
 export default (
   props: NavigationStackScreenProps<{ suggestionId: number }>
 ) => {
-  const [, , dispatch] = useStore();
+  const [{ user_id }, , dispatch] = useStore();
   const id = props.navigation.getParam("suggestionId");
   const deleteSuggestion = HooksDeleteSuggestion(id, props.navigation.goBack);
   const { data, loading } = useSubscription(subscribeSuggestion, {
-    variables: { id }
+    variables: { id, user_id }
   });
 
   const [showComments, setShowComments] = React.useState(true);

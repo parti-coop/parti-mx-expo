@@ -72,7 +72,7 @@ export const subscribeSuggestionsByBoardId = gql`
 `;
 
 export const subscribeSuggestion = gql`
-  subscription($id: Int!) {
+  subscription($id: Int!, $user_id: Int!) {
     parti_2020_suggestions_by_pk(id: $id) {
       id
       title
@@ -85,12 +85,31 @@ export const subscribeSuggestion = gql`
       createdBy {
         name
       }
-      comments{
+      comments {
+        id
         body
-      	user{
-          name
-        }
         updated_at
+        user {
+          name
+          votes(where: { suggestion_id: { _eq: $id } }) {
+            count
+          }
+        }
+        likes(where: { user_id: { _eq: $user_id } }) {
+          user {
+            name
+          }
+        }
+        likes_aggregate {
+          aggregate {
+            count
+          }
+          nodes {
+            user {
+              name
+            }
+          }
+        }
       }
       created_at
       updated_at

@@ -4,6 +4,8 @@ import { View, ViewRowLeft, ViewRow } from "./View";
 import { Text } from "./Text";
 import { TextInput } from "./TextInput";
 import { Button } from "./Button";
+import ButtonLikeComment from "./ButtonLikeComment";
+import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import { useMutation } from "@apollo/react-hooks";
 import { insertComment } from "../graphql/mutation";
 import { useStore } from "../Store";
@@ -28,13 +30,48 @@ export default (
       <View>
         {props.comments.map(
           (
-            u: { body: string; updated_at: string; user: { name: string } },
+            u: {
+              id: number;
+              body: string;
+              updated_at: string;
+              user: { name: string; votes: { count: number } };
+              likes: [
+                {
+                  user: {
+                    name: string;
+                  };
+                }
+              ];
+              likes_aggregate: {
+                aggregate: {
+                  count: number;
+                };
+                nodes: {
+                  user: {
+                    name: string;
+                  };
+                };
+              };
+            },
             i: number
           ) => (
-            <ViewRowLeft key={i}>
-              <UserProfileWithName name={u.user.name} key={i} />
+            <View key={i}>
+              <ViewRowLeft>
+                <UserProfileWithName name={u.user.name} />
+                <Text>{u.user.votes.count && "동의"}</Text>
+                <Text>{new Date(u.updated_at).toLocaleString()}</Text>
+              </ViewRowLeft>
               <Text>{u.body}</Text>
-            </ViewRowLeft>
+              <ViewRowLeft>
+                {u.likes[0] ? (
+                  <ButtonUnlikeComment id={u.id} />
+                ) : (
+                  <ButtonLikeComment id={u.id} />
+                )}
+
+                <Text>{u.likes_aggregate.aggregate.count}</Text>
+              </ViewRowLeft>
+            </View>
           )
         )}
       </View>

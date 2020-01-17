@@ -93,3 +93,23 @@ export const insertComment = gql`
     }
   }
 `;
+
+export const likeComment = gql`
+  mutation($comment_id: Int!, $user_id: Int!) {
+    insert_parti_2020_comments_like(
+      objects: { user_id: $user_id, comment_id: $comment_id }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const unlikeComment = gql`
+  mutation($comment_id: Int!, $user_id: Int!) {
+    delete_parti_2020_comments_like(
+      where: { user_id: { _eq: $user_id }, comment_id: { _eq: $comment_id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
