@@ -5,6 +5,7 @@ import { Text } from "./Text";
 import { TextInput } from "./TextInput";
 import { Button } from "./Button";
 import ButtonLikeComment from "./ButtonLikeComment";
+import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import { useMutation } from "@apollo/react-hooks";
 import { insertComment } from "../graphql/mutation";
@@ -14,6 +15,7 @@ export default (
 ) => {
   const [{ user_id }, , dispatch] = useStore();
   const [comm, setComm] = React.useState("");
+  const textinput = React.useRef(null);
   const [insert, { loading }] = useMutation(insertComment, {
     variables: {
       body: comm,
@@ -21,6 +23,10 @@ export default (
       user_id: user_id
     }
   });
+  function textinputFocus() {
+    setComm(`@${user_id} ` + comm);
+    textinput.current.focus();
+  }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", payload: loading });
   }, [loading]);
@@ -70,6 +76,7 @@ export default (
                 )}
 
                 <Text>{u.likes_aggregate.aggregate.count}</Text>
+                <ButtonComment focus={textinputFocus} />
               </ViewRowLeft>
             </View>
           )
@@ -83,6 +90,7 @@ export default (
           style={{ flex: 1, height: 50, backgroundColor: "white" }}
           multiline
           textAlignVertical="top"
+          ref={textinput}
         />
         <Button
           title="등록"
