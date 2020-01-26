@@ -6,7 +6,11 @@ export class Text extends React.PureComponent<TextProps> {
     return (
       <T
         {...this.props}
-        style={{ fontFamily: "sans-serif", ...(this.props.style as Object) }}
+        style={{
+          fontFamily: "sans-serif",
+          fontSize: 20,
+          ...(this.props.style as Object)
+        }}
       >
         {this.props.children}
       </T>

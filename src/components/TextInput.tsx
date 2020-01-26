@@ -5,7 +5,11 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
   (props, ref: React.Ref<T>) => (
     <T
       {...props}
-      style={{ backgroundColor: getRandomColor(), ...(props.style as Object) }}
+      style={{
+        fontSize: 20,
+        backgroundColor: getRandomColor(),
+        ...(props.style as Object)
+      }}
       ref={ref}
     >
       {props.children}
