@@ -24,10 +24,15 @@ export default (props: NavigationSwitchScreenProps) => {
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
   function registerHandler() {
+    if (checkboxes.includes(false)) {
+      return alert("약관에 동의해주세요");
+    }
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }) =>
-        user.updateProfile({ displayName: nickname }).then(() => user)
+        user
+          .updateProfile({ displayName: nickname })
+          .then(() => console.log(user))
       );
   }
   function checkboxHandler1() {
