@@ -5,12 +5,12 @@ import { useMutation } from "@apollo/react-hooks";
 import { unlikeComment } from "../graphql/mutation";
 import { AntDesign } from "@expo/vector-icons";
 export default ({ id }: { id: number }) => {
-  const [{ user_id }, , dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   const [unlike, { loading }] = useMutation(unlikeComment, {
     variables: { comment_id: id, user_id }
   });
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <TouchableOpacity

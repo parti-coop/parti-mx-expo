@@ -6,12 +6,12 @@ import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { devoteSuggestion } from "../graphql/mutation";
 export default ({ id }: { id: number }) => {
-  const [{ user_id }, , dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   const [devote, { loading }] = useMutation(devoteSuggestion, {
     variables: { id, user_id }
   });
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <View>

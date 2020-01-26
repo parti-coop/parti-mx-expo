@@ -13,7 +13,7 @@ import { useStore } from "../Store";
 export default (
   props: React.PropsWithoutRef<{ comments: any[]; suggestionId: number }>
 ) => {
-  const [{ user_id }, , dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   const [comm, setComm] = React.useState("");
   const textinput = React.useRef(null);
   const [insert, { loading }] = useMutation(insertComment, {
@@ -28,7 +28,7 @@ export default (
     textinput.current.focus();
   }
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <View>

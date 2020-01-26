@@ -8,11 +8,9 @@ import { useQuery } from "@apollo/react-hooks";
 import { getGroups } from "../graphql/query";
 export default (props: NavigationStackScreenProps<{ name: string }>) => {
   const { navigate } = props.navigation;
-  const [store, setPersistStore] = useStore();
+  const [store, dispatch] = useStore();
   const { loading, data } = useQuery(getGroups);
-  function removePersist() {
-    setPersistStore("");
-  }
+  function removePersist() {}
   function navigateTo() {
     navigate("Home", { name: "John" });
   }

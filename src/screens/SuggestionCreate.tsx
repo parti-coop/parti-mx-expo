@@ -11,7 +11,7 @@ import { insertSuggestion } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
 export default (props: NavigationStackScreenProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
-  const [{ board_id, created_by, updated_by }, , dispatch] = useStore();
+  const [{ board_id, created_by, updated_by }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
@@ -44,7 +44,7 @@ export default (props: NavigationStackScreenProps) => {
       .then(e => props.navigation.goBack());
   }
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   function onPopupEvent(eventName, index) {
     if (eventName !== "itemSelected") return;

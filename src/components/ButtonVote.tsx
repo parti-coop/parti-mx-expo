@@ -4,12 +4,12 @@ import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { voteSuggestion } from "../graphql/mutation";
 export default ({ id }: { id: number }) => {
-  const [{ user_id }, , dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   const [vote, { loading }] = useMutation(voteSuggestion, {
     variables: { id, user_id }
   });
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <Button

@@ -18,7 +18,7 @@ export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
-  const [{ user_id }, , dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
 
   const [update, { loading }] = useMutation(updateSuggestion, {
     variables: {
@@ -31,7 +31,7 @@ export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
     }
   });
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <>

@@ -10,44 +10,60 @@ export const initialState = {
   created_by: 1,
   updated_by: 1,
   user_id: 1,
-  isLoading: false
+  loading: false
 };
 type Action =
-  | { type: "CHANGE_ALL"; payload: any }
-  | { type: "SET_LOADING"; payload: any };
-const reducer = (state: typeof initialState, action: Action) => {
-  switch (action.type) {
-    case "CHANGE_ALL":
-      state = action.payload;
-      return state;
-    case "SET_LOADING":
-      return { ...state, isLoading: action.payload };
+  | { type: "CHANGE_ALL"; isInit: boolean }
+  | { type: "SET_LOADING"; loading: boolean }
+  | { type: "SET_GROUP"; group_id: number }
+  | { type: "SET_TOKEN"; userToken: string }
+  | {
+      type: "SET_GROUP_AND_BOARD";
+      group_id: number;
+      board_id: number;
+    }
+  | { type: "APP_REFRESH" };
+function reducer(
+  state: typeof initialState,
+  action: Action
+): typeof initialState {
+  const { type, ...payload } = action;
+  switch (type) {
+    case "APP_REFRESH":
+      AsyncStorage.removeItem(PERSIST_KEY);
+      return initialState;
+    // case "SET_LOADING":
+    // case "CHANGE_ALL":
+    // case "SET_GROUP":
+    // case "SET_GROUP_AND_BOARD":
+    // case "SET_TOKEN":
+    default:
+      return { ...state, ...payload };
   }
-};
+}
 
 export const StoreContext = React.createContext<
-  [typeof initialState, Function, Function]
->([initialState, () => {}, () => {}]);
+  [typeof initialState, (input: Action) => void]
+>([initialState, () => {}]);
 export const StoreProvider = (props: ComponentProps<any>) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
-  async function setPersistStore(_store: any) {
-    Object.assign(store, _store);
-    await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify(store));
-    dispatch({ type: "CHANGE_ALL", payload: store });
-  }
   async function init() {
-    const storeJSON = await AsyncStorage.getItem(PERSIST_KEY);
-    if (storeJSON) {
-      try {
-        dispatch({
-          type: "CHANGE_ALL",
-          payload: { ...initialState, ...JSON.parse(storeJSON), isInit: true }
-        });
-      } catch (error) {
-        alert(error);
-      }
+    const keys = await AsyncStorage.getAllKeys();
+    if (keys.indexOf(PERSIST_KEY) > -1) {
+      const storeJSON = await AsyncStorage.getItem(PERSIST_KEY);
+      dispatch({
+        type: "CHANGE_ALL",
+        ...initialState,
+        ...JSON.parse(storeJSON),
+        isInit: true
+      });
     } else {
-      setPersistStore({ ...initialState, isInit: true });
+      await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify({ initialState }));
+      dispatch({
+        type: "CHANGE_ALL",
+        ...initialState,
+        isInit: true
+      });
     }
   }
   React.useEffect(() => {
@@ -55,7 +71,7 @@ export const StoreProvider = (props: ComponentProps<any>) => {
   }, []);
 
   return (
-    <StoreContext.Provider value={[store, setPersistStore, dispatch]}>
+    <StoreContext.Provider value={[store, dispatch]}>
       {props.children}
     </StoreContext.Provider>
   );

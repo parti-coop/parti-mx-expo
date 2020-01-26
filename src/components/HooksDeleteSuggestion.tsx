@@ -4,12 +4,12 @@ import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { deleteSuggestion } from "../graphql/mutation";
 export default (id: number, goBack: any) => {
-  const [, , dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [del, { loading }] = useMutation(deleteSuggestion, {
     variables: { id }
   });
   React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", payload: loading });
+    dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
   function showAlert() {

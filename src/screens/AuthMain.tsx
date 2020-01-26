@@ -6,12 +6,15 @@ import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
-  const [store, setStore] = useStore();
-  function pressHandler() {
+  const [store, dispatch] = useStore();
+  function register() {
+    userTokenHandler();
+  }
+  function login() {
     userTokenHandler();
   }
   function userTokenHandler() {
-    setStore({ userToken: "custom-user-token-to-be-made" });
+    dispatch({ type: "SET_TOKEN", userToken: "custom-user-token-to-be-made" });
     navigate("Home");
   }
   return (
@@ -19,7 +22,8 @@ export default (props: NavigationSwitchScreenProps) => {
       <Text>Auth Screen</Text>
       <Text>인증</Text>
       <Text>{store.userToken}</Text>
-      <Button title="go to home" onPress={pressHandler} />
+      <Button title="신규 이용자 회원가입" onPress={register} />
+      <Button title="기존 이용자 로그인" onPress={login} />
     </View>
   );
 };

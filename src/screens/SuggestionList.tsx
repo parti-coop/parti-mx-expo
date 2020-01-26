@@ -12,12 +12,12 @@ import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
 export default (
   props: NavigationStackScreenProps<{ id: number; boards: any[] }>
 ) => {
-  const [store, setStore] = useStore();
+  const [store, dispatch] = useStore();
   const board_id = props.navigation.getParam("id");
   const boards = props.navigation.getParam("boards");
   const { group_id, user_id } = store;
   React.useEffect(() => {
-    setStore({ group_id, board_id });
+    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
   }, [group_id, board_id]);
   const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
     variables: { id: board_id, userId: user_id }
@@ -67,7 +67,8 @@ export default (
             <View>
               {suggestions.map((sugg: any, index: number) => {
                 const voteCount = sugg.votes_aggregate.aggregate.sum.count;
-                const votedByMe = sugg.votes.length > 0 && sugg.votes[0].count > 0;
+                const votedByMe =
+                  sugg.votes.length > 0 && sugg.votes[0].count > 0;
                 return (
                   <TouchableOpacity
                     key={index}

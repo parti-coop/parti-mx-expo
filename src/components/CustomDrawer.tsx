@@ -13,19 +13,19 @@ import { useStore } from "../Store";
 
 export default (props: DrawerContentComponentProps) => {
   const { loading, data } = useSubscription(subscribeGroups);
-  const [groupId, setGroupId] = React.useState<any>(0);
-  const [store, setStore] = useStore();
+  const [group_id, setGroupId] = React.useState<any>(0);
+  const [store, dispatch] = useStore();
   React.useEffect(() => {
-    setStore({ group_id: groupId });
-    props.navigation.navigate("Home", { groupId });
+    dispatch({ type: "SET_GROUP", group_id });
+    props.navigation.navigate("Home", { group_id });
     props.navigation.closeDrawer();
-  }, [groupId]);
-  function pickerChangeHandler(groupId: number, i: number) {
-    setGroupId(groupId);
+  }, [group_id]);
+  function pickerChangeHandler(group_id: number, i: number) {
+    setGroupId(group_id);
   }
   const dropdownGroups = !loading && (
     <Picker
-      selectedValue={groupId}
+      selectedValue={group_id}
       style={{ height: 50, width: 200 }}
       onValueChange={pickerChangeHandler}
     >
@@ -36,6 +36,10 @@ export default (props: DrawerContentComponentProps) => {
   );
   function closeDrawer() {
     props.navigation.closeDrawer();
+  }
+  function refreshApp() {
+    dispatch({ type: "APP_REFRESH" });
+    Updates.reload();
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -57,7 +61,7 @@ export default (props: DrawerContentComponentProps) => {
         <View style={{ flex: 1 }}></View>
         <TouchableOpacity
           style={{ padding: 10, backgroundColor: "forestgreen" }}
-          onPress={() => Updates.reload()}
+          onPress={refreshApp}
         >
           <Text>앱 새로고침</Text>
         </TouchableOpacity>
