@@ -16,10 +16,6 @@ export default (props: NavigationSwitchScreenProps) => {
   function login() {
     props.navigation.navigate("Login");
   }
-  function userTokenHandler() {
-    dispatch({ type: "SET_TOKEN", userToken: "custom-user-token-to-be-made" });
-    navigate("Home");
-  }
   return (
     <>
       <ViewRowLeft>

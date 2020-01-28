@@ -116,11 +116,20 @@ export const unlikeComment = gql`
 export const insertUser = gql`
   mutation($email: String!, $nickname: String!, $userToken: String!) {
     insert_parti_2020_users(
-      objects: {
-        email: $email
-        name: $nickname
-        token: $userToken
+      objects: { email: $email, name: $nickname, token: $userToken }
+    ) {
+      returning {
+        id
+        token
       }
+    }
+  }
+`;
+export const updateUserToken = gql`
+  mutation($token: String!, $email: String!) {
+    update_parti_2020_users(
+      _set: { token: $token }
+      where: { email: { _eq: $email } }
     ) {
       returning {
         id
