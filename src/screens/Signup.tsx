@@ -34,6 +34,12 @@ export default (props: NavigationSwitchScreenProps) => {
           <Text>이메일 주소로 회원가입</Text>
         </TouchableOpacity>
       </View>
+      <ViewRowLeft>
+        <Text>이미 계정이 있으신가요?</Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Login")}>
+          <Text>로그인</Text>
+        </TouchableOpacity>
+      </ViewRowLeft>
     </>
   );
 };
