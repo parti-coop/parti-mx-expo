@@ -7,6 +7,8 @@ import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
+import { useMutation } from "@apollo/react-hooks";
+import { insertUser } from "../graphql/mutation";
 // import { Button } from "../components/Button";
 
 import { auth } from "./firebase";
@@ -23,17 +25,34 @@ export default (props: NavigationSwitchScreenProps) => {
   });
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
+  const [insert, { loading }] = useMutation(insertUser, {
+    variables: {
+      email,
+      nickname,
+      userToken: ""
+    }
+  });
   function registerHandler() {
     if (checkboxes.includes(false)) {
       return alert("약관에 동의해주세요");
     }
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(({ user }) =>
-        user
-          .updateProfile({ displayName: nickname })
-          .then(() => console.log(user))
-      );
+    auth.createUserWithEmailAndPassword(email, password).then(({ user }) =>
+      user
+        .updateProfile({ displayName: nickname })
+        .then(() => user.getIdToken())
+        .then(userToken =>
+          insert({ variables: { userToken, email, nickname } })
+        )
+        .then(res => {
+          const { token, id } = res.data.insert_parti_2020_users.returning[0];
+          dispatch({
+            type: "SET_TOKEN",
+            user_id: id,
+            userToken: token
+          });
+        })
+        .then(() => props.navigation.navigate("GroupNew"))
+    );
   }
   function checkboxHandler1() {
     setCheckboxes([!checkboxes[0], checkboxes[1]]);

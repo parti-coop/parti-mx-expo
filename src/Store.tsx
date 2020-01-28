@@ -16,7 +16,7 @@ type Action =
   | { type: "CHANGE_ALL"; isInit: boolean }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_GROUP"; group_id: number }
-  | { type: "SET_TOKEN"; userToken: string }
+  | { type: "SET_TOKEN"; userToken: string; user_id: number }
   | {
       type: "SET_GROUP_AND_BOARD";
       group_id: number;
@@ -38,6 +38,7 @@ function reducer(
     // case "SET_GROUP_AND_BOARD":
     // case "SET_TOKEN":
     default:
+      console.log(payload);
       return { ...state, ...payload };
   }
 }

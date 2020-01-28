@@ -9,13 +9,12 @@ export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();
   function register() {
-    props.navigation.navigate("Signup")
+    props.navigation.navigate("Signup");
   }
   function login() {
-    props.navigation.navigate("Login")
+    props.navigation.navigate("Login");
   }
   function userTokenHandler() {
-    dispatch({ type: "SET_TOKEN", userToken: "custom-user-token-to-be-made" });
     navigate("Home");
   }
   return (

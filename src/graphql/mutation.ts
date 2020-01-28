@@ -113,3 +113,19 @@ export const unlikeComment = gql`
     }
   }
 `;
+export const insertUser = gql`
+  mutation($email: String!, $nickname: String!, $userToken: String!) {
+    insert_parti_2020_users(
+      objects: {
+        email: $email
+        name: $nickname
+        token: $userToken
+      }
+    ) {
+      returning {
+        id
+        token
+      }
+    }
+  }
+`;
