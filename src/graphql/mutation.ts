@@ -14,8 +14,7 @@ export const insertSuggestion = gql`
     $sTitle: String!
     $sContext: String!
     $sBody: String!
-    $created_by: Int!
-    $updated_by: Int!
+    $user_id: Int!
     $closingMethod: Int!
   ) {
     insert_parti_2020_suggestions(
@@ -24,8 +23,8 @@ export const insertSuggestion = gql`
         title: $sTitle
         context: $sContext
         board_id: $board_id
-        created_by: $created_by
-        updated_by: $updated_by
+        created_by: $user_id
+        updated_by: $user_id
         closing_method: $closingMethod
       }
     ) {
@@ -135,6 +134,15 @@ export const updateUserToken = gql`
         id
         token
       }
+    }
+  }
+`;
+export const deleteUsersGroup = gql`
+  mutation($group_id: String!, $user_id: String!) {
+    delete_parti_2020_users_group(
+      where: { group_id: { _eq: $group_id }, user_id: { _eq: $user_id } }
+    ) {
+      affected_rows
     }
   }
 `;

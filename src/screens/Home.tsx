@@ -10,16 +10,20 @@ import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@apollo/react-hooks";
 import { getBoardsByGroupId } from "../graphql/query";
+import useGroupExit from "../components/HooksGroupExit";
 export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
   const { navigate } = props.navigation;
   const groupId = props.navigation.getParam("groupId") || 1;
+  const exitGroup = useGroupExit(groupId);
   const { data, loading } = useQuery(getBoardsByGroupId, {
     variables: { id: groupId }
   });
+
   if (loading) {
     return LoadingIndicator();
   }
-  const { title, boards } = data.parti_2020_groups_by_pk;
+  const { title, boards, users_aggregate } = data.parti_2020_groups_by_pk;
+  const userCount = users_aggregate.aggregate.count;
   return (
     <View style={{ flex: 1 }}>
       <ViewRow
@@ -118,12 +122,16 @@ export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
       <View>
         <Text style={{ backgroundColor: "crimson" }}>기타</Text>
 
-        <Button title="멤버" onPress={() => navigate("SuggestionList")} />
         <Button
-          color="darkblue"
-          title="그룹 설정/ 그룹 나가기 (멤버) "
+          title={`멤버 (${userCount})`}
           onPress={() => navigate("SuggestionList")}
         />
+        <Button
+          color="darkblue"
+          title="그룹 설정"
+          onPress={() => navigate("GroupSetting")}
+        />
+        <Button color="blue" title="그룹 나가기" onPress={() => exitGroup()} />
       </View>
     </View>
   );

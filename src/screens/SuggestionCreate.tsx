@@ -11,7 +11,7 @@ import { insertSuggestion } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
 export default (props: NavigationStackScreenProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
-  const [{ board_id, created_by, updated_by }, dispatch] = useStore();
+  const [{ board_id, user_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
@@ -35,8 +35,7 @@ export default (props: NavigationStackScreenProps) => {
         sContext,
         sBody,
         board_id,
-        created_by,
-        updated_by,
+        user_id,
         closingMethod
       }
     })

@@ -7,8 +7,6 @@ export const initialState = {
   userToken: "",
   group_id: 0,
   board_id: 0,
-  created_by: 1,
-  updated_by: 1,
   user_id: 1,
   loading: false
 };
@@ -32,11 +30,15 @@ function reducer(
     case "APP_REFRESH":
       AsyncStorage.removeItem(PERSIST_KEY);
       return initialState;
+    case "SET_GROUP":
+    case "SET_GROUP_AND_BOARD":
+    case "SET_TOKEN":
+      AsyncStorage.setItem(
+        PERSIST_KEY,
+        JSON.stringify({ ...state, ...payload })
+      );
     // case "SET_LOADING":
     // case "CHANGE_ALL":
-    // case "SET_GROUP":
-    // case "SET_GROUP_AND_BOARD":
-    // case "SET_TOKEN":
     default:
       console.log(payload);
       return { ...state, ...payload };
@@ -59,7 +61,7 @@ export const StoreProvider = (props: ComponentProps<any>) => {
         isInit: true
       });
     } else {
-      await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify({ initialState }));
+      await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify(initialState));
       dispatch({
         type: "CHANGE_ALL",
         ...initialState,

@@ -78,6 +78,11 @@ export const getBoardsByGroupId = gql`
         body
         isMemberOnly
       }
+      users_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `;
