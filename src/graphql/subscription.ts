@@ -1,10 +1,12 @@
 import gql from "graphql-tag";
 
-export const subscribeGroups = gql`
-  subscription {
-    parti_2020_groups {
-      title
-      id
+export const subscribeGroupsByUserId = gql`
+  subscription($user_id: Int!) {
+    parti_2020_users_group(where: { user_id: { _eq: $user_id } }) {
+      group {
+        title
+        id
+      }
     }
   }
 `;

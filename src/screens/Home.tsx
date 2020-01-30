@@ -129,7 +129,7 @@ export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
         <Button
           color="darkblue"
           title="그룹 설정"
-          onPress={() => navigate("GroupSetting")}
+          onPress={() => navigate("GroupNew")}
         />
         <Button color="blue" title="그룹 나가기" onPress={() => exitGroup()} />
       </View>

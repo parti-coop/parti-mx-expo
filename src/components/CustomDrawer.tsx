@@ -8,13 +8,15 @@ import { TouchableOpacity } from "./TouchableOpacity";
 import { Ionicons } from "@expo/vector-icons";
 import { ViewRow } from "./View";
 import { useSubscription } from "@apollo/react-hooks";
-import { subscribeGroups } from "../graphql/subscription";
+import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { useStore } from "../Store";
 
 export default (props: DrawerContentComponentProps) => {
-  const { loading, data } = useSubscription(subscribeGroups);
+  const [{ user_id }, dispatch] = useStore();
+  const { loading, data } = useSubscription(subscribeGroupsByUserId, {
+    variables: { user_id }
+  });
   const [group_id, setGroupId] = React.useState<any>(0);
-  const [store, dispatch] = useStore();
   React.useEffect(() => {
     dispatch({ type: "SET_GROUP", group_id });
     props.navigation.navigate("Home", { group_id });
@@ -23,15 +25,25 @@ export default (props: DrawerContentComponentProps) => {
   function pickerChangeHandler(group_id: number, i: number) {
     setGroupId(group_id);
   }
+  React.useEffect(() => {
+    if (!loading && data.parti_2020_users_group.length === 0) {
+      props.navigation.navigate("GroupNew");
+    }
+  }, [loading, data]);
+
   const dropdownGroups = !loading && (
     <Picker
       selectedValue={group_id}
       style={{ height: 50, width: 200 }}
       onValueChange={pickerChangeHandler}
     >
-      {data.parti_2020_groups.map((g: any, i: number) => (
-        <Picker.Item label={g.title} value={g.id} key={i} />
-      ))}
+      {data.parti_2020_users_group.map(
+        (g: { group: { title: string; id: number } }, i: number) => {
+          return (
+            <Picker.Item label={g.group.title} value={g.group.id} key={i} />
+          );
+        }
+      )}
     </Picker>
   );
   function closeDrawer() {

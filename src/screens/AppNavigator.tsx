@@ -12,7 +12,6 @@ import contentComponent from "../components/CustomDrawer";
 const stack = createStackNavigator(
   {
     Detail,
-    GroupNew,
     Home,
     SuggestionList,
     SuggestionCreate,
@@ -27,7 +26,8 @@ const stack = createStackNavigator(
 );
 export default createDrawerNavigator(
   {
-    stack
+    stack,
+    GroupNew
   },
   {
     initialRouteName: "stack",
