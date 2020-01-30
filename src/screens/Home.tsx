@@ -11,9 +11,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@apollo/react-hooks";
 import { getBoardsByGroupId } from "../graphql/query";
 import useGroupExit from "../components/HooksGroupExit";
+import { useStore } from "../Store";
 export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
   const { navigate } = props.navigation;
-  const groupId = props.navigation.getParam("groupId") || 1;
+  let groupId = props.navigation.getParam("groupId");
+  const [{ group_id }] = useStore();
+  if (!groupId) {
+    groupId = group_id;
+  }
   const exitGroup = useGroupExit(groupId);
   const { data, loading } = useQuery(getBoardsByGroupId, {
     variables: { id: groupId }
