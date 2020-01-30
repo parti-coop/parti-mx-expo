@@ -119,7 +119,9 @@ export default (props: DrawerContentComponentProps) => {
           >
             <Ionicons name="ios-notifications-outline" size={60} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={closeDrawer}>
+          <TouchableOpacity
+            onPress={e => props.navigation.navigate("UserSetting")}
+          >
             <Text>사용자 프로필</Text>
           </TouchableOpacity>
         </ViewRowLeft>

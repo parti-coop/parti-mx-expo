@@ -7,8 +7,11 @@ import SuggestionList from "./SuggestionList";
 import SuggestionCreate from "./SuggestionCreate";
 import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
+import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
 import contentComponent from "../components/CustomDrawer";
+import TermsPrivacy from "./TermsPrivacy";
+import TermsService from "./TermsService";
 const stack = createStackNavigator(
   {
     Detail,
@@ -17,7 +20,10 @@ const stack = createStackNavigator(
     SuggestionCreate,
     SuggestionDetail,
     SuggestionEdit,
-    QRcode
+    QRcode,
+    UserSetting,
+    TermsPrivacy,
+    TermsService
   },
   {
     initialRouteName: "Home",

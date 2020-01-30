@@ -30,7 +30,6 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
   function joinGroup() {
     join();
   }
-  console.log(group_id, user_id, data);
   if (!data.parti_2020_groups_by_pk) {
     return null;
   }
@@ -40,7 +39,6 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
     users_aggregate,
     users
   } = data.parti_2020_groups_by_pk;
-  console.log(title);
   const userCount = users_aggregate.aggregate.count;
   const hasJoined = users[0] && users[0].status !== "requested";
   console.log(hasJoined);

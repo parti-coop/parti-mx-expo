@@ -1,4 +1,5 @@
 import React from "react";
+import { getRandomColor } from "../Utils/RandomColorGenerator";
 import { TouchableOpacity as TO, TouchableOpacityProps } from "react-native";
 
 export class TouchableOpacity extends React.PureComponent<
@@ -41,6 +42,25 @@ export class TOEasy extends React.PureComponent<TouchableOpacityProps> {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#03A9F4",
+          ...(this.props.style as Object)
+        }}
+      >
+        {this.props.children}
+      </TouchableOpacity>
+    );
+  }
+}
+
+export class TORow extends React.PureComponent<TouchableOpacityProps> {
+  render() {
+    return (
+      <TouchableOpacity
+        {...this.props}
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: getRandomColor(),
           ...(this.props.style as Object)
         }}
       >
