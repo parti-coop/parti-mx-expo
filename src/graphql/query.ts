@@ -86,3 +86,12 @@ export const getBoardsByGroupId = gql`
     }
   }
 `;
+
+export const searchGroups = gql`
+  query($searchKeyword: String!) {
+    parti_2020_groups(where: { title: { _ilike: $searchKeyword } }) {
+      title
+      id
+    }
+  }
+`;

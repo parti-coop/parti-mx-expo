@@ -7,6 +7,7 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
       {...props}
       style={{
         fontSize: 20,
+        flex: 1,
         backgroundColor: getRandomColor(),
         ...(props.style as Object)
       }}
