@@ -13,19 +13,22 @@ import contentComponent from "../components/CustomDrawer";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
 import Logout from "./Logout";
+import Member from "./Member";
 const stack = createStackNavigator(
   {
     Detail,
     Home,
+    Logout,
+    Member,
+    QRcode,
     SuggestionList,
     SuggestionCreate,
     SuggestionDetail,
     SuggestionEdit,
-    QRcode,
-    Logout,
-    UserSetting,
+
     TermsPrivacy,
-    TermsService
+    TermsService,
+    UserSetting
   },
   {
     initialRouteName: "Home",

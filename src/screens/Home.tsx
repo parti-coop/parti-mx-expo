@@ -142,7 +142,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
 
           <Button
             title={`멤버 (${userCount})`}
-            onPress={() => navigate("SuggestionList")}
+            onPress={() => navigate("Member")}
           />
           <Button
             color="darkblue"
