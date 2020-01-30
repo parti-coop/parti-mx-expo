@@ -41,7 +41,6 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
   } = data.parti_2020_groups_by_pk;
   const userCount = users_aggregate.aggregate.count;
   const hasJoined = users[0] && users[0].status !== "requested";
-  console.log(hasJoined);
   return (
     <View style={{ flex: 1 }}>
       <ViewRow

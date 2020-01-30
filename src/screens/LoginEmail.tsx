@@ -6,10 +6,11 @@ import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRowLeft } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { updateUserToken } from "../graphql/mutation";
 import { auth } from "./firebase";
+import PasswordFind from "./PasswordFind";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
   const [{ group_id }, dispatch] = useStore();
@@ -68,7 +69,9 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 로그인</Text>
       </ViewRowLeft>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{ flex: 1, alignItems: "stretch", justifyContent: "center" }}
+      >
         <TextInput
           value={email}
           textContentType="emailAddress"
@@ -81,7 +84,7 @@ export default (props: NavigationSwitchScreenProps) => {
           ref={emailTextInput}
           onSubmitEditing={() => pswTextInput.current.focus()}
         />
-        <ViewRowLeft>
+        <ViewRowLeft style={{ flex: 1 }}>
           <TextInput
             value={password}
             textContentType="newPassword"
@@ -100,9 +103,12 @@ export default (props: NavigationSwitchScreenProps) => {
           </TouchableOpacity>
         </ViewRowLeft>
 
-        <TouchableOpacity onPress={loginHandler}>
+        <TORow onPress={loginHandler}>
           <Text>로그인</Text>
-        </TouchableOpacity>
+        </TORow>
+        <TORow onPress={() => navigate("PasswordFind")}>
+          <Text>비밀번호 찾기</Text>
+        </TORow>
       </View>
     </>
   );

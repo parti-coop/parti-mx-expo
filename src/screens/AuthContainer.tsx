@@ -6,6 +6,7 @@ import Login from "./Login";
 import LoginEmail from "./LoginEmail";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
+import PasswordFind from "./PasswordFind";
 export default createStackNavigator(
   {
     AuthMain,
@@ -14,7 +15,8 @@ export default createStackNavigator(
     Login,
     LoginEmail,
     TermsPrivacy,
-    TermsService
+    TermsService,
+    PasswordFind
   },
   {
     initialRouteName: "AuthMain",
