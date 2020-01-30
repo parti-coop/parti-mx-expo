@@ -5,14 +5,16 @@ import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { ViewRow, ViewRowLeft } from "../components/View";
+import useDebounce from "../components/useDebounce";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
-import { Button } from "../components/Button";
-import { auth } from "./firebase";
+import GroupMember from "../components/GroupMember";
+import GroupOrganizer from "../components/GroupOrganizer";
 export default (props: NavigationSwitchScreenProps) => {
   const [store, dispatch] = useStore();
 
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const [showMember, setShowMember] = React.useState(true);
+
   return (
     <>
       <ViewRowLeft>
@@ -39,6 +41,11 @@ export default (props: NavigationSwitchScreenProps) => {
           onChange={e => setSearchKeyword(e.nativeEvent.text)}
         />
       </ViewRowLeft>
+      {showMember ? (
+        <GroupMember searchKeyword={useDebounce(searchKeyword, 500)} />
+      ) : (
+        <GroupOrganizer searchKeyword={useDebounce(searchKeyword, 500)} />
+      )}
     </>
   );
 };

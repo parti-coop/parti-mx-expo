@@ -98,3 +98,39 @@ export const searchGroups = gql`
     }
   }
 `;
+
+export const searchMembers = gql`
+  query($searchKeyword: String!, $group_id: Int!) {
+    parti_2020_users_group(
+      where: {
+        group_id: { _eq: $group_id }
+        status: { _neq: "organzier" }
+        user: { name: { _ilike: $searchKeyword } }
+      }
+    ) {
+      user {
+        name
+        email
+      }
+      status
+    }
+  }
+`;
+
+export const searchOrganizer = gql`
+  query($searchKeyword: String!, $group_id: Int!) {
+    parti_2020_users_group(
+      where: {
+        group_id: { _eq: $group_id }
+        status: { _eq: "organzier" }
+        user: { name: { _ilike: $searchKeyword } }
+      }
+    ) {
+      user {
+        name
+        email
+      }
+      status
+    }
+  }
+`;
