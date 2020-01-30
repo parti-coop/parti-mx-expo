@@ -8,27 +8,42 @@ import { TouchableOpacity, ButtonRound } from "../components/TouchableOpacity";
 import LoadingIndicator from "../components/LoadingIndicator";
 import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useQuery } from "@apollo/react-hooks";
-import { getBoardsByGroupId } from "../graphql/query";
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import { subscribeBoardsByGroupId } from "../graphql/subscription";
+import { insertUserGroup } from "../graphql/mutation";
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
-export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
+export default (props: NavigationDrawerScreenProps<{}>) => {
   const { navigate } = props.navigation;
-  let groupId = props.navigation.getParam("groupId");
-  const [{ group_id }] = useStore();
-  if (!groupId) {
-    groupId = group_id;
-  }
-  const exitGroup = useGroupExit(groupId);
-  const { data, loading } = useQuery(getBoardsByGroupId, {
-    variables: { id: groupId }
-  });
+  const [{ group_id, user_id }, dispatch] = useStore();
 
+  const exitGroup = useGroupExit(group_id);
+  const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
+    variables: { group_id, user_id }
+  });
+  const [join, joinO] = useMutation(insertUserGroup, {
+    variables: { group_id, user_id }
+  });
   if (loading) {
     return LoadingIndicator();
   }
-  const { title, boards, users_aggregate } = data.parti_2020_groups_by_pk;
+  function joinGroup() {
+    join();
+  }
+  console.log(group_id, user_id, data);
+  if (!data.parti_2020_groups_by_pk) {
+    return null;
+  }
+  const {
+    title,
+    boards,
+    users_aggregate,
+    users
+  } = data.parti_2020_groups_by_pk;
+  console.log(title);
   const userCount = users_aggregate.aggregate.count;
+  const hasJoined = users[0] && users[0].status !== "requested";
+  console.log(hasJoined);
   return (
     <View style={{ flex: 1 }}>
       <ViewRow
@@ -124,20 +139,31 @@ export default (props: NavigationDrawerScreenProps<{ groupId: number }>) => {
           </TouchableOpacity>
         ))}
       </View>
-      <View>
-        <Text style={{ backgroundColor: "crimson" }}>기타</Text>
+      {hasJoined ? (
+        <View>
+          <Text style={{ backgroundColor: "crimson" }}>기타</Text>
 
-        <Button
-          title={`멤버 (${userCount})`}
-          onPress={() => navigate("SuggestionList")}
-        />
-        <Button
-          color="darkblue"
-          title="그룹 설정"
-          onPress={() => navigate("GroupNew")}
-        />
-        <Button color="blue" title="그룹 나가기" onPress={() => exitGroup()} />
-      </View>
+          <Button
+            title={`멤버 (${userCount})`}
+            onPress={() => navigate("SuggestionList")}
+          />
+          <Button
+            color="darkblue"
+            title="그룹 설정"
+            onPress={() => navigate("GroupNew")}
+          />
+          <Button
+            color="blue"
+            title="그룹 나가기"
+            onPress={() => exitGroup()}
+          />
+        </View>
+      ) : (
+        <View>
+          <Text>{title}에 가입합니다.</Text>
+          <Button color="darkblue" title="가입" onPress={joinGroup} />
+        </View>
+      )}
     </View>
   );
 };

@@ -5,9 +5,9 @@ export const PERSIST_KEY = "@parti-coop-2020";
 export const initialState = {
   isInit: false,
   userToken: "",
-  group_id: 0,
-  board_id: 0,
-  user_id: 1,
+  group_id: null,
+  board_id: null,
+  user_id: null,
   loading: false
 };
 type Action =

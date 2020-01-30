@@ -12,7 +12,7 @@ import { updateUserToken } from "../graphql/mutation";
 import { auth } from "./firebase";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
-  const [store, dispatch] = useStore();
+  const [{ group_id }, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [secure, setSecure] = React.useState({
@@ -42,7 +42,7 @@ export default (props: NavigationSwitchScreenProps) => {
         });
       })
       .then(() => dispatch({ type: "SET_LOADING", loading }))
-      .then(() => navigate("Home"));
+      .then(() => navigate(group_id === null ? "GroupNew" : "Home"));
   }
   function changePwdType() {
     if (secure.secureTextEntry) {

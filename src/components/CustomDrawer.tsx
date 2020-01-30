@@ -18,7 +18,7 @@ import { useStore } from "../Store";
 import { TextInput } from "./TextInput";
 
 export default (props: DrawerContentComponentProps) => {
-  const [{ user_id }, dispatch] = useStore();
+  const [{ user_id, group_id }, dispatch] = useStore();
   const { loading, data } = useSubscription(subscribeGroupsByUserId, {
     variables: { user_id }
   });
@@ -28,20 +28,29 @@ export default (props: DrawerContentComponentProps) => {
   });
   function goToGroup(group_id: number) {
     dispatch({ type: "SET_GROUP", group_id });
-    props.navigation.navigate("Home", { group_id });
+    props.navigation.navigate("Home", { groupId: 1 });
     props.navigation.closeDrawer();
   }
   React.useEffect(() => {
-    if (!loading && data.parti_2020_users_group.length === 0) {
+    if (
+      !loading &&
+      data.parti_2020_users_group.length === 0 &&
+      group_id === null
+    ) {
       props.navigation.navigate("GroupNew");
     }
+    setResultList(myGroupList);
   }, [loading, data]);
   const myGroupList =
     !loading && data.parti_2020_users_group.length > 0 ? (
       data.parti_2020_users_group.map(
         (g: { group: { title: string; id: number } }, i: number) => {
           return (
-            <TouchableOpacity key={i} style={{ height: 50, width: 200 }}>
+            <TouchableOpacity
+              key={i}
+              style={{ height: 50, width: 200 }}
+              onPress={() => goToGroup(g.group.id)}
+            >
               <Text>{g.group.title}</Text>
             </TouchableOpacity>
           );

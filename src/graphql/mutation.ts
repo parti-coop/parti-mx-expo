@@ -138,9 +138,18 @@ export const updateUserToken = gql`
   }
 `;
 export const deleteUsersGroup = gql`
-  mutation($group_id: String!, $user_id: String!) {
+  mutation($group_id: Int!, $user_id: Int!) {
     delete_parti_2020_users_group(
       where: { group_id: { _eq: $group_id }, user_id: { _eq: $user_id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const insertUserGroup = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    insert_parti_2020_users_group(
+      objects: { group_id: $group_id, user_id: $user_id }
     ) {
       affected_rows
     }

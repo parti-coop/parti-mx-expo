@@ -130,3 +130,26 @@ export const subscribeSuggestion = gql`
     }
   }
 `;
+
+export const subscribeBoardsByGroupId = gql`
+  subscription($group_id: Int!, $user_id: Int!) {
+    parti_2020_groups_by_pk(id: $group_id) {
+      id
+      title
+      boards {
+        id
+        title
+        body
+        isMemberOnly
+      }
+      users_aggregate {
+        aggregate {
+          count
+        }
+      }
+      users(where: { user_id: { _eq: $user_id } }) {
+        status
+      }
+    }
+  }
+`;
