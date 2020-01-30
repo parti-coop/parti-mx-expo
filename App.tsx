@@ -1,5 +1,5 @@
 import React from "react";
-import AppContainer from "./src/AppContainer";
+import AppContainer from "./src/screens/AppContainer";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
 import fetch from "node-fetch";

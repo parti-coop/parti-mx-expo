@@ -1,17 +1,19 @@
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
-import Home from "./screens/Home";
-import Detail from "./screens/Detail";
-import SuggestionList from "./screens/SuggestionList";
-import SuggestionCreate from "./screens/SuggestionCreate";
-import SuggestionEdit from "./screens/SuggestionEdit";
-import SuggestionDetail from "./screens/SuggestionDetail";
-import QRcode from "./screens/QRcode";
-import contentComponent from "./components/CustomDrawer";
+import Home from "./Home";
+import GroupNew from "./GroupNew";
+import Detail from "./Detail";
+import SuggestionList from "./SuggestionList";
+import SuggestionCreate from "./SuggestionCreate";
+import SuggestionEdit from "./SuggestionEdit";
+import SuggestionDetail from "./SuggestionDetail";
+import QRcode from "./QRcode";
+import contentComponent from "../components/CustomDrawer";
 const stack = createStackNavigator(
   {
-    Home,
     Detail,
+    GroupNew,
+    Home,
     SuggestionList,
     SuggestionCreate,
     SuggestionDetail,
