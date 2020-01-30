@@ -15,6 +15,7 @@ type Action =
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_GROUP"; group_id: number }
   | { type: "SET_TOKEN"; userToken: string; user_id: number }
+  | { type: "LOGOUT" }
   | {
       type: "SET_GROUP_AND_BOARD";
       group_id: number;
@@ -30,6 +31,11 @@ function reducer(
     case "APP_REFRESH":
       AsyncStorage.removeItem(PERSIST_KEY);
       return initialState;
+    case "LOGOUT":
+      state.userToken = null;
+      state.user_id = null;
+      AsyncStorage.setItem(PERSIST_KEY, JSON.stringify({ ...state }));
+      return state;
     case "SET_GROUP":
     case "SET_GROUP_AND_BOARD":
     case "SET_TOKEN":

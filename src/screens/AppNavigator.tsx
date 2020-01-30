@@ -12,6 +12,7 @@ import QRcode from "./QRcode";
 import contentComponent from "../components/CustomDrawer";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
+import Logout from "./Logout";
 const stack = createStackNavigator(
   {
     Detail,
@@ -21,6 +22,7 @@ const stack = createStackNavigator(
     SuggestionDetail,
     SuggestionEdit,
     QRcode,
+    Logout,
     UserSetting,
     TermsPrivacy,
     TermsService
