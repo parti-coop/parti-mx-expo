@@ -166,8 +166,14 @@ export const updateGroupName = gql`
   }
 `;
 export const createNewGroup = gql`
-  mutation($groupName: String!) {
-    insert_parti_2020_groups(objects: { title: $groupName }) {
+  mutation($groupName: String!, $user_id: Int!, $bg_img_url: String) {
+    insert_parti_2020_groups(
+      objects: {
+        title: $groupName
+        creator_id: $user_id
+        bg_img_url: $bg_img_url
+      }
+    ) {
       returning {
         id
       }

@@ -1,19 +1,23 @@
 import React from "react";
+import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { NavigationStackScreenProps } from "react-navigation-stack";
-import { Text, TextRound } from "../components/Text";
+import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
+import uuid from "uuid";
 import { ViewRowLeft } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
 import { createNewGroup } from "../graphql/mutation";
+import { uploadImage } from "../firebase";
 export default (props: NavigationStackScreenProps<{}>) => {
-  const [{ group_id }, dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
+  const [bg_img_url, setImgUrl] = React.useState("");
   const [create, { loading }] = useMutation(createNewGroup, {
-    variables: { groupName }
+    variables: { groupName, user_id, bg_img_url }
   });
   function addImage() {
     ImagePicker.launchImageLibraryAsync({
@@ -21,9 +25,13 @@ export default (props: NavigationStackScreenProps<{}>) => {
       aspect: [2, 1],
       quality: 0
     })
-      .then(image => {
-        console.log(image);
+      .then(res => {
+        if (res.cancelled !== true) {
+          return uploadImage(res.uri, `bgImg/` + uuid.v4());
+        }
       })
+      .then(snap => snap.ref.getDownloadURL())
+      .then(setImgUrl)
       .catch(alert);
   }
   function save() {
@@ -56,9 +64,19 @@ export default (props: NavigationStackScreenProps<{}>) => {
         onChange={e => setGroupName(e.nativeEvent.text)}
         placeholder="그룹 이름 입력"
       />
+      {bg_img_url.length > 0 ? (
+        <Image
+          source={{ uri: bg_img_url }}
+          resizeMode="contain"
+          style={{ flex: 1 }}
+        />
+      ) : (
+        <Text>배경 사진 없음</Text>
+      )}
+
       <TOEasy style={{}} onPress={addImage}>
         <AntDesign name="camerao" />
-        <Text>사진 추가</Text>
+        <Text>{bg_img_url.length > 0 ? "사진 추가" : "사진 변경"}</Text>
       </TOEasy>
     </>
   );
