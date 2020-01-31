@@ -11,7 +11,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { insertUser } from "../graphql/mutation";
 // import { Button } from "../components/Button";
 
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();

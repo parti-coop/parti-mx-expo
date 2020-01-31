@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 // import "firebase/analytics";
 import "firebase/auth";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDJImw0nqvfEhKt9POJRuteOEVRXZyA27g",
@@ -17,5 +18,13 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 const auth = firebase.auth();
-
-export { auth };
+const uploadImage = async (uri: string, path: string) => {
+  const response = await fetch(uri);
+  const blob = await response.blob();
+  var ref = firebase
+    .storage()
+    .ref()
+    .child(path);
+  return ref.put(blob);
+};
+export { auth, uploadImage };

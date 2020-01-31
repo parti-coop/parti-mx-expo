@@ -8,7 +8,7 @@ import { View, ViewRowLeft, ViewColumnCenter } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { TextInput } from "../components/TextInput";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();

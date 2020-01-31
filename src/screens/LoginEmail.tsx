@@ -9,7 +9,7 @@ import { View, ViewRowLeft } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { updateUserToken } from "../graphql/mutation";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 import PasswordFind from "./PasswordFind";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Share, Picker } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text, TextRound } from "../components/Text";
 import { TextInput } from "../components/TextInput";
@@ -15,7 +15,17 @@ export default (props: NavigationStackScreenProps<{}>) => {
   const [create, { loading }] = useMutation(createNewGroup, {
     variables: { groupName }
   });
-  function addImage() {}
+  function addImage() {
+    ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [2, 1],
+      quality: 0
+    })
+      .then(image => {
+        console.log(image);
+      })
+      .catch(alert);
+  }
   function save() {
     create()
       .then(res =>

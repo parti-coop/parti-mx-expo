@@ -156,10 +156,10 @@ export const insertUserGroup = gql`
   }
 `;
 export const updateGroupName = gql`
-  mutation($group_id: Int!, $groupName: String!) {
+  mutation($group_id: Int!, $groupName: String!, $bg_img_url: String) {
     update_parti_2020_groups(
       where: { id: { _eq: $group_id } }
-      _set: { title: $groupName }
+      _set: { title: $groupName, bg_img_url: $bg_img_url }
     ) {
       affected_rows
     }

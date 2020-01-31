@@ -136,6 +136,7 @@ export const subscribeBoardsByGroupId = gql`
     parti_2020_groups_by_pk(id: $group_id) {
       id
       title
+      bg_img_url
       boards {
         id
         title

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Share } from "react-native";
+import { Image, Share, ImageBackground } from "react-native";
 import { NavigationDrawerScreenProps } from "react-navigation-drawer";
 import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
@@ -37,7 +37,8 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
     title,
     boards,
     users_aggregate,
-    users
+    users,
+    bg_img_url
   } = data.parti_2020_groups_by_pk;
   const userCount = users_aggregate.aggregate.count;
   const hasJoined = users[0] && users[0].status !== "requested";
@@ -72,8 +73,10 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
           </TouchableOpacity>
         </ViewRow>
       </ViewRow>
-      <ViewRow
+      <ImageBackground
+        source={{ uri: bg_img_url }}
         style={{
+          flexDirection: "row",
           justifyContent: "flex-start",
           paddingLeft: 60,
           backgroundColor: "cadetblue"
@@ -99,7 +102,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
             비공개 그룹
           </Text>
         </View>
-      </ViewRow>
+      </ImageBackground>
       <View style={{ flex: 1 }}>
         <ViewRow style={{ justifyContent: "space-between" }}>
           <Text>목록</Text>
@@ -147,7 +150,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
           <Button
             color="darkblue"
             title="그룹 설정"
-            onPress={() => navigate("GroupSetting", {groupName: title})}
+            onPress={() => navigate("GroupSetting", { title, bg_img_url })}
           />
           <Button
             color="blue"
