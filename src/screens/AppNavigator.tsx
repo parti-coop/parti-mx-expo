@@ -14,9 +14,11 @@ import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
 import Logout from "./Logout";
 import Member from "./Member";
+import GroupSetting from "./GroupSetting";
 const stack = createStackNavigator(
   {
     Detail,
+    GroupSetting,
     Home,
     Logout,
     Member,

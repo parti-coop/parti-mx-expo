@@ -155,3 +155,13 @@ export const insertUserGroup = gql`
     }
   }
 `;
+export const updateGroupName = gql`
+  mutation($group_id: Int!, $groupName: String!) {
+    update_parti_2020_groups(
+      where: { id: { _eq: $group_id } }
+      _set: { title: $groupName }
+    ) {
+      affected_rows
+    }
+  }
+`;

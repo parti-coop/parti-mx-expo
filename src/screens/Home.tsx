@@ -147,7 +147,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
           <Button
             color="darkblue"
             title="그룹 설정"
-            onPress={() => navigate("GroupNew")}
+            onPress={() => navigate("GroupSetting", {groupName: title})}
           />
           <Button
             color="blue"
