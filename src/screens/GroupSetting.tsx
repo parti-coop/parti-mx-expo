@@ -25,7 +25,13 @@ export default (
     variables: { group_id, groupName, bg_img_url }
   });
   function save() {
-    update().then(() => props.navigation.goBack());
+    dispatch({ type: "SET_LOADING", loading: true });
+    uploadImage(bg_img_url, `${group_id}/bgImg`)
+      .then(snap => snap.ref.getDownloadURL())
+      .then(bg_img_url =>
+        update({ variables: { bg_img_url, group_id, groupName } })
+      )
+      .then(() => props.navigation.goBack());
   }
 
   function addImage() {
@@ -36,14 +42,11 @@ export default (
     })
       .then(res => {
         if (res.cancelled !== true) {
-          return uploadImage(res.uri, `${group_id}/bgImg`);
+          setImgUrl(res.uri);
         }
       })
-      .then(snap => snap.ref.getDownloadURL())
-      .then(setImgUrl)
       .catch(alert);
   }
-
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
@@ -64,11 +67,16 @@ export default (
         onChange={e => setGroupName(e.nativeEvent.text)}
       />
       <Text>사진</Text>
-      <Image
-        source={{ uri: bg_img_url }}
-        resizeMode="contain"
-        style={{ flex: 1 }}
-      />
+      {bg_img_url.length > 0 ? (
+        <Image
+          source={{ uri: bg_img_url }}
+          resizeMode="contain"
+          style={{ flex: 1 }}
+        />
+      ) : (
+        <Text>사진 없음</Text>
+      )}
+
       <TOEasy style={{}} onPress={addImage}>
         <Text>사진 변경</Text>
       </TOEasy>

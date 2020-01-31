@@ -10,25 +10,19 @@ import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
-import { insertUserGroup } from "../graphql/mutation";
+
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
 export default (props: NavigationDrawerScreenProps<{}>) => {
   const { navigate } = props.navigation;
   const [{ group_id, user_id }, dispatch] = useStore();
-
-  const exitGroup = useGroupExit(group_id);
+  const { exitGroup, joinGroup } = useGroupExit();
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
-  const [join, joinO] = useMutation(insertUserGroup, {
-    variables: { group_id, user_id }
-  });
+
   if (loading) {
     return LoadingIndicator();
-  }
-  function joinGroup() {
-    join();
   }
   if (!data.parti_2020_groups_by_pk) {
     return null;

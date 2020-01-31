@@ -24,23 +24,23 @@ export default (props: NavigationStackScreenProps<{}>) => {
       allowsEditing: true,
       aspect: [2, 1],
       quality: 0
-    })
-      .then(res => {
-        if (res.cancelled !== true) {
-          return uploadImage(res.uri, `bgImg/` + uuid.v4());
-        }
-      })
-      .then(snap => snap.ref.getDownloadURL())
-      .then(setImgUrl)
-      .catch(alert);
+    }).then(res => {
+      if (res.cancelled !== true) {
+        setImgUrl(res.uri);
+      }
+    });
   }
   function save() {
-    create()
-      .then(res =>
-        dispatch({
-          type: "SET_GROUP",
-          group_id: res.data.insert_parti_2020_groups.returning[0].id
-        })
+    dispatch({ type: "SET_LOADING", loading: true });
+    uploadImage(bg_img_url, `bgImg/${uuid.v4()}`)
+      .then(snap => snap.ref.getDownloadURL())
+      .then(bg_img_url =>
+        create({ variables: { groupName, user_id, bg_img_url } }).then(res =>
+          dispatch({
+            type: "SET_GROUP",
+            group_id: res.data.insert_parti_2020_groups.returning[0].id
+          })
+        )
       )
       .then(() => props.navigation.navigate("Home"));
   }
