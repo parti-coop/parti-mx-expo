@@ -165,3 +165,12 @@ export const updateGroupName = gql`
     }
   }
 `;
+export const createNewGroup = gql`
+  mutation($groupName: String!) {
+    insert_parti_2020_groups(objects: { title: $groupName }) {
+      returning {
+        id
+      }
+    }
+  }
+`;
