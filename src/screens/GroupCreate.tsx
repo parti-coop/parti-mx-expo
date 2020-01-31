@@ -11,14 +11,17 @@ import { useStore } from "../Store";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
 import { createNewGroup } from "../graphql/mutation";
+import useBoardCreate from "../graphql/useBoardCreate";
 import { uploadImage } from "../firebase";
 export default (props: NavigationStackScreenProps<{}>) => {
   const [{ user_id }, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
   const [bg_img_url, setImgUrl] = React.useState("");
+  const { createDefaultSuggestionBoard } = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
     variables: { groupName, user_id, bg_img_url }
   });
+
   function addImage() {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -30,19 +33,26 @@ export default (props: NavigationStackScreenProps<{}>) => {
       }
     });
   }
-  function save() {
+  async function save() {
+    async function createGroup(bg_img_url: string | null) {
+      const res = await create({
+        variables: { groupName, user_id, bg_img_url }
+      });
+      const group_id = res.data.insert_parti_2020_groups.returning[0].id;
+      dispatch({ type: "SET_GROUP", group_id });
+      return group_id;
+    }
     dispatch({ type: "SET_LOADING", loading: true });
-    uploadImage(bg_img_url, `bgImg/${uuid.v4()}`)
-      .then(snap => snap.ref.getDownloadURL())
-      .then(bg_img_url =>
-        create({ variables: { groupName, user_id, bg_img_url } }).then(res =>
-          dispatch({
-            type: "SET_GROUP",
-            group_id: res.data.insert_parti_2020_groups.returning[0].id
-          })
-        )
-      )
-      .then(() => props.navigation.navigate("Home"));
+    let url = null;
+    if (bg_img_url.length > 0) {
+      url = await uploadImage(bg_img_url, `bgImg/${uuid.v4()}`).then(snap =>
+        snap.ref.getDownloadURL()
+      );
+    }
+    const group_id = await createGroup(url);
+    const board_id = await createDefaultSuggestionBoard(group_id);
+    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
+    props.navigation.navigate("Home");
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });

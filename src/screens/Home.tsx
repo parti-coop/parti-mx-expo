@@ -34,6 +34,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
     users,
     bg_img_url
   } = data.parti_2020_groups_by_pk;
+  console.log(group_id, user_id, boards);
   const userCount = users_aggregate.aggregate.count;
   const hasJoined = users[0] && users[0].status !== "requested";
   return (
@@ -102,36 +103,50 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
           <Text>목록</Text>
           <Text>설정</Text>
         </ViewRow>
-        {boards.map((b, index) => (
-          <TouchableOpacity
-            style={{ padding: 10, alignItems: "center", flexDirection: "row" }}
-            key={index}
-            onPress={() => navigate("SuggestionList", { id: b.id, boards })}
-          >
-            <MaterialIcons name="move-to-inbox" size={30} />
-            <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
-              <ViewRow style={{ justifyContent: "flex-start" }}>
-                <Text>{b.title}</Text>
-                {b.isMemberOnly && (
-                  <Text
-                    style={{
-                      paddingHorizontal: 10,
-                      backgroundColor: "gainsboro",
-                      borderWidth: 1
-                    }}
-                  >
-                    전체공개
-                  </Text>
-                )}
-              </ViewRow>
-              <Text>{b.body}</Text>
-            </View>
-            <View>
-              <Text>50분 전</Text>
-              <Text>111</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {boards.map(
+          (
+            b: {
+              id: number;
+              title: string;
+              body: string;
+              isMemberOnly: boolean;
+            },
+            index: number
+          ) => (
+            <TouchableOpacity
+              style={{
+                padding: 10,
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+              key={index}
+              onPress={() => navigate("SuggestionList", { id: b.id, boards })}
+            >
+              <MaterialIcons name="move-to-inbox" size={30} />
+              <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
+                <ViewRow style={{ justifyContent: "flex-start" }}>
+                  <Text>{b.title}</Text>
+                  {b.isMemberOnly && (
+                    <Text
+                      style={{
+                        paddingHorizontal: 10,
+                        backgroundColor: "gainsboro",
+                        borderWidth: 1
+                      }}
+                    >
+                      전체공개
+                    </Text>
+                  )}
+                </ViewRow>
+                <Text>{b.body}</Text>
+              </View>
+              <View>
+                <Text>50분 전</Text>
+                <Text>111</Text>
+              </View>
+            </TouchableOpacity>
+          )
+        )}
       </View>
       {hasJoined ? (
         <View>

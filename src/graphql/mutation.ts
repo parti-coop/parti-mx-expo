@@ -180,3 +180,20 @@ export const createNewGroup = gql`
     }
   }
 `;
+export const createNewBoard = gql`
+  mutation($title: String!, $body: String!, $group_id: Int!, $user_id: Int!) {
+    insert_parti_2020_boards(
+      objects: {
+        group_id: $group_id
+        body: $body
+        updated_by: $user_id
+        created_by: $user_id
+        title: $title
+      }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`;
