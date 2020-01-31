@@ -50,6 +50,11 @@ export default (props: NavigationStackScreenProps<{}>) => {
       );
     }
     const group_id = await createGroup(url);
+    /**
+     * createDefaultSuggestionBoard 는 백단에서 하수라가 이벤트 받아서 처리해야함
+     * TODO: 자동 가입도 필요. 모두 백단에서
+     *
+     */
     const board_id = await createDefaultSuggestionBoard(group_id);
     dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
     props.navigation.navigate("Home");
