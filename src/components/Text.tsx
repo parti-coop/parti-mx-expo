@@ -8,7 +8,7 @@ export class Text extends React.PureComponent<TextProps> {
       <T
         {...this.props}
         style={{
-          fontFamily: "sans-serif",
+          fontFamily: "notosans",
           fontSize: 20,
           ...(this.props.style as Object)
         }}
@@ -25,6 +25,7 @@ export class TextRound extends React.PureComponent<TextProps> {
       <T
         {...this.props}
         style={{
+          fontFamily: "notosans",
           width: 56,
           height: 56,
           alignItems: "center",
@@ -49,7 +50,7 @@ export class Text2 extends React.PureComponent<TextProps> {
       <T
         {...this.props}
         style={{
-          fontFamily: "sans-serif",
+          fontFamily: "notosans",
           fontSize: 20,
           flex: 1,
           backgroundColor: getRandomColor(),

@@ -1,5 +1,6 @@
 import React, { ComponentProps } from "react";
 import { AsyncStorage } from "react-native";
+import * as Font from "expo-font";
 export const PERSIST_KEY = "@parti-coop-2020";
 
 export const initialState = {
@@ -57,6 +58,9 @@ export const StoreContext = React.createContext<
 export const StoreProvider = (props: ComponentProps<any>) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
   async function init() {
+    await Font.loadAsync({
+      'notosans': require('../assets/NotoSansCJKkr-Regular.otf'),
+    });
     const keys = await AsyncStorage.getAllKeys();
     if (keys.indexOf(PERSIST_KEY) > -1) {
       const storeJSON = await AsyncStorage.getItem(PERSIST_KEY);

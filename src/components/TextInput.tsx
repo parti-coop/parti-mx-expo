@@ -6,6 +6,7 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
     <T
       {...props}
       style={{
+        fontFamily: "notosans",
         fontSize: 20,
         flex: 1,
         backgroundColor: getRandomColor(),

@@ -3,8 +3,6 @@ import AppContainer from "./src/screens/AppContainer";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
 import fetch from "node-fetch";
-// import * as Font from "expo-font";
-
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
@@ -16,6 +14,7 @@ import { getMainDefinition } from "apollo-utilities";
 
 import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
+import { SafeAreaView } from "react-navigation";
 
 const wsLink = new WebSocketLink({
   uri: `ws://parti-2020.herokuapp.com/v1/graphql`,
@@ -77,7 +76,9 @@ export default class App extends React.PureComponent {
     return (
       <ApolloProvider client={client}>
         <StoreProvider>
-          <AppContainer />
+          <SafeAreaView style={{flex: 1}}>
+            <AppContainer />
+          </SafeAreaView>
           <FlashMessage ref="myLocalFlashMessage" />
           <LoadingIndicator2 />
         </StoreProvider>
