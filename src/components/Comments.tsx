@@ -88,7 +88,7 @@ export default (
           placeholder="댓글을 입력하세요"
           onChange={e => setComm(e.nativeEvent.text)}
           style={{ flex: 1, height: 50, backgroundColor: "white" }}
-          multiline
+          // multiline
           textAlignVertical="top"
           ref={textinput}
         />
