@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, KeyboardAvoidingView, Keyboard } from "react-native";
 import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
@@ -32,10 +32,14 @@ export default (props: NavigationSwitchScreenProps) => {
       userToken: ""
     }
   });
+  function keyboardDownHandler() {
+    Keyboard.dismiss();
+  }
   function registerHandler() {
     if (checkboxes.includes(false)) {
       return alert("약관에 동의해주세요");
     }
+    dispatch({ type: "SET_LOADING", loading: true });
     auth.createUserWithEmailAndPassword(email, password).then(({ user }) =>
       user
         .updateProfile({ displayName: nickname })
@@ -50,6 +54,11 @@ export default (props: NavigationSwitchScreenProps) => {
             user_id: id,
             userToken: token
           });
+          dispatch({
+            type: "SET_LOADING",
+            loading: false
+          });
+          return true;
         })
         .then(() => props.navigation.navigate("GroupNew"))
     );
@@ -84,7 +93,7 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 회원가입</Text>
       </ViewRowLeft>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} contentContainerStyle={{ flex: 1, alignItems: "stretch", justifyContent: "center", padding: 20 }}>
         <TextInput
           value={nickname}
           textContentType="nickname"
@@ -109,7 +118,7 @@ export default (props: NavigationSwitchScreenProps) => {
           ref={emailTextInput}
           onSubmitEditing={() => pswTextInput.current.focus()}
         />
-        <ViewRowLeft>
+        <ViewRowLeft style={{ flex: 1 }}>
           <TextInput
             value={password}
             textContentType="newPassword"
@@ -121,7 +130,7 @@ export default (props: NavigationSwitchScreenProps) => {
             selectionColor={Platform.OS === "android" ? null : "white"}
             onChange={e => setPassword(e.nativeEvent.text)}
             ref={pswTextInput}
-            onSubmitEditing={registerHandler}
+            onSubmitEditing={keyboardDownHandler}
           />
           <TouchableOpacity onPress={changePwdType}>
             <MaterialIcons name={secure.icEye} size={30} />
@@ -145,7 +154,7 @@ export default (props: NavigationSwitchScreenProps) => {
           </TouchableOpacity>
           <Text>에 동의합니다 (필수)</Text>
         </ViewRowLeft>
-        <ViewRowLeft>
+        <ViewRowLeft style={{ flex: 1 }}>
           <TouchableOpacity
             style={{
               width: 40,
@@ -163,10 +172,10 @@ export default (props: NavigationSwitchScreenProps) => {
           </TouchableOpacity>
           <Text>에 동의합니다 (필수)</Text>
         </ViewRowLeft>
-        <TouchableOpacity onPress={registerHandler}>
+        <TouchableOpacity onPress={registerHandler} style={{ flex: 1 }}>
           <Text>회원가입</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 };
