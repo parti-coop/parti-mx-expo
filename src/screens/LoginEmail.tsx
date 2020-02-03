@@ -76,6 +76,7 @@ export default (props: NavigationSwitchScreenProps) => {
           value={email}
           textContentType="emailAddress"
           keyboardType="email-address"
+          autoCapitalize="none"
           returnKeyType="next"
           placeholder="이메일 주소"
           placeholderTextColor="#c5c5c5"
