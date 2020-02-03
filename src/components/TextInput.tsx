@@ -9,7 +9,8 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
         fontFamily: "notosans",
         fontSize: 20,
         flex: 1,
-        backgroundColor: getRandomColor(),
+        borderColor: getRandomColor(),
+        borderWidth: 1,
         ...(props.style as Object)
       }}
       ref={ref}
