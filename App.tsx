@@ -1,4 +1,6 @@
 import React from "react";
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
 import AppContainer from "./src/screens/AppContainer";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -72,11 +74,30 @@ const client = new ApolloClient({
 });
 
 export default class App extends React.PureComponent {
+  state = {
+    isReady: false,
+  };
+
+  async _cacheResourcesAsync() {
+    return Font.loadAsync({
+      'notosans': require('./assets/NotoSansCJKkr-Regular.otf'),
+    });
+  }
+
   render() {
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this._cacheResourcesAsync}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={console.warn}
+        />
+      );
+    }
     return (
       <ApolloProvider client={client}>
         <StoreProvider>
-          <SafeAreaView style={{flex: 1}}>
+          <SafeAreaView style={{ flex: 1 }}>
             <AppContainer />
           </SafeAreaView>
           <FlashMessage ref="myLocalFlashMessage" />

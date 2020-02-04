@@ -11,6 +11,7 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
         flex: 1,
         borderColor: getRandomColor(),
         borderWidth: 1,
+        paddingHorizontal: 20,
         ...(props.style as Object)
       }}
       ref={ref}

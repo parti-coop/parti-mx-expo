@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, KeyboardAvoidingView, Keyboard } from "react-native";
+import { Platform, KeyboardAvoidingView, Keyboard, Alert } from "react-native";
 import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
@@ -40,28 +40,38 @@ export default (props: NavigationSwitchScreenProps) => {
       return alert("약관에 동의해주세요");
     }
     dispatch({ type: "SET_LOADING", loading: true });
-    auth.createUserWithEmailAndPassword(email, password).then(({ user }) =>
-      user
-        .updateProfile({ displayName: nickname })
-        .then(() => user.getIdToken())
-        .then(userToken =>
-          insert({ variables: { userToken, email, nickname } })
-        )
-        .then(res => {
-          const { token, id } = res.data.insert_parti_2020_users.returning[0];
-          dispatch({
-            type: "SET_TOKEN",
-            user_id: id,
-            userToken: token
-          });
-          dispatch({
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(({ user }) =>
+        user
+          .updateProfile({ displayName: nickname })
+          .then(() => user.getIdToken())
+          .then(userToken =>
+            insert({ variables: { userToken, email, nickname } })
+          )
+          .then(res => {
+            const { token, id } = res.data.insert_parti_2020_users.returning[0];
+            dispatch({
+              type: "SET_TOKEN",
+              user_id: id,
+              userToken: token
+            });
+
+            return true;
+          })
+          .then(() => props.navigation.navigate("GroupNew"))
+          .finally(() => dispatch({
             type: "SET_LOADING",
             loading: false
-          });
-          return true;
-        })
-        .then(() => props.navigation.navigate("GroupNew"))
-    );
+          }))
+      )
+      .catch(err => 
+        Alert.alert(err.code, err.message, [{onPress: () => dispatch({
+          type: "SET_LOADING",
+          loading: false
+        })}])
+      )
+
+
   }
   function checkboxHandler1() {
     setCheckboxes([!checkboxes[0], checkboxes[1]]);
@@ -93,7 +103,11 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 회원가입</Text>
       </ViewRowLeft>
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} contentContainerStyle={{ flex: 1, alignItems: "stretch", justifyContent: "center", padding: 20 }}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1 }}
+        contentContainerStyle={{ alignItems: "stretch", justifyContent: "center", }}
+      >
         <TextInput
           value={nickname}
           textContentType="nickname"

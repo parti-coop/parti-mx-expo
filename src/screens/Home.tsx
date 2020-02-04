@@ -17,6 +17,9 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
   const { navigate } = props.navigation;
   const [{ group_id, user_id }, dispatch] = useStore();
   const { exitGroup, joinGroup } = useGroupExit();
+  if(group_id === null){
+    return null;
+  }
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
@@ -34,7 +37,6 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
     users,
     bg_img_url
   } = data.parti_2020_groups_by_pk;
-  console.log(group_id, user_id, boards);
   const userCount = users_aggregate.aggregate.count;
   const hasJoined = users[0] && users[0].status !== "requested";
   return (

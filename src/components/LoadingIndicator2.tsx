@@ -2,6 +2,6 @@ import React from "react";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useStore } from "../Store";
 export default () => {
-  const [{ loading, isInit }] = useStore();
-  return <Spinner visible={loading} textContent="로딩중입니다..." />;
+  const [{ loading }, dispatch] = useStore();
+  return <Spinner visible={loading} textContent="로딩중입니다..." />
 };

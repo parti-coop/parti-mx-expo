@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, KeyboardAvoidingView, Alert } from "react-native";
 import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
@@ -41,9 +41,20 @@ export default (props: NavigationSwitchScreenProps) => {
           user_id: id,
           userToken: token
         });
+        dispatch({
+          type: "SET_LOADING",
+          loading: false
+        });
       })
-      .then(() => dispatch({ type: "SET_LOADING", loading }))
-      .then(() => navigate(group_id === null ? "GroupNew" : "Home"));
+      .then(() => navigate(group_id === null ? "GroupNew" : "Home"))
+      .catch(err =>
+        Alert.alert(err.code, err.message, [{
+          onPress: () => dispatch({
+            type: "SET_LOADING",
+            loading: false
+          })
+        }])
+      )
   }
   function changePwdType() {
     if (secure.secureTextEntry) {
@@ -69,8 +80,10 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 로그인</Text>
       </ViewRowLeft>
-      <View
-        style={{ flex: 1, alignItems: "stretch", justifyContent: "center" }}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ alignItems: "stretch", justifyContent: "center" }}
+        behavior="padding"
       >
         <TextInput
           value={email}
@@ -110,7 +123,7 @@ export default (props: NavigationSwitchScreenProps) => {
         <TORow onPress={() => navigate("PasswordFind")}>
           <Text>비밀번호 찾기</Text>
         </TORow>
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 };
