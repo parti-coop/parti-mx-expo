@@ -9,6 +9,7 @@ import { View, ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { insertUser } from "../graphql/mutation";
+import { showMessage } from "react-native-flash-message";
 // import { Button } from "../components/Button";
 
 import { auth } from "../firebase";
@@ -37,10 +38,11 @@ export default (props: NavigationSwitchScreenProps) => {
   }
   function registerHandler() {
     if (checkboxes.includes(false)) {
-      return alert("약관에 동의해주세요");
+      return showMessage({ type: "warning", message: "약관에 동의해주세요" });
     }
     dispatch({ type: "SET_LOADING", loading: true });
-    auth.createUserWithEmailAndPassword(email, password)
+    auth
+      .createUserWithEmailAndPassword(email, password)
       .then(({ user }) =>
         user
           .updateProfile({ displayName: nickname })
@@ -59,19 +61,14 @@ export default (props: NavigationSwitchScreenProps) => {
             return true;
           })
           .then(() => props.navigation.navigate("GroupNew"))
-          .finally(() => dispatch({
-            type: "SET_LOADING",
-            loading: false
-          }))
       )
-      .catch(err => 
-        Alert.alert(err.code, err.message, [{onPress: () => dispatch({
+      .catch(err => showMessage({ type: "danger", message: err.message }))
+      .finally(() =>
+        dispatch({
           type: "SET_LOADING",
           loading: false
-        })}])
-      )
-
-
+        })
+      );
   }
   function checkboxHandler1() {
     setCheckboxes([!checkboxes[0], checkboxes[1]]);
@@ -104,9 +101,12 @@ export default (props: NavigationSwitchScreenProps) => {
         <Text>이메일 주소로 회원가입</Text>
       </ViewRowLeft>
       <KeyboardAvoidingView
-        behavior="padding"
+        behavior={Platform.select({ ios: "padding", android: null })}
         style={{ flex: 1 }}
-        contentContainerStyle={{ alignItems: "stretch", justifyContent: "center", }}
+        contentContainerStyle={{
+          alignItems: "stretch",
+          justifyContent: "center"
+        }}
       >
         <TextInput
           value={nickname}

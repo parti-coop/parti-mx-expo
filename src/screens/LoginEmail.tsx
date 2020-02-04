@@ -10,6 +10,7 @@ import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { updateUserToken } from "../graphql/mutation";
 import { auth } from "../firebase";
+import { showMessage } from "react-native-flash-message";
 import PasswordFind from "./PasswordFind";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate } = props.navigation;
@@ -41,20 +42,15 @@ export default (props: NavigationSwitchScreenProps) => {
           user_id: id,
           userToken: token
         });
+      })
+      .then(() => navigate(group_id === null ? "GroupNew" : "Home"))
+      .catch(err => showMessage({ type: "danger", message: err.message }))
+      .finally(() =>
         dispatch({
           type: "SET_LOADING",
           loading: false
-        });
-      })
-      .then(() => navigate(group_id === null ? "GroupNew" : "Home"))
-      .catch(err =>
-        Alert.alert(err.code, err.message, [{
-          onPress: () => dispatch({
-            type: "SET_LOADING",
-            loading: false
-          })
-        }])
-      )
+        })
+      );
   }
   function changePwdType() {
     if (secure.secureTextEntry) {
@@ -82,8 +78,11 @@ export default (props: NavigationSwitchScreenProps) => {
       </ViewRowLeft>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        contentContainerStyle={{ alignItems: "stretch", justifyContent: "center" }}
-        behavior="padding"
+        contentContainerStyle={{
+          alignItems: "stretch",
+          justifyContent: "center"
+        }}
+        behavior={Platform.select({ ios: "padding", android: null })}
       >
         <TextInput
           value={email}
