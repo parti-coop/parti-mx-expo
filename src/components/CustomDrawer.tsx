@@ -1,11 +1,6 @@
 import React from "react";
 import { Updates } from "expo";
-import {
-  ScrollView,
-  SafeAreaView,
-  TextInputChangeEventData,
-  NativeSyntheticEvent
-} from "react-native";
+import { ScrollView } from "react-native";
 import { DrawerContentComponentProps } from "react-navigation-drawer";
 import { View, ViewRowLeft } from "./View";
 import { Text } from "./Text";
@@ -109,44 +104,42 @@ export default (props: DrawerContentComponentProps) => {
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "floralwhite" }}>
-        <ViewRowLeft>
-          <Text>빠띠 2020</Text>
+      <ViewRowLeft>
+        <Text>빠띠 2020</Text>
 
-          <TouchableOpacity
-            style={{ width: 50, padding: 10 }}
-            onPress={closeDrawer}
-          >
-            <Ionicons name="ios-notifications-outline" size={60} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={e => props.navigation.navigate("UserSetting")}
-          >
-            <Text>사용자 프로필</Text>
-          </TouchableOpacity>
-        </ViewRowLeft>
-        <ViewRowLeft>
-          <Ionicons name="ios-search" size={60} />
-          <TextInput
-            value={searchKeyword}
-            onChange={e => setSearchKeyword(e.nativeEvent.text)}
-            onFocus={focusHandler}
-          />
-        </ViewRowLeft>
-        <View style={{ flex: 1 }}>{resultList}</View>
         <TouchableOpacity
-          style={{ padding: 10, backgroundColor: "forestgreen" }}
-          onPress={refreshApp}
+          style={{ width: 50, padding: 10 }}
+          onPress={closeDrawer}
         >
-          <Text>앱 새로고침</Text>
+          <Ionicons name="ios-notifications-outline" size={60} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ padding: 10, backgroundColor: "forestgreen" }}
-          onPress={createNewGroup}
+          onPress={e => props.navigation.navigate("UserSetting")}
         >
-          <Text>그룹 만들기</Text>
+          <Text>사용자 프로필</Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </ViewRowLeft>
+      <ViewRowLeft>
+        <Ionicons name="ios-search" size={60} />
+        <TextInput
+          value={searchKeyword}
+          onChange={e => setSearchKeyword(e.nativeEvent.text)}
+          onFocus={focusHandler}
+        />
+      </ViewRowLeft>
+      <View style={{ flex: 1 }}>{resultList}</View>
+      <TouchableOpacity
+        style={{ padding: 10, backgroundColor: "forestgreen" }}
+        onPress={refreshApp}
+      >
+        <Text>앱 새로고침</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ padding: 10, backgroundColor: "forestgreen" }}
+        onPress={createNewGroup}
+      >
+        <Text>그룹 만들기</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

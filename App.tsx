@@ -10,13 +10,12 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink, split } from "apollo-link";
-
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
 import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
-import { SafeAreaView } from "react-navigation";
 
 const wsLink = new WebSocketLink({
   uri: `ws://parti-2020.herokuapp.com/v1/graphql`,
@@ -75,12 +74,12 @@ const client = new ApolloClient({
 
 export default class App extends React.PureComponent {
   state = {
-    isReady: false,
+    isReady: false
   };
 
   async _cacheResourcesAsync() {
     return Font.loadAsync({
-      'notosans': require('./assets/NotoSansCJKkr-Regular.otf'),
+      notosans: require("./assets/NotoSansCJKkr-Regular.otf")
     });
   }
 
@@ -97,11 +96,13 @@ export default class App extends React.PureComponent {
     return (
       <ApolloProvider client={client}>
         <StoreProvider>
-          <SafeAreaView style={{ flex: 1 }}>
-            <AppContainer />
-          </SafeAreaView>
-          <FlashMessage ref="myLocalFlashMessage" />
-          <LoadingIndicator2 />
+          <SafeAreaProvider>
+            <SafeAreaView style={{ flex: 1 }}>
+              <AppContainer />
+              <FlashMessage ref="myLocalFlashMessage" />
+              <LoadingIndicator2 />
+            </SafeAreaView>
+          </SafeAreaProvider>
         </StoreProvider>
       </ApolloProvider>
     );
