@@ -1,11 +1,12 @@
 import React from "react";
-import { Platform, KeyboardAvoidingView, Alert } from "react-native";
+import { Platform, Alert } from "react-native";
 import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
-import { TextInput } from "../components/TextInput";
+import { EmailInput, PasswordInput } from "../components/TextInput";
 import { View, ViewRowLeft } from "../components/View";
+import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { updateUserToken } from "../graphql/mutation";
@@ -17,10 +18,6 @@ export default (props: NavigationSwitchScreenProps) => {
   const [{ group_id }, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [secure, setSecure] = React.useState({
-    secureTextEntry: true,
-    icEye: "visibility-off"
-  });
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
   const [update, { loading }] = useMutation(updateUserToken, {
@@ -52,19 +49,6 @@ export default (props: NavigationSwitchScreenProps) => {
         })
       );
   }
-  function changePwdType() {
-    if (secure.secureTextEntry) {
-      setSecure({
-        icEye: "visibility",
-        secureTextEntry: false
-      });
-    } else {
-      setSecure({
-        icEye: "visibility-off",
-        secureTextEntry: true
-      });
-    }
-  }
   return (
     <>
       <ViewRowLeft>
@@ -76,46 +60,20 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 로그인</Text>
       </ViewRowLeft>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          alignItems: "stretch",
-          justifyContent: "center"
-        }}
-        behavior={Platform.select({ ios: "padding", android: null })}
-      >
-        <TextInput
+      <KeyboardAvoidingView>
+        <EmailInput
           value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          returnKeyType="next"
-          placeholder="이메일 주소"
-          placeholderTextColor="#c5c5c5"
-          maxLength={100}
           onChange={e => setEmail(e.nativeEvent.text)}
           ref={emailTextInput}
+          autoFocus={true}
           onSubmitEditing={() => pswTextInput.current.focus()}
         />
-        <ViewRowLeft style={{ flex: 1 }}>
-          <TextInput
-            value={password}
-            textContentType="newPassword"
-            placeholder="비밀번호 (8자 이상)"
-            maxLength={100}
-            enablesReturnKeyAutomatically={true}
-            secureTextEntry={secure.secureTextEntry}
-            placeholderTextColor="#c5c5c5"
-            selectionColor={Platform.OS === "android" ? null : "white"}
-            onChange={e => setPassword(e.nativeEvent.text)}
-            ref={pswTextInput}
-            onSubmitEditing={loginHandler}
-          />
-          <TouchableOpacity onPress={changePwdType}>
-            <MaterialIcons name={secure.icEye} size={30} />
-          </TouchableOpacity>
-        </ViewRowLeft>
-
+        <PasswordInput
+          value={password}
+          onChange={e => setPassword(e.nativeEvent.text)}
+          ref={pswTextInput}
+          onSubmitEditing={loginHandler}
+        />
         <TORow onPress={loginHandler}>
           <Text>로그인</Text>
         </TORow>

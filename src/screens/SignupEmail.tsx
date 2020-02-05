@@ -1,11 +1,12 @@
 import React from "react";
-import { Platform, KeyboardAvoidingView, Keyboard, Alert } from "react-native";
+import { Keyboard } from "react-native";
 import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
-import { TextInput } from "../components/TextInput";
-import { View, ViewRowLeft } from "../components/View";
+import { TextInput, EmailInput, PasswordInput } from "../components/TextInput";
+import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { insertUser } from "../graphql/mutation";
@@ -20,10 +21,6 @@ export default (props: NavigationSwitchScreenProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [checkboxes, setCheckboxes] = React.useState([false, false]);
-  const [secure, setSecure] = React.useState({
-    secureTextEntry: true,
-    icEye: "visibility-off"
-  });
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
   const [insert, { loading }] = useMutation(insertUser, {
@@ -76,19 +73,7 @@ export default (props: NavigationSwitchScreenProps) => {
   function checkboxHandler2() {
     setCheckboxes([checkboxes[0], !checkboxes[1]]);
   }
-  function changePwdType() {
-    if (secure.secureTextEntry) {
-      setSecure({
-        icEye: "visibility",
-        secureTextEntry: false
-      });
-    } else {
-      setSecure({
-        icEye: "visibility-off",
-        secureTextEntry: true
-      });
-    }
-  }
+
   return (
     <>
       <ViewRowLeft>
@@ -100,14 +85,7 @@ export default (props: NavigationSwitchScreenProps) => {
         </TouchableOpacity>
         <Text>이메일 주소로 회원가입</Text>
       </ViewRowLeft>
-      <KeyboardAvoidingView
-        behavior={Platform.select({ ios: "padding", android: null })}
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          alignItems: "stretch",
-          justifyContent: "center"
-        }}
-      >
+      <KeyboardAvoidingView>
         <TextInput
           value={nickname}
           textContentType="nickname"
@@ -119,37 +97,18 @@ export default (props: NavigationSwitchScreenProps) => {
           onChange={e => setNickname(e.nativeEvent.text)}
           onSubmitEditing={() => emailTextInput.current.focus()}
         />
-        <TextInput
+        <EmailInput
           value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          returnKeyType="next"
-          autoCapitalize="none"
-          placeholder="이메일 주소"
-          placeholderTextColor="#c5c5c5"
-          maxLength={100}
           onChange={e => setEmail(e.nativeEvent.text)}
           ref={emailTextInput}
           onSubmitEditing={() => pswTextInput.current.focus()}
         />
-        <ViewRowLeft style={{ flex: 1 }}>
-          <TextInput
-            value={password}
-            textContentType="newPassword"
-            placeholder="비밀번호 (8자 이상)"
-            maxLength={100}
-            enablesReturnKeyAutomatically={true}
-            secureTextEntry={secure.secureTextEntry}
-            placeholderTextColor="#c5c5c5"
-            selectionColor={Platform.OS === "android" ? null : "white"}
-            onChange={e => setPassword(e.nativeEvent.text)}
-            ref={pswTextInput}
-            onSubmitEditing={keyboardDownHandler}
-          />
-          <TouchableOpacity onPress={changePwdType}>
-            <MaterialIcons name={secure.icEye} size={30} />
-          </TouchableOpacity>
-        </ViewRowLeft>
+        <PasswordInput
+          value={password}
+          onChange={e => setPassword(e.nativeEvent.text)}
+          ref={pswTextInput}
+          onSubmitEditing={keyboardDownHandler}
+        />
         <ViewRowLeft>
           <TouchableOpacity
             style={{
