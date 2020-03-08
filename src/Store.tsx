@@ -1,7 +1,7 @@
 import React, { ComponentProps } from "react";
-import { AsyncStorage } from "react-native";
-export const PERSIST_KEY = "@parti-coop-2020";
-
+import * as SecureStore from "expo-secure-store";
+export const PERSIST_KEY = "coop-parti-demos";
+import { Updates } from "expo";
 export const initialState = {
   isInit: false,
   userToken: "",
@@ -29,17 +29,20 @@ function reducer(
   const { type, ...payload } = action;
   switch (type) {
     case "APP_REFRESH":
-      AsyncStorage.removeItem(PERSIST_KEY);
+      SecureStore.deleteItemAsync(PERSIST_KEY)
+        .then(Updates.reload)
+        .then(() => SecureStore.getItemAsync(PERSIST_KEY))
+        .then(console.log);
       return initialState;
     case "LOGOUT":
       state.userToken = null;
       state.user_id = null;
-      AsyncStorage.setItem(PERSIST_KEY, JSON.stringify({ ...state }));
+      SecureStore.setItemAsync(PERSIST_KEY, JSON.stringify({ ...state }));
       return state;
     case "SET_GROUP":
     case "SET_GROUP_AND_BOARD":
     case "SET_TOKEN":
-      AsyncStorage.setItem(
+      SecureStore.setItemAsync(
         PERSIST_KEY,
         JSON.stringify({ ...state, ...payload })
       );
@@ -57,22 +60,35 @@ export const StoreContext = React.createContext<
 export const StoreProvider = (props: ComponentProps<any>) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
   async function init() {
-    const keys = await AsyncStorage.getAllKeys();
-    if (keys.indexOf(PERSIST_KEY) > -1) {
-      const storeJSON = await AsyncStorage.getItem(PERSIST_KEY);
-      dispatch({
-        type: "CHANGE_ALL",
-        ...initialState,
-        ...JSON.parse(storeJSON),
-        isInit: true
-      });
-    } else {
-      await AsyncStorage.setItem(PERSIST_KEY, JSON.stringify(initialState));
-      dispatch({
-        type: "CHANGE_ALL",
-        ...initialState,
-        isInit: true
-      });
+    // const keys = await AsyncStorage.getAllKeys();
+    console.log("init");
+    try {
+      const storeJSON = await SecureStore.getItemAsync(PERSIST_KEY);
+      console.log(storeJSON);
+      if (storeJSON) {
+        dispatch({
+          type: "CHANGE_ALL",
+          ...initialState,
+          ...JSON.parse(storeJSON),
+          isInit: true,
+          loading: false
+        });
+      } else {
+        const data = JSON.stringify(initialState);
+        console.log(data);
+        SecureStore.setItemAsync(PERSIST_KEY, data)
+          .then(console.log)
+          .then(() =>
+            dispatch({
+              type: "CHANGE_ALL",
+              ...initialState,
+              isInit: true
+            })
+          )
+          .catch(console.error);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
   React.useEffect(() => {

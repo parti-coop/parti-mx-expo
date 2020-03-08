@@ -13,7 +13,6 @@ import { ApolloLink, split } from "apollo-link";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
-
 import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
 

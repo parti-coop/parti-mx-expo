@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform, Alert } from "react-native";
-import { NavigationSwitchScreenProps } from "react-navigation";
+import { StackHeaderProps } from "@react-navigation/stack";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
@@ -13,7 +13,7 @@ import { updateUserToken } from "../graphql/mutation";
 import { auth } from "../firebase";
 import { showMessage } from "react-native-flash-message";
 import PasswordFind from "./PasswordFind";
-export default (props: NavigationSwitchScreenProps) => {
+export default (props: StackHeaderProps) => {
   const { navigate } = props.navigation;
   const [{ group_id }, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
@@ -40,8 +40,8 @@ export default (props: NavigationSwitchScreenProps) => {
           userToken: token
         });
       })
-      .then(() => navigate(group_id === null ? "GroupNew" : "Home"))
-      .catch(err => showMessage({ type: "danger", message: err.message }))
+      .then(() => navigate("Home"))
+      // .catch(err => showMessage({ type: "danger", message: err.message }))
       .finally(() =>
         dispatch({
           type: "SET_LOADING",

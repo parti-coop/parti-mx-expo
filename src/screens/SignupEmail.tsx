@@ -57,7 +57,7 @@ export default (props: NavigationSwitchScreenProps) => {
 
             return true;
           })
-          .then(() => props.navigation.navigate("GroupNew"))
+          .then(() => props.navigation.navigate("Home"))
       )
       .catch(err => showMessage({ type: "danger", message: err.message }))
       .finally(() =>

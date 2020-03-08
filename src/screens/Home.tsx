@@ -1,10 +1,14 @@
 import React from "react";
 import { Image, Share, ImageBackground } from "react-native";
-import { NavigationDrawerScreenProps } from "react-navigation-drawer";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
-import { TouchableOpacity, ButtonRound } from "../components/TouchableOpacity";
+import {
+  TouchableOpacity,
+  ButtonRound,
+  TOEasy
+} from "../components/TouchableOpacity";
 import LoadingIndicator from "../components/LoadingIndicator";
 import icon from "../../assets/icon.png";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -13,21 +17,25 @@ import { subscribeBoardsByGroupId } from "../graphql/subscription";
 
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
-export default (props: NavigationDrawerScreenProps<{}>) => {
-  const { navigate } = props.navigation;
+export default () => {
+  const navigation = useNavigation();
+  const { navigate } = navigation;
   const [{ group_id, user_id }, dispatch] = useStore();
   const { exitGroup, joinGroup } = useGroupExit();
-  if(group_id === null){
-    return null;
+  if (group_id === null) {
+    navigation.dispatch(DrawerActions.openDrawer());
+    return (
+      <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <Text>아직 가입된 그룹이 없습니다.</Text>
+      </TOEasy>
+    );
   }
+
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
-
-  if (loading) {
-    return LoadingIndicator();
-  }
-  if (!data.parti_2020_groups_by_pk) {
+  console.log(data, loading);
+  if (!data && !data.parti_2020_groups_by_pk) {
     return null;
   }
   const {
@@ -48,7 +56,9 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
           padding: 10
         }}
       >
-        <ButtonRound onPress={() => props.navigation.openDrawer()}>
+        <ButtonRound
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        >
           <Text>G</Text>
         </ButtonRound>
         <ViewRow>
@@ -58,7 +68,7 @@ export default (props: NavigationDrawerScreenProps<{}>) => {
               backgroundColor: "lightgreen",
               marginRight: 10
             }}
-            onPress={() => props.navigation.navigate("QRcode")}
+            onPress={() => navigation.navigate("QRcode")}
           >
             <Text>QR</Text>
           </TouchableOpacity>

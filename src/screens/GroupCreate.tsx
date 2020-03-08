@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { NavigationStackScreenProps } from "react-navigation-stack";
+import { StackHeaderProps} from "@react-navigation/stack"
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import uuid from "uuid";
@@ -13,7 +13,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { createNewGroup } from "../graphql/mutation";
 import useBoardCreate from "../graphql/useBoardCreate";
 import { uploadImage } from "../firebase";
-export default (props: NavigationStackScreenProps<{}>) => {
+export default (props: StackHeaderProps) => {
   const [{ user_id }, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
   const [bg_img_url, setImgUrl] = React.useState("");
