@@ -41,7 +41,6 @@ export class TOEasy extends React.PureComponent<TouchableOpacityProps> {
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#03A9F4",
           ...(this.props.style as Object)
         }}
       >

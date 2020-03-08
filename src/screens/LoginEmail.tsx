@@ -40,7 +40,7 @@ export default (props: StackHeaderProps) => {
           userToken: token
         });
       })
-      .then(() => navigate("Home"))
+      // .then(() => navigate("Home"))
       // .catch(err => showMessage({ type: "danger", message: err.message }))
       .finally(() =>
         dispatch({

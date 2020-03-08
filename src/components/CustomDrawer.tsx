@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Image } from "react-native";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { View, ViewRowLeft } from "./View";
 import { Text } from "./Text";
@@ -10,7 +10,10 @@ import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
 import { useStore } from "../Store";
 import { TextInput } from "./TextInput";
-export default (props) => {
+import iconUser from "../../assets/icon-user.png";
+import ViewGroupImg from "./ViewGroupImg";
+import btnSearch from "../../assets/btn-search.png";
+export default props => {
   const [{ user_id }, dispatch] = useStore();
   const { loading, data } = useSubscription(subscribeGroupsByUserId, {
     variables: { user_id }
@@ -35,18 +38,30 @@ export default (props) => {
           return (
             <TouchableOpacity
               key={i}
-              style={{ height: 50, width: 200 }}
+              style={{
+                height: 53,
+                borderRadius: 25,
+                backgroundColor: "#007075",
+                alignItems: "center",
+                // justifyContent:"center",
+                flexDirection: "row",
+                marginBottom: 11
+              }}
               onPress={() => goToGroup(g.group.id)}
             >
-              <Text>{g.group.title}</Text>
+              <ViewGroupImg color={false} />
+              <Text style={{ fontSize: 16, color: "white" }}>
+                {g.group.title}
+              </Text>
             </TouchableOpacity>
           );
         }
       )
     ) : (
-      <Text style={{ flex: 1 }}>
-        아직, 가입된 그룹이 없나요? 그룹명을 검색하거나 그룹 참여 링크를 다시
-        눌러주세요.
+      <Text style={{ flex: 1, fontSize: 16, color: "#39caba" }}>
+        아직, 가입된 그룹이 없나요?{"\n"}
+        그룹명을 검색하거나 {"\n"}
+        그룹 참여 링크를 다시 눌러주세요.{"\n"}
       </Text>
     );
   const [resultList, setResultList] = React.useState(myGroupList);
@@ -58,7 +73,11 @@ export default (props) => {
   }
   function focusHandler() {
     if (searchKeyword.length === 0) {
-      setResultList(<Text style={{ flex: 1 }}>검색된 그룹이 없습니다.</Text>);
+      setResultList(
+        <Text style={{ flex: 1, fontSize: 16, color: "#39caba" }}>
+          검색된 그룹이 없습니다.
+        </Text>
+      );
     }
   }
   React.useEffect(() => {
@@ -80,9 +99,17 @@ export default (props) => {
             <TouchableOpacity
               key={i}
               onPress={() => goToGroup(g.id)}
-              style={{ height: 50, width: 200 }}
+              style={{
+                height: 53,
+                borderRadius: 25,
+                backgroundColor: "#007075",
+                alignItems: "center",
+                flexDirection: "row",
+                marginBottom: 11
+              }}
             >
-              <Text>{g.title}</Text>
+              <ViewGroupImg color={false} />
+              <Text style={{ fontSize: 16, color: "white" }}>{g.title}</Text>
             </TouchableOpacity>
           );
         }
@@ -95,30 +122,67 @@ export default (props) => {
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <ViewRowLeft>
-        <Text>빠띠 2020</Text>
+      <ViewRowLeft style={{ marginLeft: 30, marginTop: 40 }}>
+        <Text
+          style={{ color: "white", fontSize: 28, fontFamily: "notosans500" }}
+        >
+          빠띠 데모스
+        </Text>
 
         <TouchableOpacity
-          style={{ width: 50, padding: 10 }}
-          onPress={closeDrawer}
+          onPress={e => props.navigation.navigate("UserSetting")}
+          style={{
+            width: 35,
+            height: 35,
+            borderRadius: 15,
+            backgroundColor: "#30ad9f",
+            overflow: "hidden",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
         >
-          <Ionicons name="ios-notifications-outline" size={60} />
+          <Image
+            source={iconUser}
+            resizeMode="contain"
+            style={{ width: 20, height: 20 }}
+          />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={e => props.navigation.navigate("UserSetting")}
+          style={{
+            position: "absolute",
+            right: 0
+          }}
+          onPress={e => props.navigation.toggleDrawer()}
         >
-          <Text>사용자 프로필</Text>
+          <ViewGroupImg />
         </TouchableOpacity>
       </ViewRowLeft>
-      <ViewRowLeft>
-        <Ionicons name="ios-search" size={60} />
+      <ViewRowLeft
+        style={{
+          marginTop: 83,
+          marginHorizontal: 30,
+          paddingBottom: 20,
+          borderBottomWidth: 1,
+          borderBottomColor: "rgba(57, 202, 186, 0.2)"
+        }}
+      >
+        <Image
+          source={btnSearch}
+          resizeMode="contain"
+          style={{ width: 19, height: 20 }}
+        />
         <TextInput
           value={searchKeyword}
           onChange={e => setSearchKeyword(e.nativeEvent.text)}
           onFocus={focusHandler}
+          placeholder="그룹명 입력"
+          placeholderTextColor="rgba(57, 202, 186, 0.3)"
+          style={{ fontSize: 17 }}
         />
       </ViewRowLeft>
-      <View style={{ flex: 1 }}>{resultList}</View>
+      <View style={{ flex: 1, marginHorizontal: 30, marginTop: 52 }}>
+        {resultList}
+      </View>
       <TouchableOpacity
         style={{ padding: 10, backgroundColor: "forestgreen" }}
         onPress={refreshApp}
@@ -126,10 +190,17 @@ export default (props) => {
         <Text>앱 새로고침</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ padding: 10, backgroundColor: "forestgreen" }}
+        style={{
+          padding: 10,
+          backgroundColor: "#30ad9f",
+          borderTopLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          height: 73,
+          justifyContent: "center"
+        }}
         onPress={createNewGroup}
       >
-        <Text>그룹 만들기</Text>
+        <Text style={{ fontSize: 20, textAlign: "center" }}>그룹 만들기</Text>
       </TouchableOpacity>
     </ScrollView>
   );

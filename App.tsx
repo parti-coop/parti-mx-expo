@@ -78,7 +78,8 @@ export default class App extends React.PureComponent {
 
   async _cacheResourcesAsync() {
     return Font.loadAsync({
-      notosans: require("./assets/NotoSansCJKkr-Regular.otf")
+      notosans: require("./assets/NotoSansCJKkr-Regular.otf"),
+      notosans500: require("./assets/NotoSansCJKkr-Medium.otf")
     });
   }
 

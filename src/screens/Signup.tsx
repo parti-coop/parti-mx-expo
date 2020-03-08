@@ -1,5 +1,4 @@
 import React from "react";
-import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
@@ -7,7 +6,7 @@ import { View, ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { auth } from "../firebase";
-export default (props: NavigationSwitchScreenProps) => {
+export default props => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();
   function register() {

@@ -1,6 +1,5 @@
 import React from "react";
 import { Keyboard } from "react-native";
-import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
@@ -14,7 +13,7 @@ import { showMessage } from "react-native-flash-message";
 // import { Button } from "../components/Button";
 
 import { auth } from "../firebase";
-export default (props: NavigationSwitchScreenProps) => {
+export default (props) => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();
   const [nickname, setNickname] = React.useState("");
@@ -57,7 +56,7 @@ export default (props: NavigationSwitchScreenProps) => {
 
             return true;
           })
-          .then(() => props.navigation.navigate("Home"))
+          // .then(() => props.navigation.navigate("Home"))
       )
       .catch(err => showMessage({ type: "danger", message: err.message }))
       .finally(() =>

@@ -1,7 +1,7 @@
 import React from "react";
+import { PixelRatio } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "./Home";
-import Detail from "./Detail";
 import SuggestionList from "./SuggestionList";
 import SuggestionCreate from "./SuggestionCreate";
 import SuggestionEdit from "./SuggestionEdit";
@@ -24,6 +24,12 @@ export default function MyDrawer() {
       initialRouteName="Home"
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={props => <CustomDrawer {...props} />}
+      drawerStyle={{
+        backgroundColor: "#008489",
+        width: 330,
+        borderBottomRightRadius: 20,
+        borderTopRightRadius: 20
+      }}
     >
       <Drawer.Screen name="GroupCreate" component={GroupCreate} />
       <Drawer.Screen name="GroupSetting" component={GroupSetting} />

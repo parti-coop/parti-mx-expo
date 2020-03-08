@@ -4,17 +4,14 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
-import {
-  TouchableOpacity,
-  ButtonRound,
-  TOEasy
-} from "../components/TouchableOpacity";
-import LoadingIndicator from "../components/LoadingIndicator";
-import icon from "../../assets/icon.png";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks";
+import ViewGroupImg from "../components/ViewGroupImg";
+import ViewQrCode from "../components/ViewQrCode";
+import ViewIconInvite from "../components/ViewIconInvite";
+import ViewRedDot from "../components/ViewRedDot";
+import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import {  useSubscription } from "@apollo/react-hooks";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
-
+import iconOut from "../../assets/icon-out.png"
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
 export default () => {
@@ -34,157 +31,225 @@ export default () => {
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
-  console.log(data, loading);
-  if (!data && !data.parti_2020_groups_by_pk) {
-    return null;
-  }
-  const {
-    title,
-    boards,
-    users_aggregate,
-    users,
-    bg_img_url
-  } = data.parti_2020_groups_by_pk;
-  const userCount = users_aggregate.aggregate.count;
-  const hasJoined = users[0] && users[0].status !== "requested";
-  return (
-    <View style={{ flex: 1 }}>
-      <ViewRow
-        style={{
-          justifyContent: "space-between",
-          backgroundColor: "lightyellow",
-          padding: 10
-        }}
-      >
-        <ButtonRound
-          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-        >
-          <Text>G</Text>
-        </ButtonRound>
-        <ViewRow>
-          <TouchableOpacity
-            style={{
-              padding: 10,
-              backgroundColor: "lightgreen",
-              marginRight: 10
-            }}
-            onPress={() => navigation.navigate("QRcode")}
-          >
-            <Text>QR</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ padding: 10, backgroundColor: "coral" }}
-            onPress={e => Share.share({ message: "제안을 공유합니다." })}
-          >
-            <Text>초대</Text>
-          </TouchableOpacity>
-        </ViewRow>
-      </ViewRow>
-      <ImageBackground
-        source={{ uri: bg_img_url }}
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          paddingLeft: 60,
-          backgroundColor: "cadetblue"
-        }}
-      >
-        <Image
-          source={icon}
-          style={{ width: 80, height: 80, borderRadius: 40 }}
-        />
-        <View style={{ paddingLeft: 30, backgroundColor: "chocolate" }}>
-          <Text>{title}</Text>
-          <Text
-            style={{
-              borderWidth: 1,
-              borderColor: "grey",
-              padding: 10,
-              paddingTop: 0,
-              paddingBottom: 0,
-              backgroundColor: "cornsilk",
-              borderRadius: 10
-            }}
-          >
-            비공개 그룹
-          </Text>
-        </View>
-      </ImageBackground>
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading });
+  }, [loading]);
+  if (data && data.parti_2020_groups_by_pk) {
+    const {
+      title,
+      boards,
+      users_aggregate,
+      users,
+      bg_img_url
+    } = data.parti_2020_groups_by_pk;
+    const userCount = users_aggregate.aggregate.count;
+    const hasJoined = users[0] && users[0].status !== "requested";
+    const userStatus =
+      users[0] && users[0].status === "requested"
+        ? "가입 신청 중"
+        : users[0].status === "user"
+        ? "유저"
+        : users[0].status === "admin"
+        ? "오거나이저"
+        : "미확인";
+    return (
       <View style={{ flex: 1 }}>
-        <ViewRow style={{ justifyContent: "space-between" }}>
-          <Text>목록</Text>
-          <Text>설정</Text>
-        </ViewRow>
-        {boards.map(
-          (
-            b: {
-              id: number;
-              title: string;
-              body: string;
-              isMemberOnly: boolean;
-            },
-            index: number
-          ) => (
+        <ImageBackground source={{ uri: bg_img_url }} style={{ width: "100%" }}>
+          <ViewRow
+            style={{
+              justifyContent: "space-between",
+              paddingTop: 30,
+              paddingBottom: 50,
+              paddingHorizontal: 30,
+              alignItems: "flex-start"
+            }}
+          >
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.dispatch(DrawerActions.toggleDrawer())
+                }
+              >
+                <ViewGroupImg color={false} />
+              </TouchableOpacity>
+              <Text style={{ fontSize: 28, color: "#333333", marginTop: 25 }}>
+                {title}
+              </Text>
+              <Text style={{ fontSize: 15, color: "#888888", marginTop: 8 }}>
+                {userStatus}
+              </Text>
+            </View>
+
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate("QRcode")}>
+                <ViewGroupImg color={true} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("QRcode")}>
+                <ViewQrCode style={{ marginTop: 10 }} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={e => Share.share({ message: "제안을 공유합니다." })}
+              >
+                <ViewIconInvite style={{ marginTop: 10 }} />
+              </TouchableOpacity>
+            </View>
+          </ViewRow>
+        </ImageBackground>
+        <View style={{ flex: 1, paddingHorizontal: 30 }}>
+          <ViewRow
+            style={{ justifyContent: "space-between", paddingVertical: 20 }}
+          >
+            <Text style={{ fontSize: 14, color: "#333333" }}>목록</Text>
             <TouchableOpacity
               style={{
-                padding: 10,
-                alignItems: "center",
-                flexDirection: "row"
+                backgroundColor: "#30ad9f",
+                borderRadius: 10,
+                paddingHorizontal: 10
               }}
-              key={index}
-              onPress={() => navigate("SuggestionList", { id: b.id, boards })}
             >
-              <MaterialIcons name="move-to-inbox" size={30} />
-              <View style={{ flex: 1, backgroundColor: "darkcyan" }}>
-                <ViewRow style={{ justifyContent: "flex-start" }}>
-                  <Text>{b.title}</Text>
-                  {b.isMemberOnly && (
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: "#ffffff"
+                }}
+              >
+                🔧관리
+              </Text>
+            </TouchableOpacity>
+          </ViewRow>
+          {boards.map(
+            (
+              b: {
+                id: number;
+                title: string;
+                body: string;
+                isMemberOnly: boolean;
+              },
+              index: number
+            ) => (
+              <TouchableOpacity
+                style={{
+                  height: 83,
+                  backgroundColor: "#ffffff",
+                  marginBottom: 10,
+                  borderRadius: 25
+                }}
+                key={index}
+                onPress={() => navigate("SuggestionList", { id: b.id, boards })}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    marginLeft: 30,
+                    marginRight: 50
+                  }}
+                >
+                  <ViewRow style={{ justifyContent: "flex-start" }}>
+                    <Text style={{ fontSize: 18 }}>{b.title}</Text>
+                    {b.isMemberOnly && (
+                      <Text
+                        style={{
+                          paddingHorizontal: 10,
+                          borderWidth: 1,
+                          borderColor: "#cb6794",
+                          borderRadius: 10,
+                          fontSize: 12,
+                          padding: 1,
+                          color: "#cb6794",
+                          marginLeft: 10
+                        }}
+                      >
+                        전체공개
+                      </Text>
+                    )}
+                    <ViewRedDot style={{ marginLeft: 10 }} />
                     <Text
                       style={{
-                        paddingHorizontal: 10,
-                        backgroundColor: "gainsboro",
-                        borderWidth: 1
+                        color: "#30ad9f",
+                        fontSize: 14,
+                        position: "absolute",
+                        right: 0
                       }}
                     >
-                      전체공개
+                      50분 전
                     </Text>
-                  )}
-                </ViewRow>
-                <Text>{b.body}</Text>
-              </View>
-              <View>
-                <Text>50분 전</Text>
-                <Text>111</Text>
-              </View>
-            </TouchableOpacity>
-          )
+                  </ViewRow>
+                  <Text style={{ fontSize: 14, color: "#888888" }}>
+                    {b.body}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )
+          )}
+        </View>
+        {hasJoined ? (
+          <View style={{ marginHorizontal: 30, marginBottom: 20 }}>
+            <Text style={{ fontSize: 14, marginBottom: 20 }}>기타</Text>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity
+                onPress={() => navigate("Member")}
+                style={{
+                  flex: 1,
+                  height: 100,
+                  borderRadius: 25,
+                  backgroundColor: "#30ad9f",
+                  marginHorizontal: 5,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Text style={{ fontSize: 16, color: "#ffffff" }}>
+                  멤버 ({userCount})
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigate("GroupSetting", { title, bg_img_url })}
+                style={{
+                  flex: 1,
+                  height: 100,
+                  borderRadius: 25,
+                  backgroundColor: "#30ad9f",
+                  marginHorizontal: 5,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Text style={{ fontSize: 16, color: "#ffffff" }}>
+                  그룹 설정
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => exitGroup()}
+                style={{
+                  flex: 1,
+                  height: 100,
+                  borderRadius: 25,
+                  backgroundColor: "#30ad9f",
+                  marginHorizontal: 5,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Image source={iconOut} style={{width: 22, height: 24, marginBottom: 16}} />
+                <Text style={{ fontSize: 16, color: "#ffffff" }}>
+                  그룹 나가기
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View>
+            <Text>{title}에 가입합니다.</Text>
+            <Button color="darkblue" title="가입" onPress={joinGroup} />
+          </View>
         )}
       </View>
-      {hasJoined ? (
-        <View>
-          <Text style={{ backgroundColor: "crimson" }}>기타</Text>
-
-          <Button
-            title={`멤버 (${userCount})`}
-            onPress={() => navigate("Member")}
-          />
-          <Button
-            color="darkblue"
-            title="그룹 설정"
-            onPress={() => navigate("GroupSetting", { title, bg_img_url })}
-          />
-          <Button
-            color="blue"
-            title="그룹 나가기"
-            onPress={() => exitGroup()}
-          />
-        </View>
-      ) : (
-        <View>
-          <Text>{title}에 가입합니다.</Text>
-          <Button color="darkblue" title="가입" onPress={joinGroup} />
-        </View>
-      )}
-    </View>
-  );
+    );
+  } else {
+    return null;
+  }
 };
