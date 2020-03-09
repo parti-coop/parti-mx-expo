@@ -1,8 +1,10 @@
 import React from "react";
 import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { NavigationStackScreenProps } from "react-navigation-stack";
-import { Text, TextRound } from "../components/Text";
+import { RootStackParamList } from "../screens/AppNavigator";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { ViewRowLeft } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
@@ -11,16 +13,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
 import { updateGroupName } from "../graphql/mutation";
 import { uploadImage } from "../firebase";
-export default (
-  props: NavigationStackScreenProps<{ title: string; bg_img_url: string }>
-) => {
+export default (props: {
+  navigation: StackNavigationProp<RootStackParamList, "GroupSetting">;
+  route: RouteProp<RootStackParamList, "GroupSetting">;
+}) => {
   const [{ group_id }, dispatch] = useStore();
-  const [groupName, setGroupName] = React.useState(
-    props.navigation.getParam("title")
-  );
-  const [bg_img_url, setImgUrl] = React.useState(
-    props.navigation.getParam("bg_img_url")
-  );
+  const [groupName, setGroupName] = React.useState(props.route.params.title);
+  const [bg_img_url, setImgUrl] = React.useState(props.route.params.bg_img_url);
   const [update, { loading }] = useMutation(updateGroupName, {
     variables: { group_id, groupName, bg_img_url }
   });

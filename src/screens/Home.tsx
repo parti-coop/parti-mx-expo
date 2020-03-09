@@ -9,9 +9,9 @@ import ViewQrCode from "../components/ViewQrCode";
 import ViewIconInvite from "../components/ViewIconInvite";
 import ViewRedDot from "../components/ViewRedDot";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
-import {  useSubscription } from "@apollo/react-hooks";
+import { useSubscription } from "@apollo/react-hooks";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
-import iconOut from "../../assets/icon-out.png"
+import iconOut from "../../assets/icon-out.png";
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
 export default () => {
@@ -44,14 +44,15 @@ export default () => {
     } = data.parti_2020_groups_by_pk;
     const userCount = users_aggregate.aggregate.count;
     const hasJoined = users[0] && users[0].status !== "requested";
-    const userStatus =
-      users[0] && users[0].status === "requested"
-        ? "가입 신청 중"
-        : users[0].status === "user"
-        ? "유저"
-        : users[0].status === "admin"
-        ? "오거나이저"
-        : "미확인";
+    const userStatus = !users[0]
+      ? ""
+      : users[0].status === "requested"
+      ? "가입 신청 중"
+      : users[0].status === "user"
+      ? "유저"
+      : users[0].status === "admin"
+      ? "오거나이저"
+      : "미확인";
     return (
       <View style={{ flex: 1 }}>
         <ImageBackground source={{ uri: bg_img_url }} style={{ width: "100%" }}>
@@ -135,7 +136,7 @@ export default () => {
                   borderRadius: 25
                 }}
                 key={index}
-                onPress={() => navigate("SuggestionList", { id: b.id, boards })}
+                onPress={() => navigate("SuggestionList", { id: b.id })}
               >
                 <View
                   style={{
@@ -234,7 +235,10 @@ export default () => {
                   justifyContent: "center"
                 }}
               >
-                <Image source={iconOut} style={{width: 22, height: 24, marginBottom: 16}} />
+                <Image
+                  source={iconOut}
+                  style={{ width: 22, height: 24, marginBottom: 16 }}
+                />
                 <Text style={{ fontSize: 16, color: "#ffffff" }}>
                   그룹 나가기
                 </Text>
@@ -242,10 +246,20 @@ export default () => {
             </View>
           </View>
         ) : (
-          <View>
-            <Text>{title}에 가입합니다.</Text>
-            <Button color="darkblue" title="가입" onPress={joinGroup} />
-          </View>
+          <TouchableOpacity
+            onPress={joinGroup}
+            style={{
+              padding: 10,
+              backgroundColor: "#30ad9f",
+              borderTopLeftRadius: 20,
+              borderBottomRightRadius: 20,
+              height: 73,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Text style={{color: "#ffffff"}}>{title}에 가입합니다.</Text>
+          </TouchableOpacity>
         )}
       </View>
     );

@@ -3,6 +3,7 @@ import { Alert } from "react-native";
 import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { deleteUsersGroup, insertUserGroup } from "../graphql/mutation";
+import { showMessage } from "react-native-flash-message";
 export default () => {
   const [{ user_id, group_id }, dispatch] = useStore();
   const [exit, exitO] = useMutation(deleteUsersGroup, {
@@ -16,7 +17,7 @@ export default () => {
     dispatch({ type: "SET_LOADING", loading });
   }, [exitO.loading, joinO.loading]);
   function joinGroup() {
-    join();
+    join().then(()=> showMessage({ type: "success", message: "가입 하였습니다." }));
   }
   function exitGroup() {
     return Alert.alert("그룹 탈퇴", "그룹을 나가시겠습니까?", [
@@ -28,7 +29,7 @@ export default () => {
         text: "나가기",
         onPress: () =>
           exit()
-            .then(() => alert("탈퇴하였습니다."))
+            .then(() => showMessage({ type: "success", message: "탈퇴하였습니다." }))
             .catch(console.error)
       }
     ]);

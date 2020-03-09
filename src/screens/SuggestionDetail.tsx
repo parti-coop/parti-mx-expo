@@ -1,6 +1,5 @@
 import React from "react";
 import { Share, Alert } from "react-native";
-import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { View, ViewRow } from "../components/View";
@@ -17,12 +16,16 @@ import PopupMenu from "../components/PopupMenu";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
+import { RootStackParamList } from "../screens/AppNavigator";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export default (
-  props: NavigationStackScreenProps<{ suggestionId: number }>
-) => {
+export default (props: {
+  navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
+  route: RouteProp<RootStackParamList, "SuggestionDetail">;
+}) => {
   const [{ user_id }, dispatch] = useStore();
-  const id = props.navigation.getParam("suggestionId");
+  const id = props.route.params.suggestionId;
   const deleteSuggestion = HooksDeleteSuggestion(id, props.navigation.goBack);
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id, user_id }

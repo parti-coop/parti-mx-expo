@@ -1,5 +1,4 @@
 import React from "react";
-import { PixelRatio } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
@@ -15,8 +14,30 @@ import Logout from "./Logout";
 import Member from "./Member";
 import GroupSetting from "./GroupSetting";
 import GroupCreate from "./GroupCreate";
-
-const Drawer = createDrawerNavigator();
+export type RootStackParamList = {
+  SuggestionList: { id: number };
+  GroupCreate: {};
+  GroupSetting: { title: string; bg_img_url: string };
+  Home: {};
+  Logout: {};
+  Member: {};
+  QRcode: {};
+  SuggestionCreate: {};
+  SuggestionDetail: { suggestionId: number };
+  SuggestionEdit: {
+    suggestion: {
+      id: number;
+      title: string;
+      context: string;
+      body: string;
+      closing_method: string;
+    };
+  };
+  TermsPrivacy: {};
+  TermsService: {};
+  UserSetting: {};
+};
+const Drawer = createDrawerNavigator<RootStackParamList>();
 
 export default function MyDrawer() {
   return (

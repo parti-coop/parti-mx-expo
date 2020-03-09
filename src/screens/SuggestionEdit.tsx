@@ -1,6 +1,5 @@
 import React from "react";
 import { Picker } from "react-native";
-import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRow } from "../components/View";
@@ -8,9 +7,14 @@ import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
-
-export default (props: NavigationStackScreenProps<{ suggestion: any }>) => {
-  const suggestion = props.navigation.getParam("suggestion");
+import { RootStackParamList } from "../screens/AppNavigator";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+export default (props: {
+  navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
+  route: RouteProp<RootStackParamList, "SuggestionEdit">;
+}) => {
+  const suggestion = props.route.params.suggestion;
   const { id } = suggestion;
   const [sTitle, setSTitle] = React.useState(suggestion.title);
   const [sContext, setSContext] = React.useState(suggestion.context);
