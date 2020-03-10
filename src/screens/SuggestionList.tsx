@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Share } from "react-native";
-import { RootStackParamList } from "../screens/AppNavigator";
+import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, TextRound } from "../components/Text";

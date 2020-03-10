@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { RootStackParamList } from "../screens/AppNavigator";
+import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "../components/Text";

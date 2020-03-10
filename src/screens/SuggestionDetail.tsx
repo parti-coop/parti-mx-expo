@@ -1,7 +1,6 @@
 import React from "react";
-import { Share, Alert } from "react-native";
+import { Share } from "react-native";
 import { Text } from "../components/Text";
-import { Button } from "../components/Button";
 import { View, ViewRow } from "../components/View";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -13,10 +12,10 @@ import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import PopupMenu from "../components/PopupMenu";
-import { useMutation, useSubscription } from "@apollo/react-hooks";
+import { useSubscription } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
-import { RootStackParamList } from "../screens/AppNavigator";
+import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 

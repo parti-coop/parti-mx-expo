@@ -1,7 +1,7 @@
 import React from "react";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
-import AppContainer from "./src/screens/AppContainer";
+import AuthSwitcher from "./src/screens/AuthSwitcher";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
 import fetch from "node-fetch";
@@ -112,7 +112,7 @@ export default class App extends React.PureComponent {
         <StoreProvider>
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1 }}>
-              <AppContainer />
+              <AuthSwitcher />
               <FlashMessage ref="myLocalFlashMessage" />
               <LoadingIndicator2 />
             </SafeAreaView>

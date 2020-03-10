@@ -14,7 +14,7 @@ export default props => {
   function login() {
     props.navigation.navigate("Login");
   }
- 
+
   function refreshApp() {
     dispatch({ type: "APP_REFRESH" });
   }

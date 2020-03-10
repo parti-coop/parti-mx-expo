@@ -7,7 +7,7 @@ import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
-import { RootStackParamList } from "../screens/AppNavigator";
+import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 export default (props: {
