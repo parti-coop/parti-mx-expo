@@ -8,12 +8,11 @@ import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
-import { insertUser } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
 // import { Button } from "../components/Button";
 
 import { auth } from "../firebase";
-export default (props) => {
+export default props => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();
   const [nickname, setNickname] = React.useState("");
@@ -22,13 +21,7 @@ export default (props) => {
   const [checkboxes, setCheckboxes] = React.useState([false, false]);
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
-  const [insert, { loading }] = useMutation(insertUser, {
-    variables: {
-      email,
-      nickname,
-      userToken: ""
-    }
-  });
+
   function keyboardDownHandler() {
     Keyboard.dismiss();
   }
@@ -43,20 +36,12 @@ export default (props) => {
         user
           .updateProfile({ displayName: nickname })
           .then(() => user.getIdToken())
-          .then(userToken =>
-            insert({ variables: { userToken, email, nickname } })
+          .then(uid =>
+            showMessage({
+              type: "success",
+              message: "회원가입에 성공 하셨습니다."
+            })
           )
-          .then(res => {
-            const { token, id } = res.data.insert_parti_2020_users.returning[0];
-            dispatch({
-              type: "SET_TOKEN",
-              user_id: id,
-              userToken: token
-            });
-
-            return true;
-          })
-          // .then(() => props.navigation.navigate("Home"))
       )
       .catch(err => showMessage({ type: "danger", message: err.message }))
       .finally(() =>

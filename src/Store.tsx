@@ -4,7 +4,6 @@ export const PERSIST_KEY = "coop-parti-demos";
 import { Updates } from "expo";
 export const initialState = {
   isInit: false,
-  userToken: "",
   group_id: null,
   board_id: null,
   user_id: null,
@@ -14,7 +13,6 @@ type Action =
   | { type: "CHANGE_ALL"; isInit: boolean }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_GROUP"; group_id: number }
-  | { type: "SET_TOKEN"; userToken: string; user_id: number }
   | { type: "LOGOUT" }
   | {
       type: "SET_GROUP_AND_BOARD";
@@ -35,19 +33,11 @@ function reducer(
         .then(console.log);
       return initialState;
     case "LOGOUT":
-      state.userToken = null;
       state.user_id = null;
       SecureStore.setItemAsync(PERSIST_KEY, JSON.stringify({ ...state }));
       return state;
     case "SET_GROUP":
     case "SET_GROUP_AND_BOARD":
-    case "SET_TOKEN":
-      SecureStore.setItemAsync(
-        PERSIST_KEY,
-        JSON.stringify({ ...state, ...payload })
-      );
-    // case "SET_LOADING":
-    // case "CHANGE_ALL":
     default:
       console.log(payload);
       return { ...state, ...payload };

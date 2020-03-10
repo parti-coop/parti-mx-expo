@@ -9,7 +9,6 @@ import { View, ViewRowLeft } from "../components/View";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
-import { updateUserToken } from "../graphql/mutation";
 import { auth } from "../firebase";
 import { showMessage } from "react-native-flash-message";
 import PasswordFind from "./PasswordFind";
@@ -20,28 +19,18 @@ export default (props: StackHeaderProps) => {
   const [password, setPassword] = React.useState("");
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
-  const [update, { loading }] = useMutation(updateUserToken, {
-    variables: {
-      email,
-      token: ""
-    }
-  });
+
   function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
     auth
       .signInWithEmailAndPassword(email, password)
-      .then(({ user }) => user.getIdToken())
-      .then(token => update({ variables: { token, email } }))
-      .then(res => {
-        const { token, id } = res.data.update_parti_2020_users.returning[0];
-        dispatch({
-          type: "SET_TOKEN",
-          user_id: id,
-          userToken: token
-        });
-      })
-      // .then(() => navigate("Home"))
-      // .catch(err => showMessage({ type: "danger", message: err.message }))
+      .then(({ user }) => user.uid)
+      .then(uid =>
+        showMessage({
+          type: "success",
+          message: "로그인 성공 하셨습니다." + uid
+        })
+      )
       .finally(() =>
         dispatch({
           type: "SET_LOADING",

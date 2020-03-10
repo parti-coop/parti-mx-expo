@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Share, Picker } from "react-native";
-import { NavigationStackScreenProps } from "react-navigation-stack";
+import { StackHeaderProps } from "@react-navigation/stack";
 import { Text, TextRound } from "../components/Text";
 import { View, ViewRow, ViewRowLeft } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -9,7 +9,7 @@ import { useStore } from "../Store";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery, useSubscription } from "@apollo/react-hooks";
 import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
-export default (props: NavigationStackScreenProps<{}>) => {
+export default (props: StackHeaderProps) => {
   const [{ user_id }, dispatch] = useStore();
   const list = [
     { label: "내 프로필", page: "Profile" },

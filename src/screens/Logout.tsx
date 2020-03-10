@@ -8,6 +8,7 @@ import { View, ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { auth } from "../firebase";
+import { showMessage } from "react-native-flash-message";
 export default (props: NavigationSwitchScreenProps) => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();
@@ -24,7 +25,9 @@ export default (props: NavigationSwitchScreenProps) => {
           auth
             .signOut()
             .then(() => dispatch({ type: "LOGOUT" }))
-            .then(() => navigate("AuthMain"))
+            .finally(() =>
+              showMessage({ type: "success", message: "로그아웃 하였습니다." })
+            )
       }
     ]);
   }, []);

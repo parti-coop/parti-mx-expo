@@ -9,20 +9,19 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
-import { ApolloLink, split } from "apollo-link";
+import { ApolloLink, split, concat } from "apollo-link";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
-
+import { setContext } from "apollo-link-context";
+import { auth } from "./src/firebase";
+const HASURA_DOMAIN = `hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/v1/graphql`;
 const wsLink = new WebSocketLink({
-  uri: `ws://parti-2020.herokuapp.com/v1/graphql`,
+  uri: `ws://${HASURA_DOMAIN}`,
   options: {
-    reconnect: true,
-    connectionParams: {
-      headers: { "x-hasura-admin-secret": "parti" }
-    }
+    reconnect: true
   }
 });
 
@@ -37,17 +36,15 @@ const httpLink = ApolloLink.from([
     if (networkError) console.log(`[Network error]: ${networkError}`);
   }),
   new HttpLink({
-    uri: "http://hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/",
-    credentials: "same-origin",
-    headers: {
-      "x-hasura-admin-secret": "parti"
-    }
+    uri: `http://${HASURA_DOMAIN}`,
+    credentials: "same-origin"
   })
 ]);
 
 const link = split(
   // split based on operation type
   ({ query }) => {
+    //
     const definition = getMainDefinition(query);
     return (
       definition.kind === "OperationDefinition" &&
@@ -58,6 +55,23 @@ const link = split(
   httpLink
 );
 
+const authLink = setContext((_, { headers }) => {
+  console.log(headers);
+  return async () => {
+    let Authorization = "";
+    try {
+      Authorization = await auth.currentUser.getIdToken();
+    } catch (error) {
+      return "not logged in";
+    }
+    return {
+      headers: {
+        ...headers,
+        Authorization
+      }
+    };
+  };
+});
 declare global {
   namespace NodeJS {
     interface Global {
@@ -67,7 +81,7 @@ declare global {
 }
 global.fetch = fetch;
 const client = new ApolloClient({
-  link,
+  link: authLink.concat(link),
   cache: new InMemoryCache()
 });
 

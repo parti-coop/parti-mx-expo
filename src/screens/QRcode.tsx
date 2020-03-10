@@ -1,11 +1,11 @@
 import React from "react";
 // import QRCode from "react-native-qrcode-svg";
-import { NavigationStackScreenProps } from "react-navigation-stack";
+import { StackHeaderProps } from "@react-navigation/stack";
 import { useStore } from "../Store";
 import { View, ViewColumnCenter } from "../components/View";
 import { Button } from "../components/Button";
 
-export default (props: NavigationStackScreenProps) => {
+export default (props: StackHeaderProps) => {
   const [store] = useStore();
   return (
     <ViewColumnCenter>

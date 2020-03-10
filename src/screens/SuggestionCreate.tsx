@@ -1,6 +1,6 @@
 import React from "react";
 import { Picker } from "react-native";
-import { NavigationStackScreenProps } from "react-navigation-stack";
+import { StackHeaderProps } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, ViewRow } from "../components/View";
@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
-export default (props: NavigationStackScreenProps) => {
+export default (props: StackHeaderProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
   const [{ board_id, user_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");

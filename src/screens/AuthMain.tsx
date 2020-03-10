@@ -14,9 +14,7 @@ export default props => {
   function login() {
     props.navigation.navigate("Login");
   }
-  function userTokenHandler() {
-    navigate("Home");
-  }
+ 
   function refreshApp() {
     dispatch({ type: "APP_REFRESH" });
   }
@@ -27,7 +25,6 @@ export default props => {
       </TouchableOpacity>
       <Text>Auth Screen</Text>
       <Text>인증</Text>
-      <Text>{store.userToken}</Text>
       <Button title="신규 이용자 회원가입" onPress={register} />
       <Button title="기존 이용자 로그인" onPress={login} />
     </ViewColumnCenter>

@@ -2,13 +2,16 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./AppNavigator";
 import AuthContainer from "./AuthContainer";
-import { useStore } from "../Store";
+import { auth } from "../firebase";
 export default () => {
-  const [store] = useStore();
+  const [user, setUser] = React.useState(undefined);
+  React.useEffect(() => {
+    return auth.onAuthStateChanged(setUser);
+  }, []);
+
   return (
     <NavigationContainer>
-      {/* <AppNavigator /> */}
-      {store.userToken.length > 0 ? <AppNavigator /> : <AuthContainer />}
+      {user ? <AppNavigator /> : <AuthContainer />}
     </NavigationContainer>
   );
 };
