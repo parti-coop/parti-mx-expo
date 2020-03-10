@@ -37,7 +37,7 @@ const httpLink = ApolloLink.from([
     if (networkError) console.log(`[Network error]: ${networkError}`);
   }),
   new HttpLink({
-    uri: "https://parti-2020.herokuapp.com/v1/graphql",
+    uri: "http://hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/",
     credentials: "same-origin",
     headers: {
       "x-hasura-admin-secret": "parti"
