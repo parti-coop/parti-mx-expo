@@ -1,4 +1,11 @@
 import gql from "graphql-tag";
+export const whoami = gql`
+  query($firebase_uid: String!) {
+    parti_2020_users(where: { firebase_uid: { _eq: $firebase_uid } }) {
+      id
+    }
+  }
+`;
 
 export const getGroups = gql`
   query {

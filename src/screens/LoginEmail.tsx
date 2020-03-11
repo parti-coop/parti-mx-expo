@@ -1,5 +1,4 @@
 import React from "react";
-import { Platform, Alert } from "react-native";
 import { StackHeaderProps } from "@react-navigation/stack";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useStore } from "../Store";
@@ -8,10 +7,10 @@ import { EmailInput, PasswordInput } from "../components/TextInput";
 import { View, ViewRowLeft } from "../components/View";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { whoami } from "../graphql/query";
 import { auth } from "../firebase";
 import { showMessage } from "react-native-flash-message";
-import PasswordFind from "./PasswordFind";
 export default (props: StackHeaderProps) => {
   const { navigate } = props.navigation;
   const [{ group_id }, dispatch] = useStore();
@@ -19,16 +18,21 @@ export default (props: StackHeaderProps) => {
   const [password, setPassword] = React.useState("");
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
-
+  const [askWhoami, { data, loading, called }] = useLazyQuery(whoami);
+  React.useEffect(() => {
+    data.parti_2020_users.length &&
+      dispatch({ type: "SET_USER", user_id: data.parti_2020_users[0].id });
+  }, [data]);
   function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
     auth
       .signInWithEmailAndPassword(email, password)
       .then(({ user }) => user.uid)
-      .then(uid =>
+      .then(uid => askWhoami({ variables: { firebase_uid: uid } }))
+      .then(() =>
         showMessage({
           type: "success",
-          message: "로그인 성공 하셨습니다." + uid
+          message: "로그인 성공 하셨습니다."
         })
       )
       .finally(() =>

@@ -23,7 +23,6 @@ export default (props: {
   const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
     variables: { id: board_id, userId: user_id }
   });
-  console.log(loading);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);

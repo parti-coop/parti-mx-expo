@@ -1,6 +1,6 @@
 import React from "react";
 import { Keyboard } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { TextInput, EmailInput, PasswordInput } from "../components/TextInput";
@@ -9,6 +9,7 @@ import { ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
+import { insertUser } from "../graphql/mutation";
 // import { Button } from "../components/Button";
 
 import { auth } from "../firebase";
@@ -21,6 +22,7 @@ export default props => {
   const [checkboxes, setCheckboxes] = React.useState([false, false]);
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
+  const [createNewUser] = useMutation(insertUser);
 
   function keyboardDownHandler() {
     Keyboard.dismiss();
@@ -35,8 +37,16 @@ export default props => {
       .then(({ user }) =>
         user
           .updateProfile({ displayName: nickname })
-          .then(() => user.getIdToken())
-          .then(uid =>
+          .then(() => console.log(user.uid))
+          .then(() => createNewUser({ variables: { email, name: nickname } }))
+          .then(res => {
+            const { id } = res.data.insert_parti_2020_users.returning[0];
+            return dispatch({
+              type: "SET_USER",
+              user_id: id
+            });
+          })
+          .then(() =>
             showMessage({
               type: "success",
               message: "회원가입에 성공 하셨습니다."

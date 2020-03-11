@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 // import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
-
+// 패키징 할 때만 넣는다.
 const firebaseConfig = {
   apiKey: "AIzaSyDJImw0nqvfEhKt9POJRuteOEVRXZyA27g",
   authDomain: "parti-2020.firebaseapp.com",

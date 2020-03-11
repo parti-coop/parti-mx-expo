@@ -14,9 +14,12 @@ import Logout from "./Logout";
 import Member from "./Member";
 import GroupSetting from "./GroupSetting";
 import GroupCreate from "./GroupCreate";
+import AccountDelete from "./AccountDelete";
+import Profile from "./Profile";
 export type RootStackParamList = {
   SuggestionList: { id: number };
   GroupCreate: {};
+  AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
   Home: {};
   Logout: {};
@@ -36,6 +39,7 @@ export type RootStackParamList = {
   TermsPrivacy: {};
   TermsService: {};
   UserSetting: {};
+  Profile: {};
 };
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -65,6 +69,8 @@ export default function MyDrawer() {
       <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />
       <Drawer.Screen name="TermsService" component={TermsService} />
       <Drawer.Screen name="UserSetting" component={UserSetting} />
+      <Drawer.Screen name="AccountDelete" component={AccountDelete} />
+      <Drawer.Screen name="Profile" component={Profile} />
     </Drawer.Navigator>
   );
 }

@@ -13,6 +13,7 @@ type Action =
   | { type: "CHANGE_ALL"; isInit: boolean }
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_GROUP"; group_id: number }
+  | { type: "SET_USER"; user_id: number }
   | { type: "LOGOUT" }
   | {
       type: "SET_GROUP_AND_BOARD";
@@ -34,12 +35,14 @@ function reducer(
       return initialState;
     case "LOGOUT":
       state.user_id = null;
-      SecureStore.setItemAsync(PERSIST_KEY, JSON.stringify({ ...state }));
-      return state;
+    case "SET_USER":
+      const jsonStr = JSON.stringify({ ...state, ...payload });
+      SecureStore.setItemAsync(PERSIST_KEY, jsonStr);
     case "SET_GROUP":
     case "SET_GROUP_AND_BOARD":
     default:
       console.log(payload);
+      // console.log({...state, ...payload});
       return { ...state, ...payload };
   }
 }

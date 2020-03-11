@@ -1,10 +1,8 @@
 import React from "react";
 import { ScrollView, Image } from "react-native";
-import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { View, ViewRowLeft } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { Ionicons } from "@expo/vector-icons";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
 import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
@@ -24,8 +22,8 @@ export default props => {
   });
   function goToGroup(group_id: number) {
     dispatch({ type: "SET_GROUP", group_id });
-    props.navigation.navigate("Home", { groupId: 1 });
-    props.navigation.openDrawer();
+    props.navigation.navigate("Home");
+    // props.navigation.closeDrawer();
   }
   React.useEffect(() => {
     // props.navigation.openDrawer();
@@ -43,7 +41,6 @@ export default props => {
                 borderRadius: 25,
                 backgroundColor: "#007075",
                 alignItems: "center",
-                // justifyContent:"center",
                 flexDirection: "row",
                 marginBottom: 11
               }}
@@ -65,9 +62,6 @@ export default props => {
       </Text>
     );
   const [resultList, setResultList] = React.useState(myGroupList);
-  function closeDrawer() {
-    props.navigation.closeDrawer();
-  }
   function refreshApp() {
     dispatch({ type: "APP_REFRESH" });
   }
@@ -119,6 +113,7 @@ export default props => {
 
   function createNewGroup() {
     props.navigation.navigate("GroupCreate");
+    props.navigation.closeDrawer();
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -152,7 +147,7 @@ export default props => {
             position: "absolute",
             right: 0
           }}
-          onPress={e => props.navigation.toggleDrawer()}
+          onPress={e => console.log("??")}
         >
           <ViewGroupImg />
         </TouchableOpacity>

@@ -12,7 +12,7 @@ export default props => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();
   React.useEffect(() => {
-    Alert.alert("로그아웃", "로그아웃 하시겠습니까?", [
+    Alert.alert("회원탈퇴", "회원탈퇴 하시겠습니까?", [
       {
         text: "취소",
         style: "cancel",
@@ -21,12 +21,12 @@ export default props => {
       {
         text: "네",
         onPress: () =>
-          auth
-            .signOut()
-            .then(() => dispatch({ type: "LOGOUT" }))
-            .finally(() =>
-              showMessage({ type: "success", message: "로그아웃 하였습니다." })
+          auth.currentUser
+            .delete()
+            .then(() =>
+              showMessage({ type: "success", message: "회원탈퇴 하였습니다." })
             )
+            .catch(error => showMessage({ type: "danger", message: error }))
       }
     ]);
   }, []);
@@ -39,7 +39,7 @@ export default props => {
         >
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
-        <Text>로그아웃</Text>
+        <Text>회원탈퇴</Text>
       </ViewRowLeft>
       <View
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}

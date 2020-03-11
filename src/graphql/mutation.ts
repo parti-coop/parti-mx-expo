@@ -8,6 +8,16 @@ export const insertGroup = gql`
   }
 `;
 
+export const insertUser = gql`
+  mutation($email: String!, $name: String!) {
+    insert_parti_2020_users(objects: { email: $email, name: $name }) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
 export const insertSuggestion = gql`
   mutation(
     $board_id: Int!
@@ -112,7 +122,6 @@ export const unlikeComment = gql`
     }
   }
 `;
-
 
 export const deleteUsersGroup = gql`
   mutation($group_id: Int!, $user_id: Int!) {

@@ -3,7 +3,6 @@ import { Image, Share, ImageBackground } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { View, ViewRow } from "../components/View";
 import { Text } from "../components/Text";
-import { Button } from "../components/Button";
 import ViewGroupImg from "../components/ViewGroupImg";
 import ViewQrCode from "../components/ViewQrCode";
 import ViewIconInvite from "../components/ViewIconInvite";
@@ -14,23 +13,16 @@ import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import iconOut from "../../assets/icon-out.png";
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
+import imgParti from "../../assets/splash.png"
 export default () => {
   const navigation = useNavigation();
   const { navigate } = navigation;
   const [{ group_id, user_id }, dispatch] = useStore();
   const { exitGroup, joinGroup } = useGroupExit();
-  if (group_id === null) {
-    navigation.dispatch(DrawerActions.openDrawer());
-    return (
-      <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-        <Text>아직 가입된 그룹이 없습니다.</Text>
-      </TOEasy>
-    );
-  }
-
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
+  // console.log(data, group_id, user_id);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
@@ -53,9 +45,13 @@ export default () => {
       : users[0].status === "admin"
       ? "오거나이저"
       : "미확인";
+
     return (
       <View style={{ flex: 1 }}>
-        <ImageBackground source={{ uri: bg_img_url }} style={{ width: "100%" }}>
+        <ImageBackground
+          source={bg_img_url? { uri: bg_img_url } : imgParti}
+          style={{ width: "100%" }}
+        >
           <ViewRow
             style={{
               justifyContent: "space-between",
@@ -258,12 +254,23 @@ export default () => {
               alignItems: "center"
             }}
           >
-            <Text style={{color: "#ffffff"}}>{title}에 가입합니다.</Text>
+            <Text style={{ color: "#ffffff" }}>{title}에 가입합니다.</Text>
           </TouchableOpacity>
         )}
       </View>
     );
+  } else if (group_id === null) {
+    navigation.dispatch(DrawerActions.openDrawer());
+    return (
+      <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <Text>아직 가입된 그룹이 없습니다.</Text>
+      </TOEasy>
+    );
   } else {
-    return null;
+    return (
+      <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <Text>그룹을 선택하세요.</Text>
+      </TOEasy>
+    );
   }
 };

@@ -9,7 +9,7 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
-import { ApolloLink, split, concat } from "apollo-link";
+import { ApolloLink, split } from "apollo-link";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
@@ -18,10 +18,12 @@ import LoadingIndicator2 from "./src/components/LoadingIndicator2";
 import { setContext } from "apollo-link-context";
 import { auth } from "./src/firebase";
 const HASURA_DOMAIN = `hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/v1/graphql`;
+
 const wsLink = new WebSocketLink({
   uri: `ws://${HASURA_DOMAIN}`,
   options: {
-    reconnect: true
+    reconnect: true,
+    connectionParams: getFirebaseAuthHeader
   }
 });
 
@@ -37,7 +39,8 @@ const httpLink = ApolloLink.from([
   }),
   new HttpLink({
     uri: `http://${HASURA_DOMAIN}`,
-    credentials: "same-origin"
+    credentials: "same-origin",
+    // headers: { "x-hasura-admin-secret": "parti" }
   })
 ]);
 
@@ -54,24 +57,25 @@ const link = split(
   wsLink,
   httpLink
 );
+async function getFirebaseAuthHeader(_previousHeader?: Object) {
+  const header = {};
+  if (_previousHeader) {
+    Object.assign(header, _previousHeader);
+  }
+  let token = null;
+  try {
+    token = await auth.currentUser.getIdToken();
+  } catch (error) {
+    console.log("not logged in");
+  }
 
-const authLink = setContext((_, { headers }) => {
-  console.log(headers);
-  return async () => {
-    let Authorization = "";
-    try {
-      Authorization = await auth.currentUser.getIdToken();
-    } catch (error) {
-      return "not logged in";
-    }
-    return {
-      headers: {
-        ...headers,
-        Authorization
-      }
-    };
-  };
-});
+  if (token) {
+    const Authorization = "Bearer " + token;
+    return { headers: { ...header, Authorization } };
+  }
+  return { headers: { ...header, "x-hasura-admin-secret": "parti" } };
+}
+const authLink = setContext((_, { headers }) => getFirebaseAuthHeader(headers));
 declare global {
   namespace NodeJS {
     interface Global {
