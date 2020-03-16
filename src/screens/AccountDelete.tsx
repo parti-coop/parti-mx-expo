@@ -26,7 +26,9 @@ export default props => {
             .then(() =>
               showMessage({ type: "success", message: "회원탈퇴 하였습니다." })
             )
-            .catch(error => showMessage({ type: "danger", message: error }))
+            .catch(error =>
+              showMessage({ type: "danger", message: JSON.stringify(error) })
+            )
       }
     ]);
   }, []);

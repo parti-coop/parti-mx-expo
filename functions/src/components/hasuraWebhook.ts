@@ -3,7 +3,7 @@ import * as admin from "firebase-admin";
 export default functions
   .region("asia-northeast1")
   .https.onRequest((request: functions.Request, response: any) => {
-    let authHeaders = request.get("Authorization");
+    const authHeaders = request.get("Authorization");
     // Send anonymous role if there are no auth headers
     if (!authHeaders) {
       return response.json({ "x-hasura-role": "anonymous" });

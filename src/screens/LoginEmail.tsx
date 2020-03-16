@@ -1,14 +1,12 @@
 import React from "react";
 import { StackHeaderProps } from "@react-navigation/stack";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
-import { View, ViewRowLeft } from "../components/View";
+import { ViewRowLeft } from "../components/View";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { whoami } from "../graphql/query";
 import { auth } from "../firebase";
 import { showMessage } from "react-native-flash-message";
 export default (props: StackHeaderProps) => {
@@ -18,17 +16,12 @@ export default (props: StackHeaderProps) => {
   const [password, setPassword] = React.useState("");
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
-  const [askWhoami, { data, loading, called }] = useLazyQuery(whoami);
-  React.useEffect(() => {
-    data.parti_2020_users.length &&
-      dispatch({ type: "SET_USER", user_id: data.parti_2020_users[0].id });
-  }, [data]);
+  
   function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
     auth
       .signInWithEmailAndPassword(email, password)
       .then(({ user }) => user.uid)
-      .then(uid => askWhoami({ variables: { firebase_uid: uid } }))
       .then(() =>
         showMessage({
           type: "success",
