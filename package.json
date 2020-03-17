@@ -26,6 +26,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-link-ws": "^1.0.19",
     "expo": "^36.0.0",
+    "expo-constants": "~8.0.0",
     "expo-font": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-secure-store": "~8.0.0",

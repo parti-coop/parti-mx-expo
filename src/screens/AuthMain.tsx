@@ -1,10 +1,10 @@
 import React from "react";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
-import { ViewColumnCenter } from "../components/View";
+import { View, ViewColumnStretch } from "../components/View";
 import { Button } from "../components/Button";
-import { auth } from "../firebase";
-import { TOEasy, TouchableOpacity } from "../components/TouchableOpacity";
+import Constants from "expo-constants";
+import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 export default props => {
   const { navigate } = props.navigation;
   const [store, dispatch] = useStore();
@@ -19,14 +19,24 @@ export default props => {
     dispatch({ type: "APP_REFRESH" });
   }
   return (
-    <ViewColumnCenter>
-      <TouchableOpacity onPress={refreshApp}>
-        <Text>에러 날 시 앱 리로드</Text>
-      </TouchableOpacity>
-      <Text>Auth Screen</Text>
-      <Text>인증</Text>
-      <Button title="신규 이용자 회원가입" onPress={register} />
-      <Button title="기존 이용자 로그인" onPress={login} />
-    </ViewColumnCenter>
+    <ViewColumnStretch>
+      <ViewColumnStretch>
+        <TOEasy onPress={register} style={{ backgroundColor: "green" }}>
+          <Text>신규 이용자 회원가입</Text>
+        </TOEasy>
+        <TOEasy onPress={login} style={{ backgroundColor: "lime" }}>
+          <Text>기존 이용자 로그인</Text>
+        </TOEasy>
+      </ViewColumnStretch>
+      <View>
+        <Text>nativeBuildVersion: {Constants.nativeBuildVersion}</Text>
+        <TouchableOpacity
+          onPress={refreshApp}
+          style={{ backgroundColor: "orange" }}
+        >
+          <Text>앱 리로드 (에러 날 시 reset)</Text>
+        </TouchableOpacity>
+      </View>
+    </ViewColumnStretch>
   );
 };
