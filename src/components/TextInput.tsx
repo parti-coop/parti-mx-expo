@@ -72,7 +72,12 @@ export const PasswordInput = React.forwardRef<T, TextInputProps>(
     }
     return (
       <ViewRowLeft
-        style={{ flex: 1, alignItems: "stretch", paddingHorizontal: 0 }}
+        style={{
+          flex: 1,
+          paddingHorizontal: 0,
+          alignContent: "stretch",
+          alignItems: "stretch"
+        }}
       >
         <TextInput
           ref={ref}
@@ -84,7 +89,10 @@ export const PasswordInput = React.forwardRef<T, TextInputProps>(
           selectionColor={Platform.OS === "android" ? null : "white"}
           {...props}
         />
-        <TouchableOpacity onPress={changePwdType}>
+        <TouchableOpacity
+          onPress={changePwdType}
+          style={{ justifyContent: "center" }}
+        >
           <MaterialIcons name={secure.icEye} size={30} />
         </TouchableOpacity>
       </ViewRowLeft>
