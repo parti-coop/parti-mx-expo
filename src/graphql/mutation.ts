@@ -194,3 +194,12 @@ export const createNewBoard = gql`
     }
   }
 `;
+export const insertUserGroupAsOrganizer = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    insert_parti_2020_users_group(
+      objects: { group_id: $group_id, user_id: $user_id, status: "organizer" }
+    ) {
+      affected_rows
+    }
+  }
+`;

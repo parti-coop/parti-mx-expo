@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { StackHeaderProps} from "@react-navigation/stack"
+import { StackHeaderProps } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import uuid from "uuid";
@@ -17,7 +17,7 @@ export default (props: StackHeaderProps) => {
   const [{ user_id }, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
   const [bg_img_url, setImgUrl] = React.useState("");
-  const { createDefaultSuggestionBoard } = useBoardCreate();
+  const [createDefaultSuggestionBoard] = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
     variables: { groupName, user_id, bg_img_url }
   });
@@ -50,11 +50,6 @@ export default (props: StackHeaderProps) => {
       );
     }
     const group_id = await createGroup(url);
-    /**
-     * createDefaultSuggestionBoard 는 백단에서 하수라가 이벤트 받아서 처리해야함
-     * TODO: 자동 가입도 필요. 모두 백단에서
-     *
-     */
     const board_id = await createDefaultSuggestionBoard(group_id);
     dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
     props.navigation.navigate("Home");
@@ -64,13 +59,13 @@ export default (props: StackHeaderProps) => {
   }, [loading]);
   return (
     <>
-      <ViewRowLeft>
+      <ViewRowLeft style={{ justifyContent: "space-between" }}>
         <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
-        <Text>그룹</Text>
+        <Text>그룹 만들기</Text>
         <TouchableOpacity style={{}} onPress={save}>
-          <Text>만들기</Text>
+          <Text>저장</Text>
         </TouchableOpacity>
       </ViewRowLeft>
       <Text>그룹을 만들어 보세요</Text>
@@ -78,6 +73,7 @@ export default (props: StackHeaderProps) => {
         value={groupName}
         onChange={e => setGroupName(e.nativeEvent.text)}
         placeholder="그룹 이름 입력"
+        onSubmitEditing={save}
       />
       {bg_img_url.length > 0 ? (
         <Image
