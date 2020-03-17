@@ -62,9 +62,6 @@ export default props => {
       </Text>
     );
   const [resultList, setResultList] = React.useState(myGroupList);
-  function refreshApp() {
-    dispatch({ type: "APP_REFRESH" });
-  }
   function focusHandler() {
     if (searchKeyword.length === 0) {
       setResultList(
@@ -178,12 +175,6 @@ export default props => {
       <View style={{ flex: 1, marginHorizontal: 30, marginTop: 52 }}>
         {resultList}
       </View>
-      <TouchableOpacity
-        style={{ padding: 10, backgroundColor: "forestgreen" }}
-        onPress={refreshApp}
-      >
-        <Text>앱 새로고침</Text>
-      </TouchableOpacity>
       <TouchableOpacity
         style={{
           padding: 10,

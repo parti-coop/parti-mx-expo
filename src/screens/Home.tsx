@@ -13,7 +13,7 @@ import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import iconOut from "../../assets/icon-out.png";
 import useGroupExit from "../components/HooksGroupExit";
 import { useStore } from "../Store";
-import imgParti from "../../assets/splash.png"
+import imgParti from "../../assets/splash.png";
 export default () => {
   const navigation = useNavigation();
   const { navigate } = navigation;
@@ -26,6 +26,9 @@ export default () => {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
+  React.useEffect(() => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  }, []);
   if (data && data.parti_2020_groups_by_pk) {
     const {
       title,
@@ -49,7 +52,7 @@ export default () => {
     return (
       <View style={{ flex: 1 }}>
         <ImageBackground
-          source={bg_img_url? { uri: bg_img_url } : imgParti}
+          source={bg_img_url ? { uri: bg_img_url } : imgParti}
           style={{ width: "100%" }}
         >
           <ViewRow
@@ -260,7 +263,6 @@ export default () => {
       </View>
     );
   } else if (group_id === null) {
-    navigation.dispatch(DrawerActions.openDrawer());
     return (
       <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
         <Text>아직 가입된 그룹이 없습니다.</Text>
