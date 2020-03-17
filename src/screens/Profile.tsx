@@ -34,7 +34,6 @@ export default (props: {
     variables: { id: user_id }
   });
   const [debouncedCallback] = useDebouncedCallback(function() {
-    // console.log(userName);
     if (searchDuplicateQuery.refetch) {
       searchDuplicateQuery.refetch();
     } else {
@@ -58,11 +57,13 @@ export default (props: {
         } else {
           debouncedRefreshToken();
         }
-      });
+      })
+      .catch(() => dispatch({ type: "SET_LOADING", loading: false }));
   }
   React.useEffect(() => {
     if (!user_id) {
       // 처음 가입
+      dispatch({ type: "SET_LOADING", loading: true });
       debouncedRefreshToken();
     } else {
       fetchName();
@@ -70,8 +71,8 @@ export default (props: {
   }, []);
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    dispatch({ type: "SET_LOADING", loading });
     if (data && data.parti_2020_users.length) {
+      dispatch({ type: "SET_LOADING", loading });
       setUserName(data.parti_2020_users[0].name || "");
     }
   }, [userNameQuery]);
