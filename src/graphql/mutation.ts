@@ -18,6 +18,17 @@ export const insertUser = gql`
   }
 `;
 
+export const updateUserName = gql`
+  mutation($id: Int!, $name: String!) {
+    update_parti_2020_users(
+      _set: { name: $name }
+      where: { id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 export const insertSuggestion = gql`
   mutation(
     $board_id: Int!

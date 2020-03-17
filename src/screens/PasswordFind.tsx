@@ -1,6 +1,5 @@
 import React from "react";
 import { Alert } from "react-native";
-import { NavigationSwitchScreenProps } from "react-navigation";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text, Text2 } from "../components/Text";
@@ -9,7 +8,7 @@ import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { TextInput } from "../components/TextInput";
 import { auth } from "../firebase";
-export default (props: NavigationSwitchScreenProps) => {
+export default props => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();
   const [email, setEmail] = React.useState("");

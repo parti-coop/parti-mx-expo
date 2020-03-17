@@ -4,14 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { View, ViewRowLeft } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
-import { auth } from "../firebase";
+import { PasswordInput } from "../components/TextInput";
+import { auth, Firebase } from "../firebase";
 import { showMessage } from "react-native-flash-message";
 export default props => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();
-  React.useEffect(() => {
+  const [password, setPassword] = React.useState("");
+  function exitHandler() {
+    const credential = Firebase.auth.EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
     Alert.alert("회원탈퇴", "회원탈퇴 하시겠습니까?", [
       {
         text: "취소",
@@ -20,18 +26,18 @@ export default props => {
       },
       {
         text: "네",
-        onPress: () =>
-          auth.currentUser
-            .delete()
-            .then(() =>
-              showMessage({ type: "success", message: "회원탈퇴 하였습니다." })
-            )
-            .catch(error =>
-              showMessage({ type: "danger", message: JSON.stringify(error) })
-            )
+        onPress: async () => {
+          try {
+            await auth.currentUser.reauthenticateWithCredential(credential);
+            await auth.currentUser.delete();
+            showMessage({ type: "success", message: "회원탈퇴 하였습니다." });
+          } catch (error) {
+            showMessage({ type: "danger", message: JSON.stringify(error) });
+          }
+        }
       }
     ]);
-  }, []);
+  }
   return (
     <>
       <ViewRowLeft>
@@ -43,9 +49,17 @@ export default props => {
         </TouchableOpacity>
         <Text>회원탈퇴</Text>
       </ViewRowLeft>
-      <View
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      ></View>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <PasswordInput
+          value={password}
+          onChangeText={setPassword}
+          autoFocus={true}
+          onSubmitEditing={exitHandler}
+        />
+        <TOEasy onPress={exitHandler}>
+          <Text>탈퇴</Text>
+        </TOEasy>
+      </View>
     </>
   );
 };

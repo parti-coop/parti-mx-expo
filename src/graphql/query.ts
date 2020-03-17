@@ -1,7 +1,16 @@
 import gql from "graphql-tag";
 export const whoami = gql`
-  query($firebase_uid: String!) {
-    parti_2020_users(where: { firebase_uid: { _eq: $firebase_uid } }) {
+  query($id: Int!) {
+    parti_2020_users(where: { id: { _eq: $id } }) {
+      name
+    }
+  }
+`;
+export const searchDuplicateName = gql`
+  query($name: String!, $id: Int!) {
+    parti_2020_users(
+      where: { _and: [{ id: { _neq: $id } }, { name: { _ilike: $name } }] }
+    ) {
       id
     }
   }

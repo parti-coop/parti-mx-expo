@@ -25,7 +25,7 @@ export default (props: StackHeaderProps) => {
   return (
     <>
       <ViewRowLeft>
-        <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
+        <TouchableOpacity style={{}} onPress={e => props.navigation.navigate("Home")}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>내 설정</Text>

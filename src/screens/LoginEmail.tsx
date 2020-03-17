@@ -16,7 +16,7 @@ export default (props: StackHeaderProps) => {
   const [password, setPassword] = React.useState("");
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
-  
+
   function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
     auth
@@ -26,6 +26,12 @@ export default (props: StackHeaderProps) => {
         showMessage({
           type: "success",
           message: "로그인 성공 하셨습니다."
+        })
+      )
+      .catch(err =>
+        showMessage({
+          type: "danger",
+          message: JSON.stringify(err)
         })
       )
       .finally(() =>

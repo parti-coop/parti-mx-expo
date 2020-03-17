@@ -1,4 +1,11 @@
 import gql from "graphql-tag";
+export const whoami = gql`
+  subscription($email: String!) {
+    parti_2020_users(where: { email: { _eq: $email } }) {
+      id
+    }
+  }
+`;
 
 export const subscribeGroupsByUserId = gql`
   subscription($user_id: Int!) {

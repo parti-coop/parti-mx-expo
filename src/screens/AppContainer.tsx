@@ -16,6 +16,8 @@ import GroupSetting from "./GroupSetting";
 import GroupCreate from "./GroupCreate";
 import AccountDelete from "./AccountDelete";
 import Profile from "./Profile";
+import PasswordChange from "./PasswordChange";
+import { useStore } from "../Store";
 export type RootStackParamList = {
   SuggestionList: { id: number };
   GroupCreate: {};
@@ -40,13 +42,15 @@ export type RootStackParamList = {
   TermsService: {};
   UserSetting: {};
   Profile: {};
+  PasswordChange: {};
 };
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 export default function MyDrawer() {
+  const [{user_id}, dispatch] = useStore();
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName={user_id !== null ? "Home" : "Profile" }
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={props => <CustomDrawer {...props} />}
       drawerStyle={{
@@ -56,9 +60,9 @@ export default function MyDrawer() {
         borderTopRightRadius: 20
       }}
     >
+      <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="GroupCreate" component={GroupCreate} />
       <Drawer.Screen name="GroupSetting" component={GroupSetting} />
-      <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Logout" component={Logout} />
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
@@ -71,6 +75,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="UserSetting" component={UserSetting} />
       <Drawer.Screen name="AccountDelete" component={AccountDelete} />
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="PasswordChange" component={PasswordChange} />
     </Drawer.Navigator>
   );
 }
