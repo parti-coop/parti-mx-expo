@@ -35,11 +35,11 @@ function reducer(
       return initialState;
     case "LOGOUT":
       state.user_id = null;
+    case "SET_GROUP":
+    case "SET_GROUP_AND_BOARD":
     case "SET_USER":
       const jsonStr = JSON.stringify({ ...state, ...payload });
       SecureStore.setItemAsync(PERSIST_KEY, jsonStr);
-    case "SET_GROUP":
-    case "SET_GROUP_AND_BOARD":
     default:
       console.log(payload);
       // console.log({...state, ...payload});
