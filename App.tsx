@@ -39,8 +39,7 @@ const httpLink = ApolloLink.from([
   }),
   new HttpLink({
     uri: `http://${HASURA_DOMAIN}`,
-    credentials: "same-origin",
-    // headers: { "x-hasura-admin-secret": "parti" }
+    credentials: "same-origin"
   })
 ]);
 
@@ -73,7 +72,7 @@ async function getFirebaseAuthHeader(_previousHeader?: Object) {
     const Authorization = "Bearer " + token;
     return { headers: { ...header, Authorization } };
   }
-  return { headers: { ...header, "x-hasura-admin-secret": "parti" } };
+  // return { headers: {} };
 }
 const authLink = setContext((_, { headers }) => getFirebaseAuthHeader(headers));
 declare global {
