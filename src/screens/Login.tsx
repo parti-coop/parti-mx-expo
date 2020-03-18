@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { View, ViewRowLeft } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TOEasy, TouchableOpacity } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { auth } from "../firebase";
 export default (props: NavigationSwitchScreenProps) => {
@@ -28,11 +28,9 @@ export default (props: NavigationSwitchScreenProps) => {
         <Text>로그인</Text>
       </ViewRowLeft>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("LoginEmail")}
-        >
+        <TOEasy onPress={() => props.navigation.navigate("LoginEmail")}>
           <Text>이메일 주소로 로그인</Text>
-        </TouchableOpacity>
+        </TOEasy>
       </View>
       <ViewRowLeft>
         <Text>아직 계정이 없으신가요?</Text>

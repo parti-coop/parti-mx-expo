@@ -22,13 +22,14 @@ export default () => {
   const { data, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
-  // console.log(data, group_id, user_id);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   React.useEffect(() => {
-    navigation.dispatch(DrawerActions.openDrawer());
-  }, []);
+    if (group_id === null) {
+      navigation.dispatch(DrawerActions.openDrawer());
+    }
+  }, [navigation.dispatch]);
   if (data && data.parti_2020_groups_by_pk) {
     const {
       title,
