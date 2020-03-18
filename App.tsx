@@ -23,6 +23,7 @@ const wsLink = new WebSocketLink({
   uri: `ws://${HASURA_DOMAIN}`,
   options: {
     reconnect: true,
+    lazy: true,
     connectionParams: getFirebaseAuthHeader
   }
 });
@@ -72,7 +73,7 @@ async function getFirebaseAuthHeader(_previousHeader?: Object) {
     const Authorization = "Bearer " + token;
     return { headers: { ...header, Authorization } };
   }
-  // return { headers: {} };
+  return { headers: header };
 }
 const authLink = setContext((_, { headers }) => getFirebaseAuthHeader(headers));
 declare global {
