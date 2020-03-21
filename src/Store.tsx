@@ -1,54 +1,10 @@
 import React, { ComponentProps } from "react";
 import * as SecureStore from "expo-secure-store";
 export const PERSIST_KEY = "coop-parti-demos";
-import { Updates } from "expo";
-export const initialState = {
-  isInit: false,
-  group_id: null,
-  board_id: null,
-  user_id: null,
-  loading: false
-};
-type Action =
-  | { type: "CHANGE_ALL"; isInit: boolean }
-  | { type: "SET_LOADING"; loading: boolean }
-  | { type: "SET_GROUP"; group_id: number }
-  | { type: "SET_USER"; user_id: number }
-  | { type: "LOGOUT" }
-  | {
-      type: "SET_GROUP_AND_BOARD";
-      group_id: number;
-      board_id: number;
-    }
-  | { type: "APP_REFRESH" };
-function reducer(
-  state: typeof initialState,
-  action: Action
-): typeof initialState {
-  const { type, ...payload } = action;
-  switch (type) {
-    case "APP_REFRESH":
-      SecureStore.deleteItemAsync(PERSIST_KEY)
-        .then(Updates.reload)
-        .then(() => SecureStore.getItemAsync(PERSIST_KEY))
-        .then(console.log);
-      return initialState;
-    case "LOGOUT":
-      state.user_id = null;
-    case "SET_GROUP":
-    case "SET_GROUP_AND_BOARD":
-    case "SET_USER":
-      const jsonStr = JSON.stringify({ ...state, ...payload });
-      SecureStore.setItemAsync(PERSIST_KEY, jsonStr);
-    default:
-      console.log(payload);
-      // console.log({...state, ...payload});
-      return { ...state, ...payload };
-  }
-}
+import { initialState, reducer, Action, State } from "./store/reducer";
 
 export const StoreContext = React.createContext<
-  [typeof initialState, (input: Action) => void]
+  [State, (input: Action) => void]
 >([initialState, () => {}]);
 export const StoreProvider = (props: ComponentProps<any>) => {
   const [store, dispatch] = React.useReducer(reducer, initialState);
