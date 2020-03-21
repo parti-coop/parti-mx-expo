@@ -203,3 +203,15 @@ export const insertUserGroupAsOrganizer = gql`
     }
   }
 `;
+export const updateUserGroupCheck = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    update_parti_2020_users_group(
+      _inc: { count_click: 1 }
+      where: {
+        _and: [{ group_id: { _eq: $group_id } }, { user_id: { _eq: $user_id } }]
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;

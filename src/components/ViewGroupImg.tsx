@@ -13,9 +13,7 @@ export default (props: { color?: boolean }) => {
         backgroundColor: "#30ad9f",
         borderRadius: 15,
         justifyContent: "center",
-        alignItems: "center",
-        marginLeft: 8,
-        marginRight: 12
+        alignItems: "center"
       }}
     >
       <Image

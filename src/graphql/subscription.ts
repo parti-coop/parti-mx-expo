@@ -10,9 +10,11 @@ export const whoami = gql`
 export const subscribeGroupsByUserId = gql`
   subscription($user_id: Int!) {
     parti_2020_users_group(where: { user_id: { _eq: $user_id } }) {
+      updated_at
       group {
         title
         id
+        updated_at
       }
     }
   }

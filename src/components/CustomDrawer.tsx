@@ -3,19 +3,23 @@ import { ScrollView, Image } from "react-native";
 import { View, ViewRowLeft } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { useSubscription, useQuery } from "@apollo/react-hooks";
+import { useSubscription, useQuery, useMutation } from "@apollo/react-hooks";
 import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
 import { useStore } from "../Store";
 import { TextInput } from "./TextInput";
 import iconUser from "../../assets/icon-user.png";
 import ViewGroupImg from "./ViewGroupImg";
+import ViewNewRed from "./ViewNewRed";
 import btnSearch from "../../assets/btn-search.png";
+import { updateUserGroupCheck } from "../graphql/mutation";
 export default props => {
   const [{ user_id }, dispatch] = useStore();
   const { loading, data } = useSubscription(subscribeGroupsByUserId, {
     variables: { user_id }
   });
+  const [update] = useMutation(updateUserGroupCheck);
+
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const query = useQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` }
@@ -23,16 +27,22 @@ export default props => {
   function goToGroup(group_id: number) {
     dispatch({ type: "SET_GROUP", group_id });
     props.navigation.navigate("Home");
-    // props.navigation.closeDrawer();
+    update({ variables: { group_id, user_id } });
   }
   React.useEffect(() => {
-    // props.navigation.openDrawer();
     setResultList(myGroupList);
   }, [loading, data]);
   const myGroupList =
     !loading && data && data.parti_2020_users_group.length > 0 ? (
       data.parti_2020_users_group.map(
-        (g: { group: { title: string; id: number } }, i: number) => {
+        (
+          g: {
+            group: { title: string; id: number; updated_at: string };
+            updated_at: string;
+          },
+          i: number
+        ) => {
+          const isNew = new Date(g.updated_at) < new Date(g.group.updated_at);
           return (
             <TouchableOpacity
               key={i}
@@ -42,14 +52,24 @@ export default props => {
                 backgroundColor: "#007075",
                 alignItems: "center",
                 flexDirection: "row",
-                marginBottom: 11
+                marginBottom: 11,
+                paddingLeft: 8,
+                paddingRight: 15
               }}
               onPress={() => goToGroup(g.group.id)}
             >
               <ViewGroupImg color={false} />
-              <Text style={{ fontSize: 16, color: "white" }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "white",
+                  flex: 1,
+                  marginLeft: 12
+                }}
+              >
                 {g.group.title}
               </Text>
+              {isNew && <ViewNewRed />}
             </TouchableOpacity>
           );
         }
