@@ -17,13 +17,14 @@ import GroupCreate from "./GroupCreate";
 import AccountDelete from "./AccountDelete";
 import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
+import BoardSetting from "./BoardSetting";
 import { useStore } from "../Store";
 export type RootStackParamList = {
+  Home: {};
   SuggestionList: { id: number };
   GroupCreate: {};
   AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
-  Home: {};
   Logout: {};
   Member: {};
   QRcode: {};
@@ -43,6 +44,7 @@ export type RootStackParamList = {
   UserSetting: {};
   Profile: {};
   PasswordChange: {};
+  BoardSetting: {};
 };
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -76,6 +78,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="AccountDelete" component={AccountDelete} />
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="PasswordChange" component={PasswordChange} />
+      <Drawer.Screen name="BoardSetting" component={BoardSetting} />
     </Drawer.Navigator>
   );
 }
