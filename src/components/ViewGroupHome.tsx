@@ -1,18 +1,19 @@
 import React from "react";
 import { Image, Share, ImageBackground } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
-import { View, ViewRow } from "../components/View";
-import { Text } from "../components/Text";
-import ViewGroupImg from "../components/ViewGroupImg";
-import ViewQrCode from "../components/ViewQrCode";
-import ViewIconInvite from "../components/ViewIconInvite";
-import ViewRedDot from "../components/ViewRedDot";
-import ButtonBoardSetting from "../components/ButtonBoardSetting";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { View, ViewRow } from "./View";
+import { Text } from "./Text";
+import ViewGroupImg from "./ViewGroupImg";
+import ViewQrCode from "./ViewQrCode";
+import ViewIconInvite from "./ViewIconInvite";
+import ViewRedDot from "./ViewRedDot";
+import ButtonBoardSetting from "./ButtonBoardSetting";
+import TouchableBoardList from "./TouchableBoardList";
+import { TouchableOpacity, TOEasy } from "./TouchableOpacity";
 import { useSubscription } from "@apollo/react-hooks";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import iconOut from "../../assets/icon-out.png";
-import useGroupExit from "../components/HooksGroupExit";
+import useGroupExit from "./HooksGroupExit";
 import { useStore } from "../Store";
 import imgParti from "../../assets/splash.png";
 export default () => {
@@ -110,62 +111,13 @@ export default () => {
                 title: string;
                 body: string;
                 isMemberOnly: boolean;
+                type: string;
+                updated_at: string;
+                usersBoardCheck: Array<{ updated_at: string }>;
               },
               index: number
             ) => (
-              <TouchableOpacity
-                style={{
-                  height: 83,
-                  backgroundColor: "#ffffff",
-                  marginBottom: 10,
-                  borderRadius: 25
-                }}
-                key={index}
-                onPress={() => navigate("SuggestionList", { id: b.id })}
-              >
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    marginLeft: 30,
-                    marginRight: 50
-                  }}
-                >
-                  <ViewRow style={{ justifyContent: "flex-start" }}>
-                    <Text style={{ fontSize: 18 }}>{b.title}</Text>
-                    {b.isMemberOnly && (
-                      <Text
-                        style={{
-                          paddingHorizontal: 10,
-                          borderWidth: 1,
-                          borderColor: "#cb6794",
-                          borderRadius: 10,
-                          fontSize: 12,
-                          padding: 1,
-                          color: "#cb6794",
-                          marginLeft: 10
-                        }}
-                      >
-                        전체공개
-                      </Text>
-                    )}
-                    <ViewRedDot style={{ marginLeft: 10 }} />
-                    <Text
-                      style={{
-                        color: "#30ad9f",
-                        fontSize: 14,
-                        position: "absolute",
-                        right: 0
-                      }}
-                    >
-                      50분 전
-                    </Text>
-                  </ViewRow>
-                  <Text style={{ fontSize: 14, color: "#888888" }}>
-                    {b.body}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <TouchableBoardList key={index} board={b} />
             )
           )}
         </View>

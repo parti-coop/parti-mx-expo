@@ -215,3 +215,24 @@ export const updateUserGroupCheck = gql`
     }
   }
 `;
+export const updateUserBoardCheck = gql`
+  mutation($board_id: Int!, $user_id: Int!) {
+    update_parti_2020_users_board(
+      _inc: { count_click: 1 }
+      where: {
+        _and: [{ board_id: { _eq: $board_id } }, { user_id: { _eq: $user_id } }]
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const insertUserBoardCheck = gql`
+  mutation($board_id: Int!, $user_id: Int!) {
+    insert_parti_2020_users_board(
+      objects: { count_click: 1, board_id: $board_id, user_id: $user_id }
+    ) {
+      affected_rows
+    }
+  }
+`;
