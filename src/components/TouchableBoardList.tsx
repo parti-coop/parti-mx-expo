@@ -38,10 +38,17 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       }
     }
   }, [data]);
+  let minutes = "비어있습니다",
+    isNew = false;
+  const lastPostedDate = new Date(board.last_posted_at);
+  if (board.last_posted_at) {
+    const miliseconds = new Date().getTime() - lastPostedDate.getTime();
+    minutes = miliseconds / 1000 / 60 + " 분 전";
+    if (board.usersBoardCheck.length) {
+      isNew = lastPostedDate > new Date(board.usersBoardCheck[0].updated_at);
+    }
+  }
 
-  const isNew =
-    board.usersBoardCheck.length === 0 ||
-    new Date(board.last_posted_at) > new Date(board.usersBoardCheck[0].updated_at);
   function goToBoard() {
     update();
     navigate("SuggestionList", { id: board.id });
@@ -92,7 +99,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
               right: 0
             }}
           >
-            50분 전
+            {minutes}
           </Text>
         </ViewRow>
         <Text style={{ fontSize: 14, color: "#888888" }}>{board.body}</Text>
