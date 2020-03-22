@@ -124,7 +124,7 @@ export const subscribeBoardsByGroupId = gql`
         id
         title
         body
-        isMemberOnly
+        is_member_only
         type
         updated_at
         usersBoardCheck(where: { user_id: { _eq: $user_id } }) {

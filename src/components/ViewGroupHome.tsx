@@ -110,7 +110,7 @@ export default () => {
                 id: number;
                 title: string;
                 body: string;
-                isMemberOnly: boolean;
+                is_member_only: boolean;
                 type: string;
                 updated_at: string;
                 usersBoardCheck: Array<{ updated_at: string }>;
@@ -201,7 +201,6 @@ export default () => {
       </View>
     );
   } else {
-    console.log(group_id, user_id);
     return null;
   }
 };

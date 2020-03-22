@@ -113,7 +113,7 @@ export default () => {
                 id: number;
                 title: string;
                 body: string;
-                isMemberOnly: boolean;
+                is_member_only: boolean;
               },
               index: number
             ) => (
@@ -137,7 +137,7 @@ export default () => {
                 >
                   <ViewRow style={{ justifyContent: "flex-start" }}>
                     <Text style={{ fontSize: 18 }}>{b.title}</Text>
-                    {b.isMemberOnly && (
+                    {b.is_member_only && (
                       <Text
                         style={{
                           paddingHorizontal: 10,

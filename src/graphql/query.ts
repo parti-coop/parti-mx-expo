@@ -92,7 +92,7 @@ export const getBoardsByGroupId = gql`
         id
         title
         body
-        isMemberOnly
+        is_member_only
       }
       users_aggregate {
         aggregate {

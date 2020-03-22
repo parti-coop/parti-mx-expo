@@ -15,7 +15,7 @@ type Board = {
   id: number;
   title: string;
   body: string;
-  isMemberOnly: boolean;
+  is_member_only: boolean;
   type: string;
   updated_at: string;
   usersBoardCheck: Array<{ updated_at: string }>;
@@ -41,7 +41,6 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const isNew =
     board.usersBoardCheck.length === 0 ||
     new Date(board.updated_at) > new Date(board.usersBoardCheck[0].updated_at);
-  console.log(isNew, board.usersBoardCheck.length === 0);
   function goToBoard() {
     update();
     navigate("SuggestionList", { id: board.id });
@@ -67,7 +66,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
           <Text style={{ fontSize: 18 }}>{board.title}</Text>
-          {board.isMemberOnly && (
+          {board.is_member_only && (
             <Text
               style={{
                 paddingHorizontal: 10,
