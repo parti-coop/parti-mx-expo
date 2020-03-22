@@ -179,7 +179,13 @@ export const createNewGroup = gql`
   }
 `;
 export const insertBoard = gql`
-  mutation($title: String!, $body: String!, $group_id: Int!, $user_id: Int!) {
+  mutation(
+    $title: String!
+    $body: String!
+    $group_id: Int!
+    $user_id: Int!
+    $type: String!
+  ) {
     insert_parti_2020_boards(
       objects: {
         group_id: $group_id
@@ -187,7 +193,7 @@ export const insertBoard = gql`
         updated_by: $user_id
         created_by: $user_id
         title: $title
-        type: "suggestion"
+        type: $type
       }
     ) {
       returning {

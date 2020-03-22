@@ -16,6 +16,7 @@ export default () => {
         variables: {
           title: "제안",
           body: "제안 게시판입니다",
+          type: "suggestion",
           user_id,
           group_id: groupId
         }

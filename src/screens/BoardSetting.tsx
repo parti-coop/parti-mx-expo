@@ -7,6 +7,7 @@ import { Text } from "../components/Text";
 import { ViewRowLeft, View } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import BoardSettingList from "../components/BoardSettingList";
+import ButtonBoardInsert from "../components/ButtonBoardInsert";
 import { useStore } from "../Store";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
@@ -39,6 +40,7 @@ export default (props: {
           return <BoardSettingList board={b} key={i} />;
         })}
       </View>
+      <ButtonBoardInsert />
     </>
   );
 };

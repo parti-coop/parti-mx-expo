@@ -26,7 +26,7 @@ export default (props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (data) {
+  if (data && data.parti_2020_boards_by_pk) {
     const { suggestions, title } = data.parti_2020_boards_by_pk;
     return (
       <>
