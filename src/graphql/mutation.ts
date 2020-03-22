@@ -178,7 +178,7 @@ export const createNewGroup = gql`
     }
   }
 `;
-export const createNewBoard = gql`
+export const insertBoard = gql`
   mutation($title: String!, $body: String!, $group_id: Int!, $user_id: Int!) {
     insert_parti_2020_boards(
       objects: {

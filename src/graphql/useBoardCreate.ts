@@ -1,13 +1,13 @@
 import React from "react";
 import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
-import { createNewBoard } from "../graphql/mutation";
+import { insertBoard } from "../graphql/mutation";
 import useRegisterGroupOrganizer from "../graphql/useRegisterGroupOrganizer";
 import { showMessage } from "react-native-flash-message";
 type board_id = number;
 export default () => {
   const [{ user_id }, dispatch] = useStore();
-  const [create, { loading }] = useMutation(createNewBoard);
+  const [create, { loading }] = useMutation(insertBoard);
   const [register] = useRegisterGroupOrganizer();
   async function handler(groupId: number): Promise<board_id> {
     let res;

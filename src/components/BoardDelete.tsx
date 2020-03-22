@@ -28,19 +28,23 @@ export default (props: { boardId: number; style?: StyleProp<ViewStyle> }) => {
     variables: { board_id: props.boardId }
   });
   function removeHandler() {
-    return Alert.alert("게시판 삭제", "정말 삭제하시겠어요?", [
-      {
-        text: "취소",
-        style: "cancel"
-      },
-      {
-        text: "삭제!",
-        onPress: () =>
-          remove().finally(() =>
-            showMessage({ type: "success", message: "삭제 하였습니다." })
-          )
-      }
-    ]);
+    return Alert.alert(
+      "게시판 삭제",
+      "게시판을 삭제하시겠습니까?\n삭제된 게시판은 복원할 수 없습니다.",
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        {
+          text: "삭제!",
+          onPress: () =>
+            remove().finally(() =>
+              showMessage({ type: "success", message: "삭제 하였습니다." })
+            )
+        }
+      ]
+    );
   }
   return (
     <TouchableOpacity onPress={removeHandler}>
