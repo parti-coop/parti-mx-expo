@@ -37,12 +37,13 @@ export default props => {
       data.parti_2020_users_group.map(
         (
           g: {
-            group: { title: string; id: number; updated_at: string };
+            group: { title: string; id: number; last_posted_at: string };
             updated_at: string;
           },
           i: number
         ) => {
-          const isNew = new Date(g.updated_at) < new Date(g.group.updated_at);
+          const isNew =
+            new Date(g.updated_at) < new Date(g.group.last_posted_at);
           return (
             <TouchableOpacity
               key={i}

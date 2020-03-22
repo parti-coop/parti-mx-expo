@@ -18,6 +18,7 @@ type Board = {
   is_member_only: boolean;
   type: string;
   updated_at: string;
+  last_posted_at: string;
   usersBoardCheck: Array<{ updated_at: string }>;
 };
 export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
@@ -40,7 +41,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
 
   const isNew =
     board.usersBoardCheck.length === 0 ||
-    new Date(board.updated_at) > new Date(board.usersBoardCheck[0].updated_at);
+    new Date(board.last_posted_at) > new Date(board.usersBoardCheck[0].updated_at);
   function goToBoard() {
     update();
     navigate("SuggestionList", { id: board.id });

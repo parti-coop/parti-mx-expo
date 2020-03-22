@@ -15,6 +15,7 @@ export const subscribeGroupsByUserId = gql`
         title
         id
         updated_at
+        last_posted_at
       }
     }
   }
@@ -127,6 +128,7 @@ export const subscribeBoardsByGroupId = gql`
         is_member_only
         type
         updated_at
+        last_posted_at
         usersBoardCheck(where: { user_id: { _eq: $user_id } }) {
           updated_at
         }
