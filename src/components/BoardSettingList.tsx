@@ -2,11 +2,13 @@ import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { View, ViewRow } from "./View";
+import { TouchableOpacity } from "./TouchableOpacity";
 import { Text } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
 import { updateBoardPermission } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { useDebouncedCallback } from "use-debounce";
+import BoardDelete from "./BoardDelete";
 import RNPickerSelect from "react-native-picker-select";
 type Board = {
   id: number;
@@ -28,7 +30,6 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const [isMemberOnly, setMemberOnly] = React.useState(board.is_member_only);
   const [{ user_id }] = useStore();
   const [update, { error, data }] = useMutation(updateBoardPermission);
-  console.log(error, data);
   function valueChangeHandler(value: boolean) {
     setMemberOnly(value);
     debouncedCallback();
@@ -39,7 +40,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
     });
   }, 1000);
   return (
-    <View
+    <ViewRow
       style={{
         height: 83,
         backgroundColor: "#ffffff",
@@ -80,6 +81,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
         </ViewRow>
         <Text style={{ fontSize: 14, color: "#888888" }}>{board.body}</Text>
       </View>
-    </View>
+      <BoardDelete boardId={board.id} />
+    </ViewRow>
   );
 };

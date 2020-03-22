@@ -16,8 +16,8 @@ export default (props: {
   route: RouteProp<RootStackParamList, "BoardSetting">;
 }) => {
   const [{ group_id, user_id }, dispatch] = useStore();
-  const { navigate } = useNavigation();
-  const { data, loading, error } = useSubscription(subscribeBoardsByGroupId, {
+  const { navigate, goBack } = useNavigation();
+  const { data, error } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id }
   });
   if (!data) {
@@ -28,7 +28,7 @@ export default (props: {
   return (
     <>
       <ViewRowLeft>
-        <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
+        <TouchableOpacity style={{}} onPress={goBack}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>게시판 목록</Text>

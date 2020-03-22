@@ -248,3 +248,10 @@ export const updateBoardPermission = gql`
     }
   }
 `;
+export const deleteBoard = gql`
+  mutation($board_id: Int!) {
+    delete_parti_2020_boards(where: { id: { _eq: $board_id } }) {
+      affected_rows
+    }
+  }
+`;
