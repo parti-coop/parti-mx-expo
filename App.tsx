@@ -115,7 +115,7 @@ export default class App extends React.PureComponent {
       <ApolloProvider client={client}>
         <StoreProvider>
           <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: "#f0f0f0" }}>
               <AuthSwitcher />
               <FlashMessage ref="myLocalFlashMessage" />
               <LoadingIndicator2 />
