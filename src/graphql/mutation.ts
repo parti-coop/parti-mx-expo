@@ -238,3 +238,13 @@ export const insertUserBoardCheck = gql`
     }
   }
 `;
+export const updateBoardPermission = gql`
+  mutation($board_id: Int!, $user_id: Int!, $is_member_only: Boolean!) {
+    update_parti_2020_boards(
+      where: { id: { _eq: $board_id } }
+      _set: { is_member_only: $is_member_only, updated_by: $user_id }
+    ) {
+      affected_rows
+    }
+  }
+`;

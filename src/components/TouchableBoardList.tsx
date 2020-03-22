@@ -67,7 +67,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
           <Text style={{ fontSize: 18 }}>{board.title}</Text>
-          {board.is_member_only && (
+          {!board.is_member_only && (
             <Text
               style={{
                 paddingHorizontal: 10,
