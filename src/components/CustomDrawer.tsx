@@ -1,6 +1,5 @@
 import React from "react";
 import { ScrollView, Image } from "react-native";
-
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
 import { View, ViewRowLeft } from "./View";
@@ -25,7 +24,6 @@ export default props => {
   const query = useQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` }
   });
-
   React.useEffect(() => {
     setResultList(myGroupList);
   }, [loading, data]);
@@ -114,9 +112,9 @@ export default props => {
         <TouchableOpacity
           style={{
             position: "absolute",
-            right: 0
+            right: -15
           }}
-          onPress={e => console.log("??")}
+          onPress={e => props.navigation.toggleDrawer()}
         >
           <ViewGroupImg />
         </TouchableOpacity>
