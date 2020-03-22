@@ -1,9 +1,12 @@
 import React from "react";
 import { ScrollView, Image } from "react-native";
+
+import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
+import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
 import { View, ViewRowLeft } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { useSubscription, useQuery, useMutation } from "@apollo/react-hooks";
+import { useSubscription, useQuery } from "@apollo/react-hooks";
 import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
 import { useStore } from "../Store";
@@ -12,69 +15,29 @@ import iconUser from "../../assets/icon-user.png";
 import ViewGroupImg from "./ViewGroupImg";
 import ViewNewRed from "./ViewNewRed";
 import btnSearch from "../../assets/btn-search.png";
-import { updateUserGroupCheck } from "../graphql/mutation";
 export default props => {
-  const [{ user_id }, dispatch] = useStore();
+  const [{ user_id }] = useStore();
   const { loading, data } = useSubscription(subscribeGroupsByUserId, {
     variables: { user_id }
   });
-  const [update] = useMutation(updateUserGroupCheck);
-
+  const { navigate } = props.navigation;
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const query = useQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` }
   });
-  function goToGroup(group_id: number) {
-    dispatch({ type: "SET_GROUP", group_id });
-    props.navigation.navigate("Home");
-    update({ variables: { group_id, user_id } });
-  }
+
   React.useEffect(() => {
     setResultList(myGroupList);
   }, [loading, data]);
   const myGroupList =
     !loading && data && data.parti_2020_users_group.length > 0 ? (
-      data.parti_2020_users_group.map(
-        (
-          g: {
-            group: { title: string; id: number; last_posted_at: string };
-            updated_at: string;
-          },
-          i: number
-        ) => {
-          const isNew =
-            new Date(g.updated_at) < new Date(g.group.last_posted_at);
-          return (
-            <TouchableOpacity
-              key={i}
-              style={{
-                height: 53,
-                borderRadius: 25,
-                backgroundColor: "#007075",
-                alignItems: "center",
-                flexDirection: "row",
-                marginBottom: 11,
-                paddingLeft: 8,
-                paddingRight: 15
-              }}
-              onPress={() => goToGroup(g.group.id)}
-            >
-              <ViewGroupImg color={false} />
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "white",
-                  flex: 1,
-                  marginLeft: 12
-                }}
-              >
-                {g.group.title}
-              </Text>
-              {isNew && <ViewNewRed />}
-            </TouchableOpacity>
-          );
-        }
-      )
+      data.parti_2020_users_group.map((usersGroup: any, i: number) => (
+        <TouchableSideNavGroupList
+          usersGroup={usersGroup}
+          key={i}
+          navigate={navigate}
+        />
+      ))
     ) : (
       <Text style={{ flex: 1, fontSize: 16, color: "#39caba" }}>
         아직, 가입된 그룹이 없나요?{"\n"}
@@ -105,27 +68,15 @@ export default props => {
       return;
     }
     setResultList(
-      query.data.parti_2020_groups.map(
-        (g: { title: string; id: number }, i: number) => {
-          return (
-            <TouchableOpacity
-              key={i}
-              onPress={() => goToGroup(g.id)}
-              style={{
-                height: 53,
-                borderRadius: 25,
-                backgroundColor: "#007075",
-                alignItems: "center",
-                flexDirection: "row",
-                marginBottom: 11
-              }}
-            >
-              <ViewGroupImg color={false} />
-              <Text style={{ fontSize: 16, color: "white" }}>{g.title}</Text>
-            </TouchableOpacity>
-          );
-        }
-      )
+      query.data.parti_2020_groups.map((group: any, i: number) => {
+        return (
+          <TouchableSideNavGroupSearchList
+            group={group}
+            key={i}
+            navigate={navigate}
+          />
+        );
+      })
     );
   }, [query.data, searchKeyword]);
 
@@ -134,12 +85,12 @@ export default props => {
     props.navigation.closeDrawer();
   }
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <>
       <ViewRowLeft style={{ marginLeft: 30, marginTop: 40 }}>
         <Text
           style={{ color: "white", fontSize: 28, fontFamily: "notosans500" }}
         >
-          빠띠 데모스
+          빠띠 믹스
         </Text>
 
         <TouchableOpacity
@@ -193,9 +144,16 @@ export default props => {
           style={{ fontSize: 17 }}
         />
       </ViewRowLeft>
-      <View style={{ flex: 1, marginHorizontal: 30, marginTop: 52 }}>
+      <ScrollView
+        style={{ marginTop: 42, marginBottom: 10 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          marginHorizontal: 30,
+          paddingVertical: 10
+        }}
+      >
         {resultList}
-      </View>
+      </ScrollView>
       <TouchableOpacity
         style={{
           padding: 10,
@@ -209,6 +167,6 @@ export default props => {
       >
         <Text style={{ fontSize: 20, textAlign: "center" }}>그룹 만들기</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </>
   );
 };
