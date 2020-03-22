@@ -46,7 +46,7 @@ export default () => {
       ? "가입 신청 중"
       : users[0].status === "user"
       ? "유저"
-      : users[0].status === "admin"
+      : users[0].status === "organizer"
       ? "오거나이저"
       : "미확인";
 
@@ -103,22 +103,9 @@ export default () => {
             <Text style={{ fontSize: 14, color: "#333333" }}>목록</Text>
             <ButtonBoardSetting />
           </ViewRow>
-          {boards.map(
-            (
-              b: {
-                id: number;
-                title: string;
-                body: string;
-                is_member_only: boolean;
-                type: string;
-                updated_at: string;
-                usersBoardCheck: Array<{ updated_at: string }>;
-              },
-              index: number
-            ) => (
-              <TouchableBoardList key={index} board={b} />
-            )
-          )}
+          {boards.map((b: any, index: number) => (
+            <TouchableBoardList key={index} board={b} />
+          ))}
         </View>
         {hasJoined ? (
           <View style={{ marginHorizontal: 30, marginBottom: 20 }}>
