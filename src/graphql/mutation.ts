@@ -167,8 +167,9 @@ export const createNewGroup = gql`
     insert_parti_2020_groups(
       objects: {
         title: $groupName
-        creator_by: $user_id
         bg_img_url: $bg_img_url
+        created_by: $user_id
+        updated_by: $user_id
       }
     ) {
       returning {
