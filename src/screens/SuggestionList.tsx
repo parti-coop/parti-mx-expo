@@ -7,7 +7,7 @@ import { Text, TextRound } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import TouchableSuggestionList from "../components/TouchableSuggestionList";
-import HeaderBoardList from "../components/HeaderBoardList";
+import HeaderList from "../components/HeaderList";
 import { useStore } from "../Store";
 import { useSubscription } from "@apollo/react-hooks";
 import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
@@ -31,7 +31,7 @@ export default (props: {
     const { suggestions, title } = data.parti_2020_boards_by_pk;
     return (
       <>
-        <HeaderBoardList />
+        <HeaderList />
         <View style={{ paddingHorizontal: 30 }}>
           <Text
             style={{
