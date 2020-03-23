@@ -1,14 +1,27 @@
 import React from "react";
-import { Picker } from "react-native";
+import { Image } from "react-native";
 import { StackHeaderProps } from "@react-navigation/stack";
+import RNPickerSelect from "react-native-picker-select";
+import { showMessage } from "react-native-flash-message";
+import { useMutation } from "@apollo/react-hooks";
+
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { View, ViewRow } from "../components/View";
+import HeaderNew from "../components/HeaderNew";
+import { View, ViewRow, ViewRowLeft } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
+
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
-import { showMessage } from "react-native-flash-message";
+
+import iconHome from "../../assets/iconHome.png";
+import iconNavi from "../../assets/iconNavi.png";
+
+const options = [
+  { label: "30일 후 종료", value: 0 },
+  { label: "멤버 과반수 동의시 종료", value: 1 },
+  { label: "제안 정리시 종료", value: 2 }
+];
 export default (props: StackHeaderProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
   const [{ board_id, user_id }, dispatch] = useStore();
@@ -16,7 +29,7 @@ export default (props: StackHeaderProps) => {
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
   const [closingMethod, setClosingMethod] = React.useState(0);
-  function insertPressHandler(e) {
+  function insertPressHandler() {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
       return showMessage({
         message: "제안명을 20자 이내로 입력해주세요.",
@@ -57,30 +70,32 @@ export default (props: StackHeaderProps) => {
   }
   return (
     <>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <TouchableOpacity
-          onPress={e => props.navigation.goBack()}
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
+      <HeaderNew insert={insertPressHandler} />
+      <ViewRowLeft style={{ paddingHorizontal: 30 }}>
+        <Image source={iconHome} />
+        <Image source={iconNavi} style={{ paddingHorizontal: 5 }} />
+        <Text
+          style={{
+            fontSize: 13,
+            lineHeight: 26,
+            textAlign: "left",
+            color: "#888888",
+            paddingHorizontal: 2
+          }}
         >
-          <Text style={{ color: "blue", fontSize: 20 }}>취소</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flex: 3, alignItems: "center", padding: 20 }}
+          제안 게시판
+        </Text>
+      </ViewRowLeft>
+      <View style={{ paddingHorizontal: 28 }}>
+        <Text
+          style={{
+            fontSize: 22,
+            textAlign: "left",
+            color: "#333333"
+          }}
         >
-          <Text style={{ color: "black", fontSize: 28 }}>제안하기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={insertPressHandler}
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "blue", fontSize: 20 }}>등록</Text>
-        </TouchableOpacity>
+          글 쓰기
+        </Text>
       </View>
       <View style={{ flex: 1, alignItems: "stretch" }}>
         <ViewRow style={{ height: 50 }}>
@@ -94,19 +109,13 @@ export default (props: StackHeaderProps) => {
         </ViewRow>
         <ViewRow>
           <Text>종료 방법</Text>
-          <Picker
+          <RNPickerSelect
             style={{ height: 50, flex: 1, justifyContent: "space-between" }}
-            selectedValue={closingMethod}
+            value={closingMethod}
             onValueChange={i => setClosingMethod(i)}
-          >
-            {[
-              "30일 후 종료",
-              "멤버 과반수 동의시 종료",
-              "제안 정리시 종료"
-            ].map((g: any, i: number) => (
-              <Picker.Item label={g} value={i} key={i} />
-            ))}
-          </Picker>
+            items={options}
+            placeholder={{}}
+          />
         </ViewRow>
         <View style={{ flex: 1, padding: 20 }}>
           <Text>제안 배경</Text>
