@@ -6,8 +6,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, TextRound } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
+import TouchableSuggestionList from "../components/TouchableSuggestionList";
+import HeaderBoardList from "../components/HeaderBoardList";
 import { useStore } from "../Store";
-import { Ionicons } from "@expo/vector-icons";
 import { useSubscription } from "@apollo/react-hooks";
 import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
 export default (props: {
@@ -30,72 +31,47 @@ export default (props: {
     const { suggestions, title } = data.parti_2020_boards_by_pk;
     return (
       <>
-        <ViewRow style={{ justifyContent: "space-between", padding: 10 }}>
-          <TouchableOpacity
+        <HeaderBoardList />
+        <View style={{ paddingHorizontal: 30 }}>
+          <Text
             style={{
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "flex-start"
+              fontSize: 24,
+              color: "#333333"
             }}
-            onPress={() => props.navigation.navigate("Home")}
           >
-            <Ionicons name="ios-arrow-back" size={60} color="blue" />
-            <Text style={{ color: "black", fontSize: 20, paddingLeft: 20 }}>
-              {title}🌱
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              alignItems: "flex-end",
-              padding: 10,
-              backgroundColor: "lavenderblush"
-            }}
-            onPress={e => Share.share({ message: "제안을 공유합니다." })}
-          >
-            <Text style={{ color: "blue", fontSize: 20 }}>그룹 초대</Text>
-          </TouchableOpacity>
-        </ViewRow>
+            {title}🌱
+          </Text>
+        </View>
         <ScrollView>
           <View>
             <ViewRow
               style={{
                 justifyContent: "space-between",
-                backgroundColor: "khaki"
+                marginVertical: 20,
+                paddingHorizontal: 30
               }}
             >
-              <Text>진행중 제안</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "left",
+                  color: "#333333"
+                }}
+              >
+                진행중인 제안
+              </Text>
             </ViewRow>
-            <View style={{ flex: 1, backgroundColor: "lightblue" }}>
-              <View>
-                {suggestions.map((sugg: any, index: number) => {
-                  const voteCount = sugg.votes_aggregate.aggregate.sum.count;
-                  const votedByMe =
-                    sugg.votes.length > 0 && sugg.votes[0].count > 0;
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={e =>
-                        props.navigation.navigate("SuggestionDetail", {
-                          suggestionId: sugg.id
-                        })
-                      }
-                    >
-                      <ViewRow style={{ justifyContent: "flex-start" }}>
-                        <TextRound>🌱</TextRound>
-                        <View style={{ flex: 1 }}>
-                          <Text>{sugg.title}</Text>
-                          <ViewRow style={{ justifyContent: "flex-start" }}>
-                            <Text>{sugg.updatedBy.name}</Text>
-                            <Text>{votedByMe && "동의함"}</Text>
-                            {sugg.closed_at && <Text>{sugg.closed_at}</Text>}
-                          </ViewRow>
-                        </View>
-                        <TextRound>{voteCount}</TextRound>
-                      </ViewRow>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: "#ffffff",
+                marginHorizontal: 30,
+                borderRadius: 25
+              }}
+            >
+              {suggestions.map((sugg: any, i: number) => {
+                return <TouchableSuggestionList key={i} suggestion={sugg} />;
+              })}
             </View>
           </View>
         </ScrollView>

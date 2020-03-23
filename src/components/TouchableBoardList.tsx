@@ -51,7 +51,14 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
 
   function goToBoard() {
     update();
-    navigate("SuggestionList", { id: board.id });
+    switch (board.type) {
+      case "suggestion":
+        return navigate("SuggestionList", { id: board.id });
+      case "notice":
+        return navigate("NoticeList", { id: board.id });
+      default:
+        return navigate("SuggestionList", { id: board.id });
+    }
   }
   return (
     <TouchableOpacity

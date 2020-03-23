@@ -49,6 +49,11 @@ export const subscribeSuggestionsByBoardId = gql`
             }
           }
         }
+        comments_aggregate {
+          aggregate {
+            count
+          }
+        }
         updatedBy {
           name
         }
