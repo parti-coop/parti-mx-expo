@@ -2,7 +2,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
-import SuggestionCreate from "./SuggestionCreate";
+import SuggestionNew from "./SuggestionNew";
 import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
 import UserSetting from "./UserSetting";
@@ -28,7 +28,7 @@ export type RootStackParamList = {
   Logout: {};
   Member: {};
   QRcode: {};
-  SuggestionCreate: {};
+  SuggestionNew: {};
   SuggestionDetail: { suggestionId: number };
   SuggestionEdit: {
     suggestion: {
@@ -69,7 +69,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
-      <Drawer.Screen name="SuggestionCreate" component={SuggestionCreate} />
+      <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
       <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />

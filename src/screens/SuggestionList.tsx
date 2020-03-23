@@ -77,7 +77,7 @@ export default (props: {
         </ScrollView>
 
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("SuggestionCreate")}
+          onPress={() => props.navigation.navigate("SuggestionNew")}
           style={{
             position: "absolute",
             width: 56,
