@@ -7,6 +7,7 @@ import { Text } from "./Text";
 import ViewRedDot from "./ViewRedDot";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
+import Modal from "react-native-modal";
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
@@ -26,11 +27,9 @@ const boxStyle: StyleProp<ViewStyle> = {
   shadowOpacity: 1,
   paddingHorizontal: 25,
   position: "absolute",
-  right: 30,
-  top: 20,
+  right: 0,
   borderRadius: 25,
-  borderTopRightRadius: 0,
-  zIndex: 5
+  borderTopRightRadius: 0
 };
 export default (props: {
   style?: StyleProp<ViewStyle>;
@@ -46,14 +45,18 @@ export default (props: {
     setVisible(false);
   }
   return (
-    <>
-      <TouchableOpacity
-        onPress={() => setVisible(!isVisible)}
-        style={{ flex: 1 }}
+    <TouchableOpacity
+      onPress={() => setVisible(!isVisible)}
+      style={{ flex: 1 }}
+    >
+      <Text style={[textStyle]}>{currentItem.label}</Text>
+      <Modal
+        isVisible={isVisible}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        backdropOpacity={0}
+        onBackdropPress={() => setVisible(false)}
       >
-        <Text style={[textStyle]}>{currentItem.label}</Text>
-      </TouchableOpacity>
-      {isVisible && (
         <View style={[boxStyle]}>
           {items.map((item, i) => (
             <TouchableOpacity key={i} onPress={e => changeHandler(item.value)}>
@@ -61,7 +64,7 @@ export default (props: {
             </TouchableOpacity>
           ))}
         </View>
-      )}
-    </>
+      </Modal>
+    </TouchableOpacity>
   );
 };

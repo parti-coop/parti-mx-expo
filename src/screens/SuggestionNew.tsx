@@ -35,7 +35,8 @@ const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
   color: "#555555",
-  paddingHorizontal: 0
+  paddingHorizontal: 0,
+  flex: 1
 };
 
 export default (props: StackHeaderProps) => {
@@ -134,8 +135,7 @@ export default (props: StackHeaderProps) => {
         <LineSeperator />
         <ViewRowLeft
           style={{
-            paddingHorizontal: 30,
-            overflow: "visible"
+            paddingHorizontal: 30
           }}
         >
           <Text style={labelStyle}>종료 방법</Text>
@@ -163,7 +163,7 @@ export default (props: StackHeaderProps) => {
         }}
       >
         <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
-          <Text style={labelStyle}>제안 배경</Text>
+          <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
           <AutoGrowingTextInput
             value={sContext}
             multiline
