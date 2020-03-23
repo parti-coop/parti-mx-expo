@@ -3,14 +3,18 @@ import { ScrollView, Share } from "react-native";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useSubscription } from "@apollo/react-hooks";
+
 import { Text, TextRound } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import TouchableSuggestionList from "../components/TouchableSuggestionList";
 import HeaderList from "../components/HeaderList";
+import ButtonSuggestionNew from "../components/ButtonSuggestionNew";
+
 import { useStore } from "../Store";
-import { useSubscription } from "@apollo/react-hooks";
 import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
+
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
   route: RouteProp<RootStackParamList, "SuggestionList">;
@@ -75,24 +79,7 @@ export default (props: {
             </View>
           </View>
         </ScrollView>
-
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("SuggestionNew")}
-          style={{
-            position: "absolute",
-            width: 56,
-            height: 56,
-            alignItems: "center",
-            justifyContent: "center",
-            right: 20,
-            bottom: 20,
-            backgroundColor: "#03A9F4",
-            borderRadius: 30,
-            elevation: 8
-          }}
-        >
-          <Text>제안하기</Text>
-        </TouchableOpacity>
+        <ButtonSuggestionNew />
       </>
     );
   } else {
