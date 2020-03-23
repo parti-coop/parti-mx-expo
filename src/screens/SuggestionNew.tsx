@@ -1,15 +1,18 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, StyleProp, TextStyle } from "react-native";
 import { StackHeaderProps } from "@react-navigation/stack";
 import RNPickerSelect from "react-native-picker-select";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
+import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderNew from "../components/HeaderNew";
 import { View, ViewRow, ViewRowLeft } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TOEasy } from "../components/TouchableOpacity";
+import TouchableClosingMethod from "../components/TouchableClosingMethod";
+import LineSeperator from "../components/LineSeperator";
 
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
@@ -22,6 +25,19 @@ const options = [
   { label: "멤버 과반수 동의시 종료", value: 1 },
   { label: "제안 정리시 종료", value: 2 }
 ];
+const labelStyle: StyleProp<TextStyle> = {
+  fontSize: 13,
+  textAlign: "left",
+  color: "#30ad9f",
+  width: 80
+};
+const textStyle: StyleProp<TextStyle> = {
+  fontSize: 16,
+  textAlign: "left",
+  color: "#555555",
+  paddingHorizontal: 0
+};
+
 export default (props: StackHeaderProps) => {
   const [insert, { loading }] = useMutation(insertSuggestion);
   const [{ board_id, user_id }, dispatch] = useStore();
@@ -29,6 +45,7 @@ export default (props: StackHeaderProps) => {
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
   const [closingMethod, setClosingMethod] = React.useState(0);
+  const contextRef = React.useRef(null);
   function insertPressHandler() {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
       return showMessage({
@@ -58,16 +75,7 @@ export default (props: StackHeaderProps) => {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  function onPopupEvent(eventName, index) {
-    if (eventName !== "itemSelected") return;
-    switch (index) {
-      // case 0:
-      // case 3:
-      //   return;
-      default:
-        return alert(index);
-    }
-  }
+
   return (
     <>
       <HeaderNew insert={insertPressHandler} />
@@ -77,7 +85,6 @@ export default (props: StackHeaderProps) => {
         <Text
           style={{
             fontSize: 13,
-            lineHeight: 26,
             textAlign: "left",
             color: "#888888",
             paddingHorizontal: 2
@@ -86,7 +93,9 @@ export default (props: StackHeaderProps) => {
           제안 게시판
         </Text>
       </ViewRowLeft>
-      <View style={{ paddingHorizontal: 28 }}>
+      <View
+        style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
+      >
         <Text
           style={{
             fontSize: 22,
@@ -97,46 +106,127 @@ export default (props: StackHeaderProps) => {
           글 쓰기
         </Text>
       </View>
-      <View style={{ flex: 1, alignItems: "stretch" }}>
-        <ViewRow style={{ height: 50 }}>
-          <Text>제안명*</Text>
+      <View
+        style={{
+          alignItems: "stretch",
+          borderRadius: 25,
+          backgroundColor: "#ffffff",
+          shadowColor: "rgba(0, 0, 0, 0.15)",
+          shadowOffset: {
+            width: 0,
+            height: 1
+          },
+          shadowRadius: 1,
+          shadowOpacity: 1
+        }}
+      >
+        <ViewRowLeft style={{ paddingHorizontal: 30 }}>
+          <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
           <TextInput
             value={sTitle}
             autoFocus
-            onChange={e => setSTitle(e.nativeEvent.text)}
-            style={{ flex: 1, textAlign: "right" }}
+            onChangeText={setSTitle}
+            placeholderTextColor="#999999"
+            style={textStyle}
+            onSubmitEditing={() => contextRef.current.focus()}
           />
-        </ViewRow>
-        <ViewRow>
-          <Text>종료 방법</Text>
-          <RNPickerSelect
-            style={{ height: 50, flex: 1, justifyContent: "space-between" }}
+        </ViewRowLeft>
+        <LineSeperator />
+        <ViewRowLeft
+          style={{
+            paddingHorizontal: 30,
+            overflow: "visible"
+          }}
+        >
+          <Text style={labelStyle}>종료 방법</Text>
+          <TouchableClosingMethod
             value={closingMethod}
-            onValueChange={i => setClosingMethod(i)}
+            onChange={setClosingMethod}
             items={options}
-            placeholder={{}}
           />
-        </ViewRow>
-        <View style={{ flex: 1, padding: 20 }}>
-          <Text>제안 배경</Text>
-          <TextInput
+        </ViewRowLeft>
+      </View>
+      <View
+        style={{
+          marginTop: 10,
+          alignItems: "stretch",
+          borderRadius: 25,
+          backgroundColor: "#ffffff",
+          shadowColor: "rgba(0, 0, 0, 0.15)",
+          shadowOffset: {
+            width: 0,
+            height: 1
+          },
+          shadowRadius: 1,
+          shadowOpacity: 1,
+          flex: 1
+        }}
+      >
+        <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
+          <Text style={labelStyle}>제안 배경</Text>
+          <AutoGrowingTextInput
             value={sContext}
             multiline
             textAlignVertical="top"
             placeholder="제안 배경을 입력해 주세요"
-            onChange={e => setSContext(e.nativeEvent.text)}
-            style={{ backgroundColor: "lightyellow", flex: 1, padding: 20 }}
+            placeholderTextColor="#999999"
+            onChangeText={setSContext}
+            style={[textStyle]}
+            ref={contextRef}
           />
-          <Text>제안 내용</Text>
-          <TextInput
+        </View>
+        <LineSeperator />
+        <View
+          style={{
+            padding: 30,
+            paddingBottom: 20,
+            flex: 1
+          }}
+        >
+          <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+          <AutoGrowingTextInput
             value={sBody}
             multiline
             textAlignVertical="top"
             placeholder="제안 내용을 입력해 주세요"
-            onChange={e => setSBody(e.nativeEvent.text)}
-            style={{ backgroundColor: "lightgreen", flex: 1, padding: 20 }}
+            placeholderTextColor="#999999"
+            onChangeText={setSBody}
+            style={[textStyle]}
           />
         </View>
+        <LineSeperator />
+        <ViewRow style={{ padding: 22 }}>
+          <TOEasy>
+            <Text
+              style={{
+                fontSize: 16,
+                textAlign: "center",
+                color: "#30ad9f"
+              }}
+            >
+              사진 첨부
+            </Text>
+          </TOEasy>
+          <View
+            style={{
+              width: 1,
+              height: 11,
+              backgroundColor: "#e4e4e4"
+            }}
+          />
+          <TOEasy>
+            <Text
+              style={{
+                fontSize: 16,
+                textAlign: "center",
+                color: "#30ad9f",
+                flex: 1
+              }}
+            >
+              파일 첨부
+            </Text>
+          </TOEasy>
+        </ViewRow>
       </View>
     </>
   );

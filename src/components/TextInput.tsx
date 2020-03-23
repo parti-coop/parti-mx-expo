@@ -8,15 +8,17 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
   (props, ref: React.Ref<T>) => (
     <T
       {...props}
-      style={{
-        fontFamily: "notosans",
-        fontSize: 20,
-        flex: 1,
-        borderColor: getRandomColor(),
-        borderWidth: 1,
-        paddingHorizontal: 20,
-        ...(props.style as Object)
-      }}
+      style={[
+        {
+          fontFamily: "notosans",
+          fontSize: 20,
+          flex: 1,
+          // borderColor: getRandomColor(),
+          // borderWidth: 1,
+          paddingHorizontal: 20
+        },
+        props.style
+      ]}
       ref={ref}
     >
       {props.children}
@@ -27,15 +29,17 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
 export const EmailInput = React.forwardRef<T, TextInputProps>(
   (props, ref: React.Ref<T>) => (
     <T
-      style={{
-        fontFamily: "notosans",
-        fontSize: 20,
-        flex: 1,
-        borderColor: getRandomColor(),
-        borderWidth: 1,
-        paddingHorizontal: 20,
-        ...(props.style as Object)
-      }}
+      style={[
+        {
+          fontFamily: "notosans",
+          fontSize: 20,
+          flex: 1,
+          borderColor: getRandomColor(),
+          borderWidth: 1,
+          paddingHorizontal: 20
+        },
+        props.style
+      ]}
       ref={ref}
       textContentType="emailAddress"
       keyboardType="email-address"

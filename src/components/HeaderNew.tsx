@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import iconBack from "../../assets/iconBack.png";
 import btnWrite from "../../assets/btnWrite.png";
 export default (props: { insert: () => void }) => {
-  const { navigate } = useNavigation();
+  const { goBack } = useNavigation();
   return (
     <ViewRow style={{ justifyContent: "space-between" }}>
       <TouchableOpacity
@@ -16,7 +16,7 @@ export default (props: { insert: () => void }) => {
           justifyContent: "flex-start",
           padding: 30
         }}
-        onPress={() => navigate("Home")}
+        onPress={goBack}
       >
         <Image source={iconBack} />
       </TouchableOpacity>
