@@ -1,10 +1,14 @@
 import React from "react";
 import { Alert } from "react-native";
-import { useStore } from "../Store";
+import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
+
+import { useStore } from "../Store";
 import { deleteSuggestion } from "../graphql/mutation";
-export default (id: number, goBack: any) => {
+
+export default (id: number) => {
   const [, dispatch] = useStore();
+  const { goBack } = useNavigation();
   const [del, { loading }] = useMutation(deleteSuggestion, {
     variables: { id }
   });
@@ -28,5 +32,5 @@ export default (id: number, goBack: any) => {
       }
     ]);
   }
-  return showAlert;
+  return [showAlert];
 };

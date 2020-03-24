@@ -3,7 +3,7 @@ import { Image, ViewStyle, TextStyle } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 
 import { Text } from "../components/Text";
 import { View, ViewRow, ViewColumnCenter } from "../components/View";
@@ -20,17 +20,11 @@ import HeaderShare from "../components/HeaderShare";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 import ViewTitle from "../components/ViewTitle";
 import LineSeperator from "../components/LineSeperator";
+import SelectMenu from "../components/SelectMenu";
 
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
-
-const options = [
-  "수정하기",
-  "제안 정리",
-  "공지로 올리기/ 공지 내리기",
-  "삭제하기"
-];
 
 const box = {
   marginTop: 40,
@@ -60,30 +54,30 @@ export default (props: {
 }) => {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.suggestionId;
-  const deleteSuggestion = HooksDeleteSuggestion(id, props.navigation.goBack);
+  const [deleteSuggestion] = HooksDeleteSuggestion(id);
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id, user_id }
   });
+  const { navigate } = useNavigation();
 
   const [showComments, setShowComments] = React.useState(true);
 
-  function onPopupEvent(eventName, index) {
-    if (eventName !== "itemSelected") return;
-    const { parti_2020_suggestions_by_pk } = data;
-    switch (index) {
-      case 0:
-        return props.navigation.navigate("SuggestionEdit", {
+  if (!(data && data.parti_2020_suggestions_by_pk)) {
+    return null;
+  }
+  const { parti_2020_suggestions_by_pk } = data;
+  const options = [
+    {
+      label: "수정하기",
+      handler: () =>
+        navigate("SuggestionEdit", {
           suggestion: parti_2020_suggestions_by_pk
-        });
-      case 3:
-        return deleteSuggestion();
-      default:
-        return alert(index);
-    }
-  }
-  if (loading) {
-    return LoadingIndicator();
-  }
+        })
+    },
+    { label: "제안 정리", handler: () => {} },
+    { label: "공지 올리기", handler: () => {} },
+    { label: "삭제하기", handler: deleteSuggestion }
+  ];
 
   const {
     title,
@@ -123,6 +117,7 @@ export default (props: {
           <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
           <Text style={bodyTextStyle}>{body}</Text>
         </View>
+        <SelectMenu items={options} />
         <ViewColumnCenter style={{ marginTop: 50 }}>
           {voteCount > 0 ? <ButtonDevote id={id} /> : <ButtonVote id={id} />}
           {closing_method === 0 && (
