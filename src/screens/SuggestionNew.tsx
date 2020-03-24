@@ -13,12 +13,10 @@ import { View, ViewRow, ViewRowLeft } from "../components/View";
 import { TOEasy } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
+import HeaderSuggestion from "../components/HeaderSuggestion";
 
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
-
-import iconHome from "../../assets/iconHome.png";
-import iconNavi from "../../assets/iconNavi.png";
 
 const options = [
   { label: "30일 후 종료", value: 0 },
@@ -80,20 +78,7 @@ export default (props: StackHeaderProps) => {
   return (
     <>
       <HeaderNew insert={insertPressHandler} />
-      <ViewRowLeft style={{ paddingHorizontal: 30 }}>
-        <Image source={iconHome} />
-        <Image source={iconNavi} style={{ paddingHorizontal: 5 }} />
-        <Text
-          style={{
-            fontSize: 13,
-            textAlign: "left",
-            color: "#888888",
-            paddingHorizontal: 2
-          }}
-        >
-          제안 게시판
-        </Text>
-      </ViewRowLeft>
+      <HeaderSuggestion />
       <View
         style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
       >

@@ -1,8 +1,12 @@
 import React from "react";
-import { Share } from "react-native";
-import { Text } from "../components/Text";
-import { View, ViewRow } from "../components/View";
+import { Image, ViewStyle, TextStyle } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSubscription } from "@apollo/react-hooks";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+
+import { Text } from "../components/Text";
+import { View, ViewRow, ViewRowLeft } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
@@ -12,13 +16,44 @@ import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import PopupMenu from "../components/PopupMenu";
-import { useSubscription } from "@apollo/react-hooks";
+import HeaderShare from "../components/HeaderShare";
+import HeaderSuggestion from "../components/HeaderSuggestion";
+import ViewTitle from "../components/ViewTitle";
+import LineSeperator from "../components/LineSeperator";
+
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 
+const options = [
+  "수정하기",
+  "제안 정리",
+  "공지로 올리기/ 공지 내리기",
+  "삭제하기"
+];
+
+const box = {
+  marginTop: 40,
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1
+} as ViewStyle;
+const labelStyle = {
+  fontSize: 13,
+  textAlign: "left",
+  color: "#30ad9f"
+} as TextStyle;
+const bodyTextStyle = {
+  fontSize: 16,
+  textAlign: "left",
+  color: "#555555"
+} as TextStyle;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
   route: RouteProp<RootStackParamList, "SuggestionDetail">;
@@ -64,67 +99,25 @@ export default (props: {
   const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
   return (
     <>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <TouchableOpacity
-          onPress={e => props.navigation.goBack()}
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "blue", fontSize: 20 }}>X</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flex: 3, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "black", fontSize: 28 }}>제안 내용</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={e => Share.share({ message: "제안을 공유합니다." })}
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "blue", fontSize: 20 }}>공유</Text>
-        </TouchableOpacity>
-      </View>
+      <HeaderShare id={id} />
+      <HeaderSuggestion />
+      <ViewTitle title={title} updated_at={updated_at} />
       <KeyboardAwareScrollView
-        contentContainerStyle={{
-          alignItems: "stretch",
-          padding: 10,
-          backgroundColor: "lightgreen"
-        }}
+        contentContainerStyle={[box]}
         keyboardShouldPersistTaps={"handled"}
       >
-        <View>
-          <ViewRow>
-            <Text style={{ fontSize: 20 }}>{title}</Text>
-            <PopupMenu
-              actions={[
-                "수정하기",
-                "제안 정리",
-                "공지로 올리기/ 공지 내리기",
-                "삭제하기"
-              ]}
-              onPress={onPopupEvent}
-            />
-          </ViewRow>
-          <ViewRow>
-            <Text>{updated_at}</Text>
-          </ViewRow>
-        </View>
-        <View>
-          <Text>제안자</Text>
+        <View style={{ margin: 30, marginBottom: 20 }}>
+          <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
           <UserProfileWithName name={createdBy.name} />
         </View>
-        <View>
-          <Text>제안 배경</Text>
-          <Text>{context}</Text>
+        <LineSeperator />
+        <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+          <Text style={[labelStyle, { marginBottom: 19 }]}>제안 배경</Text>
+          <Text style={bodyTextStyle}>{context}</Text>
         </View>
-        <View style={{ paddingTop: 10, backgroundColor: "lightblue" }}>
-          <Text>제안 내용</Text>
-          <Text>{body}</Text>
+        <View style={{ marginHorizontal: 30, marginVertical: 40 }}>
+          <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
+          <Text style={bodyTextStyle}>{body}</Text>
         </View>
         <ViewRow>
           {voteCount > 0 ? <ButtonDevote id={id} /> : <ButtonVote id={id} />}

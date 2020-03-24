@@ -50,21 +50,48 @@ export class TOEasy extends React.PureComponent<TouchableOpacityProps> {
   }
 }
 
-export class TORow extends React.PureComponent<TouchableOpacityProps> {
-  render() {
-    return (
-      <TouchableOpacity
-        {...this.props}
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: getRandomColor(),
-          ...(this.props.style as Object)
-        }}
-      >
-        {this.props.children}
-      </TouchableOpacity>
-    );
-  }
-}
+export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = props => (
+  <TO
+    {...props}
+    style={[
+      {
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </TO>
+);
+
+export const TORow: React.FunctionComponent<TouchableOpacityProps> = props => (
+  <TO
+    {...props}
+    style={[
+      {
+        flexDirection: "row",
+        alignItems: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </TO>
+);
+
+export const TORowCenter: React.FunctionComponent<TouchableOpacityProps> = props => (
+  <TO
+    {...props}
+    style={[
+      {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </TO>
+);

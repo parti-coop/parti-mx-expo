@@ -30,14 +30,15 @@ export class ViewRowLeft extends React.PureComponent<ViewProps> {
     return (
       <V
         {...this.props}
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          flexWrap: "wrap",
-          paddingHorizontal: 10,
-          ...(this.props.style as Object)
-        }}
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexWrap: "wrap"
+          },
+          this.props.style
+        ]}
       >
         {this.props.children}
       </V>
@@ -50,13 +51,15 @@ export class ViewColumnCenter extends React.PureComponent<ViewProps> {
     return (
       <V
         {...this.props}
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          ...(this.props.style as Object)
-        }}
+        style={[
+          {
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center"
+          },
+          this.props.style
+        ]}
       >
         {this.props.children}
       </V>
