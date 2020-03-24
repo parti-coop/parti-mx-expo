@@ -33,16 +33,18 @@ export default ({ id }: { id: number }) => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
-    <TORowCenter
-      style={bgMenuBgCopy}
-      onPress={e =>
-        vote()
-          .then(console.log)
-          .catch(console.error)
-      }
-    >
-      <Image source={iconAgree} />
-      <Text style={textStyle}>이 제안에 동의합니다.</Text>
-    </TORowCenter>
+    <>
+      <TORowCenter
+        style={bgMenuBgCopy}
+        onPress={e =>
+          vote()
+            .then(console.log)
+            .catch(console.error)
+        }
+      >
+        <Image source={iconAgree} style={{ margin: 4 }} />
+        <Text style={textStyle}>이 제안에 동의합니다</Text>
+      </TORowCenter>
+    </>
   );
 };
