@@ -1,10 +1,12 @@
 import React from "react";
+import { useMutation } from "@apollo/react-hooks";
+
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
-import { useStore } from "../Store";
 import ViewGroupImg from "./ViewGroupImg";
 import ViewNewRed from "./ViewNewRed";
+
+import { useStore } from "../Store";
 import { updateUserGroupCheck } from "../graphql/mutation";
 export default (props: {
   usersGroup: {
