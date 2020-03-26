@@ -1,42 +1,84 @@
 import React from "react";
-import { useStore } from "../Store";
-import { Text } from "../components/Text";
-import { View, ViewColumnStretch } from "../components/View";
-import { Button } from "../components/Button";
+import {
+  ImageBackground,
+  ViewProps,
+  TextProps,
+  Image,
+  Alert
+} from "react-native";
 import Constants from "expo-constants";
+
+import { Text } from "../components/Text";
+import { View, ViewRow } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+
+import { useStore } from "../Store";
+
+import bgIntro from "../../assets/bgIntro.png";
+import partimxLogo from "../../assets/partimxLogo.png";
+const box = {
+  height: 96,
+  backgroundColor: "#008489",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#c9c9c9"
+} as ViewProps;
+const textStyle = {
+  fontSize: 16,
+  lineHeight: 28,
+  textAlign: "center",
+  color: "#ffffff"
+} as TextProps;
 export default props => {
   const { navigate } = props.navigation;
-  const [store, dispatch] = useStore();
+  const [, dispatch] = useStore();
   function register() {
-    props.navigation.navigate("Signup");
+    navigate("Signup");
   }
   function login() {
-    props.navigation.navigate("Login");
+    navigate("Login");
   }
 
   function refreshApp() {
-    dispatch({ type: "APP_REFRESH" });
+    Alert.alert(
+      "앱 리로딩",
+      `앱을 새로 다운받고 시작하시겠습니까?
+      \n 현재 앱 버전: 3월26일
+      \n nativeBuildVersion: ${Constants.nativeBuildVersion}`,
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        {
+          text: "reload",
+          onPress: () => dispatch({ type: "APP_REFRESH" })
+        }
+      ]
+    );
   }
+
   return (
-    <ViewColumnStretch>
-      <ViewColumnStretch>
-        <TOEasy onPress={register} style={{ backgroundColor: "green" }}>
-          <Text>신규 이용자 회원가입</Text>
-        </TOEasy>
-        <TOEasy onPress={login} style={{ backgroundColor: "lime" }}>
-          <Text>기존 이용자 로그인</Text>
-        </TOEasy>
-      </ViewColumnStretch>
+    <ImageBackground source={bgIntro} style={{ flex: 1 }}>
       <View>
-        <Text>nativeBuildVersion: {Constants.nativeBuildVersion}</Text>
+        <Text></Text>
         <TouchableOpacity
           onPress={refreshApp}
-          style={{ backgroundColor: "orange" }}
+          style={{ position: "absolute", right: 29, top: 96 }}
         >
-          <Text>앱 리로드 (에러 날 시 reset)</Text>
+          <Image source={partimxLogo} />
         </TouchableOpacity>
       </View>
-    </ViewColumnStretch>
+      <ViewRow style={{ position: "absolute", bottom: 0 }}>
+        <TOEasy onPress={register} style={[box, { borderTopRightRadius: 30 }]}>
+          <Text style={[textStyle]}>신규 이용자</Text>
+          <Text style={[textStyle, { fontSize: 22 }]}>회원가입</Text>
+        </TOEasy>
+        <TOEasy onPress={login} style={[box, { borderTopLeftRadius: 30 }]}>
+          <Text style={[textStyle]}>기존 이용자</Text>
+          <Text style={[textStyle, { fontSize: 22 }]}>로그인</Text>
+        </TOEasy>
+      </ViewRow>
+    </ImageBackground>
   );
 };
