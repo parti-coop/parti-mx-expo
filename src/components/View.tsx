@@ -4,6 +4,35 @@ import { View as V, ViewProps } from "react-native";
 export const View: React.FunctionComponent<ViewProps> = props => (
   <V {...props}>{props.children}</V>
 );
+export const V0: React.FunctionComponent<ViewProps> = props => (
+  <V
+    {...props}
+    style={[
+      {
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </V>
+);
+export const V1: React.FunctionComponent<ViewProps> = props => (
+  <V
+    {...props}
+    style={[
+      {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </V>
+);
 export const ViewRow: React.FunctionComponent<ViewProps> = props => (
   <V
     {...props}

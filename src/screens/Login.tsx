@@ -1,11 +1,14 @@
 import React from "react";
-import { ViewStyle } from "react-native";
+import { ViewStyle, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
-import { View, ViewRow } from "../components/View";
-import { TO0, TouchableOpacity } from "../components/TouchableOpacity";
+import { V1, ViewRow, View } from "../components/View";
+import { TO0, TouchableOpacity, TORow } from "../components/TouchableOpacity";
+
+import iconEmail from "../../assets/iconEmail.png";
+import iconGoogle from "../../assets/iconGoogle.png";
 const roundedRectangle12 = {
   width: 255,
   height: 56,
@@ -13,7 +16,12 @@ const roundedRectangle12 = {
   backgroundColor: "#30ad9f",
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: "#c9c9c9"
+  borderColor: "#c9c9c9",
+  marginBottom: 7
+} as ViewStyle;
+const textStyle = {
+  fontSize: 16,
+  color: "#777777"
 } as ViewStyle;
 export default props => {
   const { navigate } = props.navigation;
@@ -25,26 +33,37 @@ export default props => {
   }
   return (
     <>
-      <View>
-        <Text>로그인</Text>
+      <View style={{ marginTop: 83, marginHorizontal: 60 }}>
+        <Text style={{ fontSize: 30, color: "#333333" }}>로그인</Text>
         <ViewRow>
-          <Text>아직 계정이 없으신가요?</Text>
+          <Text style={[textStyle]}>아직 계정이 없으신가요?</Text>
+          <TouchableOpacity onPress={register} style={{marginTop: 10}}>
+            <Text style={[textStyle, { color: "#30ad9f", marginLeft: 10 }]}>회원가입</Text>
+          </TouchableOpacity>
         </ViewRow>
       </View>
 
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <TO0 onPress={loginEmail} style={[roundedRectangle12]}>
+      <V1 style={{ marginHorizontal: 60, justifyContent: "flex-end", marginBottom: 128 }}>
+        <TORow
+          onPress={loginEmail}
+          style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
+        >
+          <Image
+            source={iconGoogle}
+            style={{ marginLeft: 46, marginRight: 18 }}
+          />
+          <Text style={{ fontSize: 16, color: "#ffffff" }}>구글로 로그인</Text>
+        </TORow>
+        <TORow onPress={loginEmail} style={[roundedRectangle12]}>
+          <Image
+            source={iconEmail}
+            style={{ marginLeft: 46, marginRight: 18 }}
+          />
           <Text style={{ fontSize: 16, color: "#ffffff" }}>
-            이메일 주소로 로그인
+            이메일로 로그인
           </Text>
-        </TO0>
-      </View>
-      <ViewRow>
-        <Text>아직 계정이 없으신가요?</Text>
-        <TouchableOpacity onPress={register}>
-          <Text>회원가입</Text>
-        </TouchableOpacity>
-      </ViewRow>
+        </TORow>
+      </V1>
     </>
   );
 };
