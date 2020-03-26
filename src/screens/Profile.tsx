@@ -1,21 +1,57 @@
 import React from "react";
-import { useStore } from "../Store";
-import { RootStackParamList } from "./AppContainer";
+import {
+  TouchableWithoutFeedback,
+  Keyboard,
+  TextProps,
+  ViewProps,
+  Image
+} from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
-import { TextInput } from "../components/TextInput";
-import { Ionicons } from "@expo/vector-icons";
-import { Text, Text2 } from "../components/Text";
-import { View, ViewRow, ViewColumnCenter } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
-import { auth, IdTokenResult } from "../firebase";
-import { updateUserName } from "../graphql/mutation";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { whoami, searchDuplicateName } from "../graphql/query";
-import { useDebouncedCallback } from "use-debounce";
+import { Ionicons } from "@expo/vector-icons";
 import { showMessage } from "react-native-flash-message";
+import { useDebouncedCallback } from "use-debounce";
 
+import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { RootStackParamList } from "./AppContainer";
+import { TextInput } from "../components/TextInput";
+import { Text, Label13, Label14 } from "../components/Text";
+import {
+  View,
+  ViewRow,
+  ViewColumnStretch,
+  ViewColumnCenter
+} from "../components/View";
+import UserProfileBig from "../components/UserProfileBig";
+
+import HeaderConfirm from "../components/HeaderConfirm";
+import LineSeperator from "../components/LineSeperator";
+
+import { updateUserName } from "../graphql/mutation";
+import { whoami, searchDuplicateName } from "../graphql/query";
+import { auth, IdTokenResult } from "../firebase";
+import { useStore } from "../Store";
+
+
+const box = {
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1
+} as ViewProps;
+
+const textStyle = {
+  fontSize: 16,
+  color: "#555555",
+  paddingHorizontal: 10
+} as TextProps;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
   route: RouteProp<RootStackParamList, "Profile">;
@@ -23,6 +59,7 @@ export default (props: {
   const { navigate } = props.navigation;
   const [{ user_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [updateName] = useMutation(updateUserName, {
     variables: { id: user_id, name: userName }
   });
@@ -74,6 +111,7 @@ export default (props: {
     if (data && data.parti_2020_users.length) {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.parti_2020_users[0].name || "");
+      setEmail(data.parti_2020_users[0].email || "");
     }
   }, [userNameQuery]);
   React.useEffect(() => {
@@ -108,39 +146,70 @@ export default (props: {
   }
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity
-          style={{ width: 50, padding: 10 }}
-          onPress={() => navigate("UserSetting")}
-        >
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text2>비밀번호 변경</Text2>
-      </ViewRow>
-      <ViewColumnCenter style={{ alignItems: "stretch" }}>
-        <Text>프로필</Text>
-        <Text>고유한 닉네임을 입력하세요</Text>
-        <TextInput
-          value={userName}
-          textContentType="nickname"
-          placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
-          autoFocus={true}
-          returnKeyType="send"
-          placeholderTextColor="#c5c5c5"
-          maxLength={30}
-          onChangeText={nicknameHandler}
-          onSubmitEditing={saveHandler}
-        />
-        {userName.trim().length > 0 &&
-          (isInUse ? (
-            <Text>{warningMsg}</Text>
-          ) : (
-            <Text>"{userName}"은 사용가능 합니다.</Text>
-          ))}
-        <TOEasy onPress={saveHandler}>
-          <Text>별명 저장</Text>
-        </TOEasy>
-      </ViewColumnCenter>
+      <HeaderConfirm onPress={saveHandler} />
+      <ViewColumnStretch
+        style={{ alignItems: "stretch", marginHorizontal: 30, marginTop: 12 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View>
+            <Text
+              style={{
+                fontSize: 22,
+                color: "#333333"
+              }}
+            >
+              프로필
+            </Text>
+            <ViewColumnCenter style={{ marginTop: 70, marginBottom: 60 }}>
+              <UserProfileBig />
+            
+            </ViewColumnCenter>
+          </View>
+        </TouchableWithoutFeedback>
+        <KeyboardAvoidingView>
+          <View style={box}>
+            <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
+              <Label13 style={{width: 40}}>닉네임</Label13>
+              <TextInput
+                value={userName}
+                textContentType="nickname"
+                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
+                autoFocus={true}
+                returnKeyType="send"
+                placeholderTextColor="#c5c5c5"
+                maxLength={30}
+                onChangeText={nicknameHandler}
+                onSubmitEditing={saveHandler}
+                style={textStyle}
+              />
+            </ViewRow>
+            <View
+              style={{
+                paddingVertical: 5,
+                paddingHorizontal: 30,
+                paddingLeft: 80,
+                paddingBottom: 26
+              }}
+            >
+              {userName.trim().length > 0 &&
+                (isInUse ? (
+                  <Text style={{ fontSize: 12, color: "#f35f5f" }}>
+                    {warningMsg}
+                  </Text>
+                ) : (
+                  <Text style={{ fontSize: 12 }}>
+                    "{userName}"은 사용가능 합니다.
+                  </Text>
+                ))}
+            </View>
+            <LineSeperator />
+            <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 30 }}>
+              <Label13 style={{width: 40}}>이메일</Label13>
+              <Text style={textStyle}>{email}</Text>
+            </ViewRow>
+          </View>
+        </KeyboardAvoidingView>
+      </ViewColumnStretch>
     </>
   );
 };

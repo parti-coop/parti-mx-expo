@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Image } from "react-native";
+import { ScrollView, Image, Keyboard } from "react-native";
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
 import { View, ViewRow } from "./View";
@@ -81,6 +81,7 @@ export default props => {
   function createNewGroup() {
     props.navigation.navigate("GroupCreate");
     props.navigation.closeDrawer();
+    Keyboard.dismiss();
   }
   return (
     <>

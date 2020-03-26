@@ -1,6 +1,5 @@
 import React from "react";
 import { StackHeaderProps } from "@react-navigation/stack";
-import { Ionicons } from "@expo/vector-icons";
 import { showMessage } from "react-native-flash-message";
 import {
   ViewProps,

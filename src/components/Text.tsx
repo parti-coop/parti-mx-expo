@@ -10,7 +10,7 @@ export class Text extends React.PureComponent<TextProps> {
         style={[
           {
             fontFamily: "notosans",
-            fontSize: 20
+            fontSize: 14
           },
           this.props.style
         ]}
@@ -56,7 +56,7 @@ export class Text2 extends React.PureComponent<TextProps> {
         style={[
           {
             fontFamily: "notosans",
-            fontSize: 20,
+            fontSize: 14,
             flex: 1,
             backgroundColor: getRandomColor()
           },
@@ -68,3 +68,35 @@ export class Text2 extends React.PureComponent<TextProps> {
     );
   }
 }
+
+export const Label13: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 13,
+        color: "#30ad9f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Label14: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 14,
+        color: "#30ad9f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);

@@ -17,10 +17,12 @@ export const KeyboardAvoidingView = React.forwardRef<
       justifyContent: "center",
       ...(props.contentContainerStyle as Object)
     }}
-    style={{
-      flex: 1,
-      ...(props.style as Object)
-    }}
+    style={[
+      {
+        flex: 1
+      },
+      props.style
+    ]}
     ref={ref}
   >
     {props.children}

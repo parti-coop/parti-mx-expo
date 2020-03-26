@@ -3,6 +3,7 @@ export const whoami = gql`
   query($id: Int!) {
     parti_2020_users(where: { id: { _eq: $id } }) {
       name
+      email
     }
   }
 `;
@@ -12,6 +13,7 @@ export const searchDuplicateName = gql`
       where: { _and: [{ id: { _neq: $id } }, { name: { _ilike: $name } }] }
     ) {
       id
+      email
     }
   }
 `;
