@@ -19,9 +19,9 @@ export const insertUser = gql`
 `;
 
 export const updateUserName = gql`
-  mutation($id: Int!, $name: String!) {
+  mutation($id: Int!, $name: String!, $photo_url: String) {
     update_parti_2020_users(
-      _set: { name: $name }
+      _set: { name: $name, photo_url: $photo_url }
       where: { id: { _eq: $id } }
     ) {
       affected_rows

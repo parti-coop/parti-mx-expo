@@ -1,6 +1,7 @@
-import React from "react";
-import { ViewStyle, Image } from "react-native";
-import { ViewRow, ViewColumnCenter } from "./View";
+import React, { Dispatch, SetStateAction } from "react";
+import { ViewStyle, Image, ImageStyle } from "react-native";
+import { launchImageLibraryAsync } from "expo-image-picker";
+import { View, ViewColumnCenter } from "./View";
 import { Label14 } from "./Text";
 import { TouchableOpacity, TOEasy, TO0 } from "../components/TouchableOpacity";
 import iconProfile from "../../assets/iconProfile.png";
@@ -10,14 +11,48 @@ const UserStyle = {
   width: 83,
   height: 83,
   borderRadius: 25,
-  backgroundColor: "#c1c1c1",
-  flex: 0
+  backgroundColor: "#c1c1c1"
 } as ViewStyle;
-export default (props: { style?: ViewStyle }) => {
+const UserImageStyle = {
+  width: 83,
+  height: 83,
+  borderRadius: 25,
+  backgroundColor: "#c1c1c1"
+} as ImageStyle;
+
+export default (props: {
+  style?: ViewStyle;
+  url: string;
+  setUrl: Dispatch<SetStateAction<string>>;
+}) => {
+  function addImage() {
+    return launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0
+    }).then(res => {
+      if (res.cancelled !== true) {
+        props.setUrl(res.uri);
+      }
+    });
+  }
+  if (!props.url) {
+    return (
+      <>
+        <ViewColumnCenter style={[UserStyle, props.style]}>
+          <Image source={iconProfile} />
+        </ViewColumnCenter>
+
+        <TO0 onPress={addImage}>
+          <Label14 style={{ marginTop: 9 }}>추가</Label14>
+        </TO0>
+      </>
+    );
+  }
   return (
     <>
-      <ViewColumnCenter style={[UserStyle, props.style]}>
-        <Image source={iconProfile} />
+      <View>
+        <Image source={{ uri: props.url }} style={[UserImageStyle]} />
         <TO0
           style={{
             width: 30,
@@ -28,12 +63,13 @@ export default (props: { style?: ViewStyle }) => {
             right: -8,
             position: "absolute"
           }}
+          onPress={() => props.setUrl(null)}
         >
           <Image source={btnDel} />
         </TO0>
-      </ViewColumnCenter>
-      <TO0>
-        <Label14 style={{marginTop: 9}}>변경</Label14>
+      </View>
+      <TO0 onPress={addImage}>
+        <Label14 style={{ marginTop: 9 }}>변경</Label14>
       </TO0>
     </>
   );

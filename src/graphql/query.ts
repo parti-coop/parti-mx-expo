@@ -4,6 +4,7 @@ export const whoami = gql`
     parti_2020_users(where: { id: { _eq: $id } }) {
       name
       email
+      photo_url
     }
   }
 `;

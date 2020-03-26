@@ -6,6 +6,7 @@ import {
   ViewProps,
   Image
 } from "react-native";
+import uuid from "uuid";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
@@ -32,8 +33,8 @@ import LineSeperator from "../components/LineSeperator";
 import { updateUserName } from "../graphql/mutation";
 import { whoami, searchDuplicateName } from "../graphql/query";
 import { auth, IdTokenResult } from "../firebase";
+import { uploadImage } from "../firebase";
 import { useStore } from "../Store";
-
 
 const box = {
   borderRadius: 25,
@@ -60,9 +61,8 @@ export default (props: {
   const [{ user_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [updateName] = useMutation(updateUserName, {
-    variables: { id: user_id, name: userName }
-  });
+  const [photoUrl, setPhotoUrl] = React.useState("");
+  const [updateName] = useMutation(updateUserName);
   const [firstFetch, searchDuplicateQuery] = useLazyQuery(searchDuplicateName, {
     variables: { name: userName, id: user_id }
   });
@@ -112,6 +112,7 @@ export default (props: {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.parti_2020_users[0].name || "");
       setEmail(data.parti_2020_users[0].email || "");
+      setPhotoUrl(data.parti_2020_users[0].photo_url || "");
     }
   }, [userNameQuery]);
   React.useEffect(() => {
@@ -141,8 +142,22 @@ export default (props: {
       });
       return false;
     }
-    await updateName();
+    dispatch({ type: "SET_LOADING", loading: true });
+    let url = photoUrl;
+    try {
+      const prevPhoroUrl = userNameQuery.data.parti_2020_users[0].photo_url;
+      if (photoUrl !== prevPhoroUrl) {
+        console.log("new photo uploading");
+        url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then(snap =>
+          snap.ref.getDownloadURL()
+        );
+      }
+    } catch (error) {}
+    await updateName({
+      variables: { id: user_id, name: userName, photo_url: url }
+    }).then(console.log);
     navigate("Home");
+    dispatch({ type: "SET_LOADING", loading: false });
   }
   return (
     <>
@@ -161,15 +176,14 @@ export default (props: {
               프로필
             </Text>
             <ViewColumnCenter style={{ marginTop: 70, marginBottom: 60 }}>
-              <UserProfileBig />
-            
+              <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
             </ViewColumnCenter>
           </View>
         </TouchableWithoutFeedback>
         <KeyboardAvoidingView>
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
-              <Label13 style={{width: 40}}>닉네임</Label13>
+              <Label13 style={{ width: 40 }}>닉네임</Label13>
               <TextInput
                 value={userName}
                 textContentType="nickname"
@@ -204,7 +218,7 @@ export default (props: {
             </View>
             <LineSeperator />
             <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 30 }}>
-              <Label13 style={{width: 40}}>이메일</Label13>
+              <Label13 style={{ width: 40 }}>이메일</Label13>
               <Text style={textStyle}>{email}</Text>
             </ViewRow>
           </View>
