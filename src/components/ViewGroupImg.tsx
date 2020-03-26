@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Image } from "react-native";
-import { View, ViewRowLeft } from "./View";
+import { View, ViewRow } from "./View";
 import iconGroupImg from "../../assets/icon-group-img.png";
 import iconGroup from "../../assets/icon-group.png";
 export default (props: { color?: boolean }) => {

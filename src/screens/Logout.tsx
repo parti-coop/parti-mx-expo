@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
-import { View, ViewRowLeft } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { auth } from "../firebase";
@@ -32,7 +32,7 @@ export default props => {
   }, []);
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -40,7 +40,7 @@ export default props => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>로그아웃</Text>
-      </ViewRowLeft>
+      </ViewRow>
       <View
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       ></View>

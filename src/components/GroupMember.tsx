@@ -4,7 +4,7 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "./Text";
 
-import { ViewRowLeft, ViewColumnCenter } from "./View";
+import { ViewRow, ViewColumnCenter } from "./View";
 import { ScrollView } from "react-native-gesture-handler";
 import { useQuery } from "@apollo/react-hooks";
 import { searchMembers } from "../graphql/query";
@@ -22,14 +22,14 @@ export default (props: { searchKeyword: string }) => {
         i: number
       ) => {
         return (
-          <ViewRowLeft key={i}>
+          <ViewRow key={i}>
             <Ionicons name="ios-arrow-back" size={60} />
             <ViewColumnCenter>
               <Text>{u.user.name}</Text>
               <Text>{u.user.email}</Text>
             </ViewColumnCenter>
             <Feather name="more-horizontal" />
-          </ViewRowLeft>
+          </ViewRow>
         );
       }
     );

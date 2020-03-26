@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRow, ViewRowLeft } from "../components/View";
+import { ViewRow } from "../components/View";
 import useDebounce from "../components/useDebounce";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import GroupMember from "../components/GroupMember";
@@ -17,7 +17,7 @@ export default (props: NavigationSwitchScreenProps) => {
 
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -25,7 +25,7 @@ export default (props: NavigationSwitchScreenProps) => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>멤버</Text>
-      </ViewRowLeft>
+      </ViewRow>
       <ViewRow>
         <TORow onPress={e => setShowMember(true)}>
           <Text>멤버</Text>
@@ -34,13 +34,13 @@ export default (props: NavigationSwitchScreenProps) => {
           <Text>오거나이저</Text>
         </TORow>
       </ViewRow>
-      <ViewRowLeft>
+      <ViewRow>
         <Ionicons name="ios-search" size={60} />
         <TextInput
           value={searchKeyword}
           onChange={e => setSearchKeyword(e.nativeEvent.text)}
         />
-      </ViewRowLeft>
+      </ViewRow>
       {showMember ? (
         <GroupMember searchKeyword={useDebounce(searchKeyword, 500)} />
       ) : (

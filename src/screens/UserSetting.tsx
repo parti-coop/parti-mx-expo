@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, Share, Picker } from "react-native";
 import { StackHeaderProps } from "@react-navigation/stack";
 import { Text, TextRound } from "../components/Text";
-import { View, ViewRow, ViewRowLeft } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
@@ -24,12 +24,12 @@ export default (props: StackHeaderProps) => {
   ];
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity style={{}} onPress={e => props.navigation.navigate("Home")}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>내 설정</Text>
-      </ViewRowLeft>
+      </ViewRow>
       {list.map((a, i) => {
         if (typeof a === "string") {
           return <Text key={i}>a</Text>;

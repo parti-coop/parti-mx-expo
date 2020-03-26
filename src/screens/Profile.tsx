@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { TextInput } from "../components/TextInput";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, Text2 } from "../components/Text";
-import { View, ViewRowLeft, ViewColumnCenter } from "../components/View";
+import { View, ViewRow, ViewColumnCenter } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { auth, IdTokenResult } from "../firebase";
 import { updateUserName } from "../graphql/mutation";
@@ -108,7 +108,7 @@ export default (props: {
   }
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => navigate("UserSetting")}
@@ -116,7 +116,7 @@ export default (props: {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text2>비밀번호 변경</Text2>
-      </ViewRowLeft>
+      </ViewRow>
       <ViewColumnCenter style={{ alignItems: "stretch" }}>
         <Text>프로필</Text>
         <Text>고유한 닉네임을 입력하세요</Text>

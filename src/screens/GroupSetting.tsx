@@ -6,7 +6,7 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRowLeft } from "../components/View";
+import { ViewRow } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { Ionicons } from "@expo/vector-icons";
@@ -51,7 +51,7 @@ export default (props: {
   }, [loading]);
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
@@ -59,7 +59,7 @@ export default (props: {
         <TouchableOpacity style={{}} onPress={save}>
           <Text>저장</Text>
         </TouchableOpacity>
-      </ViewRowLeft>
+      </ViewRow>
       <Text>그룹 설정 </Text>
       <TextInput
         value={groupName}

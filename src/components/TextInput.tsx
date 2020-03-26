@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput as T, TextInputProps, Platform } from "react-native";
-import { ViewRowLeft } from "./View";
+import { ViewRow } from "./View";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { getRandomColor } from "../Utils/RandomColorGenerator";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -75,7 +75,7 @@ export const PasswordInput = React.forwardRef<T, TextInputProps>(
       }
     }
     return (
-      <ViewRowLeft
+      <ViewRow
         style={{
           flex: 1,
           paddingHorizontal: 0,
@@ -99,7 +99,7 @@ export const PasswordInput = React.forwardRef<T, TextInputProps>(
         >
           <MaterialIcons name={secure.icEye} size={30} />
         </TouchableOpacity>
-      </ViewRowLeft>
+      </ViewRow>
     );
   }
 );

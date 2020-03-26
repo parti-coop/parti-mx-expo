@@ -42,6 +42,20 @@ export const TOEasy: React.FunctionComponent<TouchableOpacityProps> = props => (
     {props.children}
   </TO>
 );
+export const TO0: React.FunctionComponent<TouchableOpacityProps> = props => (
+  <TO
+    {...props}
+    style={[
+      {
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </TO>
+);
 
 export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = props => (
   <TO

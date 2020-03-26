@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text, Text2 } from "../components/Text";
-import { View, ViewRowLeft, ViewColumnCenter } from "../components/View";
+import { View, ViewRow, ViewColumnCenter } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { PasswordInput } from "../components/TextInput";
 import { auth, Firebase } from "../firebase";
@@ -44,7 +44,7 @@ export default props => {
   }
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -52,7 +52,7 @@ export default props => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text2>비밀번호 변경</Text2>
-      </ViewRowLeft>
+      </ViewRow>
 
       <View style={{ flex: 1, alignItems:"stretch" }}>
         <PasswordInput value={oldP} onChangeText={setOldP} />

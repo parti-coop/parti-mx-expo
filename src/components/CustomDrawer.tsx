@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, Image } from "react-native";
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
-import { View, ViewRowLeft } from "./View";
+import { View, ViewRow } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
@@ -84,7 +84,7 @@ export default props => {
   }
   return (
     <>
-      <ViewRowLeft style={{ marginLeft: 30, marginTop: 40 }}>
+      <ViewRow style={{ marginLeft: 30, marginTop: 40 }}>
         <Text
           style={{ color: "white", fontSize: 28, fontFamily: "notosans500" }}
         >
@@ -118,8 +118,8 @@ export default props => {
         >
           <ViewGroupImg />
         </TouchableOpacity>
-      </ViewRowLeft>
-      <ViewRowLeft
+      </ViewRow>
+      <ViewRow
         style={{
           marginTop: 83,
           marginHorizontal: 30,
@@ -141,7 +141,7 @@ export default props => {
           placeholderTextColor="rgba(57, 202, 186, 0.3)"
           style={{ fontSize: 17 }}
         />
-      </ViewRowLeft>
+      </ViewRow>
       <ScrollView
         style={{ marginTop: 42, marginBottom: 10 }}
         contentContainerStyle={{

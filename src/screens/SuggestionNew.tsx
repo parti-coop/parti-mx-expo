@@ -9,7 +9,7 @@ import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderNew from "../components/HeaderNew";
-import { View, ViewRow, ViewRowLeft } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import { TOEasy } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
@@ -106,7 +106,7 @@ export default (props: StackHeaderProps) => {
           shadowOpacity: 1
         }}
       >
-        <ViewRowLeft style={{ paddingHorizontal: 30 }}>
+        <ViewRow style={{ paddingHorizontal: 30 }}>
           <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
           <TextInput
             value={sTitle}
@@ -116,9 +116,9 @@ export default (props: StackHeaderProps) => {
             style={textStyle}
             onSubmitEditing={() => contextRef.current.focus()}
           />
-        </ViewRowLeft>
+        </ViewRow>
         <LineSeperator />
-        <ViewRowLeft
+        <ViewRow
           style={{
             paddingHorizontal: 30
           }}
@@ -129,7 +129,7 @@ export default (props: StackHeaderProps) => {
             onChange={setClosingMethod}
             items={options}
           />
-        </ViewRowLeft>
+        </ViewRow>
       </View>
       <View
         style={{

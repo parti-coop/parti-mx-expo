@@ -5,7 +5,7 @@ import { StackHeaderProps } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import uuid from "uuid";
-import { ViewRowLeft } from "../components/View";
+import { ViewRow } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -59,7 +59,7 @@ export default (props: StackHeaderProps) => {
   }, [loading]);
   return (
     <>
-      <ViewRowLeft style={{ justifyContent: "space-between" }}>
+      <ViewRow style={{ justifyContent: "space-between" }}>
         <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
@@ -67,7 +67,7 @@ export default (props: StackHeaderProps) => {
         <TouchableOpacity style={{}} onPress={save}>
           <Text>저장</Text>
         </TouchableOpacity>
-      </ViewRowLeft>
+      </ViewRow>
       <Text>그룹을 만들어 보세요</Text>
       <TextInput
         value={groupName}

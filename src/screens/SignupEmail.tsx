@@ -5,7 +5,7 @@ import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
-import { ViewRowLeft } from "../components/View";
+import { ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import { showMessage } from "react-native-flash-message";
 import { auth } from "../firebase";
@@ -52,7 +52,7 @@ export default props => {
 
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -60,7 +60,7 @@ export default props => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>이메일 주소로 회원가입</Text>
-      </ViewRowLeft>
+      </ViewRow>
       <KeyboardAvoidingView>
         <EmailInput
           value={email}
@@ -74,7 +74,7 @@ export default props => {
           ref={pswTextInput}
           onSubmitEditing={keyboardDownHandler}
         />
-        <ViewRowLeft>
+        <ViewRow>
           <TouchableOpacity
             style={{
               width: 40,
@@ -91,8 +91,8 @@ export default props => {
             <Text>서비스 이용약관</Text>
           </TouchableOpacity>
           <Text>에 동의합니다 (필수)</Text>
-        </ViewRowLeft>
-        <ViewRowLeft style={{ flex: 1 }}>
+        </ViewRow>
+        <ViewRow style={{ flex: 1 }}>
           <TouchableOpacity
             style={{
               width: 40,
@@ -109,7 +109,7 @@ export default props => {
             <Text>개인정보 처리방침</Text>
           </TouchableOpacity>
           <Text>에 동의합니다 (필수)</Text>
-        </ViewRowLeft>
+        </ViewRow>
         <TouchableOpacity onPress={registerHandler} style={{ flex: 1 }}>
           <Text>회원가입</Text>
         </TouchableOpacity>

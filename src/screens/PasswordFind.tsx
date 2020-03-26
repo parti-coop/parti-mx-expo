@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text, Text2 } from "../components/Text";
-import { View, ViewRowLeft, ViewColumnCenter } from "../components/View";
+import { View, ViewRow, ViewColumnCenter } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { TextInput } from "../components/TextInput";
@@ -42,7 +42,7 @@ export default props => {
   }
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -50,11 +50,11 @@ export default props => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text2>비밀번호 찾기</Text2>
-      </ViewRowLeft>
+      </ViewRow>
       <ViewColumnCenter>
         <Text2>회원가입 시 등록한 이메일 주소를 입력하세요.</Text2>
       </ViewColumnCenter>
-      <ViewRowLeft style={{ flex: 1 }}>
+      <ViewRow style={{ flex: 1 }}>
         <AntDesign name="mail" size={30} />
         <TextInput
           value={email}
@@ -68,7 +68,7 @@ export default props => {
           autoFocus
           onSubmitEditing={sendEmail}
         />
-      </ViewRowLeft>
+      </ViewRow>
       <TOEasy onPress={sendEmail}>
         <Text>보내기</Text>
       </TOEasy>

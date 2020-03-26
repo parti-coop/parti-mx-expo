@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
-import { ViewRowLeft } from "../components/View";
+import { ViewRow } from "../components/View";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import { auth } from "../firebase";
@@ -43,7 +43,7 @@ export default (props: StackHeaderProps) => {
   }
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity
           style={{ width: 50, padding: 10 }}
           onPress={() => props.navigation.goBack()}
@@ -51,7 +51,7 @@ export default (props: StackHeaderProps) => {
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>이메일 주소로 로그인</Text>
-      </ViewRowLeft>
+      </ViewRow>
       <KeyboardAvoidingView>
         <EmailInput
           value={email}

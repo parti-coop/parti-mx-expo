@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfileWithName from "./UserProfileWithName";
-import { View, ViewRowLeft, ViewRow } from "./View";
+import { View, ViewRow } from "./View";
 import { Text } from "./Text";
 import { TextInput } from "./TextInput";
 import { Button } from "./Button";
@@ -62,13 +62,13 @@ export default (
             i: number
           ) => (
             <View key={i}>
-              <ViewRowLeft>
+              <ViewRow>
                 <UserProfileWithName name={u.user.name} />
                 <Text>{u.user.votes[0] && "동의"}</Text>
                 <Text>{new Date(u.updated_at).toLocaleString()}</Text>
-              </ViewRowLeft>
+              </ViewRow>
               <Text>{u.body}</Text>
-              <ViewRowLeft>
+              <ViewRow>
                 {u.likes[0] ? (
                   <ButtonUnlikeComment id={u.id} />
                 ) : (
@@ -77,12 +77,12 @@ export default (
 
                 <Text>{u.likes_aggregate.aggregate.count}</Text>
                 <ButtonComment focus={textinputFocus} />
-              </ViewRowLeft>
+              </ViewRow>
             </View>
           )
         )}
       </View>
-      <ViewRowLeft>
+      <ViewRow>
         <TextInput
           value={comm}
           placeholder="댓글을 입력하세요"
@@ -100,7 +100,7 @@ export default (
               .catch(console.error)
           }
         />
-      </ViewRowLeft>
+      </ViewRow>
     </View>
   );
 };

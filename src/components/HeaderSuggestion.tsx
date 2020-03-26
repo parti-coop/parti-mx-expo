@@ -1,7 +1,7 @@
 import React from "react";
 import { Share, Image } from "react-native";
 
-import { ViewRowLeft } from "./View";
+import { ViewRow } from "./View";
 import { Text } from "./Text";
 
 import iconHome from "../../assets/iconHome.png";
@@ -9,7 +9,7 @@ import iconNavi from "../../assets/iconNavi.png";
 
 export default () => {
   return (
-    <ViewRowLeft style={{ paddingHorizontal: 30 }}>
+    <ViewRow style={{ paddingHorizontal: 30 }}>
       <Image source={iconHome} />
       <Image source={iconNavi} style={{ paddingHorizontal: 5 }} />
       <Text
@@ -22,6 +22,6 @@ export default () => {
       >
         제안 게시판
       </Text>
-    </ViewRowLeft>
+    </ViewRow>
   );
 };

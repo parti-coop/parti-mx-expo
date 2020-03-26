@@ -4,7 +4,7 @@ import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "../components/Text";
-import { ViewRowLeft, View } from "../components/View";
+import { ViewRow, View } from "../components/View";
 import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
 import BoardSettingList from "../components/BoardSettingList";
 import ButtonBoardInsert from "../components/ButtonBoardInsert";
@@ -28,12 +28,12 @@ export default (props: {
   const { boards } = data.parti_2020_groups_by_pk;
   return (
     <>
-      <ViewRowLeft>
+      <ViewRow>
         <TouchableOpacity style={{}} onPress={goBack}>
           <Ionicons name="ios-arrow-back" size={60} />
         </TouchableOpacity>
         <Text>게시판 목록</Text>
-      </ViewRowLeft>
+      </ViewRow>
       <Text>게시판 설정 </Text>
       <View>
         {boards.map((b: any, i: number) => {

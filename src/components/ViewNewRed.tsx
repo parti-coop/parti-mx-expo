@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Image, StyleProp, ViewStyle } from "react-native";
-import { View, ViewRowLeft } from "./View";
+import { View, ViewRow } from "./View";
 import { Text } from "./Text";
 import iconGroupImg from "../../assets/icon-group-img.png";
 import iconGroup from "../../assets/icon-group.png";

@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewStyle, Image, TextStyle } from "react-native";
-import { View, ViewRowLeft, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, ViewColumnCenter } from "./View";
 import { Text } from "./Text";
 import IconUser from "../../assets/icon-user.png";
 const UserStyle = {
@@ -17,13 +17,13 @@ const textStyle = {
 } as TextStyle;
 export default (props: React.PropsWithoutRef<{ name: string }>) => {
   return (
-    <ViewRowLeft>
+    <ViewRow>
       <ViewColumnCenter style={[UserStyle]}>
         <Image source={IconUser} resizeMode="center" />
       </ViewColumnCenter>
       <View style={{marginLeft: 11}}>
         <Text style={textStyle}>{props.name}</Text>
       </View>
-    </ViewRowLeft>
+    </ViewRow>
   );
 };
