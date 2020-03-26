@@ -1,11 +1,9 @@
 import React from "react";
 import { ViewStyle, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
-import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
-import { TO0, TouchableOpacity, TORow } from "../components/TouchableOpacity";
+import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
 import iconEmail from "../../assets/iconEmail.png";
 import iconGoogle from "../../assets/iconGoogle.png";
