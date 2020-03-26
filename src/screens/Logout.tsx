@@ -20,13 +20,14 @@ export default props => {
       },
       {
         text: "네",
-        onPress: () =>
+        onPress: () => {
+          dispatch({ type: "LOGOUT" });
           auth
             .signOut()
-            .then(() => dispatch({ type: "LOGOUT" }))
             .finally(() =>
               showMessage({ type: "success", message: "로그아웃 하였습니다." })
-            )
+            );
+        }
       }
     ]);
   }, []);

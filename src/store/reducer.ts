@@ -37,8 +37,7 @@ export const reducer = createReducer<State, Action>(initialState, {
     return initialState;
   },
   ["LOGOUT"]: function(state, payload) {
-    state.user_id = null;
-    return { ...state };
+    return { ...state, user_id: null };
   },
   ["SET_GROUP"]: persistSecureStore,
   ["SET_GROUP_AND_BOARD"]: persistSecureStore,
