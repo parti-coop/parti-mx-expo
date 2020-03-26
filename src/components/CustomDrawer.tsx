@@ -1,5 +1,6 @@
 import React from "react";
 import { ScrollView, Image, Keyboard } from "react-native";
+import { useIsDrawerOpen } from "@react-navigation/drawer";
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
 import { View, ViewRow } from "./View";
@@ -24,9 +25,15 @@ export default props => {
   const query = useQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` }
   });
+  const isDrawerOpen = useIsDrawerOpen();
   React.useEffect(() => {
     setResultList(myGroupList);
   }, [loading, data]);
+  React.useEffect(() => {
+    if (!isDrawerOpen) {
+      Keyboard.dismiss();
+    }
+  }, [isDrawerOpen]);
   const myGroupList =
     !loading && data && data.parti_2020_users_group.length > 0 ? (
       data.parti_2020_users_group.map((usersGroup: any, i: number) => (
@@ -110,15 +117,17 @@ export default props => {
             style={{ width: 20, height: 20 }}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            right: -15
-          }}
-          onPress={e => props.navigation.toggleDrawer()}
-        >
-          <ViewGroupImg />
-        </TouchableOpacity>
+        {isDrawerOpen && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: -15
+            }}
+            onPress={e => props.navigation.toggleDrawer()}
+          >
+            <ViewGroupImg />
+          </TouchableOpacity>
+        )}
       </ViewRow>
       <ViewRow
         style={{
@@ -141,6 +150,7 @@ export default props => {
           placeholder="그룹명 입력"
           placeholderTextColor="rgba(57, 202, 186, 0.3)"
           style={{ fontSize: 17 }}
+          onBlur={Keyboard.dismiss}
         />
       </ViewRow>
       <ScrollView
