@@ -1,9 +1,12 @@
 import React from "react";
 import { Image } from "react-native";
-import { TouchableOpacity } from "./TouchableOpacity";
-import btnWrite from "../../assets/btnWrite.png";
-// import { Text } from "./Text";
 import { useNavigation } from "@react-navigation/native";
+
+import { TouchableOpacity } from "./TouchableOpacity";
+// import { Text } from "./Text";
+
+import btnFloatingWrite from "../../assets/btnFloatingWrite.png";
+
 const rectangle3Copy3 = {
   width: 56,
   height: 51,
@@ -33,7 +36,7 @@ export default () => {
         }
       ]}
     >
-      <Image source={btnWrite} />
+      <Image source={btnFloatingWrite} />
     </TouchableOpacity>
   );
 };

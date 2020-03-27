@@ -1,11 +1,11 @@
 import React from "react";
-import { ScrollView, Share } from "react-native";
+import { ScrollView } from "react-native";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useSubscription } from "@apollo/react-hooks";
 
-import { Text, TextRound } from "../components/Text";
+import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
 import TouchableSuggestionList from "../components/TouchableSuggestionList";

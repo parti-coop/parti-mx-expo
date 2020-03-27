@@ -100,3 +100,19 @@ export const Label14: React.FunctionComponent<TextProps> = props => (
     {props.children}
   </T>
 );
+
+export const Grey12: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 12,
+        color: "#909090"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);

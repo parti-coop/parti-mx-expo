@@ -1,22 +1,26 @@
 import React from "react";
-import { ViewStyle, StyleProp } from "react-native";
+import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
-import { View, ViewRow, ViewColumnCenter } from "./View";
-import { Text } from "./Text";
-import ViewRedDot from "./ViewRedDot";
-import { TouchableOpacity } from "./TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  updateUserBoardCheck,
-  insertUserBoardCheck
-} from "../graphql/mutation";
+
+import { View, ViewRow, ViewColumnCenter } from "./View";
+import { Text, Grey12 } from "./Text";
+import { TouchableOpacity } from "./TouchableOpacity";
+
+import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
+import { calculateDays } from "../Utils/CalculateDays";
+
+import iconSympathy from "../../assets/iconSympathy.png";
+import iconComment from "../../assets/iconComment.png";
+import iconUser from "../../assets/iconUser.png";
 type Suggestion = {
   id: number;
   title: string;
   body: string;
   closed_at: string;
+  created_at: string;
   votes_aggregate: {
     aggregate: {
       sum: {
@@ -44,12 +48,10 @@ export default (props: {
   const [update, { data }] = useMutation(updateUserBoardCheck, {
     variables: { user_id, board_id: suggestion.id }
   });
-  // const [insert] = useMutation(insertUserBoardCheck, {
-  //   variables: { user_id, board_id: suggestion.id }
-  // });
   const voteCount = suggestion.votes_aggregate.aggregate.sum.count;
   const votedByMe =
     suggestion.votes.length > 0 && suggestion.votes[0].count > 0;
+  const daysLeft = calculateDays(suggestion.created_at);
   return (
     <TouchableOpacity
       onPress={e =>
@@ -92,7 +94,7 @@ export default (props: {
               lineHeight: 15
             }}
           >
-            -29
+            {daysLeft}
           </Text>
         </ViewColumnCenter>
         <View style={{ flex: 1 }}>
@@ -106,9 +108,8 @@ export default (props: {
             {suggestion.title}
           </Text>
           <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Text style={{ fontSize: 12, textAlign: "left", color: "#909090" }}>
-              {suggestion.updatedBy.name}
-            </Text>
+            <Image source={iconUser} style={{ marginRight: 8 }} />
+            <Grey12>{suggestion.updatedBy.name}</Grey12>
             <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
               {votedByMe && ", 동의함"}
             </Text>
@@ -120,9 +121,11 @@ export default (props: {
                 marginHorizontal: 4
               }}
             ></View>
-            <Text style={{ fontSize: 12, textAlign: "left", color: "#909090" }}>
-              {suggestion.comments_aggregate.aggregate.count}
-            </Text>
+            <Image
+              source={iconComment}
+              style={{ marginRight: 8, marginLeft: 6 }}
+            />
+            <Grey12>{suggestion.comments_aggregate.aggregate.count}</Grey12>
             {/* {suggestion.closed_at && <Text>{suggestion.closed_at}</Text>} */}
           </ViewRow>
         </View>
@@ -132,13 +135,13 @@ export default (props: {
             height: 35,
             borderRadius: 15,
             backgroundColor: "#f35f5f",
-            position:"absolute",
+            position: "absolute",
             right: -15
           }}
         >
-          <EvilIcons name="heart" color="white" />
+          <Image source={iconSympathy} />
           <Text style={{ fontSize: 11, textAlign: "center", color: "#ffffff" }}>
-            {voteCount}
+            {voteCount || 0}
           </Text>
         </ViewColumnCenter>
       </ViewRow>
