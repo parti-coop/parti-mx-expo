@@ -1,8 +1,8 @@
 import React from "react";
 import { ScrollView, Image } from "react-native";
 import { View, ViewRow } from "./View";
-import iconGroupImg from "../../assets/icon-group-img.png";
-import iconGroup from "../../assets/icon-group.png";
+import iconGroupImg from "../../assets/iconGroupImg.png";
+import iconGroup from "../../assets/iconGroup.png";
 export default (props: { color?: boolean }) => {
   const { color = true } = props;
   return (
@@ -13,7 +13,7 @@ export default (props: { color?: boolean }) => {
         backgroundColor: "#30ad9f",
         borderRadius: 15,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <Image

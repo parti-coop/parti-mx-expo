@@ -1,16 +1,20 @@
 import React from "react";
-import { ViewStyle, StyleProp } from "react-native";
+import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/react-hooks";
+
 import { View, ViewRow } from "./View";
 import { Text } from "./Text";
 import ViewRedDot from "./ViewRedDot";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
+import ViewGroupType from "./ViewGroupType";
+
 import {
   updateUserBoardCheck,
   insertUserBoardCheck
 } from "../graphql/mutation";
 import { useStore } from "../Store";
+
 type Board = {
   id: number;
   title: string;
@@ -23,7 +27,7 @@ type Board = {
 };
 export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const { navigate } = useNavigation();
-  const { board, style } = props;
+  const { board } = props;
   const [{ user_id }] = useStore();
   const [update, { data }] = useMutation(updateUserBoardCheck, {
     variables: { user_id, board_id: board.id }
@@ -62,19 +66,24 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   }
   return (
     <TouchableOpacity
-      style={{
-        height: 83,
-        backgroundColor: "#ffffff",
-        marginBottom: 10,
-        borderRadius: 25,
-        ...(style as Object)
-      }}
+      style={[
+        {
+          height: 123,
+          backgroundColor: "#ffffff",
+          marginBottom: 10,
+          borderRadius: 25,
+          marginRight: 10
+        },
+        props.style
+      ]}
       onPress={goToBoard}
     >
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
+          // justifyContent: "center",
+          paddingVertical: 20,
+          // paddingHorizontal: 30,
           marginLeft: 30,
           marginRight: 50
         }}
@@ -109,8 +118,9 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
             {minutes}
           </Text>
         </ViewRow>
-        <Text style={{ fontSize: 14, color: "#888888" }}>{board.body}</Text>
+        <Text style={{ fontSize: 14, color: "#888888", marginTop: 15 }}>{board.body}</Text>
       </View>
+      <ViewGroupType style={{ position: "absolute", right: -17, top: 44 }} />
     </TouchableOpacity>
   );
 };

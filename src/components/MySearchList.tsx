@@ -29,11 +29,15 @@ export default props => {
       </Text>
     );
   }
-  return data.parti_2020_groups.map((group: any, i: number) => (
-    <TouchableSideNavGroupSearchList
-      group={group}
-      key={i}
-      navigate={navigate}
-    />
-  ));
+  if (data && data.parti_2020_groups) {
+    return data.parti_2020_groups.map((group: any, i: number) => (
+      <TouchableSideNavGroupSearchList
+        group={group}
+        key={i}
+        navigate={navigate}
+      />
+    ));
+  } else {
+    return null;
+  }
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, ViewStyle } from "react-native";
 import { View } from "./View";
-import iconInvite from "../../assets/icon-invite.png";
+import iconNotification from "../../assets/iconNotification.png";
 export default (props: { style?: ViewStyle }) => {
   return (
     <View
@@ -9,10 +9,12 @@ export default (props: { style?: ViewStyle }) => {
         {
           width: 35,
           height: 35,
-          backgroundColor: "#fdbf19",
+          backgroundColor: "#30ad9f",
           borderRadius: 15,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
+          marginLeft: 8,
+          marginRight: 12
         },
         props.style
       ]}
@@ -20,7 +22,7 @@ export default (props: { style?: ViewStyle }) => {
       <Image
         style={{ width: 17, height: 18 }}
         resizeMode="contain"
-        source={iconInvite}
+        source={iconNotification}
       />
     </View>
   );

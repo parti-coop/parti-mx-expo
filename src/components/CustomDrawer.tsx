@@ -37,8 +37,12 @@ export default props => {
   function focusHandler() {
     setSearching(true);
   }
+  function blurHandler() {
+    // setSearching(false);
+    Keyboard.dismiss();
+  }
   React.useEffect(() => {
-    setSearching(true);
+    setSearching(searchKeyword.length > 0);
   }, [searchKeyword]);
 
   function createNewGroup() {
@@ -101,12 +105,12 @@ export default props => {
         />
         <TextInput
           value={searchKeyword}
-          onChange={e => setSearchKeyword(e.nativeEvent.text)}
+          onChangeText={setSearchKeyword}
           onFocus={focusHandler}
           placeholder="그룹명 입력"
           placeholderTextColor="rgba(57, 202, 186, 0.3)"
           style={{ fontSize: 17 }}
-          onBlur={Keyboard.dismiss}
+          onBlur={blurHandler}
         />
       </ViewRow>
       <ScrollView
