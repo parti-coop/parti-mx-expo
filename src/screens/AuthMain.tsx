@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 
 import { useStore } from "../Store";
 
@@ -70,14 +70,14 @@ export default props => {
         </TouchableOpacity>
       </View>
       <ViewRow style={{ position: "absolute", bottom: 0 }}>
-        <TOEasy onPress={register} style={[box, { borderTopRightRadius: 30 }]}>
+        <TO1 onPress={register} style={[box, { borderTopRightRadius: 30 }]}>
           <Text style={[textStyle]}>신규 이용자</Text>
           <Text style={[textStyle, { fontSize: 22 }]}>회원가입</Text>
-        </TOEasy>
-        <TOEasy onPress={login} style={[box, { borderTopLeftRadius: 30 }]}>
+        </TO1>
+        <TO1 onPress={login} style={[box, { borderTopLeftRadius: 30 }]}>
           <Text style={[textStyle]}>기존 이용자</Text>
           <Text style={[textStyle, { fontSize: 22 }]}>로그인</Text>
-        </TOEasy>
+        </TO1>
       </ViewRow>
     </ImageBackground>
   );

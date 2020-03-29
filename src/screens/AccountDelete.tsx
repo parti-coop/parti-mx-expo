@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { PasswordInput } from "../components/TextInput";
 import { auth, Firebase } from "../firebase";
@@ -56,9 +56,9 @@ export default props => {
           autoFocus={true}
           onSubmitEditing={exitHandler}
         />
-        <TOEasy onPress={exitHandler}>
+        <TO1 onPress={exitHandler}>
           <Text>탈퇴</Text>
-        </TOEasy>
+        </TO1>
       </View>
     </>
   );

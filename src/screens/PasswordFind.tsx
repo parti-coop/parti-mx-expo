@@ -4,7 +4,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text, Text2 } from "../components/Text";
 import { View, ViewRow, ViewColumnCenter } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { TextInput } from "../components/TextInput";
 import { auth } from "../firebase";
@@ -69,9 +69,9 @@ export default props => {
           onSubmitEditing={sendEmail}
         />
       </ViewRow>
-      <TOEasy onPress={sendEmail}>
+      <TO1 onPress={sendEmail}>
         <Text>보내기</Text>
-      </TOEasy>
+      </TO1>
     </>
   );
 };

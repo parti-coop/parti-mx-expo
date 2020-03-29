@@ -6,7 +6,7 @@ import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import uuid from "uuid";
 import { ViewRow } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
@@ -85,10 +85,10 @@ export default (props: StackHeaderProps) => {
         <Text>배경 사진 없음</Text>
       )}
 
-      <TOEasy style={{}} onPress={addImage}>
+      <TO1 style={{}} onPress={addImage}>
         <AntDesign name="camerao" />
         <Text>{bg_img_url.length > 0 ? "사진 추가" : "사진 변경"}</Text>
-      </TOEasy>
+      </TO1>
     </>
   );
 };

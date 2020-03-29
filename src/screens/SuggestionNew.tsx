@@ -10,7 +10,7 @@ import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderNew from "../components/HeaderNew";
 import { View, ViewRow } from "../components/View";
-import { TOEasy } from "../components/TouchableOpacity";
+import { TO1 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
 import HeaderSuggestion from "../components/HeaderSuggestion";
@@ -181,7 +181,7 @@ export default (props: StackHeaderProps) => {
         </View>
         <LineSeperator />
         <ViewRow style={{ padding: 22 }}>
-          <TOEasy>
+          <TO1>
             <Text
               style={{
                 fontSize: 16,
@@ -191,7 +191,7 @@ export default (props: StackHeaderProps) => {
             >
               사진 첨부
             </Text>
-          </TOEasy>
+          </TO1>
           <View
             style={{
               width: 1,
@@ -199,7 +199,7 @@ export default (props: StackHeaderProps) => {
               backgroundColor: "#e4e4e4"
             }}
           />
-          <TOEasy>
+          <TO1>
             <Text
               style={{
                 fontSize: 16,
@@ -210,7 +210,7 @@ export default (props: StackHeaderProps) => {
             >
               파일 첨부
             </Text>
-          </TOEasy>
+          </TO1>
         </ViewRow>
       </View>
     </>

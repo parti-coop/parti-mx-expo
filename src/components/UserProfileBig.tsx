@@ -3,7 +3,7 @@ import { ViewStyle, Image, ImageStyle } from "react-native";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { View, ViewColumnCenter } from "./View";
 import { Mint14 } from "./Text";
-import { TouchableOpacity, TOEasy, TO0 } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1, TO0 } from "../components/TouchableOpacity";
 import iconProfile from "../../assets/iconProfile.png";
 
 import btnDel from "../../assets/btnDel.png";

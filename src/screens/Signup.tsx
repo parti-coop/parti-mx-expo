@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../Store";
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import { Button } from "../components/Button";
 import { auth } from "../firebase";
 export default props => {
@@ -27,11 +27,11 @@ export default props => {
         <Text>회원가입</Text>
       </ViewRow>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <TOEasy
+        <TO1
           onPress={() => props.navigation.navigate("SignupEmail")}
         >
           <Text>이메일 주소로 회원가입</Text>
-        </TOEasy>
+        </TO1>
       </View>
       <ViewRow>
         <Text>이미 계정이 있으신가요?</Text>

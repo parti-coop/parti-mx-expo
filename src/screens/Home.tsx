@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Text } from "../components/Text";
 import { useStore } from "../Store";
-import { TOEasy } from "../components/TouchableOpacity";
+import { TO1 } from "../components/TouchableOpacity";
 import ViewGroupHome from "../components/ViewGroupHome";
 
 export default () => {
@@ -17,9 +17,9 @@ export default () => {
     return <ViewGroupHome />;
   } else {
     return (
-      <TOEasy onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+      <TO1 onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
         <Text>그룹을 선택하세요.</Text>
-      </TOEasy>
+      </TO1>
     );
   }
 };

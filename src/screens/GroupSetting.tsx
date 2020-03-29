@@ -7,7 +7,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { ViewRow } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import { useStore } from "../Store";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
@@ -76,9 +76,9 @@ export default (props: {
         <Text>사진 없음</Text>
       )}
 
-      <TOEasy style={{}} onPress={addImage}>
+      <TO1 style={{}} onPress={addImage}>
         <Text>사진 변경</Text>
-      </TOEasy>
+      </TO1>
     </>
   );
 };

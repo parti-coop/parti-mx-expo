@@ -5,7 +5,7 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text } from "../components/Text";
 import { ViewRow, View } from "../components/View";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import BoardSettingList from "../components/BoardSettingList";
 import ButtonBoardInsert from "../components/ButtonBoardInsert";
 import { useStore } from "../Store";

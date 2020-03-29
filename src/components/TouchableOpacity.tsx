@@ -27,7 +27,7 @@ export class ButtonRound extends React.PureComponent<TouchableOpacityProps> {
     );
   }
 }
-export const TOEasy: React.FunctionComponent<TouchableOpacityProps> = props => (
+export const TO1: React.FunctionComponent<TouchableOpacityProps> = props => (
   <TO
     {...props}
     style={[
