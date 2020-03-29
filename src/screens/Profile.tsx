@@ -18,7 +18,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
-import { Text, Label13, Label14 } from "../components/Text";
+import { Text, Mint13, Mint14 } from "../components/Text";
 import {
   View,
   ViewRow,
@@ -183,7 +183,7 @@ export default (props: {
         <KeyboardAvoidingView>
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
-              <Label13 style={{ width: 40 }}>닉네임</Label13>
+              <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
                 value={userName}
                 textContentType="nickname"
@@ -218,7 +218,7 @@ export default (props: {
             </View>
             <LineSeperator />
             <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 30 }}>
-              <Label13 style={{ width: 40 }}>이메일</Label13>
+              <Mint13 style={{ width: 40 }}>이메일</Mint13>
               <Text style={textStyle}>{email}</Text>
             </ViewRow>
           </View>

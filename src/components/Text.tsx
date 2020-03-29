@@ -69,7 +69,7 @@ export class Text2 extends React.PureComponent<TextProps> {
   }
 }
 
-export const Label13: React.FunctionComponent<TextProps> = props => (
+export const Mint13: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
     style={[
@@ -85,7 +85,7 @@ export const Label13: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
-export const Label14: React.FunctionComponent<TextProps> = props => (
+export const Mint14: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
     style={[
@@ -109,6 +109,22 @@ export const Grey12: React.FunctionComponent<TextProps> = props => (
         fontFamily: "notosans",
         fontSize: 12,
         color: "#909090"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Red16: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 16,
+        color: "#f35f5f"
       },
       props.style
     ]}

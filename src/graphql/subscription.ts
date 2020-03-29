@@ -126,7 +126,7 @@ export const subscribeBoardsByGroupId = gql`
       id
       title
       bg_img_url
-      boards {
+      boards(order_by: { last_posted_at: desc, updated_at: desc }) {
         id
         title
         body

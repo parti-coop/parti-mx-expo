@@ -92,9 +92,7 @@ export default (props: {
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
-  const closingAt = new Date(
-    (d => d.setDate(d.getDate() + 30))(new Date(created_at))
-  ).toDateString();
+
   return (
     <>
       <HeaderShare id={id} />
@@ -119,18 +117,14 @@ export default (props: {
         </View>
         <SelectMenu items={options} />
         <ViewColumnCenter style={{ marginTop: 50 }}>
-          {voteCount > 0 ? <ButtonDevote id={id} /> : <ButtonVote id={id} />}
-          {closing_method === 0 && (
-            <Text
-              style={{
-                fontSize: 12,
-                textAlign: "center",
-                color: "#f35f5f",
-                marginTop: 10
-              }}
-            >
-              {closingAt}까지 동의할 수 있습니다
-            </Text>
+          {voteCount > 0 ? (
+            <ButtonDevote id={id} />
+          ) : (
+            <ButtonVote
+              id={id}
+              created_at={created_at}
+              closing_method={closing_method}
+            />
           )}
         </ViewColumnCenter>
         <ViewRow>

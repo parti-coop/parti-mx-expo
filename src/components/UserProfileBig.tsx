@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { ViewStyle, Image, ImageStyle } from "react-native";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { View, ViewColumnCenter } from "./View";
-import { Label14 } from "./Text";
+import { Mint14 } from "./Text";
 import { TouchableOpacity, TOEasy, TO0 } from "../components/TouchableOpacity";
 import iconProfile from "../../assets/iconProfile.png";
 
@@ -44,7 +44,7 @@ export default (props: {
         </ViewColumnCenter>
 
         <TO0 onPress={addImage}>
-          <Label14 style={{ marginTop: 9 }}>추가</Label14>
+          <Mint14 style={{ marginTop: 9 }}>추가</Mint14>
         </TO0>
       </>
     );
@@ -69,7 +69,7 @@ export default (props: {
         </TO0>
       </View>
       <TO0 onPress={addImage}>
-        <Label14 style={{ marginTop: 9 }}>변경</Label14>
+        <Mint14 style={{ marginTop: 9 }}>변경</Mint14>
       </TO0>
     </>
   );
