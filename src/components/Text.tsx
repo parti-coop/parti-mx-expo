@@ -2,24 +2,20 @@ import React from "react";
 import { getRandomColor } from "../Utils/RandomColorGenerator";
 import { Text as T, TextProps } from "react-native";
 
-export class Text extends React.PureComponent<TextProps> {
-  render() {
-    return (
-      <T
-        {...this.props}
-        style={[
-          {
-            fontFamily: "notosans",
-            fontSize: 14
-          },
-          this.props.style
-        ]}
-      >
-        {this.props.children}
-      </T>
-    );
-  }
-}
+export const Text: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 14
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
 
 export class TextRound extends React.PureComponent<TextProps> {
   render() {
@@ -100,6 +96,21 @@ export const Mint14: React.FunctionComponent<TextProps> = props => (
     {props.children}
   </T>
 );
+export const Mint17: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 14,
+        color: "#30ad9f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
 
 export const Grey12: React.FunctionComponent<TextProps> = props => (
   <T
@@ -117,6 +128,22 @@ export const Grey12: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
+export const Red12: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 12,
+        color: "#f35f5f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const Red16: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
@@ -125,6 +152,22 @@ export const Red16: React.FunctionComponent<TextProps> = props => (
         fontFamily: "notosans",
         fontSize: 16,
         color: "#f35f5f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Black14: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 14,
+        color: "#333333"
       },
       props.style
     ]}

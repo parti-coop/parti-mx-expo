@@ -18,7 +18,7 @@ const textStyle = {
 } as TextStyle;
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
-  height: 197,
+  // height: 197,
   backgroundColor: "#30ad9f",
   shadowColor: "rgba(0, 0, 0, 0.32)",
   shadowOffset: {
@@ -27,7 +27,7 @@ const boxStyle: StyleProp<ViewStyle> = {
   },
   shadowRadius: 5,
   shadowOpacity: 1,
-  paddingHorizontal: 25,
+  // paddingHorizontal: 25,
   paddingVertical: 5,
   left: 0,
   borderRadius: 25,
@@ -35,20 +35,28 @@ const boxStyle: StyleProp<ViewStyle> = {
 };
 export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
   const [isVisible, setVisible] = React.useState(false);
-  const { items } = props;
-  function changeHandler(item: any) {
+  const { items, style } = props;
+  function changeHandler(item: {
+    label: string;
+    value?: any;
+    handler: (value?: any) => any;
+  }) {
     setVisible(false);
-    item.handler();
+    item.handler(item?.value);
   }
   return (
     <View
-      style={{
-        flex: 1,
-        position: "absolute",
-        top: 39,
-        right: 31,
-        alignItems: "flex-end"
-      }}
+      style={[
+        {
+          flex: 1,
+          position: "absolute",
+          top: 39,
+          right: 31,
+          alignItems: "flex-end",
+          zIndex: 1
+        },
+        style
+      ]}
     >
       <TOCenter
         onPress={() => setVisible(!isVisible)}
@@ -67,7 +75,11 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
       {isVisible && (
         <View style={[boxStyle]}>
           {items.map((item, i) => (
-            <TouchableOpacity key={i} onPress={e => changeHandler(item)}>
+            <TouchableOpacity
+              key={i}
+              onPress={e => changeHandler(item)}
+              style={{ paddingHorizontal: 25 }}
+            >
               <Text style={textStyle}>{item.label}</Text>
               {i !== items.length - 1 && (
                 <View

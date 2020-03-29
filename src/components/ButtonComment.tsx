@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { Text } from "./Text";
+import { Text, Mint13 } from "./Text";
 import { useStore } from "../Store";
 export default ({ focus }: { focus: () => any }) => {
   const [{ user_id }] = useStore();
@@ -9,7 +9,7 @@ export default ({ focus }: { focus: () => any }) => {
   }
   return (
     <TouchableOpacity onPress={comment}>
-      <Text>댓글 달기</Text>
+      <Mint13>댓글 달기</Mint13>
     </TouchableOpacity>
   );
 };

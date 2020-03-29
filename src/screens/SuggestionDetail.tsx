@@ -5,13 +5,11 @@ import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
-import { Text } from "../components/Text";
+import { Text, Black14 } from "../components/Text";
 import { View, ViewRow, ViewColumnCenter } from "../components/View";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { TouchableOpacity, TOEasy } from "../components/TouchableOpacity";
+import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
-import SuggestionVoted from "../components/SuggestionVoted";
-import Comments from "../components/Comments";
+
 import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
@@ -21,6 +19,7 @@ import HeaderSuggestion from "../components/HeaderSuggestion";
 import ViewTitle from "../components/ViewTitle";
 import LineSeperator from "../components/LineSeperator";
 import SelectMenu from "../components/SelectMenu";
+import SuggestionTabs from "../components/SuggestionTabs";
 
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
@@ -28,6 +27,7 @@ import { RootStackParamList } from "./AppContainer";
 
 const box = {
   marginTop: 40,
+  paddingBottom: 50,
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
@@ -59,8 +59,6 @@ export default (props: {
     variables: { id, user_id }
   });
   const { navigate } = useNavigation();
-
-  const [showComments, setShowComments] = React.useState(true);
 
   if (!(data && data.parti_2020_suggestions_by_pk)) {
     return null;
@@ -99,47 +97,37 @@ export default (props: {
       <HeaderSuggestion />
       <ViewTitle title={title} updated_at={updated_at} />
       <KeyboardAwareScrollView
-        contentContainerStyle={[box]}
+        // contentContainerStyle={[box]}
         keyboardShouldPersistTaps={"handled"}
       >
-        <View style={{ margin: 30, marginBottom: 20 }}>
-          <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
-          <UserProfileWithName name={createdBy.name} />
+        <View style={box}>
+          <View style={{ margin: 30, marginBottom: 20 }}>
+            <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
+            <UserProfileWithName name={createdBy.name} />
+          </View>
+          <LineSeperator />
+          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+            <Text style={[labelStyle, { marginBottom: 19 }]}>제안 배경</Text>
+            <Text style={bodyTextStyle}>{context}</Text>
+          </View>
+          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+            <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
+            <Text style={bodyTextStyle}>{body}</Text>
+          </View>
+          <SelectMenu items={options} />
+          <ViewColumnCenter style={{ marginTop: 50 }}>
+            {voteCount > 0 ? (
+              <ButtonDevote id={id} />
+            ) : (
+              <ButtonVote
+                id={id}
+                created_at={created_at}
+                closing_method={closing_method}
+              />
+            )}
+          </ViewColumnCenter>
         </View>
-        <LineSeperator />
-        <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-          <Text style={[labelStyle, { marginBottom: 19 }]}>제안 배경</Text>
-          <Text style={bodyTextStyle}>{context}</Text>
-        </View>
-        <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-          <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
-          <Text style={bodyTextStyle}>{body}</Text>
-        </View>
-        <SelectMenu items={options} />
-        <ViewColumnCenter style={{ marginTop: 50 }}>
-          {voteCount > 0 ? (
-            <ButtonDevote id={id} />
-          ) : (
-            <ButtonVote
-              id={id}
-              created_at={created_at}
-              closing_method={closing_method}
-            />
-          )}
-        </ViewColumnCenter>
-        <ViewRow>
-          <TOEasy style={{ height: 50 }} onPress={e => setShowComments(true)}>
-            <Text>댓글</Text>
-          </TOEasy>
-          <TOEasy style={{ height: 50 }} onPress={e => setShowComments(false)}>
-            <Text>제안 동의</Text>
-          </TOEasy>
-        </ViewRow>
-        {showComments ? (
-          <Comments comments={comments} suggestionId={id} />
-        ) : (
-          <SuggestionVoted voteUsers={voteUsers} />
-        )}
+        <SuggestionTabs id={id} comments={comments} voteUsers={voteUsers} />
       </KeyboardAwareScrollView>
     </>
   );
