@@ -2,23 +2,20 @@ import React from "react";
 import { ViewStyle, Image } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
+import Modal from "react-native-modal";
 
-// import UserProfileWithName from "./UserProfileWithName";
 import UserCommentProfile from "./UserCommentProfile";
-import { View, ViewRow } from "./View";
-import { Text, Grey12 } from "./Text";
+import { View, ViewRow, ViewColumnCenter, ViewRowCenter } from "./View";
+import { Title16 } from "./Text";
 import { TextInput } from "./TextInput";
-import { Button } from "./Button";
-import { TO0 } from "./TouchableOpacity";
-import ButtonLikeComment from "./ButtonLikeComment";
-import ButtonComment from "./ButtonComment";
-import ButtonUnlikeComment from "./ButtonUnlikeComment";
-import SelectMenu from "./SelectMenu";
+import { TO0, TO1 } from "./TouchableOpacity";
+import CommentList from "./CommentList";
 
-import { insertComment } from "../graphql/mutation";
+import { insertComment, updateComment } from "../graphql/mutation";
 import { useStore } from "../Store";
 
 import iconSend from "../../assets/iconSend.png";
+import iconClosed from "../../assets/iconClosed.png";
 interface Comment {
   id: number;
   body: string;
@@ -46,8 +43,7 @@ interface Comment {
 const box = {
   paddingHorizontal: 30,
   paddingTop: 14,
-  paddingBottom: 45,
-  // borderRadius: 25,
+  paddingBottom: 26,
   borderTopRightRadius: 25,
   borderTopLeftRadius: 25,
   backgroundColor: "#ffffff",
@@ -59,10 +55,23 @@ const box = {
   shadowRadius: 1,
   shadowOpacity: 1
 } as ViewStyle;
+
+const boxCommentWriter = {
+  height: 147,
+  backgroundColor: "#f7f7f7",
+  shadowColor: "rgba(0, 0, 0, 0.3)",
+  shadowOffset: {
+    width: 0,
+    height: -1
+  },
+  shadowRadius: 20,
+  shadowOpacity: 1
+} as ViewStyle;
 export default (props: { comments: Comment[]; suggestionId: number }) => {
   const { comments } = props;
   const [{ user_id }, dispatch] = useStore();
   const [comm, setComm] = React.useState("");
+  const [editingId, setEditingId] = React.useState(null);
   const textinput = React.useRef(null);
   const [insert, { loading }] = useMutation(insertComment, {
     variables: {
@@ -71,19 +80,41 @@ export default (props: { comments: Comment[]; suggestionId: number }) => {
       user_id: user_id
     }
   });
+  const [update] = useMutation(updateComment);
   function textinputFocus() {
     setComm(`@${user_id} ` + comm);
     textinput.current.focus();
+  }
+  function edit({ body, id }) {
+    setComm(body);
+    setEditingId(id);
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   function sendHandler() {
+    if (editingId !== null) {
+      setComm("");
+      setEditingId(null);
+      return update({ variables: { id: editingId, body: comm } })
+        .then(() =>
+          showMessage({
+            type: "success",
+            message: "댓글 수정"
+          })
+        )
+        .catch(error =>
+          showMessage({
+            type: "danger",
+            message: error.message
+          })
+        );
+    }
     insert()
       .then(() =>
         showMessage({
           type: "success",
-          message: "댓글 등록F"
+          message: "댓글 등록"
         })
       )
       .catch(error =>
@@ -93,67 +124,12 @@ export default (props: { comments: Comment[]; suggestionId: number }) => {
         })
       );
   }
-  const options = [
-    {
-      label: "수정하기",
-      handler: () => {
-        console.log(1);
-      }
-    },
-    { label: "삭제하기", handler: () => console.log(2) }
-  ];
-  return (
+  const commentWriter = (autoFocus = false) => (
     <View>
-      <View style={box}>
-        {comments.map((u, i: number) => (
-          <View
-            key={i}
-            style={{
-              marginTop: 14,
-              paddingBottom: 25,
-              borderBottomWidth: 1,
-              borderBottomColor: "#e4e4e4"
-            }}
-          >
-            <ViewRow>
-              <UserCommentProfile name={u.user.name} />
-              <Text>{u.user.votes[0] && "동의"}</Text>
-              <Grey12 style={{ marginLeft: 9 }}>
-                {new Date(u.updated_at).toLocaleString()}
-              </Grey12>
-            </ViewRow>
-            <SelectMenu items={options} style={{ right: 0, top: 0 }} />
-
-            <Text
-              style={{ color: "#555555", fontSize: 16, marginVertical: 25 }}
-            >
-              {u.body}
-            </Text>
-            <ViewRow>
-              <ButtonComment focus={textinputFocus} />
-              {u.likes[0] ? (
-                <ButtonUnlikeComment
-                  style={{ right: 0, position: "absolute" }}
-                  id={u.id}
-                  count={u.likes_aggregate.aggregate.count}
-                />
-              ) : (
-                <ButtonLikeComment
-                  style={{ right: 0, position: "absolute" }}
-                  id={u.id}
-                  count={u.likes_aggregate.aggregate.count}
-                />
-              )}
-            </ViewRow>
-          </View>
-        ))}
-      </View>
       <ViewRow
         style={{
-          backgroundColor: "#f7f7f7",
-          padding: 30,
+          paddingHorizontal: 30,
           paddingBottom: 21
-          // borderStyle: "solid"
         }}
       >
         <TextInput
@@ -161,10 +137,11 @@ export default (props: { comments: Comment[]; suggestionId: number }) => {
           placeholder="댓글입력"
           onChange={e => setComm(e.nativeEvent.text)}
           style={{ flex: 1, fontSize: 17, paddingLeft: 0 }}
-          // multiline
           placeholderTextColor="#30ad9f"
           textAlignVertical="top"
           ref={textinput}
+          autoFocus={autoFocus}
+          onSubmitEditing={sendHandler}
         />
         <TO0 onPress={sendHandler}>
           <Image source={iconSend} />
@@ -174,10 +151,39 @@ export default (props: { comments: Comment[]; suggestionId: number }) => {
         style={{
           borderBottomColor: "#30ad9f",
           borderBottomWidth: 1,
-          marginBottom: 53,
+          marginBottom: 17,
           marginHorizontal: 30
         }}
       />
+    </View>
+  );
+  return (
+    <View>
+      <View style={box}>
+        {comments.map((u, i: number) => (
+          <CommentList
+            comment={u}
+            key={i}
+            edit={edit}
+            style={comments.length === i + 1 && { borderBottomWidth: 0 }}
+          />
+        ))}
+      </View>
+      {editingId !== null ? (
+        <View style={boxCommentWriter}>
+          <ViewRow style={{ justifyContent: "space-between" }}>
+            <Title16 style={{ padding: 30 }}>댓글수정</Title16>
+            <TO0 style={{ padding: 30 }} onPress={() => setEditingId(null)}>
+              <Image source={iconClosed} />
+            </TO0>
+          </ViewRow>
+          {commentWriter(true)}
+        </View>
+      ) : (
+        <View style={{ paddingTop: 30, backgroundColor: "#f7f7f7" }}>
+          {commentWriter()}
+        </View>
+      )}
     </View>
   );
 };

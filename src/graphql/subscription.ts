@@ -76,7 +76,7 @@ export const subscribeSuggestion = gql`
       createdBy {
         name
       }
-      comments {
+      comments(order_by: { created_at: asc }) {
         id
         body
         updated_at

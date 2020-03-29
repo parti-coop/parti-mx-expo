@@ -114,6 +114,25 @@ export const insertComment = gql`
   }
 `;
 
+export const updateComment = gql`
+  mutation($id: Int!, $body: String!) {
+    update_parti_2020_comments(
+      _set: { body: $body }
+      where: { id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const deleteComment = gql`
+  mutation($comment_id: Int!) {
+    delete_parti_2020_comments(where: { id: { _eq: $comment_id } }) {
+      affected_rows
+    }
+  }
+`;
+
 export const likeComment = gql`
   mutation($comment_id: Int!, $user_id: Int!) {
     insert_parti_2020_comments_like(
