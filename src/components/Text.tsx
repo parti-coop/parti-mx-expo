@@ -207,3 +207,19 @@ export const Body16: React.FunctionComponent<TextProps> = props => (
     {props.children}
   </T>
 );
+
+export const Blue16: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 16,
+        color: "#4b93dc"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);

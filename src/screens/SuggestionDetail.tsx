@@ -58,6 +58,7 @@ export default (props: {
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id, user_id }
   });
+  const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
 
   if (!(data && data.parti_2020_suggestions_by_pk)) {
@@ -99,6 +100,7 @@ export default (props: {
       <KeyboardAwareScrollView
         // contentContainerStyle={[box]}
         keyboardShouldPersistTaps={"handled"}
+        ref={scrollRef}
       >
         <View style={box}>
           <View style={{ margin: 30, marginBottom: 20 }}>
@@ -127,7 +129,12 @@ export default (props: {
             )}
           </ViewColumnCenter>
         </View>
-        <SuggestionTabs id={id} comments={comments} voteUsers={voteUsers} />
+        <SuggestionTabs
+          id={id}
+          comments={comments}
+          voteUsers={voteUsers}
+          scrollRef={scrollRef}
+        />
       </KeyboardAwareScrollView>
     </>
   );

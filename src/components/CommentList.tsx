@@ -56,13 +56,20 @@ const commentModal = {
 export default (props: {
   comment: Comment;
   edit: (arg: { body: string; id: number }) => void;
+  recomment: (arg: { id: number; user: Comment["user"] }) => void;
   style?: ViewStyle;
 }) => {
-  const { comment, edit: editHandler, style } = props;
+  const { comment, edit: editHandler, style, recomment } = props;
   const { id, body, likes_aggregate, user, updated_at, likes } = comment;
-  // const [{ user_id }, dispatch] = useStore();
   const [isVisible, setVisible] = React.useState(false);
   const [deleteComment] = useCommentDelete(id);
+  function deleteHandler() {
+    deleteComment();
+    setVisible(false);
+  }
+  function recommentHandler() {
+    recomment({ id, user });
+  }
   const options = [
     {
       label: "수정하기",
@@ -97,7 +104,7 @@ export default (props: {
         {body}
       </Text>
       <ViewRow>
-        <ButtonComment />
+        <ButtonComment recomment={recommentHandler} />
         {likes[0] ? (
           <ButtonUnlikeComment
             style={{ right: 0, position: "absolute" }}
@@ -128,7 +135,7 @@ export default (props: {
               <View
                 style={{ width: 1, height: 13, backgroundColor: "#d6d6d6" }}
               />
-              <TO1 style={{ padding: 20 }} onPress={deleteComment}>
+              <TO1 style={{ padding: 20 }} onPress={deleteHandler}>
                 <Red16>삭제</Red16>
               </TO1>
             </ViewRowCenter>

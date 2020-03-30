@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 
 import { Text, Black14 } from "./Text";
 import { View, ViewRow } from "./View";
@@ -6,11 +6,14 @@ import { TouchableOpacity, TO0 } from "./TouchableOpacity";
 import SuggestionVoted from "../components/SuggestionVoted";
 import Comments from "../components/Comments";
 
-export default (props: { comments: any; voteUsers: any; id: number }) => {
-  const { comments, voteUsers, id } = props;
-
+export default (props: {
+  comments: any;
+  voteUsers: any;
+  id: number;
+  scrollRef: MutableRefObject<any>;
+}) => {
+  const { comments, voteUsers, id, scrollRef } = props;
   const [showComments, setShowComments] = React.useState(true);
-
   return (
     <>
       <ViewRow
@@ -37,7 +40,7 @@ export default (props: { comments: any; voteUsers: any; id: number }) => {
       </ViewRow>
 
       {showComments ? (
-        <Comments comments={comments} suggestionId={id} />
+        <Comments comments={comments} suggestionId={id} scrollRef={scrollRef} />
       ) : (
         <SuggestionVoted voteUsers={voteUsers} />
       )}
