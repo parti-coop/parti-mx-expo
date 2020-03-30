@@ -72,9 +72,11 @@ export const subscribeSuggestion = gql`
       closing_method
       updatedBy {
         name
+        photo_url
       }
       createdBy {
         name
+        photo_url
       }
       comments(order_by: { created_at: asc }) {
         id
@@ -82,6 +84,7 @@ export const subscribeSuggestion = gql`
         updated_at
         user {
           name
+          photo_url
           votes(where: { suggestion_id: { _eq: $id } }) {
             count
           }
@@ -96,6 +99,7 @@ export const subscribeSuggestion = gql`
             count
           }
           nodes {
+            created_at
             user {
               name
             }
@@ -111,7 +115,9 @@ export const subscribeSuggestion = gql`
           }
         }
         nodes {
+          created_at
           user {
+            photo_url
             name
           }
         }

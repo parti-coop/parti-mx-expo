@@ -17,7 +17,7 @@ interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: { name: string; votes: [{ count: number }] };
+  user: { name: string; votes: [{ count: number }]; photo_url: string };
   likes: [
     {
       user: {
@@ -92,7 +92,7 @@ export default (props: {
       ]}
     >
       <ViewRow>
-        <UserCommentProfile name={user.name} />
+        <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
         <Text>{user.votes[0] && "동의"}</Text>
         <Grey12 style={{ marginLeft: 9 }}>
           {new Date(updated_at).toLocaleString()}

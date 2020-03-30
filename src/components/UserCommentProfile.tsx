@@ -1,5 +1,5 @@
 import React from "react";
-import { ViewStyle, Image, TextStyle } from "react-native";
+import { ViewStyle, Image, TextStyle, ImageStyle } from "react-native";
 import { View, ViewRow, ViewColumnCenter } from "./View";
 import { Text } from "./Text";
 import iconCommentUser from "../../assets/iconCommentUser.png";
@@ -15,14 +15,25 @@ const textStyle = {
   textAlign: "left",
   color: "#444444"
 } as TextStyle;
-export default (props: React.PropsWithoutRef<{ name: string }>) => {
+export default (
+  props: React.PropsWithoutRef<{ name: string; photoUrl?: string }>
+) => {
+  const { photoUrl, name } = props;
+  const userPhoto = (
+    <Image source={{ uri: photoUrl }} style={UserStyle as ImageStyle} />
+  );
   return (
     <ViewRow>
-      <ViewColumnCenter style={[UserStyle]}>
-        <Image source={iconCommentUser} resizeMode="contain" />
-      </ViewColumnCenter>
+      {photoUrl ? (
+        userPhoto
+      ) : (
+        <ViewColumnCenter style={[UserStyle]}>
+          <Image source={iconCommentUser} resizeMode="contain" />
+        </ViewColumnCenter>
+      )}
+
       <View style={{ marginLeft: 9 }}>
-        <Text style={textStyle}>{props.name}</Text>
+        <Text style={textStyle}>{name}</Text>
       </View>
     </ViewRow>
   );

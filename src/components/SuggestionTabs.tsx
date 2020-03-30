@@ -8,17 +8,26 @@ import Comments from "../components/Comments";
 
 export default (props: {
   comments: any;
-  voteUsers: any;
+  voteUsers: Array<{ name: string; created_at: string; photo_url: string }>;
   id: number;
   scrollRef: MutableRefObject<any>;
 }) => {
   const { comments, voteUsers, id, scrollRef } = props;
   const [showComments, setShowComments] = React.useState(true);
+
+  function showCommentHandler() {
+    setShowComments(true);
+    scrollRef.current.scrollToEnd();
+  }
+  function showVoterHandler() {
+    setShowComments(false);
+    scrollRef.current.scrollToEnd();
+  }
   return (
     <>
       <ViewRow style={{ marginTop: 20 }}>
         <TO0
-          onPress={e => setShowComments(true)}
+          onPress={showCommentHandler}
           style={{
             paddingLeft: 30,
             paddingVertical: 20,
@@ -37,7 +46,7 @@ export default (props: {
           }}
         />
         <TO0
-          onPress={e => setShowComments(false)}
+          onPress={showVoterHandler}
           style={{ paddingLeft: 20, paddingVertical: 20 }}
         >
           <Title14 style={showComments && { color: "rgba(51, 51, 51, 0.5)" }}>

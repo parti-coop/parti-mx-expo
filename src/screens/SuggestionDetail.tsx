@@ -5,15 +5,13 @@ import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
-import { Text, Title14 } from "../components/Text";
-import { View, ViewRow, ViewColumnCenter } from "../components/View";
-import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
+import { Text } from "../components/Text";
+import { View, ViewColumnCenter } from "../components/View";
 import UserProfileWithName from "../components/UserProfileWithName";
 
 import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
-import PopupMenu from "../components/PopupMenu";
 import HeaderShare from "../components/HeaderShare";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 import ViewTitle from "../components/ViewTitle";
@@ -90,7 +88,11 @@ export default (props: {
     comments
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
-  const voteUsers = votes_aggregate.nodes.map((n: any) => n.user.name);
+  const voteUsers = votes_aggregate.nodes.map((n: any) => ({
+    name: n.user.name,
+    created_at: n.created_at,
+    photo_url: n.user.photo_url
+  }));
 
   return (
     <>
@@ -98,14 +100,16 @@ export default (props: {
       <HeaderSuggestion />
       <ViewTitle title={title} updated_at={updated_at} />
       <KeyboardAwareScrollView
-        // contentContainerStyle={[box]}
         keyboardShouldPersistTaps={"handled"}
         ref={scrollRef}
       >
         <View style={box}>
           <View style={{ margin: 30, marginBottom: 20 }}>
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
-            <UserProfileWithName name={createdBy.name} />
+            <UserProfileWithName
+              name={createdBy.name}
+              photoUrl={createdBy.photo_url}
+            />
           </View>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>

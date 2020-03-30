@@ -19,8 +19,7 @@ export default (props: { title: string }) => {
         justifyContent: "center",
         alignItems: "center",
         marginTop: 41,
-        bottom: 0,
-        position:"absolute"
+        bottom: 0
       }}
     >
       <Text style={{ fontSize: 16, color: "#ffffff" }}>

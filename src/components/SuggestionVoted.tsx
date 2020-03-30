@@ -1,10 +1,12 @@
 import React from "react";
-import UserProfileWithName from "../components/UserProfileWithName";
+import UserProfileNameDate from "../components/UserProfileNameDate";
 import { View, ViewRow, ViewColumnCenter } from "./View";
-import { Text, Body16 } from "./Text";
+import { Body16 } from "./Text";
 export default (props: {
   voteUsers: Array<{
     name: string;
+    created_at: string;
+    photo_url: string;
   }>;
 }) => {
   const { voteUsers } = props;
@@ -14,8 +16,13 @@ export default (props: {
     >
       {voteUsers.length > 0 ? (
         <ViewRow style={{ padding: 30 }}>
-          {voteUsers.map((u: any, i: number) => (
-            <UserProfileWithName name={u} key={i} />
+          {voteUsers.map((u, i: number) => (
+            <UserProfileNameDate
+              name={u.name}
+              key={i}
+              date={u.created_at}
+              photoUrl={u.photo_url}
+            />
           ))}
         </ViewRow>
       ) : (
