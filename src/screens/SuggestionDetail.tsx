@@ -5,7 +5,7 @@ import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
-import { Text, Black14 } from "../components/Text";
+import { Text, Title14 } from "../components/Text";
 import { View, ViewRow, ViewColumnCenter } from "../components/View";
 import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";

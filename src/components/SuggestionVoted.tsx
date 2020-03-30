@@ -9,22 +9,17 @@ export default (props: {
 }) => {
   const { voteUsers } = props;
   return (
-    <View>
+    <View
+      style={{ borderRadius: 25, backgroundColor: "#ffffff", marginBottom: 50 }}
+    >
       {voteUsers.length > 0 ? (
-        <ViewRow>
+        <ViewRow style={{ padding: 30 }}>
           {voteUsers.map((u: any, i: number) => (
             <UserProfileWithName name={u} key={i} />
           ))}
         </ViewRow>
       ) : (
-        <ViewColumnCenter
-          style={{
-            padding: 50,
-            borderRadius: 25,
-            backgroundColor: "#ffffff",
-            marginBottom: 50
-          }}
-        >
+        <ViewColumnCenter style={{ padding: 50 }}>
           <Body16>아직 제안동의가 없습니다</Body16>
         </ViewColumnCenter>
       )}

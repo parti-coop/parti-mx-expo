@@ -1,6 +1,6 @@
 import React, { MutableRefObject } from "react";
 
-import { Text, Black14 } from "./Text";
+import { Text, Title14 } from "./Text";
 import { View, ViewRow } from "./View";
 import { TouchableOpacity, TO0 } from "./TouchableOpacity";
 import SuggestionVoted from "../components/SuggestionVoted";
@@ -25,9 +25,9 @@ export default (props: {
             paddingRight: 20
           }}
         >
-          <Black14 style={!showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
+          <Title14 style={!showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
             댓글 {comments.length}
-          </Black14>
+          </Title14>
         </TO0>
         <View
           style={{
@@ -40,9 +40,9 @@ export default (props: {
           onPress={e => setShowComments(false)}
           style={{ paddingLeft: 20, paddingVertical: 20 }}
         >
-          <Black14 style={showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
+          <Title14 style={showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
             제안동의 {voteUsers.length}
-          </Black14>
+          </Title14>
         </TO0>
       </ViewRow>
 

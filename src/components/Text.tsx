@@ -160,7 +160,7 @@ export const Red16: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
-export const Black14: React.FunctionComponent<TextProps> = props => (
+export const Title14: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
     style={[
