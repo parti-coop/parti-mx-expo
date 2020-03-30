@@ -16,10 +16,15 @@ export default (props: {
   const [showComments, setShowComments] = React.useState(true);
   return (
     <>
-      <ViewRow
-        style={{ marginHorizontal: 30, marginTop: 40, marginBottom: 20 }}
-      >
-        <TO0 onPress={e => setShowComments(true)}>
+      <ViewRow style={{ marginTop: 20 }}>
+        <TO0
+          onPress={e => setShowComments(true)}
+          style={{
+            paddingLeft: 30,
+            paddingVertical: 20,
+            paddingRight: 20
+          }}
+        >
           <Black14 style={!showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
             댓글 {comments.length}
           </Black14>
@@ -28,11 +33,13 @@ export default (props: {
           style={{
             width: 1,
             height: 12,
-            backgroundColor: "#c1c1c1",
-            marginHorizontal: 20
+            backgroundColor: "#c1c1c1"
           }}
         />
-        <TO0 onPress={e => setShowComments(false)}>
+        <TO0
+          onPress={e => setShowComments(false)}
+          style={{ paddingLeft: 20, paddingVertical: 20 }}
+        >
           <Black14 style={showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
             제안동의 {voteUsers.length}
           </Black14>

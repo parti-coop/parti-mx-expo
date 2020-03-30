@@ -2,11 +2,9 @@ import React from "react";
 import { ViewStyle, Image } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
-import Modal from "react-native-modal";
 
-import UserCommentProfile from "./UserCommentProfile";
-import { View, ViewRow, ViewColumnCenter, ViewRowCenter } from "./View";
-import { Title16, Blue16 } from "./Text";
+import { View, ViewRow, ViewColumnCenter } from "./View";
+import { Title16, Blue16, Body16 } from "./Text";
 import { TextInput } from "./TextInput";
 import { TO0, TO1 } from "./TouchableOpacity";
 import CommentList from "./CommentList";
@@ -201,15 +199,21 @@ export default (props: {
   return (
     <View>
       <View style={box}>
-        {comments.map((u, i: number) => (
-          <CommentList
-            comment={u}
-            key={i}
-            edit={edit}
-            recomment={recomment}
-            style={comments.length === i + 1 && { borderBottomWidth: 0 }}
-          />
-        ))}
+        {comments.length > 0 ? (
+          comments.map((u, i: number) => (
+            <CommentList
+              comment={u}
+              key={i}
+              edit={edit}
+              recomment={recomment}
+              style={comments.length === i + 1 && { borderBottomWidth: 0 }}
+            />
+          ))
+        ) : (
+          <ViewColumnCenter style={{ marginVertical: 50 }}>
+            <Body16>아직 등록된 댓글이 없습니다 </Body16>
+          </ViewColumnCenter>
+        )}
       </View>
       {commentKind()}
     </View>
