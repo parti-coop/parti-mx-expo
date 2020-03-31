@@ -132,10 +132,8 @@ export default () => {
           </View>
         </ImageBackground>
         <ScrollView
-          contentContainerStyle={{ flex: 0 }}
           style={{
             top: -25,
-            width: "100%",
             borderTopLeftRadius: 25,
             borderTopRightRadius: 25,
             backgroundColor: "#f0f0f0"
