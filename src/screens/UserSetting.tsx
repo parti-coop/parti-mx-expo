@@ -1,52 +1,98 @@
 import React from "react";
-import { ScrollView, Share, Picker } from "react-native";
-import { StackHeaderProps } from "@react-navigation/stack";
-import { Text, TextRound } from "../components/Text";
-import { View, ViewRow } from "../components/View";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
+import { ScrollView, Image, ViewStyle } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { Title14, Title22, Title16 } from "../components/Text";
+import { View } from "../components/View";
+import { TORow } from "../components/TouchableOpacity";
+import HeaderBack from "../components/HeaderBack";
+
 import { useStore } from "../Store";
-import { Ionicons } from "@expo/vector-icons";
-import { useQuery, useSubscription } from "@apollo/react-hooks";
-import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
-export default (props: StackHeaderProps) => {
+
+import btnNext from "../../assets/btnNext.png";
+const boxStyle = {
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
+  marginTop: 20,
+  paddingHorizontal: 30,
+  paddingVertical: 5
+} as ViewStyle;
+export default () => {
   const [{ user_id }, dispatch] = useStore();
+  const { navigate } = useNavigation();
   const list = [
-    { label: "내 프로필", page: "Profile" },
-    { label: "비밀번호 변경", page: "PasswordChange" },
-    "알림",
-    { label: "푸시 알림", page: "NotificationPush" },
-    "기타",
-    { label: "이용약관", page: "TermsService" },
-    { label: "개인정보처리방침", page: "TermsPrivacy" },
-    { label: "로그아웃", page: "Logout" },
-    { label: "탈퇴", page: "AccountDelete" }
+    {
+      category: "내 정보 관리",
+      children: [
+        { label: "내 프로필", page: "Profile" },
+        { label: "비밀번호 변경", page: "PasswordChange" }
+      ]
+    },
+    {
+      category: "알림",
+      children: [{ label: "푸시 알림", page: "NotificationPush" }]
+    },
+    {
+      category: "기타",
+      children: [
+        { label: "이용약관", page: "TermsService" },
+        { label: "개인정보처리방침", page: "TermsPrivacy" },
+        { label: "로그아웃", page: "Logout" },
+        { label: "탈퇴", page: "AccountDelete" }
+      ]
+    }
   ];
+  function pagePressHandler(page: string) {
+    navigate(page);
+  }
+  const ViewList = list.map((a, i) => {
+    const { category, children } = a;
+    const ViewChildren = children.map((child, i2) => {
+      const { label, page } = child;
+      return (
+        <TORow
+          key={i2}
+          style={
+            children.length !== i2 + 1
+              ? {
+                  paddingVertical: 20,
+                  borderBottomColor: "#e4e4e4",
+                  borderBottomWidth: 1
+                }
+              : { paddingVertical: 20 }
+          }
+          onPress={e => pagePressHandler(page)}
+        >
+          <Title16 style={{ flex: 1 }}>{label}</Title16>
+          <Image source={btnNext} />
+        </TORow>
+      );
+    });
+    return (
+      <View key={i}>
+        <Title14 style={{ marginHorizontal: 30, marginTop: 40 }}>
+          {category}
+        </Title14>
+        <View style={boxStyle}>{ViewChildren}</View>
+      </View>
+    );
+  });
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity style={{}} onPress={e => props.navigation.navigate("Home")}>
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text>내 설정</Text>
-      </ViewRow>
-      {list.map((a, i) => {
-        if (typeof a === "string") {
-          return <Text key={i}>a</Text>;
-        } else {
-          const { label, page } = a;
-          return (
-            <TORow
-              key={i}
-              style={{ justifyContent: "space-between" }}
-              onPress={e => props.navigation.navigate(page)}
-            >
-              <Text>{label}</Text>
-              <Ionicons name="ios-arrow-forward" size={60} />
-            </TORow>
-          );
-        }
-      })}
+      <HeaderBack />
+      <Title22 style={{ marginHorizontal: 30, marginBottom: 10 }}>
+        내 설정
+      </Title22>
+      <ScrollView>
+        <View style={{ paddingBottom: 50 }}>{ViewList}</View>
+      </ScrollView>
     </>
   );
 };
