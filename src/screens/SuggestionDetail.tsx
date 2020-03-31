@@ -71,8 +71,8 @@ export default (props: {
           suggestion: parti_2020_suggestions_by_pk
         })
     },
-    { label: "제안 정리", handler: () => {} },
-    { label: "공지 올리기", handler: () => {} },
+    // { label: "제안 정리", handler: () => {} },
+    // { label: "공지 올리기", handler: () => {} },
     { label: "삭제하기", handler: deleteSuggestion }
   ];
 

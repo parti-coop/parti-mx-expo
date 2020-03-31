@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, TextStyle, Keyboard } from "react-native";
+import { StyleProp, TextStyle } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import HeaderNew from "../components/HeaderNew";
+import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
 import { TO1 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
@@ -19,7 +19,7 @@ import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
 
 const options = [
-  { label: "30일 후 종료", value: 0 },
+  { label: "30일 후 종료", value: 0 }
   // { label: "멤버 과반수 동의시 종료", value: 1 }
   // { label: "제안 정리시 종료", value: 2 }
 ];
@@ -79,7 +79,7 @@ export default () => {
 
   return (
     <>
-      <HeaderNew insert={insertPressHandler} />
+      <HeaderConfirm onPress={insertPressHandler} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={"handled"}
         ref={scrollRef}

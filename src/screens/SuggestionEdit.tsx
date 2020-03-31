@@ -1,15 +1,42 @@
 import React from "react";
-import { Picker } from "react-native";
+import { StyleProp, TextStyle } from "react-native";
+import { showMessage } from "react-native-flash-message";
+import { useMutation } from "@apollo/react-hooks";
+import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+import { useNavigation, RouteProp } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
+import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
+import { TO1 } from "../components/TouchableOpacity";
+import TouchableClosingMethod from "../components/TouchableClosingMethod";
+import LineSeperator from "../components/LineSeperator";
+import HeaderSuggestion from "../components/HeaderSuggestion";
+
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
-import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+const options = [
+  { label: "30일 후 종료", value: 0 }
+  // { label: "멤버 과반수 동의시 종료", value: 1 }
+  // { label: "제안 정리시 종료", value: 2 }
+];
+const labelStyle: StyleProp<TextStyle> = {
+  fontSize: 13,
+  textAlign: "left",
+  color: "#30ad9f",
+  width: 80
+};
+const textStyle: StyleProp<TextStyle> = {
+  fontSize: 16,
+  textAlign: "left",
+  color: "#555555",
+  paddingHorizontal: 0,
+  flex: 1
+};
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
   route: RouteProp<RootStackParamList, "SuggestionEdit">;
@@ -22,8 +49,10 @@ export default (props: {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
+  const contextRef = React.useRef(null);
+  const scrollRef = React.useRef(null);
   const [{ user_id }, dispatch] = useStore();
-
+  const { goBack } = useNavigation();
   const [update, { loading }] = useMutation(updateSuggestion, {
     variables: {
       sBody,
@@ -34,81 +63,162 @@ export default (props: {
       user_id
     }
   });
+  async function updateHandler() {
+    await update();
+    showMessage({
+      message: "수정되었습니다.",
+      type: "success"
+    });
+    goBack();
+  }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity
-          onPress={e => props.navigation.goBack()}
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
+      <HeaderConfirm onPress={updateHandler} />
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={"handled"}
+        ref={scrollRef}
+        extraScrollHeight={200}
+        enableAutomaticScroll={true}
+      >
+        <HeaderSuggestion />
+        <View
+          style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
-          <Text style={{ color: "blue", fontSize: 20 }}>취소</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flex: 3, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "black", fontSize: 28 }}>제안하기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={e =>
-            update()
-              .then(res => alert(JSON.stringify(res.data)))
-              .then(e => props.navigation.goBack())
-          }
-          style={{ flex: 1, alignItems: "center", padding: 20 }}
-        >
-          <Text style={{ color: "blue", fontSize: 20 }}>등록</Text>
-        </TouchableOpacity>
-      </ViewRow>
-      <View style={{ flex: 1, alignItems: "stretch" }}>
-        <ViewRow style={{ height: 50 }}>
-          <Text>제안명*</Text>
-          <TextInput
-            value={sTitle}
-            autoFocus
-            onChange={e => setSTitle(e.nativeEvent.text)}
-            style={{ flex: 1, textAlign: "right" }}
-          />
-        </ViewRow>
-        <ViewRow>
-          <Text>종료 방법</Text>
-          <Picker
-            style={{ height: 50, flex: 1, justifyContent: "space-between" }}
-            selectedValue={closingMethod}
-            onValueChange={i => setClosingMethod(i)}
+          <Text
+            style={{
+              fontSize: 22,
+              textAlign: "left",
+              color: "#333333"
+            }}
           >
-            {[
-              "30일 후 종료",
-              "멤버 과반수 동의시 종료",
-              "제안 정리시 종료"
-            ].map((g: any, i: number) => (
-              <Picker.Item label={g} value={i} key={i} />
-            ))}
-          </Picker>
-        </ViewRow>
-        <View style={{ flex: 1, padding: 20 }}>
-          <Text>제안 배경</Text>
-          <TextInput
-            value={sContext}
-            multiline
-            textAlignVertical="top"
-            placeholder="제안 배경을 입력해 주세요"
-            onChange={e => setSContext(e.nativeEvent.text)}
-            style={{ backgroundColor: "lightyellow", flex: 1, padding: 20 }}
-          />
-          <Text>제안 내용</Text>
-          <TextInput
-            value={sBody}
-            multiline
-            textAlignVertical="top"
-            placeholder="제안 내용을 입력해 주세요"
-            onChange={e => setSBody(e.nativeEvent.text)}
-            style={{ backgroundColor: "lightgreen", flex: 1, padding: 20 }}
-          />
+            글 쓰기
+          </Text>
         </View>
-      </View>
+        <View
+          style={{
+            alignItems: "stretch",
+            borderRadius: 25,
+            backgroundColor: "#ffffff",
+            shadowColor: "rgba(0, 0, 0, 0.15)",
+            shadowOffset: {
+              width: 0,
+              height: 1
+            },
+            shadowRadius: 1,
+            shadowOpacity: 1
+          }}
+        >
+          <ViewRow style={{ paddingHorizontal: 30 }}>
+            <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
+            <TextInput
+              value={sTitle}
+              autoFocus
+              onChangeText={setSTitle}
+              placeholderTextColor="#999999"
+              style={textStyle}
+              onSubmitEditing={() => contextRef.current.focus()}
+            />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow
+            style={{
+              paddingHorizontal: 30
+            }}
+          >
+            <Text style={labelStyle}>종료 방법</Text>
+            <TouchableClosingMethod
+              value={closingMethod}
+              onChange={setClosingMethod}
+              items={options}
+            />
+          </ViewRow>
+        </View>
+        <View
+          style={{
+            marginTop: 10,
+            alignItems: "stretch",
+            borderRadius: 25,
+            backgroundColor: "#ffffff",
+            shadowColor: "rgba(0, 0, 0, 0.15)",
+            shadowOffset: {
+              width: 0,
+              height: 1
+            },
+            shadowRadius: 1,
+            shadowOpacity: 1,
+            flex: 1
+          }}
+        >
+          <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
+            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
+            <AutoGrowingTextInput
+              value={sContext}
+              multiline
+              textAlignVertical="top"
+              placeholder="제안 배경을 입력해 주세요"
+              placeholderTextColor="#999999"
+              onChangeText={setSContext}
+              style={[textStyle]}
+              ref={contextRef}
+            />
+          </View>
+          <LineSeperator />
+          <View
+            style={{
+              padding: 30,
+              paddingBottom: 20,
+              flex: 1
+            }}
+          >
+            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+            <AutoGrowingTextInput
+              value={sBody}
+              multiline
+              textAlignVertical="top"
+              placeholder="제안 내용을 입력해 주세요"
+              placeholderTextColor="#999999"
+              onChangeText={setSBody}
+              style={[textStyle]}
+            />
+          </View>
+          <LineSeperator />
+          <ViewRow style={{ padding: 22 }}>
+            <TO1>
+              <Text
+                style={{
+                  fontSize: 16,
+                  textAlign: "center",
+                  color: "#30ad9f"
+                }}
+              >
+                사진 첨부
+              </Text>
+            </TO1>
+            <View
+              style={{
+                width: 1,
+                height: 11,
+                backgroundColor: "#e4e4e4"
+              }}
+            />
+            <TO1>
+              <Text
+                style={{
+                  fontSize: 16,
+                  textAlign: "center",
+                  color: "#30ad9f",
+                  flex: 1
+                }}
+              >
+                파일 첨부
+              </Text>
+            </TO1>
+          </ViewRow>
+        </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

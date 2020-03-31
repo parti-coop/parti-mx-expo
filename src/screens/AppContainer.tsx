@@ -36,7 +36,7 @@ export type RootStackParamList = {
       title: string;
       context: string;
       body: string;
-      closing_method: string;
+      closing_method: number;
     };
   };
   TermsPrivacy: {};
@@ -49,10 +49,10 @@ export type RootStackParamList = {
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 export default function MyDrawer() {
-  const [{user_id}, dispatch] = useStore();
+  const [{ user_id }, dispatch] = useStore();
   return (
     <Drawer.Navigator
-      initialRouteName={user_id !== null ? "Home" : "Profile" }
+      initialRouteName={user_id !== null ? "Home" : "Profile"}
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={props => <CustomDrawer {...props} />}
       drawerStyle={{
