@@ -1,15 +1,20 @@
 import React from "react";
-import { ViewStyle, StyleProp } from "react-native";
+import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { View, ViewRow } from "./View";
-import { TouchableOpacity } from "./TouchableOpacity";
-import { Text } from "./Text";
+import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@apollo/react-hooks";
+
+import { View, ViewRow } from "./View";
+import { TORow } from "./TouchableOpacity";
+import { Text, Title14 } from "./Text";
+import useBoardDelete from "./useBoardDelete";
+import SelectMenu from "./SelectMenu";
+import ButtonBoardType from "./ButtonBoardType";
+
 import { updateBoardPermission } from "../graphql/mutation";
 import { useStore } from "../Store";
-import { useDebouncedCallback } from "use-debounce";
-import BoardDelete from "./BoardDelete";
-import RNPickerSelect from "react-native-picker-select";
+
+import selectbox from "../../assets/selectbox.png";
 type Board = {
   id: number;
   title: string;
@@ -20,68 +25,40 @@ type Board = {
   last_posted_at: string;
   usersBoardCheck: Array<{ updated_at: string }>;
 };
-const options = [
-  { value: false, label: "전체공개" },
-  { value: true, label: "멤버공개" }
-];
 export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
-  const { navigate } = useNavigation();
   const { board, style } = props;
-  const [isMemberOnly, setMemberOnly] = React.useState(board.is_member_only);
-  const [{ user_id }] = useStore();
-  const [update, { error, data }] = useMutation(updateBoardPermission);
-  function valueChangeHandler(value: boolean) {
-    setMemberOnly(value);
-    debouncedCallback();
-  }
-  const [debouncedCallback] = useDebouncedCallback(function() {
-    update({
-      variables: { user_id, board_id: board.id, is_member_only: isMemberOnly }
-    });
-  }, 1000);
+  const deleteBoard = useBoardDelete(board.id);
+  const items = [
+    { label: "수정", handler: console.log },
+    { label: "삭제", handler: deleteBoard }
+  ];
   return (
     <ViewRow
-      style={{
-        height: 83,
-        backgroundColor: "#ffffff",
-        marginBottom: 10,
-        borderRadius: 25,
-        ...(style as Object)
-      }}
+      style={[
+        {
+          paddingVertical: 20,
+          borderBottomColor: "#e4e4e4",
+          borderBottomWidth: 1,
+          marginHorizontal: 30,
+          borderStyle: "solid"
+        },
+        style
+      ]}
     >
+      <ButtonBoardType
+        boardId={board.id}
+        is_member_only={board.is_member_only}
+      />
       <View
         style={{
-          flex: 1,
-          justifyContent: "center",
-          marginLeft: 30,
-          marginRight: 50
+          width: 1,
+          height: 14,
+          backgroundColor: "#e4e4e4",
+          marginHorizontal: 15
         }}
-      >
-        <ViewRow style={{ justifyContent: "flex-start" }}>
-          <Text style={{ fontSize: 18 }}>{board.title}</Text>
-          <View
-            style={{
-              paddingHorizontal: 10,
-              borderWidth: 1,
-              borderColor: "#cb6794",
-              borderRadius: 10,
-              padding: 1,
-              marginLeft: 10
-            }}
-          >
-            <RNPickerSelect
-              onValueChange={valueChangeHandler}
-              items={options}
-              value={isMemberOnly}
-              textInputProps={{ style: { fontSize: 12, color: "#cb6794" } }}
-              style={{ fontSize: 12, color: "#cb6794" }}
-              placeholder={{}}
-            />
-          </View>
-        </ViewRow>
-        <Text style={{ fontSize: 14, color: "#888888" }}>{board.body}</Text>
-      </View>
-      <BoardDelete boardId={board.id} />
+      />
+      <Title14 style={{ flex: 1 }}>{board.title}</Title14>
+      <SelectMenu items={items} style={{ right: 0, position: "relative" }} />
     </ViewRow>
   );
 };

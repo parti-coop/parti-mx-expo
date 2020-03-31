@@ -1,18 +1,20 @@
 import React from "react";
-import { ViewStyle, StyleProp, Alert } from "react-native";
+import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { View, ViewRow, ViewColumnCenter } from "./View";
-
-import { TouchableOpacity } from "./TouchableOpacity";
-import { Text } from "./Text";
-import { useMutation } from "@apollo/react-hooks";
-import { deleteBoard } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
 import RNPickerSelect from "react-native-picker-select";
 import Modal from "react-native-modal";
+import { useMutation } from "@apollo/react-hooks";
 
+import { View, ViewRow, ViewColumnCenter } from "./View";
+import { TouchableOpacity, TORowCenter } from "./TouchableOpacity";
+import { Text, Mint16 } from "./Text";
 import ViewBoardInsert from "./ViewBoardInsert";
+
+import { deleteBoard } from "../graphql/mutation";
+import { useStore } from "../Store";
+
+import iconAddForm from "../../assets/iconAddForm.png";
 const options = [
   { value: "notice", label: "소식" },
   { value: "suggestion", label: "제안" },
@@ -28,10 +30,16 @@ export default (props: { style?: StyleProp<ViewStyle> }) => {
   }
   return (
     <>
-      <TouchableOpacity onPress={insertHandler}>
-        <Text>게시판 추가</Text>
-      </TouchableOpacity>
-      <Modal isVisible={isVisible}>
+      <TORowCenter onPress={insertHandler} style={{ padding: 25 }}>
+        <Image source={iconAddForm} style={{ marginRight: 10 }} />
+        <Mint16>게시판 추가</Mint16>
+      </TORowCenter>
+      <Modal
+        isVisible={isVisible}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        onBackdropPress={() => setVisible(false)}
+      >
         <ViewColumnCenter>
           <ViewBoardInsert setVisible={setVisible} />
         </ViewColumnCenter>

@@ -208,6 +208,22 @@ export const Title14: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
+export const Title15: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 15,
+        color: "#333333"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const Title16: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
