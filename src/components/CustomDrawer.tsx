@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 
 import { ViewRow } from "./View";
 import { Text } from "./Text";
-import { TouchableOpacity } from "./TouchableOpacity";
+import { TouchableOpacity, TORowCenter } from "./TouchableOpacity";
 import { TextInput } from "./TextInput";
 import MyGroupList from "./MyGroupList";
 import MySearchList from "./MySearchList";
@@ -16,6 +16,8 @@ import { useStore } from "../Store";
 import iconUser from "../../assets/icon-user.png";
 import ViewGroupImg from "./ViewGroupImg";
 import btnSearch from "../../assets/btn-search.png";
+import partimxLogoWhite from "../../assets/partimxLogoWhite.png";
+import iconAdd from "../../assets/iconAdd.png";
 
 export default props => {
   const [{ user_id }] = useStore();
@@ -53,11 +55,7 @@ export default props => {
   return (
     <>
       <ViewRow style={{ marginLeft: 30, marginTop: 40 }}>
-        <Text
-          style={{ color: "white", fontSize: 28, fontFamily: "notosans500" }}
-        >
-          빠띠 믹스
-        </Text>
+        <Image source={partimxLogoWhite} />
 
         <TouchableOpacity
           onPress={e => props.navigation.navigate("UserSetting")}
@@ -68,7 +66,9 @@ export default props => {
             backgroundColor: "#30ad9f",
             overflow: "hidden",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            position: "absolute",
+            right: 33
           }}
         >
           <Image
@@ -127,19 +127,19 @@ export default props => {
           <MyGroupList navigate={navigate} />
         )}
       </ScrollView>
-      <TouchableOpacity
+      <TORowCenter
         style={{
           padding: 10,
           backgroundColor: "#30ad9f",
           borderTopLeftRadius: 20,
           borderBottomRightRadius: 20,
-          height: 73,
-          justifyContent: "center"
+          height: 73
         }}
         onPress={createNewGroup}
       >
+        <Image source={iconAdd} style={{ marginRight: 19 }} />
         <Text style={{ fontSize: 20, textAlign: "center" }}>그룹 만들기</Text>
-      </TouchableOpacity>
+      </TORowCenter>
     </>
   );
 };
