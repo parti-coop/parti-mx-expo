@@ -43,7 +43,7 @@ export default props => {
     Alert.alert(
       "앱 리로딩",
       `앱을 새로 다운받고 시작하시겠습니까?
-      \n 현재 앱 버전: 3월26일
+      \n 현재 앱 버전: 3월31일
       \n nativeBuildVersion: ${Constants.nativeBuildVersion}`,
       [
         {

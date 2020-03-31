@@ -13,7 +13,7 @@ import TermsService from "./TermsService";
 import Logout from "./Logout";
 import Member from "./Member";
 import GroupSetting from "./GroupSetting";
-import GroupCreate from "./GroupCreate";
+import GroupNew from "./GroupNew";
 import AccountDelete from "./AccountDelete";
 import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
@@ -22,7 +22,7 @@ import { useStore } from "../Store";
 export type RootStackParamList = {
   Home: {};
   SuggestionList: { id: number };
-  GroupCreate: {};
+  GroupNew: {};
   AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
   Logout: {};
@@ -63,7 +63,7 @@ export default function MyDrawer() {
       }}
     >
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="GroupCreate" component={GroupCreate} />
+      <Drawer.Screen name="GroupNew" component={GroupNew} />
       <Drawer.Screen name="GroupSetting" component={GroupSetting} />
       <Drawer.Screen name="Logout" component={Logout} />
       <Drawer.Screen name="Member" component={Member} />

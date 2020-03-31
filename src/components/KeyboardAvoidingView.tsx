@@ -2,7 +2,10 @@ import React from "react";
 import {
   Platform,
   KeyboardAvoidingView as K,
-  KeyboardAvoidingViewProps
+  KeyboardAvoidingViewProps,
+  TouchableWithoutFeedback,
+  Keyboard,
+  View
 } from "react-native";
 export const KeyboardAvoidingView = React.forwardRef<
   K,
@@ -12,11 +15,13 @@ export const KeyboardAvoidingView = React.forwardRef<
     {...props}
     behavior={Platform.select({ ios: "padding", android: null })}
     keyboardVerticalOffset={Platform.select({ ios: 44, android: 0 })}
-    contentContainerStyle={{
-      alignItems: "stretch",
-      justifyContent: "center",
-      ...(props.contentContainerStyle as Object)
-    }}
+    contentContainerStyle={[
+      {
+        alignItems: "stretch",
+        justifyContent: "center"
+      },
+      props.contentContainerStyle
+    ]}
     style={[
       {
         flex: 1
@@ -25,6 +30,8 @@ export const KeyboardAvoidingView = React.forwardRef<
     ]}
     ref={ref}
   >
-    {props.children}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <>{props.children}</>
+    </TouchableWithoutFeedback>
   </K>
 ));

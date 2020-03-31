@@ -4,8 +4,8 @@ import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation, RouteProp } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
@@ -77,12 +77,7 @@ export default (props: {
   return (
     <>
       <HeaderConfirm onPress={updateHandler} />
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps={"handled"}
-        ref={scrollRef}
-        extraScrollHeight={200}
-        enableAutomaticScroll={true}
-      >
+      <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderSuggestion />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}

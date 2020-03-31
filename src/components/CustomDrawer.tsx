@@ -48,7 +48,7 @@ export default props => {
   }, [searchKeyword]);
 
   function createNewGroup() {
-    props.navigation.navigate("GroupCreate");
+    props.navigation.navigate("GroupNew");
     props.navigation.closeDrawer();
     Keyboard.dismiss();
   }

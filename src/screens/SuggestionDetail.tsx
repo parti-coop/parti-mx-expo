@@ -1,6 +1,5 @@
 import React from "react";
 import { Image, ViewStyle, TextStyle } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -8,7 +7,7 @@ import { RouteProp, useNavigation } from "@react-navigation/native";
 import { Text } from "../components/Text";
 import { View, ViewColumnCenter } from "../components/View";
 import UserProfileWithName from "../components/UserProfileWithName";
-
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonVote from "../components/ButtonVote";
 import ButtonDevote from "../components/ButtonDevote";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
@@ -99,10 +98,7 @@ export default (props: {
       <HeaderShare id={id} />
       <HeaderSuggestion />
       <ViewTitle title={title} updated_at={updated_at} />
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps={"handled"}
-        ref={scrollRef}
-      >
+      <KeyboardAwareScrollView ref={scrollRef}>
         <View style={box}>
           <View style={{ margin: 30, marginBottom: 20 }}>
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
