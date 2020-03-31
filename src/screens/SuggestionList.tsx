@@ -47,36 +47,35 @@ export default (props: {
           </Text>
         </View>
         <ScrollView>
-          <View>
-            <ViewRow
+          <ViewRow
+            style={{
+              justifyContent: "space-between",
+              marginVertical: 20,
+              paddingHorizontal: 30
+            }}
+          >
+            <Text
               style={{
-                justifyContent: "space-between",
-                marginVertical: 20,
-                paddingHorizontal: 30
+                fontSize: 14,
+                textAlign: "left",
+                color: "#333333"
               }}
             >
-              <Text
-                style={{
-                  fontSize: 14,
-                  textAlign: "left",
-                  color: "#333333"
-                }}
-              >
-                진행중인 제안
-              </Text>
-            </ViewRow>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "#ffffff",
-                marginHorizontal: 30,
-                borderRadius: 25
-              }}
-            >
-              {suggestions.map((sugg: any, i: number) => {
-                return <TouchableSuggestionList key={i} suggestion={sugg} />;
-              })}
-            </View>
+              진행중인 제안
+            </Text>
+          </ViewRow>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#ffffff",
+              marginHorizontal: 30,
+              borderRadius: 25,
+              marginBottom: 60
+            }}
+          >
+            {suggestions.map((sugg: any, i: number) => {
+              return <TouchableSuggestionList key={i} suggestion={sugg} />;
+            })}
           </View>
         </ScrollView>
         <ButtonSuggestionNew />

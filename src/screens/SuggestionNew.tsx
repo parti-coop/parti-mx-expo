@@ -20,7 +20,7 @@ import { insertSuggestion } from "../graphql/mutation";
 
 const options = [
   { label: "30일 후 종료", value: 0 }
-  // { label: "멤버 과반수 동의시 종료", value: 1 }
+  // { label: "멤버 과반수 동의시 종료", value: 1 },
   // { label: "제안 정리시 종료", value: 2 }
 ];
 const labelStyle: StyleProp<TextStyle> = {

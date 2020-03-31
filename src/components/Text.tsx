@@ -96,6 +96,22 @@ export const Mint14: React.FunctionComponent<TextProps> = props => (
     {props.children}
   </T>
 );
+
+export const Mint15: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 15,
+        color: "#30ad9f"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
 export const Mint17: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
@@ -192,13 +208,29 @@ export const Title16: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
+export const Body15: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 15,
+        color: "#555555"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const Body16: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
-        fontSize: 14,
+        fontSize: 16,
         color: "#555555"
       },
       props.style

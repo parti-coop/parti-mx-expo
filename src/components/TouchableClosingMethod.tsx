@@ -1,13 +1,12 @@
 import React from "react";
-import { ViewStyle, StyleProp, TextStyle } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { EvilIcons } from "@expo/vector-icons";
-import { View, ViewRow, ViewColumnCenter } from "./View";
-import { Text } from "./Text";
-import ViewRedDot from "./ViewRedDot";
-import { TouchableOpacity } from "./TouchableOpacity";
-import { useMutation } from "@apollo/react-hooks";
+import { ViewStyle, StyleProp, TextStyle, Image } from "react-native";
 import Modal from "react-native-modal";
+
+import { View } from "./View";
+import { Text, Mint15, Body15 } from "./Text";
+import { TORow, TouchableOpacity } from "./TouchableOpacity";
+
+import iconSelected from "../../assets/iconSelected.png";
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
@@ -26,6 +25,7 @@ const boxStyle: StyleProp<ViewStyle> = {
   shadowRadius: 5,
   shadowOpacity: 1,
   paddingHorizontal: 25,
+  paddingVertical: 20,
   position: "absolute",
   right: 0,
   borderRadius: 25,
@@ -59,9 +59,27 @@ export default (props: {
       >
         <View style={[boxStyle]}>
           {items.map((item, i) => (
-            <TouchableOpacity key={i} onPress={e => changeHandler(item.value)}>
-              <Text>{item.label}</Text>
-            </TouchableOpacity>
+            <TORow
+              key={i}
+              onPress={e => changeHandler(item.value)}
+              style={
+                items.length !== i + 1 && {
+                  borderBottomColor: "#e4e4e4",
+                  borderBottomWidth: 1,
+                  paddingBottom: 15,
+                  marginBottom: 15
+                }
+              }
+            >
+              {item.value === value ? (
+                <Mint15 style={{ flex: 1 }}>{item.label}</Mint15>
+              ) : (
+                <Body15 style={{ flex: 1 }}>{item.label}</Body15>
+              )}
+              {item.value === value && (
+                <Image source={iconSelected} style={{ marginLeft: 10 }} />
+              )}
+            </TORow>
           ))}
         </View>
       </Modal>
