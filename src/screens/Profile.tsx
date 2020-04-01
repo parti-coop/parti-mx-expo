@@ -10,12 +10,11 @@ import uuid from "uuid";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { Ionicons } from "@expo/vector-icons";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 import { useDebouncedCallback } from "use-debounce";
 
-import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
 import { Text, Mint13, Mint14 } from "../components/Text";
@@ -32,7 +31,7 @@ import LineSeperator from "../components/LineSeperator";
 
 import { updateUserName } from "../graphql/mutation";
 import { whoami, searchDuplicateName } from "../graphql/query";
-import { auth, IdTokenResult } from "../firebase";
+
 import { uploadImage } from "../firebase";
 import { useStore } from "../Store";
 
@@ -45,7 +44,8 @@ const box = {
     height: 1
   },
   shadowRadius: 1,
-  shadowOpacity: 1
+  shadowOpacity: 1,
+  marginBottom: 50
 } as ViewProps;
 
 const textStyle = {
@@ -67,7 +67,7 @@ export default (props: {
     variables: { name: userName, id: user_id }
   });
   const [isInUse, setInUse] = React.useState(false);
-  const [fetchName, userNameQuery] = useLazyQuery(whoami, {
+  const userNameQuery = useQuery(whoami, {
     variables: { id: user_id }
   });
   const [debouncedCallback] = useDebouncedCallback(function() {
@@ -77,35 +77,8 @@ export default (props: {
       firstFetch();
     }
   }, 1000);
-  const [debouncedRefreshToken] = useDebouncedCallback(refreshAuthToken, 2000);
   const warningMsg = `"${userName}" 은 이미 사용중인 별명입니다.`;
-  async function refreshAuthToken() {
-    return auth.currentUser
-      .getIdTokenResult(true)
-      .then(res => res as IdTokenResult)
-      .then(({ claims }) => {
-        console.log(claims);
-        if (claims["https://hasura.io/jwt/claims"]) {
-          const userId = Number(
-            claims["https://hasura.io/jwt/claims"]["x-hasura-user-id"]
-          );
-          dispatch({ type: "SET_USER", user_id: userId });
-          fetchName();
-        } else {
-          debouncedRefreshToken();
-        }
-      })
-      .catch(() => dispatch({ type: "SET_LOADING", loading: false }));
-  }
-  React.useEffect(() => {
-    if (!user_id) {
-      // 처음 가입
-      dispatch({ type: "SET_LOADING", loading: true });
-      debouncedRefreshToken();
-    } else {
-      fetchName();
-    }
-  }, []);
+
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
     if (data && data.parti_2020_users.length) {
@@ -136,17 +109,22 @@ export default (props: {
   }
   async function saveHandler() {
     if (isInUse) {
-      showMessage({
+      return showMessage({
         type: "warning",
         message: warningMsg
       });
-      return false;
+    }
+    if (userName.length === 0) {
+      return showMessage({
+        type: "warning",
+        message: "닉네임을 입력하세요."
+      });
     }
     dispatch({ type: "SET_LOADING", loading: true });
     let url = photoUrl;
     try {
       const prevPhoroUrl = userNameQuery.data.parti_2020_users[0].photo_url;
-      if (photoUrl !== prevPhoroUrl) {
+      if (photoUrl.length > 0 && photoUrl !== prevPhoroUrl) {
         console.log("new photo uploading");
         url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then(snap =>
           snap.ref.getDownloadURL()
@@ -165,7 +143,7 @@ export default (props: {
       <ViewColumnStretch
         style={{ alignItems: "stretch", marginHorizontal: 30, marginTop: 12 }}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView>
           <View>
             <Text
               style={{
@@ -179,8 +157,7 @@ export default (props: {
               <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
             </ViewColumnCenter>
           </View>
-        </TouchableWithoutFeedback>
-        <KeyboardAvoidingView>
+
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
               <Mint13 style={{ width: 40 }}>닉네임</Mint13>
@@ -222,7 +199,7 @@ export default (props: {
               <Text style={textStyle}>{email}</Text>
             </ViewRow>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </ViewColumnStretch>
     </>
   );

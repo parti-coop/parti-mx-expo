@@ -1,13 +1,15 @@
 import React from "react";
 import { Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useStore } from "../Store";
+import { showMessage } from "react-native-flash-message";
+
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity } from "../components/TouchableOpacity";
-import { Button } from "../components/Button";
+
 import { auth } from "../firebase";
-import { showMessage } from "react-native-flash-message";
+import { useStore } from "../Store";
+
 export default props => {
   const { navigate, goBack } = props.navigation;
   const [store, dispatch] = useStore();
@@ -20,13 +22,11 @@ export default props => {
       },
       {
         text: "네",
-        onPress: () => {
+        onPress: async () => {
           dispatch({ type: "LOGOUT" });
-          auth
-            .signOut()
-            .finally(() =>
-              showMessage({ type: "success", message: "로그아웃 하였습니다." })
-            );
+          await auth.signOut();
+          showMessage({ type: "success", message: "로그아웃 하였습니다." });
+          dispatch({ type: "SET_LOADING", loading: false });
         }
       }
     ]);

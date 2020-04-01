@@ -5,7 +5,14 @@ import { TouchableOpacity } from "./TouchableOpacity";
 import { useNavigation } from "@react-navigation/native";
 import iconBack from "../../assets/iconBack.png";
 export default (props: { board?: any }) => {
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
+  function backHandler() {
+    try {
+      goBack();
+    } catch (error) {
+      navigate("Home");
+    }
+  }
   return (
     <ViewRow>
       <TouchableOpacity
@@ -15,7 +22,7 @@ export default (props: { board?: any }) => {
           justifyContent: "flex-start",
           padding: 30
         }}
-        onPress={() => navigate("Home")}
+        onPress={backHandler}
       >
         <Image source={iconBack} />
       </TouchableOpacity>

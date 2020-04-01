@@ -6,7 +6,14 @@ import { useNavigation } from "@react-navigation/native";
 import iconBack from "../../assets/iconBack.png";
 import btnOk from "../../assets/btnOk.png";
 export default (props: { onPress?: () => void }) => {
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
+  function backHandler() {
+    try {
+      goBack();
+    } catch (error) {
+      navigate("Home");
+    }
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ViewRow style={{ justifyContent: "space-between" }}>
@@ -17,7 +24,7 @@ export default (props: { onPress?: () => void }) => {
             justifyContent: "flex-start",
             padding: 30
           }}
-          onPress={goBack}
+          onPress={backHandler}
         >
           <Image source={iconBack} />
         </TouchableOpacity>

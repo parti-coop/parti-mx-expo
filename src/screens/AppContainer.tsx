@@ -1,5 +1,7 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useDebouncedCallback } from "use-debounce";
+
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
 import SuggestionNew from "./SuggestionNew";
@@ -18,7 +20,10 @@ import AccountDelete from "./AccountDelete";
 import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
+
 import { useStore } from "../Store";
+import { auth, IdTokenResult } from "../firebase";
+import { minutesDiff } from "../Utils/CalculateDays";
 export type RootStackParamList = {
   Home: {};
   SuggestionList: { id: number };
@@ -49,10 +54,39 @@ export type RootStackParamList = {
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 export default function MyDrawer() {
-  const [{ user_id }, dispatch] = useStore();
+  const [{ loading }, dispatch] = useStore();
+  const [debouncedRefreshToken] = useDebouncedCallback(refreshAuthToken, 2000);
+  const [isNewUser, setNewUser] = React.useState(null);
+  async function refreshAuthToken() {
+    return auth.currentUser
+      .getIdTokenResult(true)
+      .then(res => res as IdTokenResult)
+      .then(async ({ claims }) => {
+        console.log(claims);
+        if (claims["https://hasura.io/jwt/claims"]) {
+          const userId = Number(
+            claims["https://hasura.io/jwt/claims"]["x-hasura-user-id"]
+          );
+          dispatch({ type: "SET_USER", user_id: userId });
+          dispatch({ type: "SET_LOADING", loading: false });
+        } else {
+          debouncedRefreshToken();
+        }
+      });
+  }
+
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading: true });
+    refreshAuthToken();
+    const { creationTime } = auth.currentUser.metadata;
+    setNewUser(minutesDiff(creationTime) < 3);
+  }, []);
+  if (isNewUser === null) {
+    return null;
+  }
   return (
     <Drawer.Navigator
-      initialRouteName={user_id !== null ? "Home" : "Profile"}
+      initialRouteName={isNewUser ? "Profile" : "Home"}
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={props => <CustomDrawer {...props} />}
       drawerStyle={{

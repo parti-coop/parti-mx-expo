@@ -14,7 +14,8 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
           fontFamily: "notosans",
           fontSize: 20,
           flex: 1,
-          paddingHorizontal: 20
+          paddingHorizontal: 20,
+          height: 50
         },
         props.style
       ]}
@@ -41,6 +42,7 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
           fontFamily: "notosans",
           fontSize: 20,
           flex: 1,
+          height: 50,
           paddingHorizontal: 20
         },
         props.style
@@ -77,6 +79,7 @@ export const PasswordInput = React.forwardRef<
       style={[
         {
           flex: 1,
+          height: 50,
           paddingHorizontal: 0,
           alignContent: "stretch",
           alignItems: "stretch"
