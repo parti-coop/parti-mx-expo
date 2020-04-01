@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
-import { Text } from "../components/Text";
+import { Text, Title30, Body16 } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
-import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { ViewRow, V0, View } from "../components/View";
 import { Margin10 } from "../components/Margin";
-import { TouchableOpacity } from "../components/TouchableOpacity";
+import { TouchableOpacity, TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
 import ButtonCheckbox from "../components/ButtonCheckbox";
 
@@ -48,7 +48,8 @@ const btnStyle = {
   backgroundColor: "#30ad9f",
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: "#c9c9c9"
+  borderColor: "#c9c9c9",
+  margin: 30
 } as ViewProps;
 export default props => {
   const { navigate } = props.navigation;
@@ -93,14 +94,10 @@ export default props => {
   return (
     <>
       <HeaderBack />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ViewRow style={{ padding: 30, paddingTop: 6 }}>
-          <Text style={{ fontSize: 30, color: "#333333" }}>
-            이메일 회원가입
-          </Text>
+      <KeyboardAwareScrollView>
+        <ViewRow style={{ paddingHorizontal: 30 }}>
+          <Title30>이메일 회원가입</Title30>
         </ViewRow>
-      </TouchableWithoutFeedback>
-      <KeyboardAvoidingView>
         <V0 style={boxStyle}>
           <ViewRow
             style={{
@@ -134,7 +131,8 @@ export default props => {
             <ButtonCheckbox value={checkboxes[0]} setValue={checkboxHandler1} />
             <Margin10 />
             <TouchableOpacity onPress={() => navigate("TermsService")}>
-              <Text>서비스 이용약관</Text>
+              <Body16>서비스 이용약관</Body16>
+              <View style={{ height: 1, backgroundColor: "black" }} />
             </TouchableOpacity>
             <Text>에 동의합니다 (필수)</Text>
           </ViewRow>
@@ -142,16 +140,17 @@ export default props => {
             <ButtonCheckbox value={checkboxes[1]} setValue={checkboxHandler2} />
             <Margin10 />
             <TouchableOpacity onPress={() => navigate("TermsPrivacy")}>
-              <Text>개인정보 처리방침</Text>
+              <Body16>개인정보 처리방침</Body16>
+              <View style={{ height: 1, backgroundColor: "black" }} />
             </TouchableOpacity>
             <Text>에 동의합니다 (필수)</Text>
           </ViewRow>
         </View>
 
-        <TouchableOpacity onPress={registerHandler} style={{ flex: 1 }}>
-          <Text>회원가입</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+        <TORowCenter onPress={registerHandler} style={btnStyle}>
+          <Text style={{ fontSize: 16, color: "#ffffff" }}>확인</Text>
+        </TORowCenter>
+      </KeyboardAwareScrollView>
     </>
   );
 };

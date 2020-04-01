@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ViewProps } from "react-native";
+import { Image, ViewProps, Keyboard } from "react-native";
 import { TO0, TOCenter } from "./TouchableOpacity";
 import { View } from "./View";
 import bgCheckboxOff from "../../assets/bgCheckboxOff.png";
@@ -12,9 +12,11 @@ export default (props: {
 }) => {
   const { value, setValue, style } = props;
   function off() {
+    Keyboard.dismiss();
     setValue(false);
   }
   function on() {
+    Keyboard.dismiss();
     setValue(true);
   }
   return (
