@@ -9,7 +9,7 @@ import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
 import PasswordFind from "./PasswordFind";
 const Stack = createStackNavigator();
-export default function() {
+export default function AuthContainer() {
   return (
     <Stack.Navigator initialRouteName="AuthMain" headerMode="none">
       <Stack.Screen name="AuthMain" component={AuthMain} />

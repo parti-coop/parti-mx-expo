@@ -1,5 +1,5 @@
 import React from "react";
-import { StackHeaderProps } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import {
   ViewProps,
@@ -9,7 +9,7 @@ import {
   Keyboard
 } from "react-native";
 
-import { Text } from "../components/Text";
+import { Text, Title30 } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
 import { ViewRow, V0 } from "../components/View";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
@@ -49,8 +49,8 @@ const btnStyle = {
   borderWidth: 1,
   borderColor: "#c9c9c9"
 } as ViewProps;
-export default (props: StackHeaderProps) => {
-  const { navigate } = props.navigation;
+export default () => {
+  const { navigate, goBack } = useNavigation();
   const [, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -86,7 +86,7 @@ export default (props: StackHeaderProps) => {
       <HeaderBack />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ViewRow style={{ padding: 30, paddingTop: 6 }}>
-          <Text style={{ fontSize: 30, color: "#333333" }}>이메일 로그인</Text>
+          <Title30>이메일 로그인</Title30>
         </ViewRow>
       </TouchableWithoutFeedback>
       <KeyboardAvoidingView style={{ justifyContent: "flex-end" }}>

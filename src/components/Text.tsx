@@ -320,6 +320,22 @@ export const Caption16: React.FunctionComponent<TextProps> = props => (
   </T>
 );
 
+export const Sub15: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 15,
+        color: "#777777"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const Sub16: React.FunctionComponent<TextProps> = props => (
   <T
     {...props}
@@ -344,6 +360,22 @@ export const Blue16: React.FunctionComponent<TextProps> = props => (
         fontFamily: "notosans",
         fontSize: 16,
         color: "#4b93dc"
+      },
+      props.style
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const White16: React.FunctionComponent<TextProps> = props => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 16,
+        color: "#ffffff"
       },
       props.style
     ]}

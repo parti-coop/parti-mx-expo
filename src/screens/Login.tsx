@@ -1,7 +1,7 @@
 import React from "react";
 import { ViewStyle, Image } from "react-native";
 
-import { Text } from "../components/Text";
+import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
@@ -32,16 +32,24 @@ export default props => {
   return (
     <>
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>
-        <Text style={{ fontSize: 30, color: "#333333" }}>로그인</Text>
+        <Title30>로그인</Title30>
         <ViewRow>
           <Text style={[textStyle]}>아직 계정이 없으신가요?</Text>
-          <TouchableOpacity onPress={register} style={{marginTop: 10}}>
-            <Text style={[textStyle, { color: "#30ad9f", marginLeft: 10 }]}>회원가입</Text>
+          <TouchableOpacity onPress={register} style={{ marginTop: 10 }}>
+            <Text style={[textStyle, { color: "#30ad9f", marginLeft: 10 }]}>
+              회원가입
+            </Text>
           </TouchableOpacity>
         </ViewRow>
       </View>
 
-      <V1 style={{ marginHorizontal: 60, justifyContent: "flex-end", marginBottom: 128 }}>
+      <V1
+        style={{
+          marginHorizontal: 60,
+          justifyContent: "flex-end",
+          marginBottom: 128
+        }}
+      >
         <TORow
           onPress={loginEmail}
           style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}

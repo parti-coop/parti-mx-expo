@@ -1,15 +1,50 @@
 import React from "react";
-import { Alert } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import {
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Image,
+  ViewProps
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { Text, Title30, Sub15, White16 } from "../components/Text";
+import { ViewRow } from "../components/View";
+import { TO1, TOCenter } from "../components/TouchableOpacity";
+import { EmailInput } from "../components/TextInput";
+import HeaderBack from "../components/HeaderBack";
+
 import { useStore } from "../Store";
-import { Text, Text2 } from "../components/Text";
-import { View, ViewRow, ViewColumnCenter } from "../components/View";
-import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
-import { Button } from "../components/Button";
-import { TextInput } from "../components/TextInput";
 import { auth } from "../firebase";
+
+import iconEmailColor from "../../assets/iconEmailColor.png";
+const boxStyle = {
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
+  marginHorizontal: 30,
+  marginVertical: 21,
+  justifyContent: "center",
+  padding: 30
+} as ViewProps;
+const roundedRectangle12 = {
+  height: 56,
+  borderRadius: 15,
+  backgroundColor: "#30ad9f",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#c9c9c9",
+  marginHorizontal: 30,
+  marginVertical: 21
+} as ViewProps;
 export default props => {
-  const { navigate, goBack } = props.navigation;
+  const { navigate, goBack } = useNavigation();
   const [store, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
   function sendEmail() {
@@ -42,36 +77,29 @@ export default props => {
   }
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity
-          style={{ width: 50, padding: 10 }}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text2>비밀번호 찾기</Text2>
-      </ViewRow>
-      <ViewColumnCenter>
-        <Text2>회원가입 시 등록한 이메일 주소를 입력하세요.</Text2>
-      </ViewColumnCenter>
-      <ViewRow style={{ flex: 1 }}>
-        <AntDesign name="mail" size={30} />
-        <TextInput
+      <HeaderBack />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ViewRow style={{ padding: 30, paddingTop: 6 }}>
+          <Title30>비밀번호 찾기</Title30>
+          <Sub15>회원가입 시 등록한 이메일 주소를 입력하세요.</Sub15>
+        </ViewRow>
+      </TouchableWithoutFeedback>
+      <ViewRow style={boxStyle}>
+        <Image source={iconEmailColor} />
+        <EmailInput
           value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          returnKeyType="next"
-          placeholder="이메일 주소"
-          placeholderTextColor="#c5c5c5"
-          maxLength={100}
-          onChange={e => setEmail(e.nativeEvent.text)}
-          autoFocus
+          onChangeText={setEmail}
+          autoFocus={true}
           onSubmitEditing={sendEmail}
+          style={{
+            fontSize: 16,
+            color: "#999999"
+          }}
         />
       </ViewRow>
-      <TO1 onPress={sendEmail}>
-        <Text>보내기</Text>
-      </TO1>
+      <TOCenter onPress={sendEmail} style={roundedRectangle12}>
+        <White16>보내기</White16>
+      </TOCenter>
     </>
   );
 };
