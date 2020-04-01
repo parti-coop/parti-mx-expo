@@ -1,15 +1,55 @@
 import React from "react";
-import { Keyboard } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useStore } from "../Store";
+import {
+  Keyboard,
+  ViewProps,
+  TextProps,
+  TouchableWithoutFeedback,
+  Image
+} from "react-native";
+import { showMessage } from "react-native-flash-message";
+
 import { Text } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
-import { ViewRow } from "../components/View";
+import { ViewRow, V0, View } from "../components/View";
+import { Margin10 } from "../components/Margin";
 import { TouchableOpacity } from "../components/TouchableOpacity";
-import { showMessage } from "react-native-flash-message";
+import HeaderBack from "../components/HeaderBack";
+import ButtonCheckbox from "../components/ButtonCheckbox";
+
+import { useStore } from "../Store";
 import { auth } from "../firebase";
 
+import iconEmailColor from "../../assets/iconEmailColor.png";
+import iconPassword from "../../assets/iconPassword.png";
+import LineSeperator from "../components/LineSeperator";
+const boxStyle = {
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
+  marginHorizontal: 30,
+  marginVertical: 21,
+  alignItems: "stretch",
+  justifyContent: "center"
+} as ViewProps;
+const textStyle = {
+  fontSize: 16,
+  color: "#999999"
+} as TextProps;
+const btnStyle = {
+  height: 56,
+  borderRadius: 15,
+  backgroundColor: "#30ad9f",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#c9c9c9"
+} as ViewProps;
 export default props => {
   const { navigate } = props.navigation;
   const [, dispatch] = useStore();
@@ -43,73 +83,71 @@ export default props => {
       );
   }
 
-  function checkboxHandler1() {
-    setCheckboxes([!checkboxes[0], checkboxes[1]]);
+  function checkboxHandler1(v: boolean) {
+    setCheckboxes([v, checkboxes[1]]);
   }
-  function checkboxHandler2() {
-    setCheckboxes([checkboxes[0], !checkboxes[1]]);
+  function checkboxHandler2(v: boolean) {
+    setCheckboxes([checkboxes[0], v]);
   }
 
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity
-          style={{ width: 50, padding: 10 }}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text>이메일 주소로 회원가입</Text>
-      </ViewRow>
+      <HeaderBack />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ViewRow style={{ padding: 30, paddingTop: 6 }}>
+          <Text style={{ fontSize: 30, color: "#333333" }}>
+            이메일 회원가입
+          </Text>
+        </ViewRow>
+      </TouchableWithoutFeedback>
       <KeyboardAvoidingView>
-        <EmailInput
-          value={email}
-          onChange={e => setEmail(e.nativeEvent.text)}
-          autoFocus={true}
-          onSubmitEditing={() => pswTextInput.current.focus()}
-        />
-        <PasswordInput
-          value={password}
-          onChange={e => setPassword(e.nativeEvent.text)}
-          ref={pswTextInput}
-          onSubmitEditing={keyboardDownHandler}
-        />
-        <ViewRow>
-          <TouchableOpacity
+        <V0 style={boxStyle}>
+          <ViewRow
             style={{
-              width: 40,
-              height: 40,
-              borderWidth: 2,
-              alignItems: "center",
-              justifyContent: "center"
+              paddingHorizontal: 30,
+              paddingVertical: 24
             }}
-            onPress={checkboxHandler1}
           >
-            {checkboxes[0] && <Text> X </Text>}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigate("TermsService")}>
-            <Text>서비스 이용약관</Text>
-          </TouchableOpacity>
-          <Text>에 동의합니다 (필수)</Text>
-        </ViewRow>
-        <ViewRow style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={{
-              width: 40,
-              height: 40,
-              borderWidth: 2,
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-            onPress={checkboxHandler2}
-          >
-            {checkboxes[1] && <Text> X </Text>}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigate("TermsPrivacy")}>
-            <Text>개인정보 처리방침</Text>
-          </TouchableOpacity>
-          <Text>에 동의합니다 (필수)</Text>
-        </ViewRow>
+            <Image source={iconEmailColor} />
+            <EmailInput
+              value={email}
+              onChangeText={setEmail}
+              autoFocus={true}
+              onSubmitEditing={() => pswTextInput.current.focus()}
+              style={[textStyle]}
+            />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow style={{ paddingHorizontal: 30, paddingVertical: 24 }}>
+            <Image source={iconPassword} />
+            <PasswordInput
+              value={password}
+              onChangeText={setPassword}
+              ref={pswTextInput}
+              onSubmitEditing={keyboardDownHandler}
+              style={[textStyle]}
+            />
+          </ViewRow>
+        </V0>
+        <View style={{ paddingHorizontal: 30 }}>
+          <ViewRow style={{ marginVertical: 10 }}>
+            <ButtonCheckbox value={checkboxes[0]} setValue={checkboxHandler1} />
+            <Margin10 />
+            <TouchableOpacity onPress={() => navigate("TermsService")}>
+              <Text>서비스 이용약관</Text>
+            </TouchableOpacity>
+            <Text>에 동의합니다 (필수)</Text>
+          </ViewRow>
+          <ViewRow style={{ marginVertical: 10 }}>
+            <ButtonCheckbox value={checkboxes[1]} setValue={checkboxHandler2} />
+            <Margin10 />
+            <TouchableOpacity onPress={() => navigate("TermsPrivacy")}>
+              <Text>개인정보 처리방침</Text>
+            </TouchableOpacity>
+            <Text>에 동의합니다 (필수)</Text>
+          </ViewRow>
+        </View>
+
         <TouchableOpacity onPress={registerHandler} style={{ flex: 1 }}>
           <Text>회원가입</Text>
         </TouchableOpacity>
