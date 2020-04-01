@@ -36,17 +36,18 @@ export default (props: {
     return (
       <>
         <HeaderList />
-        <View style={{ paddingHorizontal: 30 }}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: "#333333"
-            }}
-          >
-            {title}🌱
-          </Text>
-        </View>
         <ScrollView>
+          <View style={{ paddingHorizontal: 30 }}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: "#333333"
+              }}
+            >
+              {title}🌱
+            </Text>
+          </View>
+
           <ViewRow
             style={{
               justifyContent: "space-between",
