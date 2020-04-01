@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextProps,
-  ViewProps,
-  Image
-} from "react-native";
+import { Keyboard, TextProps, ViewProps } from "react-native";
 import uuid from "uuid";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -61,7 +55,7 @@ export default (props: {
   const [{ user_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [photoUrl, setPhotoUrl] = React.useState("");
+  const [photoUrl, setPhotoUrl] = React.useState(null);
   const [updateName] = useMutation(updateUserName);
   const [firstFetch, searchDuplicateQuery] = useLazyQuery(searchDuplicateName, {
     variables: { name: userName, id: user_id }
@@ -78,14 +72,13 @@ export default (props: {
     }
   }, 1000);
   const warningMsg = `"${userName}" 은 이미 사용중인 별명입니다.`;
-
+  const prevPhoroUrl = userNameQuery?.data?.parti_2020_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
     if (data && data.parti_2020_users.length) {
       dispatch({ type: "SET_LOADING", loading });
-      setUserName(data.parti_2020_users[0].name || "");
-      setEmail(data.parti_2020_users[0].email || "");
-      setPhotoUrl(data.parti_2020_users[0].photo_url || "");
+      setUserName(data.parti_2020_users[0].name ?? "");
+      setEmail(data.parti_2020_users[0].email ?? "");
     }
   }, [userNameQuery]);
   React.useEffect(() => {
@@ -114,7 +107,7 @@ export default (props: {
         message: warningMsg
       });
     }
-    if (userName.length === 0) {
+    if (userName.trim().length === 0) {
       return showMessage({
         type: "warning",
         message: "닉네임을 입력하세요."
@@ -123,8 +116,7 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading: true });
     let url = photoUrl;
     try {
-      const prevPhoroUrl = userNameQuery.data.parti_2020_users[0].photo_url;
-      if (photoUrl.length > 0 && photoUrl !== prevPhoroUrl) {
+      if (photoUrl && photoUrl !== prevPhoroUrl) {
         console.log("new photo uploading");
         url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then(snap =>
           snap.ref.getDownloadURL()
@@ -132,8 +124,9 @@ export default (props: {
       }
     } catch (error) {}
     await updateName({
-      variables: { id: user_id, name: userName, photo_url: url }
+      variables: { id: user_id, name: userName, photo_url: url ?? prevPhoroUrl }
     }).then(console.log);
+    Keyboard.dismiss();
     navigate("Home");
     dispatch({ type: "SET_LOADING", loading: false });
   }
@@ -154,7 +147,10 @@ export default (props: {
               프로필
             </Text>
             <ViewColumnCenter style={{ marginTop: 70, marginBottom: 60 }}>
-              <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
+              <UserProfileBig
+                url={photoUrl ?? prevPhoroUrl}
+                setUrl={setPhotoUrl}
+              />
             </ViewColumnCenter>
           </View>
 

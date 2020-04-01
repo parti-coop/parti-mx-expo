@@ -63,7 +63,7 @@ export default (props: {
             right: -8,
             position: "absolute"
           }}
-          onPress={() => props.setUrl(null)}
+          onPress={() => props.setUrl("")}
         >
           <Image source={btnDel} />
         </TO0>
