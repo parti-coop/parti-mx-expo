@@ -5,10 +5,11 @@ import { useQuery } from "@apollo/react-hooks";
 
 import { ViewRow } from "./View";
 import { Text } from "./Text";
-import { TouchableOpacity, TORowCenter } from "./TouchableOpacity";
+import { TouchableOpacity, TORowCenter, TO0 } from "./TouchableOpacity";
 import { TextInput } from "./TextInput";
 import MyGroupList from "./MyGroupList";
 import MySearchList from "./MySearchList";
+import useAppRefresh from "../components/useAppRefresh";
 
 import { searchGroups } from "../graphql/query";
 import { useStore } from "../Store";
@@ -21,7 +22,7 @@ import iconAdd from "../../assets/iconAdd.png";
 
 export default props => {
   const [{ user_id }] = useStore();
-
+  const appRefresh = useAppRefresh();
   const { navigate } = props.navigation;
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const query = useQuery(searchGroups, {
@@ -55,7 +56,9 @@ export default props => {
   return (
     <>
       <ViewRow style={{ marginLeft: 30, marginTop: 40 }}>
-        <Image source={partimxLogoWhite} />
+        <TO0 onPress={appRefresh}>
+          <Image source={partimxLogoWhite} />
+        </TO0>
 
         <TouchableOpacity
           onPress={e => props.navigation.navigate("UserSetting")}

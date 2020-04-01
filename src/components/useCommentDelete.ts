@@ -1,7 +1,7 @@
 import React from "react";
 import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
-import { deleteComment } from "./mutation";
+import { deleteComment } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
 export default (id: number) => {
   const [, dispatch] = useStore();

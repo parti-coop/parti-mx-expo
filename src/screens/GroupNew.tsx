@@ -19,7 +19,7 @@ import HeaderConfirm from "../components/HeaderConfirm";
 
 import { useStore } from "../Store";
 import { createNewGroup } from "../graphql/mutation";
-import useBoardCreate from "../graphql/useBoardCreate";
+import useBoardCreate from "../components/useBoardCreate";
 import { uploadImage } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";

@@ -1,7 +1,7 @@
 import React from "react";
 import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
-import { insertUserGroupAsOrganizer } from "./mutation";
+import { insertUserGroupAsOrganizer } from "../graphql/mutation";
 export default () => {
   const [{ user_id }, dispatch] = useStore();
 

@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  ImageBackground,
-  ViewProps,
-  TextProps,
-  Image,
-  Alert
-} from "react-native";
-import Constants from "expo-constants";
+import { ImageBackground, ViewProps, TextProps, Image } from "react-native";
 
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
-
-import { useStore } from "../Store";
+import useAppRefresh from "../components/useAppRefresh";
 
 import bgIntro from "../../assets/bgIntro.png";
 import partimxLogo from "../../assets/partimxLogo.png";
@@ -31,7 +23,7 @@ const textStyle = {
 } as TextProps;
 export default props => {
   const { navigate } = props.navigation;
-  const [, dispatch] = useStore();
+  const appRefresh = useAppRefresh();
   function register() {
     navigate("Signup");
   }
@@ -39,31 +31,12 @@ export default props => {
     navigate("Login");
   }
 
-  function refreshApp() {
-    Alert.alert(
-      "앱 리로딩",
-      `앱을 새로 다운받고 시작하시겠습니까?
-      \n 현재 앱 버전: 3월31일
-      \n nativeBuildVersion: ${Constants.nativeBuildVersion}`,
-      [
-        {
-          text: "취소",
-          style: "cancel"
-        },
-        {
-          text: "reload",
-          onPress: () => dispatch({ type: "APP_REFRESH" })
-        }
-      ]
-    );
-  }
-
   return (
     <ImageBackground source={bgIntro} style={{ flex: 1 }}>
       <View>
         <Text></Text>
         <TouchableOpacity
-          onPress={refreshApp}
+          onPress={appRefresh}
           style={{ position: "absolute", right: 29, top: 96 }}
         >
           <Image source={partimxLogo} />

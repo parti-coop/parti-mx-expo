@@ -2,7 +2,7 @@ import React from "react";
 import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { insertBoard } from "../graphql/mutation";
-import useRegisterGroupOrganizer from "../graphql/useRegisterGroupOrganizer";
+import useRegisterGroupOrganizer from "./useRegisterGroupOrganizer";
 import { showMessage } from "react-native-flash-message";
 type board_id = number;
 export default () => {

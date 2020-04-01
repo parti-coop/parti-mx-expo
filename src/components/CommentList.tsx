@@ -11,7 +11,7 @@ import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
 
-import useCommentDelete from "../graphql/useCommentDelete";
+import useCommentDelete from "./useCommentDelete";
 
 interface Comment {
   id: number;
