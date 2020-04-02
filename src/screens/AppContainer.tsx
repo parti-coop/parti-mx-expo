@@ -62,7 +62,7 @@ export default function MyDrawer() {
       .getIdTokenResult(true)
       .then(res => res as IdTokenResult)
       .then(async ({ claims }) => {
-        console.log(claims);
+        // console.log(claims);
         if (claims["https://hasura.io/jwt/claims"]) {
           const userId = Number(
             claims["https://hasura.io/jwt/claims"]["x-hasura-user-id"]
