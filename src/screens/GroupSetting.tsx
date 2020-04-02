@@ -1,18 +1,46 @@
 import React from "react";
-import { Image } from "react-native";
+import {
+  Image,
+  ViewStyle,
+  Keyboard,
+  TouchableWithoutFeedback
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { RootStackParamList } from "./AppContainer";
+import { useMutation } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text } from "../components/Text";
+
+import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { RootStackParamList } from "./AppContainer";
+import { Title22, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRow } from "../components/View";
-import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
+import { View } from "../components/View";
+import { TORow } from "../components/TouchableOpacity";
+import HeaderConfirm from "../components/HeaderConfirm";
+
 import { useStore } from "../Store";
-import { Ionicons } from "@expo/vector-icons";
-import { useMutation } from "@apollo/react-hooks";
 import { updateGroupName } from "../graphql/mutation";
 import { uploadImage } from "../firebase";
+
+import iconPhoto from "../../assets/iconPhoto.png";
+
+const boxStyle = {
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
+  borderTopLeftRadius: 25,
+  borderTopRightRadius: 25,
+  marginTop: 50,
+  justifyContent: "flex-start",
+  alignItems: "center",
+  padding: 50,
+  flex: 1
+} as ViewStyle;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "GroupSetting">;
   route: RouteProp<RootStackParamList, "GroupSetting">;
@@ -51,34 +79,48 @@ export default (props: {
   }, [loading]);
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity style={{}} onPress={e => props.navigation.goBack()}>
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text>그룹 설정</Text>
-        <TouchableOpacity style={{}} onPress={save}>
-          <Text>저장</Text>
-        </TouchableOpacity>
-      </ViewRow>
-      <Text>그룹 설정 </Text>
-      <TextInput
-        value={groupName}
-        onChange={e => setGroupName(e.nativeEvent.text)}
-      />
-      <Text>사진</Text>
-      {bg_img_url.length > 0 ? (
-        <Image
-          source={{ uri: bg_img_url }}
-          resizeMode="contain"
-          style={{ flex: 1 }}
-        />
-      ) : (
-        <Text>사진 없음</Text>
-      )}
-
-      <TO1 style={{}} onPress={addImage}>
-        <Text>사진 변경</Text>
-      </TO1>
+      <HeaderConfirm onPress={save} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ paddingHorizontal: 30 }}>
+          <Title22>그룹</Title22>
+        </View>
+      </TouchableWithoutFeedback>
+      <KeyboardAvoidingView contentContainerStyle={{ flex: 1 }}>
+        <View style={boxStyle}>
+          <TextInput
+            value={groupName}
+            onChangeText={setGroupName}
+            placeholder="그룹 이름 입력"
+            onSubmitEditing={() => Keyboard.dismiss()}
+            style={{
+              paddingBottom: 30,
+              borderBottomColor: "#e4e4e4",
+              borderBottomWidth: 1,
+              fontSize: 17,
+              width: "100%",
+              textAlign: "center",
+              flex: 0
+            }}
+          />
+          {bg_img_url.length > 0 && (
+            <Image
+              source={{ uri: bg_img_url }}
+              resizeMode="contain"
+              style={{
+                width: 300,
+                height: 150,
+                marginTop: 30
+              }}
+            />
+          )}
+          <TORow style={{ marginTop: 30 }} onPress={addImage}>
+            <Image source={iconPhoto} style={{ marginRight: 5 }} />
+            <Mint16>
+              {bg_img_url.length === 0 ? "사진 추가" : "사진 변경"}
+            </Mint16>
+          </TORow>
+        </View>
+      </KeyboardAvoidingView>
     </>
   );
 };
