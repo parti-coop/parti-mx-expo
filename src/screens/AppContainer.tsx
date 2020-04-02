@@ -20,6 +20,7 @@ import AccountDelete from "./AccountDelete";
 import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
+import Search from "./Search";
 
 import { useStore } from "../Store";
 import { auth, IdTokenResult } from "../firebase";
@@ -50,6 +51,7 @@ export type RootStackParamList = {
   Profile: {};
   PasswordChange: {};
   BoardSetting: {};
+  Search: {};
 };
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -113,6 +115,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="PasswordChange" component={PasswordChange} />
       <Drawer.Screen name="BoardSetting" component={BoardSetting} />
+      <Drawer.Screen name="Search" component={Search} />
     </Drawer.Navigator>
   );
 }

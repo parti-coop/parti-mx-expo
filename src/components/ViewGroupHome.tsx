@@ -35,7 +35,7 @@ export default () => {
   });
   if (error) {
     console.warn(error);
-    dispatch({ type: "SET_LOADING", loading: false });
+    // dispatch({ type: "SET_LOADING", loading: false });
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -113,13 +113,10 @@ export default () => {
             </View>
 
             <View style={{ position: "absolute", right: 30, top: 39 }}>
-              <TO0 onPress={() => navigation.navigate("QRcode")}>
+              <TO0 onPress={() => navigate("QRcode")}>
                 <ViewGroupImg color={true} />
               </TO0>
-              <TO0
-                onPress={() => navigation.navigate("QRcode")}
-                style={{ marginTop: 10 }}
-              >
+              <TO0 onPress={() => navigate("QRcode")} style={{ marginTop: 10 }}>
                 <ViewQrCode style={{}} />
               </TO0>
               <TO0

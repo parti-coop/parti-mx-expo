@@ -7,6 +7,9 @@ import iconBack from "../../assets/iconBack.png";
 import iconSearch from "../../assets/iconSearch.png";
 export default (props: { board?: any }) => {
   const { navigate } = useNavigation();
+  function navigateSearch() {
+    navigate("Search");
+  }
   return (
     <ViewRow style={{ justifyContent: "space-between" }}>
       <TouchableOpacity
@@ -25,7 +28,7 @@ export default (props: { board?: any }) => {
           alignItems: "flex-end",
           padding: 30
         }}
-        onPress={e => Share.share({ message: "제안을 공유합니다." })}
+        onPress={navigateSearch}
       >
         <Image source={iconSearch} />
       </TouchableOpacity>
