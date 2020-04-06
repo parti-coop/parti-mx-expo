@@ -9,7 +9,6 @@ export default () => {
   const navigation = useNavigation();
   const [{ group_id, user_id }] = useStore();
   React.useEffect(() => {
-    console.log(group_id);
     if (group_id === null) {
       navigation.dispatch(DrawerActions.openDrawer());
     }

@@ -34,7 +34,7 @@ export default (props: {
   return (
     <>
       <HeaderBack />
-      <Title22 style={{ marginHorizontal: 30 }}>관리</Title22>
+      <Title22 style={{ marginHorizontal: 30, marginBottom: 20 }}>관리</Title22>
       <View style={{ borderRadius: 25, backgroundColor: "#ffffff", flex: 1 }}>
         <ScrollView contentContainerStyle={{}}>
           <Mint13 style={{ margin: 30 }}>게시판</Mint13>
