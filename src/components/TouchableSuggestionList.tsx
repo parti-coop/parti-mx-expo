@@ -1,12 +1,12 @@
 import React from "react";
 import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { EvilIcons } from "@expo/vector-icons";
 import { useMutation } from "@apollo/react-hooks";
 
 import { View, ViewRow, ViewColumnCenter } from "./View";
 import { Text, Grey12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
+import { SmallVerticalDivider } from "./LineDivider";
 
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
@@ -113,14 +113,7 @@ export default (props: {
             <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
               {votedByMe && ", 동의함"}
             </Text>
-            <View
-              style={{
-                width: 1,
-                height: 11,
-                backgroundColor: "#dedede",
-                marginHorizontal: 4
-              }}
-            ></View>
+            <SmallVerticalDivider />
             <Image
               source={iconComment}
               style={{ marginRight: 8, marginLeft: 6 }}

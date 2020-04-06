@@ -153,3 +153,43 @@ export const searchOrganizer = gql`
     }
   }
 `;
+
+export const searchPosts = gql`
+  query($searchKeyword: String!, $group_id: Int!, $user_id: Int!) {
+    parti_2020_suggestions(
+      where: {
+        _and: [
+          {
+            _or: [
+              { title: { _ilike: $searchKeyword } }
+              { body: { _ilike: $searchKeyword } }
+            ]
+          }
+          {
+            board: {
+              _and: [
+                { group: { id: { _eq: $group_id } } }
+                {
+                  _or: [
+                    { is_member_only: { _eq: false } }
+                    { group: { users: { user_id: { _eq: $user_id } } } }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ) {
+      id
+      title
+      created_at
+      createdBy {
+        name
+      }
+      board {
+        title
+      }
+    }
+  }
+`;

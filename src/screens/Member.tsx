@@ -1,19 +1,22 @@
 import React from "react";
-import { NavigationSwitchScreenProps } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
-import { useStore } from "../Store";
+import { useDebounce } from "use-debounce";
+
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { ViewRow } from "../components/View";
-import useDebounce from "../components/useDebounce";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 import GroupMember from "../components/GroupMember";
 import GroupOrganizer from "../components/GroupOrganizer";
-export default (props: NavigationSwitchScreenProps) => {
+
+import { useStore } from "../Store";
+
+export default props => {
   const [store, dispatch] = useStore();
 
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const [showMember, setShowMember] = React.useState(true);
+  const [debouncedKeyword] = useDebounce(searchKeyword, 500);
 
   return (
     <>
@@ -42,9 +45,9 @@ export default (props: NavigationSwitchScreenProps) => {
         />
       </ViewRow>
       {showMember ? (
-        <GroupMember searchKeyword={useDebounce(searchKeyword, 500)} />
+        <GroupMember searchKeyword={debouncedKeyword} />
       ) : (
-        <GroupOrganizer searchKeyword={useDebounce(searchKeyword, 500)} />
+        <GroupOrganizer searchKeyword={debouncedKeyword} />
       )}
     </>
   );
