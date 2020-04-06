@@ -23,11 +23,14 @@ export default (props: {
   bg_img_url: string;
   title: string;
   userCount: string;
-  userStatus: "requested" | "organizer" | "user";
+  userStatus: "requested" | "organizer" | "user" | undefined;
 }) => {
   const { bg_img_url, title, userCount, userStatus } = props;
   const { navigate } = useNavigation();
   const exitGroup = useGroupExit();
+  function navigateMember() {
+    navigate("Member", { userStatus });
+  }
   return (
     <View style={{ marginHorizontal: 30, marginBottom: 20 }}>
       <Text style={{ fontSize: 14, marginBottom: 20 }}>기타</Text>
@@ -37,7 +40,7 @@ export default (props: {
           justifyContent: "space-between",
         }}
       >
-        <TouchableOpacity onPress={() => navigate("Member")} style={btnStyle}>
+        <TouchableOpacity onPress={navigateMember} style={btnStyle}>
           <Image source={iconMember} style={{ marginBottom: 10 }} />
           <Text style={{ fontSize: 16, color: "#ffffff" }}>
             멤버 ({userCount})

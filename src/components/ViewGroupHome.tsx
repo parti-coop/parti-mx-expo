@@ -50,8 +50,9 @@ export default () => {
     bg_img_url,
   } = data.parti_2020_groups_by_pk;
   const userCount = users_aggregate.aggregate.count;
-  const hasJoined = users[0]?.status !== "requested";
-  const userStatus = users[0]?.status;
+  const userStatus: "organizer" | "user" | undefined | "requested" =
+    users[0]?.status;
+  const hasJoined = userStatus === "user" || userStatus === "organizer";
   const userStatusStr = !users[0]
     ? ""
     : users[0].status === "requested"

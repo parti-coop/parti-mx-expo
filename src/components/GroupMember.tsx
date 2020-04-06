@@ -23,8 +23,9 @@ export default (props: {
   searchKeyword: string;
   memberType: "user" | "organizer";
   refetch: () => void;
+  userStatus: "user" | "organizer";
 }) => {
-  const { searchKeyword, memberType, refetch } = props;
+  const { searchKeyword, memberType, refetch, userStatus } = props;
   const [debouncedKeyword] = useDebounce(`%${searchKeyword}%`, 500);
   const [{ group_id }, dispatch] = useStore();
   const setOrganizer = useSetOrganizer(refetch);
@@ -47,7 +48,7 @@ export default (props: {
     return (
       <ViewRow key={i} style={{ paddingHorizontal: 30 }}>
         <UserProfileNameDate name={name} photoUrl={photo_url} date={date} />
-        {memberType === "user" && (
+        {memberType === "user" && userStatus === "organizer" && (
           <SelectMenu
             items={options}
             style={{ position: "relative", right: 0 }}

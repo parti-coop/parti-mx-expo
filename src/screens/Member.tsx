@@ -1,7 +1,9 @@
 import React from "react";
 import { Image } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
+import { RouteProp } from "@react-navigation/native";
 
+import { RootStackParamList } from "./AppContainer";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { Title22, Title14 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
@@ -20,7 +22,8 @@ const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
 };
-export default (props) => {
+export default (props: { route: RouteProp<RootStackParamList, "Member"> }) => {
+  const { userStatus } = props.route.params;
   const [{ group_id }, dispatch] = useStore();
 
   const [searchKeyword, setSearchKeyword] = React.useState("");
@@ -74,7 +77,12 @@ export default (props) => {
             />
             <Image source={iconSearchMint} />
           </ViewRow>
-          <GroupMember searchKeyword={searchKeyword} memberType={memberType} refetch={refetch} />
+          <GroupMember
+            searchKeyword={searchKeyword}
+            memberType={memberType}
+            refetch={refetch}
+            userStatus={userStatus}
+          />
         </View>
       </KeyboardAvoidingView>
     </>

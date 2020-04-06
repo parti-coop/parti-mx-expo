@@ -32,7 +32,7 @@ export type RootStackParamList = {
   AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
   Logout: {};
-  Member: {};
+  Member: { userStatus: "organizer" | "user" };
   QRcode: {};
   SuggestionNew: {};
   SuggestionDetail: { suggestionId: number };
@@ -62,7 +62,7 @@ export default function MyDrawer() {
   async function refreshAuthToken() {
     return auth.currentUser
       .getIdTokenResult(true)
-      .then(res => res as IdTokenResult)
+      .then((res) => res as IdTokenResult)
       .then(async ({ claims }) => {
         // console.log(claims);
         if (claims["https://hasura.io/jwt/claims"]) {
@@ -90,12 +90,12 @@ export default function MyDrawer() {
     <Drawer.Navigator
       initialRouteName={isNewUser ? "Profile" : "Home"}
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
-      drawerContent={props => <CustomDrawer {...props} />}
+      drawerContent={(props) => <CustomDrawer {...props} />}
       drawerStyle={{
         backgroundColor: "#008489",
         width: 330,
         borderBottomRightRadius: 20,
-        borderTopRightRadius: 20
+        borderTopRightRadius: 20,
       }}
     >
       <Drawer.Screen name="Home" component={Home} />
