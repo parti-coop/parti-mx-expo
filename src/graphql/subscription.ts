@@ -155,3 +155,29 @@ export const subscribeBoardsByGroupId = gql`
     }
   }
 `;
+
+export const subscribeMemberCount = gql`
+  subscription($group_id: Int!) {
+    users: parti_2020_users_group_aggregate(
+      where: {
+        _and: [{ group_id: { _eq: $group_id } }, { status: { _eq: "user" } }]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    organizers: parti_2020_users_group_aggregate(
+      where: {
+        _and: [
+          { group_id: { _eq: $group_id } }
+          { status: { _eq: "organizer" } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;

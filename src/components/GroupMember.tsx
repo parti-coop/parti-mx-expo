@@ -22,15 +22,17 @@ interface UserGroup {
 export default (props: {
   searchKeyword: string;
   memberType: "user" | "organizer";
+  refetch: () => void;
 }) => {
-  const { searchKeyword, memberType } = props;
+  const { searchKeyword, memberType, refetch } = props;
   const [debouncedKeyword] = useDebounce(`%${searchKeyword}%`, 500);
   const [{ group_id }, dispatch] = useStore();
-  const setOrganizer = useSetOrganizer();
-  const deleteUserGroup = useUserGroupDelete();
+  const setOrganizer = useSetOrganizer(refetch);
+  const deleteUserGroup = useUserGroupDelete(refetch);
 
   const { data, loading } = useQuery(searchMembers, {
     variables: { searchKeyword: debouncedKeyword, group_id, memberType },
+    fetchPolicy: "network-only",
   });
   const list = data?.parti_2020_users_group.map((u: UserGroup, i: number) => {
     const {
@@ -45,10 +47,12 @@ export default (props: {
     return (
       <ViewRow key={i} style={{ paddingHorizontal: 30 }}>
         <UserProfileNameDate name={name} photoUrl={photo_url} date={date} />
-        <SelectMenu
-          items={options}
-          style={{ position: "relative", right: 0 }}
-        />
+        {memberType === "user" && (
+          <SelectMenu
+            items={options}
+            style={{ position: "relative", right: 0 }}
+          />
+        )}
       </ViewRow>
     );
   });

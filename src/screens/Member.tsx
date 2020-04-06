@@ -13,6 +13,7 @@ import GroupMember from "../components/GroupMember";
 
 import { useStore } from "../Store";
 import { getMemberCount } from "../graphql/query";
+import { subscribeMemberCount } from "../graphql/subscription";
 
 import iconSearchMint from "../../assets/iconSearchMint.png";
 const boxStyle = {
@@ -27,8 +28,9 @@ export default (props) => {
     "user"
   );
 
-  const { data } = useQuery(getMemberCount, {
+  const { data, refetch } = useQuery(getMemberCount, {
     variables: { group_id },
+    fetchPolicy: "network-only",
   });
   function showUsers() {
     setMemberType("user");
@@ -72,7 +74,7 @@ export default (props) => {
             />
             <Image source={iconSearchMint} />
           </ViewRow>
-          <GroupMember searchKeyword={searchKeyword} memberType={memberType} />
+          <GroupMember searchKeyword={searchKeyword} memberType={memberType} refetch={refetch} />
         </View>
       </KeyboardAvoidingView>
     </>
