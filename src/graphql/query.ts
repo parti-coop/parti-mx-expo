@@ -163,6 +163,7 @@ export const searchPosts = gql`
             _or: [
               { title: { _ilike: $searchKeyword } }
               { body: { _ilike: $searchKeyword } }
+              { context: { _ilike: $searchKeyword } }
             ]
           }
           {
