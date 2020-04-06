@@ -118,20 +118,48 @@ export const searchGroups = gql`
   }
 `;
 
+export const getMemberCount = gql`
+  query($group_id: Int!) {
+    users: parti_2020_users_group_aggregate(
+      where: {
+        _and: [{ group_id: { _eq: $group_id } }, { status: { _eq: "user" } }]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    organizers: parti_2020_users_group_aggregate(
+      where: {
+        _and: [
+          { group_id: { _eq: $group_id } }
+          { status: { _eq: "organizer" } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
 export const searchMembers = gql`
-  query($searchKeyword: String!, $group_id: Int!) {
+  query($searchKeyword: String!, $group_id: Int!, $memberType: String!) {
     parti_2020_users_group(
       where: {
         group_id: { _eq: $group_id }
-        status: { _neq: "organzier" }
+        status: { _eq: $memberType }
         user: { name: { _ilike: $searchKeyword } }
       }
     ) {
       user {
         name
         email
+        photo_url
       }
       status
+      created_at
     }
   }
 `;

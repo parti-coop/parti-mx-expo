@@ -1,38 +1,49 @@
 import React from "react";
-import { NavigationSwitchScreenProps } from "react-navigation";
-import { Ionicons, Feather } from "@expo/vector-icons";
-import { useStore } from "../Store";
-import { Text } from "./Text";
-
-import { ViewRow, ViewColumnCenter } from "./View";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
+import { useDebounce } from "use-debounce";
+
+import { Title22, Mint16, Caption16 } from "../components/Text";
+import { ViewRow, V1 } from "../components/View";
+import { TORow } from "../components/TouchableOpacity";
+import UserProfileNameDate from "../components/UserProfileNameDate";
+import SelectMenu from "../components/SelectMenu";
+
+import { useStore } from "../Store";
 import { searchMembers } from "../graphql/query";
-export default (props: { searchKeyword: string }) => {
-  const { searchKeyword } = props;
+interface UserGroup {
+  user: { name: string; email: string; photo_url: string };
+  status: string;
+  created_at: string;
+}
+
+const options = [{ label: "오거나이저로 지정" }, { label: "탈퇴 시키기" }];
+export default (props: {
+  searchKeyword: string;
+  memberType: "user" | "organizer";
+}) => {
+  const { searchKeyword, memberType } = props;
+  const [debouncedKeyword] = useDebounce(`%${searchKeyword}%`, 500);
   const [{ group_id }, dispatch] = useStore();
   const { data, loading } = useQuery(searchMembers, {
-    variables: { searchKeyword: `%${searchKeyword}%`, group_id }
+    variables: { searchKeyword: debouncedKeyword, group_id, memberType },
   });
-  const list =
-    data &&
-    data.parti_2020_users_group.map(
-      (
-        u: { user: { name: string; email: string }; status: string },
-        i: number
-      ) => {
-        return (
-          <ViewRow key={i}>
-            <Ionicons name="ios-arrow-back" size={60} />
-            <ViewColumnCenter>
-              <Text>{u.user.name}</Text>
-              <Text>{u.user.email}</Text>
-            </ViewColumnCenter>
-            <Feather name="more-horizontal" />
-          </ViewRow>
-        );
-      }
+  const list = data?.parti_2020_users_group.map((u: UserGroup, i: number) => {
+    const {
+      user: { name, photo_url },
+      created_at,
+    } = u;
+    const date = new Date(created_at).toLocaleDateString();
+    return (
+      <ViewRow key={i} style={{ paddingHorizontal: 30 }}>
+        <UserProfileNameDate name={name} photoUrl={photo_url} date={date} />
+        <SelectMenu
+          items={options}
+          style={{ position: "relative", right: 0 }}
+        />
+      </ViewRow>
     );
+  });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);

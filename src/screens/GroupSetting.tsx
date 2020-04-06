@@ -3,7 +3,7 @@ import {
   Image,
   ViewStyle,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@apollo/react-hooks";
@@ -29,7 +29,7 @@ const boxStyle = {
   shadowColor: "rgba(0, 0, 0, 0.15)",
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
@@ -39,7 +39,7 @@ const boxStyle = {
   justifyContent: "flex-start",
   alignItems: "center",
   padding: 50,
-  flex: 1
+  flex: 1,
 } as ViewStyle;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "GroupSetting">;
@@ -49,13 +49,13 @@ export default (props: {
   const [groupName, setGroupName] = React.useState(props.route.params.title);
   const [bg_img_url, setImgUrl] = React.useState(props.route.params.bg_img_url);
   const [update, { loading }] = useMutation(updateGroupName, {
-    variables: { group_id, groupName, bg_img_url }
+    variables: { group_id, groupName, bg_img_url },
   });
   function save() {
     dispatch({ type: "SET_LOADING", loading: true });
     uploadImage(bg_img_url, `${group_id}/bgImg`)
-      .then(snap => snap.ref.getDownloadURL())
-      .then(bg_img_url =>
+      .then((snap) => snap.ref.getDownloadURL())
+      .then((bg_img_url) =>
         update({ variables: { bg_img_url, group_id, groupName } })
       )
       .then(() => props.navigation.goBack());
@@ -65,9 +65,9 @@ export default (props: {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [2, 1],
-      quality: 0
+      quality: 0,
     })
-      .then(res => {
+      .then((res) => {
         if (res.cancelled !== true) {
           setImgUrl(res.uri);
         }
@@ -99,25 +99,23 @@ export default (props: {
               fontSize: 17,
               width: "100%",
               textAlign: "center",
-              flex: 0
+              flex: 0,
             }}
           />
-          {bg_img_url.length > 0 && (
+          {bg_img_url && (
             <Image
               source={{ uri: bg_img_url }}
               resizeMode="contain"
               style={{
                 width: 300,
                 height: 150,
-                marginTop: 30
+                marginTop: 30,
               }}
             />
           )}
           <TORow style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
-            <Mint16>
-              {bg_img_url.length === 0 ? "사진 추가" : "사진 변경"}
-            </Mint16>
+            <Mint16>{bg_img_url ? "사진 변경" : "사진 추가"}</Mint16>
           </TORow>
         </View>
       </KeyboardAvoidingView>

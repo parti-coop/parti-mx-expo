@@ -1,54 +1,80 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { useDebounce } from "use-debounce";
+import { Image } from "react-native";
+import { useQuery } from "@apollo/react-hooks";
 
-import { Text } from "../components/Text";
+import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { Title22, Title14 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRow } from "../components/View";
-import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
+import { ViewRow, View } from "../components/View";
+import { TO0 } from "../components/TouchableOpacity";
+import { SmallVerticalDivider } from "../components/LineDivider";
+import HeaderBack from "../components/HeaderBack";
 import GroupMember from "../components/GroupMember";
-import GroupOrganizer from "../components/GroupOrganizer";
 
 import { useStore } from "../Store";
+import { getMemberCount } from "../graphql/query";
 
-export default props => {
-  const [store, dispatch] = useStore();
+import iconSearchMint from "../../assets/iconSearchMint.png";
+const boxStyle = {
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+};
+export default (props) => {
+  const [{ group_id }, dispatch] = useStore();
 
   const [searchKeyword, setSearchKeyword] = React.useState("");
-  const [showMember, setShowMember] = React.useState(true);
-  const [debouncedKeyword] = useDebounce(searchKeyword, 500);
+  const [memberType, setMemberType] = React.useState<"user" | "organizer">(
+    "user"
+  );
 
+  const { data } = useQuery(getMemberCount, {
+    variables: { group_id },
+  });
+  function showUsers() {
+    setMemberType("user");
+  }
+  function showOrganizers() {
+    setMemberType("organizer");
+  }
   return (
     <>
-      <ViewRow>
-        <TouchableOpacity
-          style={{ width: 50, padding: 10 }}
-          onPress={() => props.navigation.goBack()}
+      <HeaderBack />
+      <KeyboardAvoidingView>
+        <Title22 style={{ marginHorizontal: 30 }}>관리</Title22>
+        <ViewRow
+          style={{ marginTop: 50, marginHorizontal: 30, marginBottom: 20 }}
         >
-          <Ionicons name="ios-arrow-back" size={60} />
-        </TouchableOpacity>
-        <Text>멤버</Text>
-      </ViewRow>
-      <ViewRow>
-        <TORow onPress={e => setShowMember(true)}>
-          <Text>멤버</Text>
-        </TORow>
-        <TORow onPress={e => setShowMember(false)}>
-          <Text>오거나이저</Text>
-        </TORow>
-      </ViewRow>
-      <ViewRow>
-        <Ionicons name="ios-search" size={60} />
-        <TextInput
-          value={searchKeyword}
-          onChange={e => setSearchKeyword(e.nativeEvent.text)}
-        />
-      </ViewRow>
-      {showMember ? (
-        <GroupMember searchKeyword={debouncedKeyword} />
-      ) : (
-        <GroupOrganizer searchKeyword={debouncedKeyword} />
-      )}
+          <TO0 onPress={showUsers}>
+            <ViewRow style={{ opacity: memberType === "user" ? 1 : 0.5 }}>
+              <Title14>멤버</Title14>
+              <Title14 style={{ marginLeft: 4 }}>
+                {data?.users?.aggregate.count}
+              </Title14>
+            </ViewRow>
+          </TO0>
+          <SmallVerticalDivider />
+          <TO0 onPress={showOrganizers}>
+            <ViewRow style={{ opacity: memberType === "organizer" ? 1 : 0.5 }}>
+              <Title14>오거나이저</Title14>
+              <Title14 style={{ marginLeft: 4 }}>
+                {data?.organizers?.aggregate.count}
+              </Title14>
+            </ViewRow>
+          </TO0>
+        </ViewRow>
+        <View style={boxStyle}>
+          <ViewRow style={{ marginHorizontal: 30, paddingVertical: 10 }}>
+            <TextInput
+              value={searchKeyword}
+              onChangeText={setSearchKeyword}
+              placeholder="닉네임 입력"
+              style={{ fontSize: 16, color: "#999999", paddingLeft: 0 }}
+            />
+            <Image source={iconSearchMint} />
+          </ViewRow>
+          <GroupMember searchKeyword={searchKeyword} memberType={memberType} />
+        </View>
+      </KeyboardAvoidingView>
     </>
   );
 };
