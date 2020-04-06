@@ -154,6 +154,7 @@ export const searchMembers = gql`
       }
     ) {
       user {
+        id
         name
         email
         photo_url

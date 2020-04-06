@@ -280,3 +280,26 @@ export const deleteBoard = gql`
     }
   }
 `;
+export const setOrganizer = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    update_parti_2020_users_group(
+      where: {
+        _and: [{ user_id: { _eq: $user_id } }, { group_id: { _eq: $group_id } }]
+      }
+      _set: { status: "organizer" }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const deleteUserGroup = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    delete_parti_2020_users_group(
+      where: {
+        _and: [{ user_id: { _eq: $user_id } }, { group_id: { _eq: $group_id } }]
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
