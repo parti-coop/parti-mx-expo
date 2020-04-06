@@ -47,6 +47,12 @@ export default () => {
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
+  function resetInput() {
+    setSTitle("");
+    setSContext("");
+    setSBody("");
+    // Keyboard.dismiss();
+  }
   async function insertPressHandler() {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
       return showMessage({
@@ -70,7 +76,7 @@ export default () => {
         closingMethod
       }
     });
-    // Keyboard.dismiss();
+    resetInput();
     navigate("SuggestionList");
   }
   React.useEffect(() => {
