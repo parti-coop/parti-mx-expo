@@ -26,7 +26,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const [isVisible, setVisible] = React.useState(false);
   const deleteBoard = useBoardDelete(board.id);
   const items = [
-    { label: "수정", handler: console.log },
+    { label: "수정", handler: () => setVisible(true) },
     { label: "삭제", handler: deleteBoard },
   ];
   return (
@@ -70,7 +70,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
             style={{ position: "absolute", width: "100%", height: "100%" }}
           />
           <V0>
-            <ViewBoardEdit setVisible={setVisible} />
+            <ViewBoardEdit setVisible={setVisible} board={board} />
           </V0>
         </KeyboardAvoidingView>
       </Modal>

@@ -6,10 +6,9 @@ import { View, ViewRow, V0 } from "./View";
 import { TO1, TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
-import { insertBoard } from "../graphql/mutation";
+import { updateBoard } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
-import RNPickerSelect from "react-native-picker-select";
 import Modal from "react-native-modal";
 import { TextInput } from "./TextInput";
 
@@ -44,20 +43,29 @@ const rectangleStyle = {
   backgroundColor: "#f0f0f0",
   marginHorizontal: 1,
 } as ViewStyle;
+type Board = {
+  id: number;
+  title: string;
+  body: string;
+  is_member_only: boolean;
+  type: string;
+  updated_at: string;
+  last_posted_at: string;
+  usersBoardCheck: Array<{ updated_at: string }>;
+};
 export default (props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;
+  board: Board;
 }) => {
+  const { board } = props;
   const [{ group_id, user_id }, dispatch] = useStore();
-  const [type, setType] = React.useState(null);
-  const [title, setTitle] = React.useState("");
-  const [body, setBody] = React.useState("");
+  const [type, setType] = React.useState(board.type);
+  const [title, setTitle] = React.useState(board.title);
+  const [body, setBody] = React.useState(board.body);
   const bodyRef = React.useRef(null);
-  function pickerHandler(value: string) {
-    setType(value);
-  }
-  const [insert, { error, data }] = useMutation(insertBoard, {
-    variables: { group_id, user_id, type, title, body },
+  const [update, { error, data }] = useMutation(updateBoard, {
+    variables: { id: board.id, title, body },
   });
   if (error) {
     console.log(error);
@@ -66,7 +74,7 @@ export default (props: {
     if (!title || !type) {
       return;
     }
-    await insert();
+    await update();
     showMessage({ type: "success", message: "게시판을 만들었습니다." });
     props.setVisible(false);
   }
@@ -81,6 +89,7 @@ export default (props: {
                 style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
                 key={index}
                 onPress={() => setType(value)}
+                disabled
               >
                 <Image source={icon} style={{ tintColor: "white" }} />
                 <White16>{label}</White16>
@@ -92,6 +101,7 @@ export default (props: {
               style={rectangleStyle}
               key={index}
               onPress={() => setType(value)}
+              disabled
             >
               <Image source={icon} />
               <Caption16>{label}</Caption16>

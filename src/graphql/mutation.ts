@@ -221,6 +221,16 @@ export const insertBoard = gql`
     }
   }
 `;
+export const updateBoard = gql`
+  mutation($title: String!, $body: String!, $id: Int!) {
+    update_parti_2020_boards(
+      _set: { body: $body, title: $title }
+      where: { id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
 export const insertUserGroupAsOrganizer = gql`
   mutation($group_id: Int!, $user_id: Int!) {
     insert_parti_2020_users_group(
