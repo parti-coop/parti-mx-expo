@@ -5,28 +5,28 @@ import {
   KeyboardAvoidingViewProps,
   TouchableWithoutFeedback,
   Keyboard,
-  View
+  View,
 } from "react-native";
 export const KeyboardAvoidingView = React.forwardRef<
   K,
   KeyboardAvoidingViewProps & { children: React.ReactNode }
 >((props, ref: React.Ref<K>) => (
   <K
-    {...props}
     behavior={Platform.select({ ios: "padding", android: null })}
     keyboardVerticalOffset={Platform.select({ ios: 44, android: 0 })}
+    {...props}
     contentContainerStyle={[
       {
         alignItems: "stretch",
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      props.contentContainerStyle
+      props.contentContainerStyle,
     ]}
     style={[
       {
-        flex: 1
+        flex: 1,
       },
-      props.style
+      props.style,
     ]}
     ref={ref}
   >

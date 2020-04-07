@@ -12,7 +12,7 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
       style={[
         {
           fontFamily: "notosans",
-          fontSize: 20,
+          fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
           height: 50
@@ -40,7 +40,7 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
       style={[
         {
           fontFamily: "notosans",
-          fontSize: 20,
+          fontSize: 16,
           flex: 1,
           height: 50,
           paddingHorizontal: 20

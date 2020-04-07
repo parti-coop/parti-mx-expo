@@ -1,10 +1,10 @@
 import React from "react";
-import { ViewStyle, StyleProp, Alert } from "react-native";
+import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { View, ViewRow, ViewColumnCenter } from "./View";
 
-import { TouchableOpacity } from "./TouchableOpacity";
-import { Text } from "./Text";
+import { TO1, TO0 } from "./TouchableOpacity";
+import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
 import { insertBoard } from "../graphql/mutation";
 import { useStore } from "../Store";
@@ -12,18 +12,44 @@ import { showMessage } from "react-native-flash-message";
 import RNPickerSelect from "react-native-picker-select";
 import Modal from "react-native-modal";
 import { TextInput } from "./TextInput";
+
+import iconNewsGray from "../../assets/iconNewsGray.png";
+import iconCommunityGray from "../../assets/iconCommunityGray.png";
+import iconSuggestGray from "../../assets/iconSuggestGray.png";
+import iconVoteGray from "../../assets/iconVoteGray.png";
 const options = [
-  { value: "notice", label: "소식" },
-  { value: "suggestion", label: "제안" },
-  { value: "event", label: "모임" },
-  { value: "vote", label: "투표" }
+  { value: "notice", label: "소식", icon: iconNewsGray },
+  { value: "suggestion", label: "제안", icon: iconSuggestGray },
+  { value: "event", label: "모임", icon: iconCommunityGray },
+  { value: "vote", label: "투표", icon: iconVoteGray },
 ];
+const boxStyle = {
+  width: 315,
+  height: 361,
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
+  padding: 30,
+} as ViewStyle;
+const rectangleStyle = {
+  width: 60,
+  height: 66,
+  borderRadius: 15,
+  backgroundColor: "#f0f0f0",
+  marginHorizontal: 1,
+} as ViewStyle;
 export default (props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;
 }) => {
   const [{ group_id, user_id }, dispatch] = useStore();
-  const [type, setType] = React.useState(options[0].value);
+  const [type, setType] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const bodyRef = React.useRef(null);
@@ -31,15 +57,13 @@ export default (props: {
     setType(value);
   }
   const [insert, { error, data }] = useMutation(insertBoard, {
-    variables: { group_id, user_id, type, title, body }
+    variables: { group_id, user_id, type, title, body },
   });
   if (error) {
     console.log(error);
-  } else {
-    console.log(data);
   }
   async function saveHandler() {
-    if (title.length === 0) {
+    if (!title || !type) {
       return;
     }
     await insert();
@@ -47,34 +71,64 @@ export default (props: {
     props.setVisible(false);
   }
   return (
-    <View style={{ backgroundColor: "white", ...(props.style as Object) }}>
-      <RNPickerSelect
-        items={options}
-        value={type}
-        onValueChange={pickerHandler}
-        placeholder={{}}
-      />
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        style={{ flex: 0 }}
-        placeholder="게시판 이름"
-        onSubmitEditing={() => bodyRef.current.focus()}
-      />
-      <TextInput
-        value={body}
-        onChangeText={setBody}
-        style={{ flex: 0 }}
-        placeholder="게시판 설명"
-        ref={bodyRef}
-        onSubmitEditing={saveHandler}
-      />
-      <TouchableOpacity onPress={saveHandler}>
-        <Text>저장</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.setVisible(false)}>
-        <Text>닫기</Text>
-      </TouchableOpacity>
+    <View style={boxStyle}>
+      <Title22 style={{ paddingBottom: 20 }}>게시판 추가</Title22>
+      <ViewRow style={{ paddingVertical: 20 }}>
+        {options.map(({ icon, label, value }, index) => {
+          if (value === type) {
+            return (
+              <TO0
+                style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
+                key={index}
+                onPress={() => setType(value)}
+              >
+                <Image source={icon} style={{ tintColor: "white" }} />
+                <White16>{label}</White16>
+              </TO0>
+            );
+          }
+          return (
+            <TO0
+              style={rectangleStyle}
+              key={index}
+              onPress={() => setType(value)}
+            >
+              <Image source={icon} />
+              <Caption16>{label}</Caption16>
+            </TO0>
+          );
+        })}
+      </ViewRow>
+      <ViewRow>
+        <TextInput
+          value={title}
+          onChangeText={setTitle}
+          style={{
+            borderBottomColor: "#f0f0f0",
+            borderBottomWidth: 1,
+            paddingLeft: 0,
+          }}
+          placeholder="게시판 이름을 입력해주세요"
+          onSubmitEditing={() => bodyRef.current.focus()}
+        />
+      </ViewRow>
+      <ViewRow>
+        <TextInput
+          value={body}
+          onChangeText={setBody}
+          style={{
+            borderBottomColor: "#f0f0f0",
+            borderBottomWidth: 1,
+            paddingLeft: 0,
+          }}
+          placeholder="게시판 설명을 입력해주세요"
+          ref={bodyRef}
+          onSubmitEditing={saveHandler}
+        />
+      </ViewRow>
+      <TO0 onPress={saveHandler} style={{ flex: 1 }}>
+        <Mint16>확인</Mint16>
+      </TO0>
     </View>
   );
 };
