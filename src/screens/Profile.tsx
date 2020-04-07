@@ -16,7 +16,7 @@ import {
   View,
   ViewRow,
   ViewColumnStretch,
-  ViewColumnCenter
+  V0
 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 
@@ -146,12 +146,12 @@ export default (props: {
             >
               프로필
             </Text>
-            <ViewColumnCenter style={{ marginTop: 70, marginBottom: 60 }}>
+            <V0 style={{ marginTop: 70, marginBottom: 60 }}>
               <UserProfileBig
                 url={photoUrl ?? prevPhoroUrl}
                 setUrl={setPhotoUrl}
               />
-            </ViewColumnCenter>
+            </V0>
           </View>
 
           <View style={box}>

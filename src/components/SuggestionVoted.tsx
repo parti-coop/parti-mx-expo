@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfileNameDate from "../components/UserProfileNameDate";
-import { View, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, V0 } from "./View";
 import { Body16 } from "./Text";
 export default (props: {
   voteUsers: Array<{
@@ -26,9 +26,9 @@ export default (props: {
           ))}
         </ViewRow>
       ) : (
-        <ViewColumnCenter style={{ padding: 50 }}>
+        <V0 style={{ padding: 50 }}>
           <Body16>아직 제안동의가 없습니다</Body16>
-        </ViewColumnCenter>
+        </V0>
       )}
     </View>
   );

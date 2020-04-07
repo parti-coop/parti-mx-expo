@@ -5,7 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
 import { Text } from "../components/Text";
-import { View, ViewColumnCenter } from "../components/View";
+import { View, V0 } from "../components/View";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonVote from "../components/ButtonVote";
@@ -117,7 +117,7 @@ export default (props: {
             <Text style={bodyTextStyle}>{body}</Text>
           </View>
           <SelectMenu items={options} />
-          <ViewColumnCenter style={{ marginTop: 50 }}>
+          <V0 style={{ marginTop: 50 }}>
             {voteCount > 0 ? (
               <ButtonDevote id={id} />
             ) : (
@@ -127,7 +127,7 @@ export default (props: {
                 closing_method={closing_method}
               />
             )}
-          </ViewColumnCenter>
+          </V0>
         </View>
         <SuggestionTabs
           id={id}

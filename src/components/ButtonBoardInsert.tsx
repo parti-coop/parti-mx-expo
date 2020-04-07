@@ -11,7 +11,7 @@ import RNPickerSelect from "react-native-picker-select";
 import Modal from "react-native-modal";
 import { useMutation } from "@apollo/react-hooks";
 
-import { View, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, V0 } from "./View";
 import { KeyboardAvoidingView } from "./KeyboardAvoidingView";
 import { TouchableOpacity, TORowCenter } from "./TouchableOpacity";
 import { Text, Mint16 } from "./Text";
@@ -54,9 +54,9 @@ export default (props: { style?: StyleProp<ViewStyle> }) => {
             onPress={() => setVisible(false)}
             style={{ position: "absolute", width: "100%", height: "100%" }}
           />
-          <ViewColumnCenter>
+          <V0>
             <ViewBoardInsert setVisible={setVisible} />
-          </ViewColumnCenter>
+          </V0>
         </KeyboardAvoidingView>
       </Modal>
     </>

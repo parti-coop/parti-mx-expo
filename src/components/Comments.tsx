@@ -3,7 +3,7 @@ import { ViewStyle, Image } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
-import { View, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, V0 } from "./View";
 import { Title16, Blue16, Body16 } from "./Text";
 import { TextInput } from "./TextInput";
 import { TO0, TO1 } from "./TouchableOpacity";
@@ -210,9 +210,9 @@ export default (props: {
             />
           ))
         ) : (
-          <ViewColumnCenter style={{ marginVertical: 50 }}>
+          <V0 style={{ marginVertical: 50 }}>
             <Body16>아직 등록된 댓글이 없습니다 </Body16>
-          </ViewColumnCenter>
+          </V0>
         )}
       </View>
       {commentKind()}

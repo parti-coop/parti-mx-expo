@@ -3,7 +3,7 @@ import { ViewStyle, Image } from "react-native";
 import Modal from "react-native-modal";
 
 import UserCommentProfile from "./UserCommentProfile";
-import { View, ViewRow, ViewColumnCenter, ViewRowCenter } from "./View";
+import { View, ViewRow, V0, ViewRowCenter } from "./View";
 import { Text, Grey12, Body16, Red16 } from "./Text";
 import { TO0, TO1 } from "./TouchableOpacity";
 import ButtonLikeComment from "./ButtonLikeComment";
@@ -125,7 +125,7 @@ export default (props: {
         animationOut="fadeOut"
         onBackdropPress={() => setVisible(false)}
       >
-        <ViewColumnCenter>
+        <V0>
           <View style={commentModal}>
             <Body16>이 댓글을 삭제 하시겠습니까?</Body16>
             <ViewRowCenter style={{ marginTop: 30 }}>
@@ -140,7 +140,7 @@ export default (props: {
               </TO1>
             </ViewRowCenter>
           </View>
-        </ViewColumnCenter>
+        </V0>
       </Modal>
     </View>
   );

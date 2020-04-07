@@ -3,7 +3,7 @@ import { ViewStyle, StyleProp, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 
-import { View, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, V0 } from "./View";
 import { Text, Grey12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
@@ -61,7 +61,7 @@ export default (props: {
       }
     >
       <ViewRow style={{ justifyContent: "flex-start" }}>
-        <ViewColumnCenter
+        <V0
           style={{
             width: 54,
             height: 54,
@@ -96,7 +96,7 @@ export default (props: {
           >
             {daysLeft}
           </Text>
-        </ViewColumnCenter>
+        </V0>
         <View style={{ flex: 1 }}>
           <Text
             style={{
@@ -122,7 +122,7 @@ export default (props: {
             {/* {suggestion.closed_at && <Text>{suggestion.closed_at}</Text>} */}
           </ViewRow>
         </View>
-        <ViewColumnCenter
+        <V0
           style={{
             width: 35,
             height: 35,
@@ -136,7 +136,7 @@ export default (props: {
           <Text style={{ fontSize: 11, textAlign: "center", color: "#ffffff" }}>
             {voteCount || 0}
           </Text>
-        </ViewColumnCenter>
+        </V0>
       </ViewRow>
     </TouchableOpacity>
   );

@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { ViewStyle, Image, ImageStyle } from "react-native";
 import { launchImageLibraryAsync } from "expo-image-picker";
-import { View, ViewColumnCenter } from "./View";
+import { View, V0 } from "./View";
 import { Mint14 } from "./Text";
 import { TouchableOpacity, TO1, TO0 } from "../components/TouchableOpacity";
 import iconProfile from "../../assets/iconProfile.png";
@@ -39,9 +39,9 @@ export default (props: {
   if (!props.url) {
     return (
       <>
-        <ViewColumnCenter style={[UserStyle, props.style]}>
+        <V0 style={[UserStyle, props.style]}>
           <Image source={iconProfile} />
-        </ViewColumnCenter>
+        </V0>
 
         <TO0 onPress={addImage}>
           <Mint14 style={{ marginTop: 9 }}>추가</Mint14>

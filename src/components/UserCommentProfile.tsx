@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewStyle, Image, TextStyle, ImageStyle } from "react-native";
-import { View, ViewRow, ViewColumnCenter } from "./View";
+import { View, ViewRow, V0 } from "./View";
 import { Text } from "./Text";
 import iconCommentUser from "../../assets/iconCommentUser.png";
 const UserStyle = {
@@ -27,9 +27,9 @@ export default (
       {photoUrl ? (
         userPhoto
       ) : (
-        <ViewColumnCenter style={[UserStyle]}>
+        <V0 style={[UserStyle]}>
           <Image source={iconCommentUser} resizeMode="contain" />
-        </ViewColumnCenter>
+        </V0>
       )}
 
       <View style={{ marginLeft: 9 }}>

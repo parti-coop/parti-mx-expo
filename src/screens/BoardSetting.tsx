@@ -20,9 +20,8 @@ export default (props: {
   route: RouteProp<RootStackParamList, "BoardSetting">;
 }) => {
   const [{ group_id, user_id }, dispatch] = useStore();
-  const { navigate, goBack } = useNavigation();
   const { data, error } = useSubscription(subscribeBoardsByGroupId, {
-    variables: { group_id, user_id }
+    variables: { group_id, user_id },
   });
   if (error) {
     console.log(error);
