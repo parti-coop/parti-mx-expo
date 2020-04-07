@@ -8,7 +8,7 @@ export default function() {
     Alert.alert(
       "앱 리로딩",
       `앱을 새로 다운받고 시작하시겠습니까?
-          \n 현재 앱 버전: 4월5일
+          \n 현재 앱 버전: 4월 7일
           \n nativeBuildVersion: ${Constants.nativeBuildVersion}`,
       [
         {

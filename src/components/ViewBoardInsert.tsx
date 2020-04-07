@@ -49,7 +49,7 @@ export default (props: {
   setVisible: (visible: boolean) => void;
 }) => {
   const [{ group_id, user_id }, dispatch] = useStore();
-  const [type, setType] = React.useState(null);
+  const [type, setType] = React.useState("suggestion");
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const bodyRef = React.useRef(null);
@@ -81,6 +81,7 @@ export default (props: {
                 style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
                 key={index}
                 onPress={() => setType(value)}
+                disabled
               >
                 <Image source={icon} style={{ tintColor: "white" }} />
                 <White16>{label}</White16>
@@ -92,6 +93,7 @@ export default (props: {
               style={rectangleStyle}
               key={index}
               onPress={() => setType(value)}
+              disabled
             >
               <Image source={icon} />
               <Caption16>{label}</Caption16>
