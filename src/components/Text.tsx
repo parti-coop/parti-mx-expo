@@ -1,414 +1,551 @@
 import React from "react";
+import { Text as T, TextProps, Platform } from "react-native";
 import { getRandomColor } from "../Utils/RandomColorGenerator";
-import { Text as T, TextProps } from "react-native";
-
-export const Text: React.FunctionComponent<TextProps> = props => (
+function lineHeight(fontSize: number) {
+  const multiplier = fontSize > 20 ? 1.5 : 1;
+  return Math.floor(fontSize + fontSize * multiplier);
+}
+export const Text: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
-        fontSize: 14
+        fontSize: 14,
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(14),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export class TextRound extends React.PureComponent<TextProps> {
-  render() {
-    return (
-      <T
-        {...this.props}
-        style={[
-          {
-            fontFamily: "notosans",
-            width: 56,
-            height: 56,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#03A9F4",
-            borderRadius: 30,
-            elevation: 8,
-            textAlign: "center",
-            textAlignVertical: "center"
-          },
-          this.props.style
-        ]}
-      >
-        {this.props.children}
-      </T>
-    );
-  }
-}
-
-export class Text2 extends React.PureComponent<TextProps> {
-  render() {
-    return (
-      <T
-        {...this.props}
-        style={[
-          {
-            fontFamily: "notosans",
-            fontSize: 14,
-            flex: 1,
-            backgroundColor: getRandomColor()
-          },
-          this.props.style
-        ]}
-      >
-        {this.props.children}
-      </T>
-    );
-  }
-}
-
-export const Mint13: React.FunctionComponent<TextProps> = props => (
+export const Mint13: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 13,
-        color: "#30ad9f"
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(13),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Mint14: React.FunctionComponent<TextProps> = props => (
+export const Mint14: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 14,
-        color: "#30ad9f"
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(14),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Mint15: React.FunctionComponent<TextProps> = props => (
+export const Mint15: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#30ad9f"
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(15),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Mint16: React.FunctionComponent<TextProps> = props => (
+export const Mint16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#30ad9f"
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
-export const Mint17: React.FunctionComponent<TextProps> = props => (
+export const Mint17: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
-        fontSize: 14,
-        color: "#30ad9f"
+        fontSize: 17,
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(17),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
-export const Mint24: React.FunctionComponent<TextProps> = props => (
+export const Mint24: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 24,
-        color: "#30ad9f"
+        color: "#30ad9f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(24),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Grey12: React.FunctionComponent<TextProps> = props => (
+export const Grey12: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 12,
-        color: "#909090"
+        color: "#909090",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(12),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Red12: React.FunctionComponent<TextProps> = props => (
+export const Red12: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 12,
-        color: "#f35f5f"
+        color: "#f35f5f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(12),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Red16: React.FunctionComponent<TextProps> = props => (
+export const Red16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#f35f5f"
+        color: "#f35f5f",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title14: React.FunctionComponent<TextProps> = props => (
+export const Title14: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 14,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(14),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title15: React.FunctionComponent<TextProps> = props => (
+export const Title15: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(15),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title16: React.FunctionComponent<TextProps> = props => (
+export const Title16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title22: React.FunctionComponent<TextProps> = props => (
+export const Title18: React.FunctionComponent<TextProps> = (props) => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 18,
+        color: "#333333",
+      },
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(18),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Title22: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 22,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(22),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title24: React.FunctionComponent<TextProps> = props => (
+export const Title24: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 24,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(24),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Title30: React.FunctionComponent<TextProps> = props => (
+export const Title30: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 30,
-        color: "#333333"
+        color: "#333333",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(30),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Body15: React.FunctionComponent<TextProps> = props => (
+export const Body15: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#555555"
+        color: "#555555",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(15),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Body16: React.FunctionComponent<TextProps> = props => (
+export const Body16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#555555"
+        color: "#555555",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Caption16: React.FunctionComponent<TextProps> = props => (
+export const Caption16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#444444"
+        color: "#444444",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Sub15: React.FunctionComponent<TextProps> = props => (
+export const Sub15: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#777777"
+        color: "#777777",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(15),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Sub16: React.FunctionComponent<TextProps> = props => (
+export const Sub16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#777777"
+        color: "#777777",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const Blue16: React.FunctionComponent<TextProps> = props => (
+export const Blue16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#4b93dc"
+        color: "#4b93dc",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}
   </T>
 );
 
-export const White16: React.FunctionComponent<TextProps> = props => (
+export const White16: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
     style={[
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#ffffff"
+        color: "#ffffff",
       },
-      props.style
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Purple12: React.FunctionComponent<TextProps> = (props) => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 12,
+        color: "#cb6794",
+      },
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(12),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
     ]}
   >
     {props.children}

@@ -1,17 +1,17 @@
 import React from "react";
-import { ViewStyle, StyleProp, Image } from "react-native";
+import { ViewStyle, StyleProp, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 
-import { View, ViewRow } from "./View";
-import { Text } from "./Text";
+import { View, ViewRow, V0 } from "./View";
+import { Text, Title18, Mint14, Purple12 } from "./Text";
 import ViewRedDot from "./ViewRedDot";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
 
 import {
   updateUserBoardCheck,
-  insertUserBoardCheck
+  insertUserBoardCheck,
 } from "../graphql/mutation";
 import { useStore } from "../Store";
 
@@ -30,10 +30,10 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const { board } = props;
   const [{ user_id }] = useStore();
   const [update, { data }] = useMutation(updateUserBoardCheck, {
-    variables: { user_id, board_id: board.id }
+    variables: { user_id, board_id: board.id },
   });
   const [insert] = useMutation(insertUserBoardCheck, {
-    variables: { user_id, board_id: board.id }
+    variables: { user_id, board_id: board.id },
   });
   React.useEffect(() => {
     if (data && data.update_parti_2020_users_board) {
@@ -72,53 +72,50 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
           backgroundColor: "#ffffff",
           marginBottom: 10,
           borderRadius: 25,
-          marginRight: 10
+          marginRight: 10,
         },
-        props.style
+        props.style,
       ]}
       onPress={goToBoard}
     >
       <View
         style={{
           flex: 1,
-          // justifyContent: "center",
           paddingVertical: 20,
-          // paddingHorizontal: 30,
           marginLeft: 30,
-          marginRight: 50
+          marginRight: 50,
         }}
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
-          <Text style={{ fontSize: 18 }}>{board.title}</Text>
+          <Title18>{board.title}</Title18>
           {!board.is_member_only && (
-            <Text
-              style={{
-                paddingHorizontal: 10,
-                borderWidth: 1,
-                borderColor: "#cb6794",
-                borderRadius: 10,
-                fontSize: 12,
-                padding: 1,
-                color: "#cb6794",
-                marginLeft: 10
-              }}
+            <V0
+              style={[
+                {
+                  padding: 1,
+                  paddingHorizontal: 10,
+                  borderWidth: 1,
+                  borderColor: "#cb6794",
+                  borderRadius: 10,
+                  marginLeft: 10,
+                },
+              ]}
             >
-              전체공개
-            </Text>
+              <Purple12>전체공개</Purple12>
+            </V0>
           )}
           {isNew && <ViewRedDot style={{ marginLeft: 10 }} />}
-          <Text
-            style={{
-              color: "#30ad9f",
-              fontSize: 14,
-              position: "absolute",
-              right: 0
-            }}
-          >
-            {minutes}
-          </Text>
+          <Mint14 style={{ position: "absolute", right: 0 }}>{minutes}</Mint14>
         </ViewRow>
-        <Text style={{ fontSize: 14, color: "#888888", marginTop: 15 }}>{board.body}</Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: "#888888",
+            marginTop: 15,
+          }}
+        >
+          {board.body}
+        </Text>
       </View>
       <ViewGroupType style={{ position: "absolute", right: -17, top: 44 }} />
     </TouchableOpacity>

@@ -4,7 +4,7 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { useSubscription } from "@apollo/react-hooks";
 
 import { View, ViewRow } from "./View";
-import { Text } from "./Text";
+import { Title14 } from "./Text";
 import ViewGroupImg from "./ViewGroupImg";
 import ViewQrCode from "./ViewQrCode";
 import ViewIconInvite from "./ViewIconInvite";
@@ -41,6 +41,9 @@ export default () => {
   }, [loading]);
   if (!data?.parti_2020_groups_by_pk) {
     return null;
+  }
+  function toggleDrawer() {
+    navigation.dispatch(DrawerActions.toggleDrawer());
   }
   const {
     title,
@@ -79,39 +82,20 @@ export default () => {
         >
           <View>
             <ViewRow>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.dispatch(DrawerActions.toggleDrawer())
-                }
-              >
+              <TouchableOpacity onPress={toggleDrawer}>
                 <ViewGroupImg color={false} />
               </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.dispatch(DrawerActions.toggleDrawer())
-                }
-              >
+              <TouchableOpacity onPress={toggleDrawer}>
                 <ViewNotification />
               </TouchableOpacity>
             </ViewRow>
             <View style={{ height: 52, marginTop: 19, marginRight: 80 }}>
-              <Text style={[titleStyle]}>{title}</Text>
+              <Title14 style={[titleStyle]}>{title}</Title14>
             </View>
-            <View
-              style={{
-                marginTop: 8,
-                // backgroundColor: "rgba(255,255,255,0.4)"
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: "#777777",
-                }}
-              >
+            <View style={{ marginTop: 8 }}>
+              <Title14 style={{ fontSize: 15, color: "#777777" }}>
                 {userStatusStr}
-              </Text>
+              </Title14>
             </View>
           </View>
 
@@ -134,7 +118,6 @@ export default () => {
       <View style={{ height: 197 }} />
       <ScrollView
         style={{
-          // top: -25,
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
           backgroundColor: "#f0f0f0",
@@ -144,7 +127,7 @@ export default () => {
           <ViewRow
             style={{ justifyContent: "space-between", paddingVertical: 20 }}
           >
-            <Text style={{ fontSize: 14, color: "#333333" }}>목록</Text>
+            <Title14>목록</Title14>
             {userStatus === "organizer" && <ButtonBoardSetting />}
           </ViewRow>
           {boards.map((b: any, index: number) => (
