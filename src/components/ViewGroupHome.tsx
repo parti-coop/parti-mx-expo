@@ -67,7 +67,7 @@ export default () => {
     <>
       <ImageBackground
         source={bg_img_url ? { uri: bg_img_url } : bgGroupMain}
-        style={{ height: 222 }}
+        style={{ height: 222, position: "absolute", width: "100%" }}
       >
         <View
           style={{
@@ -131,9 +131,10 @@ export default () => {
           </View>
         </View>
       </ImageBackground>
+      <View style={{ height: 197 }} />
       <ScrollView
         style={{
-          top: -25,
+          // top: -25,
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
           backgroundColor: "#f0f0f0",
@@ -150,17 +151,16 @@ export default () => {
             <TouchableBoardList key={index} board={b} />
           ))}
         </View>
+        {hasJoined && (
+          <ViewGroupManage
+            title={title}
+            userCount={userCount}
+            bg_img_url={bg_img_url}
+            userStatus={userStatus}
+          />
+        )}
       </ScrollView>
-      {hasJoined ? (
-        <ViewGroupManage
-          title={title}
-          userCount={userCount}
-          bg_img_url={bg_img_url}
-          userStatus={userStatus}
-        />
-      ) : (
-        <ButtonJoinGroup title={title} />
-      )}
+      {!hasJoined && <ButtonJoinGroup title={title} />}
     </>
   );
 };
