@@ -57,7 +57,7 @@ export default () => {
             {data.parti_2020_suggestions.map(
               (posts: SearchResultType, index: number) => {
                 const { title, createdBy, created_at, board, id } = posts;
-                const date = new Date(created_at).toLocaleString();
+                const date = new Date(created_at).toLocaleString("ko");
                 return (
                   <TouchableOpacity
                     key={index}

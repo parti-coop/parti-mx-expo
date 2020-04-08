@@ -95,7 +95,7 @@ export default (props: {
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
         <Text>{user.votes[0] && "동의"}</Text>
         <Grey12 style={{ marginLeft: 9 }}>
-          {new Date(updated_at).toLocaleString()}
+          {new Date(updated_at).toLocaleString("ko")}
         </Grey12>
       </ViewRow>
       <SelectMenu items={options} style={{ right: 0, top: 0 }} />

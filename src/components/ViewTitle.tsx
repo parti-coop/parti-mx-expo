@@ -15,7 +15,7 @@ const dateStyle = {
 } as TextStyle;
 export default (props: { title: string; updated_at: string }) => {
   const { title, updated_at } = props;
-  const date = new Date(updated_at).toLocaleString();
+  const date = new Date(updated_at).toLocaleString("ko");
   return (
     <View style={{ paddingHorizontal: 30, paddingTop: 20 }}>
       <Text style={titleStyle}>{title}</Text>
