@@ -19,7 +19,7 @@ import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
 
 const options = [
-  { label: "30일 후 종료", value: 0 }
+  { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 },
   // { label: "제안 정리시 종료", value: 2 }
 ];
@@ -27,14 +27,14 @@ const labelStyle: StyleProp<TextStyle> = {
   fontSize: 13,
   textAlign: "left",
   color: "#30ad9f",
-  width: 80
+  width: 80,
 };
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
   color: "#555555",
   paddingHorizontal: 0,
-  flex: 1
+  flex: 1,
 };
 
 export default () => {
@@ -57,13 +57,13 @@ export default () => {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
       return showMessage({
         message: "제안명을 20자 이내로 입력해주세요.",
-        type: "warning"
+        type: "warning",
       });
     }
     if (sBody.trim() == "") {
       return showMessage({
         message: "제안 내용을 입력해주세요.",
-        type: "warning"
+        type: "warning",
       });
     }
     await insert({
@@ -73,8 +73,8 @@ export default () => {
         sBody,
         board_id,
         user_id,
-        closingMethod
-      }
+        closingMethod,
+      },
     });
     resetInput();
     navigate("SuggestionList");
@@ -95,7 +95,7 @@ export default () => {
             style={{
               fontSize: 22,
               textAlign: "left",
-              color: "#333333"
+              color: "#333333",
             }}
           >
             글 쓰기
@@ -109,10 +109,10 @@ export default () => {
             shadowColor: "rgba(0, 0, 0, 0.15)",
             shadowOffset: {
               width: 0,
-              height: 1
+              height: 1,
             },
             shadowRadius: 1,
-            shadowOpacity: 1
+            shadowOpacity: 1,
           }}
         >
           <ViewRow style={{ paddingHorizontal: 30 }}>
@@ -122,14 +122,14 @@ export default () => {
               autoFocus
               onChangeText={setSTitle}
               placeholderTextColor="#999999"
-              style={textStyle}
+              style={[textStyle]}
               onSubmitEditing={() => contextRef.current.focus()}
             />
           </ViewRow>
           <LineSeperator />
           <ViewRow
             style={{
-              paddingHorizontal: 30
+              paddingHorizontal: 30,
             }}
           >
             <Text style={labelStyle}>종료 방법</Text>
@@ -149,11 +149,11 @@ export default () => {
             shadowColor: "rgba(0, 0, 0, 0.15)",
             shadowOffset: {
               width: 0,
-              height: 1
+              height: 1,
             },
             shadowRadius: 1,
             shadowOpacity: 1,
-            flex: 1
+            flex: 1,
           }}
         >
           <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
@@ -174,7 +174,7 @@ export default () => {
             style={{
               padding: 30,
               paddingBottom: 20,
-              flex: 1
+              flex: 1,
             }}
           >
             <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
@@ -195,7 +195,7 @@ export default () => {
                 style={{
                   fontSize: 16,
                   textAlign: "center",
-                  color: "#30ad9f"
+                  color: "#30ad9f",
                 }}
               >
                 사진 첨부
@@ -205,7 +205,7 @@ export default () => {
               style={{
                 width: 1,
                 height: 11,
-                backgroundColor: "#e4e4e4"
+                backgroundColor: "#e4e4e4",
               }}
             />
             <TO1>
@@ -214,7 +214,7 @@ export default () => {
                   fontSize: 16,
                   textAlign: "center",
                   color: "#30ad9f",
-                  flex: 1
+                  flex: 1,
                 }}
               >
                 파일 첨부

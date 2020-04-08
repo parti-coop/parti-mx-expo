@@ -15,9 +15,17 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
           fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
-          height: 50
         },
-        props.style
+        Platform.select({
+          ios: {
+            height: 50,
+          },
+          android: {
+            height: 20,
+            lineHeight: 20,
+          },
+        }),
+        props.style,
       ]}
     >
       {props.children}
@@ -42,10 +50,18 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
           fontFamily: "notosans",
           fontSize: 16,
           flex: 1,
-          height: 50,
-          paddingHorizontal: 20
+          paddingHorizontal: 20,
         },
-        props.style
+        Platform.select({
+          ios: {
+            height: 50,
+          },
+          android: {
+            height: 20,
+            lineHeight: 20,
+          },
+        }),
+        props.style,
       ]}
     >
       {props.children}
@@ -59,18 +75,18 @@ export const PasswordInput = React.forwardRef<
 >((props, ref: React.Ref<T>) => {
   const [secure, setSecure] = React.useState({
     secureTextEntry: true,
-    icEye: "visibility-off"
+    icEye: "visibility-off",
   });
   function changePwdType() {
     if (secure.secureTextEntry) {
       setSecure({
         icEye: "visibility",
-        secureTextEntry: false
+        secureTextEntry: false,
       });
     } else {
       setSecure({
         icEye: "visibility-off",
-        secureTextEntry: true
+        secureTextEntry: true,
       });
     }
   }
@@ -79,12 +95,20 @@ export const PasswordInput = React.forwardRef<
       style={[
         {
           flex: 1,
-          height: 50,
           paddingHorizontal: 0,
           alignContent: "stretch",
-          alignItems: "stretch"
+          alignItems: "stretch",
         },
-        props.style
+        Platform.select({
+          ios: {
+            height: 50,
+          },
+          android: {
+            height: 20,
+            lineHeight: 20,
+          },
+        }),
+        props.style,
       ]}
     >
       <TextInput
