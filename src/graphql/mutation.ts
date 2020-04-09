@@ -32,6 +32,7 @@ export const updateUserName = gql`
 export const insertSuggestion = gql`
   mutation(
     $board_id: Int!
+    $group_id: Int!
     $sTitle: String!
     $sContext: String!
     $sBody: String!
@@ -48,6 +49,18 @@ export const insertSuggestion = gql`
         updated_by: $user_id
         closing_method: $closingMethod
       }
+    ) {
+      affected_rows
+    }
+    update_parti_2020_boards(
+      _set: { last_posted_at: "now()" }
+      where: { id: { _eq: $board_id } }
+    ) {
+      affected_rows
+    }
+    update_parti_2020_groups(
+      _set: { last_posted_at: "now()" }
+      where: { id: { _eq: $group_id } }
     ) {
       affected_rows
     }
@@ -308,6 +321,22 @@ export const deleteUserGroup = gql`
       where: {
         _and: [{ user_id: { _eq: $user_id } }, { group_id: { _eq: $group_id } }]
       }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const updateLastPostedAt = gql`
+  mutation($group_id: Int!, $board_id: Int!, $time: String!) {
+    update_parti_2020_boards(
+      _set: { last_posted_at: $time }
+      where: { id: { _eq: $board_id } }
+    ) {
+      affected_rows
+    }
+    update_parti_2020_groups(
+      _set: { last_posted_at: $time }
+      where: { id: { _eq: $group_id } }
     ) {
       affected_rows
     }

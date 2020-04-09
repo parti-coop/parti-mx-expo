@@ -47,7 +47,8 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const lastPostedDate = new Date(board.last_posted_at);
   if (board.last_posted_at) {
     const miliseconds = new Date().getTime() - lastPostedDate.getTime();
-    minutes = miliseconds / 1000 / 60 + " 분 전";
+    const min = Math.floor(miliseconds / 1000 / 60);
+    minutes = min + " 분 전";
     if (board.usersBoardCheck.length) {
       isNew = lastPostedDate > new Date(board.usersBoardCheck[0].updated_at);
     }

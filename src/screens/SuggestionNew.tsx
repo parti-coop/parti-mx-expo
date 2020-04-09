@@ -39,7 +39,7 @@ const textStyle: StyleProp<TextStyle> = {
 
 export default () => {
   const [insert, { loading }] = useMutation(insertSuggestion);
-  const [{ board_id, user_id }, dispatch] = useStore();
+  const [{ board_id, user_id, group_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
@@ -72,6 +72,7 @@ export default () => {
         sContext,
         sBody,
         board_id,
+        group_id,
         user_id,
         closingMethod,
       },
