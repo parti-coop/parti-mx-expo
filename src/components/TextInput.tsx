@@ -15,16 +15,17 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
           fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
+          height: 50,
         },
-        Platform.select({
-          ios: {
-            height: 50,
-          },
-          android: {
-            height: 20,
-            lineHeight: 20,
-          },
-        }),
+        // Platform.select({
+        //   ios: {
+        //     height: 50,
+        //   },
+        //   android: {
+        //     height: 20,
+        //     lineHeight: 50,
+        //   },
+        // }),
         props.style,
       ]}
     >
