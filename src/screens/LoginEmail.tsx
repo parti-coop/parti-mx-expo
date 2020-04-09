@@ -6,7 +6,7 @@ import {
   TextProps,
   Image,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from "react-native";
 
 import { Text, Title30 } from "../components/Text";
@@ -26,20 +26,21 @@ const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
   marginHorizontal: 30,
   marginVertical: 21,
   alignItems: "stretch",
-  justifyContent: "center"
+  justifyContent: "center",
 } as ViewProps;
 const textStyle = {
   fontSize: 16,
-  color: "#999999"
+  color: "#999999",
 } as TextProps;
 const btnStyle = {
   height: 56,
@@ -47,7 +48,7 @@ const btnStyle = {
   backgroundColor: "#30ad9f",
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: "#c9c9c9"
+  borderColor: "#c9c9c9",
 } as ViewProps;
 export default () => {
   const { navigate, goBack } = useNavigation();
@@ -65,19 +66,19 @@ export default () => {
       .then(() =>
         showMessage({
           type: "success",
-          message: "로그인 성공 하셨습니다."
+          message: "로그인 성공 하셨습니다.",
         })
       )
-      .catch(err =>
+      .catch((err) =>
         showMessage({
           type: "danger",
-          message: JSON.stringify(err)
+          message: JSON.stringify(err),
         })
       )
       .finally(() =>
         dispatch({
           type: "SET_LOADING",
-          loading: false
+          loading: false,
         })
       );
   }
@@ -94,13 +95,13 @@ export default () => {
           <ViewRow
             style={{
               paddingHorizontal: 30,
-              paddingVertical: 24
+              paddingVertical: 24,
             }}
           >
             <Image source={iconEmailColor} />
             <EmailInput
               value={email}
-              onChange={e => setEmail(e.nativeEvent.text)}
+              onChange={(e) => setEmail(e.nativeEvent.text)}
               ref={emailTextInput}
               autoFocus={true}
               onSubmitEditing={() => pswTextInput.current.focus()}
@@ -113,7 +114,7 @@ export default () => {
 
             <PasswordInput
               value={password}
-              onChange={e => setPassword(e.nativeEvent.text)}
+              onChange={(e) => setPassword(e.nativeEvent.text)}
               ref={pswTextInput}
               onSubmitEditing={loginHandler}
               style={[textStyle]}
@@ -132,7 +133,7 @@ export default () => {
               style={{
                 fontSize: 14,
                 textAlign: "center",
-                color: "#30ad9f"
+                color: "#30ad9f",
               }}
             >
               비밀번호 찾기

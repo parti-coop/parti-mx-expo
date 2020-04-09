@@ -11,16 +11,17 @@ const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
   color: "#555555",
-  paddingVertical: 24
+  paddingVertical: 24,
 };
 const boxStyle: StyleProp<ViewStyle> = {
   width: 207,
   height: 224,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.32)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 5,
   shadowOpacity: 1,
@@ -29,7 +30,7 @@ const boxStyle: StyleProp<ViewStyle> = {
   position: "absolute",
   right: 0,
   borderRadius: 25,
-  borderTopRightRadius: 0
+  borderTopRightRadius: 0,
 };
 export default (props: {
   style?: StyleProp<ViewStyle>;
@@ -38,7 +39,7 @@ export default (props: {
   items: Array<{ value: number; label: string }>;
 }) => {
   const { items, value, onChange } = props;
-  const currentItem = items.find(i => i.value === value);
+  const currentItem = items.find((i) => i.value === value);
   const [isVisible, setVisible] = React.useState(false);
   function changeHandler(value: number) {
     onChange(value);
@@ -61,13 +62,13 @@ export default (props: {
           {items.map((item, i) => (
             <TORow
               key={i}
-              onPress={e => changeHandler(item.value)}
+              onPress={(e) => changeHandler(item.value)}
               style={
                 items.length !== i + 1 && {
                   borderBottomColor: "#e4e4e4",
                   borderBottomWidth: 1,
                   paddingBottom: 15,
-                  marginBottom: 15
+                  marginBottom: 15,
                 }
               }
             >

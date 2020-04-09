@@ -20,7 +20,7 @@ import { updateSuggestion } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
 import { StackNavigationProp } from "@react-navigation/stack";
 const options = [
-  { label: "30일 후 종료", value: 0 }
+  { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 }
   // { label: "제안 정리시 종료", value: 2 }
 ];
@@ -28,14 +28,14 @@ const labelStyle: StyleProp<TextStyle> = {
   fontSize: 13,
   textAlign: "left",
   color: "#30ad9f",
-  width: 80
+  width: 80,
 };
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
   color: "#555555",
   paddingHorizontal: 0,
-  flex: 1
+  flex: 1,
 };
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
@@ -60,14 +60,14 @@ export default (props: {
       sContext,
       closingMethod,
       id,
-      user_id
-    }
+      user_id,
+    },
   });
   async function updateHandler() {
     await update();
     showMessage({
       message: "수정되었습니다.",
-      type: "success"
+      type: "success",
     });
     goBack();
   }
@@ -86,7 +86,7 @@ export default (props: {
             style={{
               fontSize: 22,
               textAlign: "left",
-              color: "#333333"
+              color: "#333333",
             }}
           >
             글 쓰기
@@ -98,12 +98,13 @@ export default (props: {
             borderRadius: 25,
             backgroundColor: "#ffffff",
             shadowColor: "rgba(0, 0, 0, 0.15)",
+            elevation: 1,
             shadowOffset: {
               width: 0,
-              height: 1
+              height: 1,
             },
             shadowRadius: 1,
-            shadowOpacity: 1
+            shadowOpacity: 1,
           }}
         >
           <ViewRow style={{ paddingHorizontal: 30 }}>
@@ -120,7 +121,7 @@ export default (props: {
           <LineSeperator />
           <ViewRow
             style={{
-              paddingHorizontal: 30
+              paddingHorizontal: 30,
             }}
           >
             <Text style={labelStyle}>종료 방법</Text>
@@ -138,13 +139,14 @@ export default (props: {
             borderRadius: 25,
             backgroundColor: "#ffffff",
             shadowColor: "rgba(0, 0, 0, 0.15)",
+            elevation: 1,
             shadowOffset: {
               width: 0,
-              height: 1
+              height: 1,
             },
             shadowRadius: 1,
             shadowOpacity: 1,
-            flex: 1
+            flex: 1,
           }}
         >
           <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
@@ -165,7 +167,7 @@ export default (props: {
             style={{
               padding: 30,
               paddingBottom: 20,
-              flex: 1
+              flex: 1,
             }}
           >
             <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
@@ -186,7 +188,7 @@ export default (props: {
                 style={{
                   fontSize: 16,
                   textAlign: "center",
-                  color: "#30ad9f"
+                  color: "#30ad9f",
                 }}
               >
                 사진 첨부
@@ -196,7 +198,7 @@ export default (props: {
               style={{
                 width: 1,
                 height: 11,
-                backgroundColor: "#e4e4e4"
+                backgroundColor: "#e4e4e4",
               }}
             />
             <TO1>
@@ -205,7 +207,7 @@ export default (props: {
                   fontSize: 16,
                   textAlign: "center",
                   color: "#30ad9f",
-                  flex: 1
+                  flex: 1,
                 }}
               >
                 파일 첨부

@@ -46,24 +46,26 @@ const box = {
   borderTopLeftRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
-  shadowOpacity: 1
+  shadowOpacity: 1,
 } as ViewStyle;
 
 const boxCommentWriter = {
   height: 147,
   backgroundColor: "#f7f7f7",
   shadowColor: "rgba(0, 0, 0, 0.3)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: -1
+    height: -1,
   },
   shadowRadius: 20,
-  shadowOpacity: 1
+  shadowOpacity: 1,
 } as ViewStyle;
 export default (props: {
   comments: Comment[];
@@ -81,8 +83,8 @@ export default (props: {
     variables: {
       body: comm,
       suggestion_id: props.suggestionId,
-      user_id: user_id
-    }
+      user_id: user_id,
+    },
   });
   const [update] = useMutation(updateComment);
   function edit({ body, id }) {
@@ -104,13 +106,13 @@ export default (props: {
         .then(() =>
           showMessage({
             type: "success",
-            message: "댓글 수정"
+            message: "댓글 수정",
           })
         )
-        .catch(error =>
+        .catch((error) =>
           showMessage({
             type: "danger",
-            message: error.message
+            message: error.message,
           })
         );
     }
@@ -118,13 +120,13 @@ export default (props: {
       .then(() =>
         showMessage({
           type: "success",
-          message: "댓글 등록"
+          message: "댓글 등록",
         })
       )
-      .catch(error =>
+      .catch((error) =>
         showMessage({
           type: "danger",
-          message: error.message
+          message: error.message,
         })
       );
   }
@@ -133,13 +135,13 @@ export default (props: {
       <ViewRow
         style={{
           paddingHorizontal: 30,
-          paddingBottom: 21
+          paddingBottom: 21,
         }}
       >
         <TextInput
           value={comm}
           placeholder="댓글입력"
-          onChange={e => setComm(e.nativeEvent.text)}
+          onChange={(e) => setComm(e.nativeEvent.text)}
           style={{ flex: 1, fontSize: 17, paddingLeft: 0 }}
           placeholderTextColor="#30ad9f"
           textAlignVertical="top"
@@ -156,7 +158,7 @@ export default (props: {
           borderBottomColor: "#30ad9f",
           borderBottomWidth: 1,
           marginBottom: 17,
-          marginHorizontal: 30
+          marginHorizontal: 30,
         }}
       />
     </View>

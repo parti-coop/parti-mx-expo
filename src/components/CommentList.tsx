@@ -43,15 +43,16 @@ const commentModal = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
   paddingHorizontal: 30,
   paddingTop: 40,
-  paddingBottom: 10
+  paddingBottom: 10,
 } as ViewStyle;
 export default (props: {
   comment: Comment;
@@ -73,11 +74,11 @@ export default (props: {
   const options = [
     {
       label: "수정하기",
-      handler: function() {
+      handler: function () {
         editHandler({ body, id });
-      }
+      },
     },
-    { label: "삭제하기", handler: () => setVisible(true) }
+    { label: "삭제하기", handler: () => setVisible(true) },
   ];
   return (
     <View
@@ -86,9 +87,9 @@ export default (props: {
           marginTop: 14,
           paddingBottom: 25,
           borderBottomWidth: 1,
-          borderBottomColor: "#e4e4e4"
+          borderBottomColor: "#e4e4e4",
         },
-        style
+        style,
       ]}
     >
       <ViewRow>

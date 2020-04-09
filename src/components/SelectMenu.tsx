@@ -14,16 +14,17 @@ const textStyle = {
   fontSize: 15,
   textAlign: "left",
   color: "#ffffff",
-  marginVertical: 12
+  marginVertical: 12,
 } as TextStyle;
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
   // height: 197,
   backgroundColor: "#30ad9f",
   shadowColor: "rgba(0, 0, 0, 0.32)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 5,
   shadowOpacity: 1,
@@ -31,7 +32,7 @@ const boxStyle: StyleProp<ViewStyle> = {
   paddingVertical: 5,
   left: 0,
   borderRadius: 25,
-  borderTopRightRadius: 0
+  borderTopRightRadius: 0,
 };
 export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
   const [isVisible, setVisible] = React.useState(false);
@@ -53,9 +54,9 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           top: 39,
           right: 31,
           alignItems: "flex-end",
-          zIndex: 1
+          zIndex: 1,
         },
-        style
+        style,
       ]}
     >
       <TOCenter
@@ -67,7 +68,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           height: 35,
           backgroundColor: isVisible ? "#30ad9f" : "#ffffff",
           position: "relative",
-          zIndex: 2
+          zIndex: 2,
         }}
       >
         <Image source={isVisible ? btnDetailMoreW : btnDetailMore} />
@@ -77,7 +78,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           {items.map((item, i) => (
             <TouchableOpacity
               key={i}
-              onPress={e => changeHandler(item)}
+              onPress={(e) => changeHandler(item)}
               style={{ paddingHorizontal: 25 }}
             >
               <Text style={textStyle}>{item.label}</Text>

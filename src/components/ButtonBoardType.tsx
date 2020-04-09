@@ -16,9 +16,10 @@ import iconSelected from "../../assets/iconSelected.png";
 const boxStyle: StyleProp<ViewStyle> = {
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.32)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 5,
   shadowOpacity: 1,
@@ -27,12 +28,12 @@ const boxStyle: StyleProp<ViewStyle> = {
   width: 207,
   position: "absolute",
   left: 50,
-  zIndex: 1
+  zIndex: 1,
 };
 
 const options = [
   { value: false, label: "전체" },
-  { value: true, label: "멤버" }
+  { value: true, label: "멤버" },
 ];
 export default (props: {
   boardId: number;
@@ -44,19 +45,19 @@ export default (props: {
   const [isMemberOnly, setMemberOnly] = React.useState(is_member_only);
   const [{ user_id }] = useStore();
   const [update, { error, data }] = useMutation(updateBoardPermission);
-  const boardType = options.find(o => o.value === isMemberOnly).label;
+  const boardType = options.find((o) => o.value === isMemberOnly).label;
   function valueChangeHandler(value: boolean) {
     setMemberOnly(value);
     setVisible(false);
     debouncedCallback();
   }
-  const [debouncedCallback] = useDebouncedCallback(async function() {
+  const [debouncedCallback] = useDebouncedCallback(async function () {
     const {
       data: {
-        update_parti_2020_boards: { affected_rows }
-      }
+        update_parti_2020_boards: { affected_rows },
+      },
     } = await update({
-      variables: { user_id, board_id: boardId, is_member_only: isMemberOnly }
+      variables: { user_id, board_id: boardId, is_member_only: isMemberOnly },
     });
     if (affected_rows === 1) {
       showMessage({ type: "success", message: "수정 성공" });
@@ -76,7 +77,7 @@ export default (props: {
           {options.map((item, i) => (
             <TouchableOpacity
               key={i}
-              onPress={e => valueChangeHandler(item.value)}
+              onPress={(e) => valueChangeHandler(item.value)}
               style={{ paddingHorizontal: 25 }}
             >
               <ViewRow style={{ paddingVertical: 15 }}>

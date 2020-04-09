@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
-  ViewProps
+  ViewProps,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,16 +22,17 @@ const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
   marginHorizontal: 30,
   marginVertical: 21,
   justifyContent: "center",
-  padding: 30
+  padding: 30,
 } as ViewProps;
 const roundedRectangle12 = {
   height: 56,
@@ -41,9 +42,9 @@ const roundedRectangle12 = {
   borderWidth: 1,
   borderColor: "#c9c9c9",
   marginHorizontal: 30,
-  marginVertical: 21
+  marginVertical: 21,
 } as ViewProps;
-export default props => {
+export default (props) => {
   const { navigate, goBack } = useNavigation();
   const [store, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
@@ -57,20 +58,20 @@ export default props => {
           [
             {
               text: "확인",
-              onPress: () => goBack()
-            }
+              onPress: () => goBack(),
+            },
           ]
         )
       )
-      .catch(err =>
+      .catch((err) =>
         Alert.alert(
           "발송 실패",
           "오류가 발생했습니다. 잠시 후 다시 시도하세요." + err,
           [
             {
               text: "확인",
-              onPress: () => goBack()
-            }
+              onPress: () => goBack(),
+            },
           ]
         )
       );
@@ -93,7 +94,7 @@ export default props => {
           onSubmitEditing={sendEmail}
           style={{
             fontSize: 16,
-            color: "#999999"
+            color: "#999999",
           }}
         />
       </ViewRow>

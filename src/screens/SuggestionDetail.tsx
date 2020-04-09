@@ -28,6 +28,7 @@ const box = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
     height: 1,

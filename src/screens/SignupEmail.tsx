@@ -4,7 +4,7 @@ import {
   ViewProps,
   TextProps,
   TouchableWithoutFeedback,
-  Image
+  Image,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
@@ -27,20 +27,21 @@ const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
   marginHorizontal: 30,
   marginVertical: 21,
   alignItems: "stretch",
-  justifyContent: "center"
+  justifyContent: "center",
 } as ViewProps;
 const textStyle = {
   fontSize: 16,
-  color: "#999999"
+  color: "#999999",
 } as TextProps;
 const btnStyle = {
   height: 56,
@@ -49,9 +50,9 @@ const btnStyle = {
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: "#c9c9c9",
-  margin: 30
+  margin: 30,
 } as ViewProps;
-export default props => {
+export default (props) => {
   const { navigate } = props.navigation;
   const [, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
@@ -72,14 +73,14 @@ export default props => {
       .then(() =>
         showMessage({
           type: "success",
-          message: "회원가입에 성공 하셨습니다."
+          message: "회원가입에 성공 하셨습니다.",
         })
       )
-      .catch(err => showMessage({ type: "danger", message: err.message }))
+      .catch((err) => showMessage({ type: "danger", message: err.message }))
       .finally(() =>
         dispatch({
           type: "SET_LOADING",
-          loading: false
+          loading: false,
         })
       );
   }
@@ -102,7 +103,7 @@ export default props => {
           <ViewRow
             style={{
               paddingHorizontal: 30,
-              paddingVertical: 24
+              paddingVertical: 24,
             }}
           >
             <Image source={iconEmailColor} />

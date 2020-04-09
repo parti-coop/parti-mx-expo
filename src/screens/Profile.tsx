@@ -12,12 +12,7 @@ import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
 import { Text, Mint13, Mint14 } from "../components/Text";
-import {
-  View,
-  ViewRow,
-  ViewColumnStretch,
-  V0
-} from "../components/View";
+import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 
 import HeaderConfirm from "../components/HeaderConfirm";
@@ -33,19 +28,20 @@ const box = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
-  marginBottom: 50
+  marginBottom: 50,
 } as ViewProps;
 
 const textStyle = {
   fontSize: 16,
   color: "#555555",
-  paddingHorizontal: 10
+  paddingHorizontal: 10,
 } as TextProps;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
@@ -58,13 +54,13 @@ export default (props: {
   const [photoUrl, setPhotoUrl] = React.useState(null);
   const [updateName] = useMutation(updateUserName);
   const [firstFetch, searchDuplicateQuery] = useLazyQuery(searchDuplicateName, {
-    variables: { name: userName, id: user_id }
+    variables: { name: userName, id: user_id },
   });
   const [isInUse, setInUse] = React.useState(false);
   const userNameQuery = useQuery(whoami, {
-    variables: { id: user_id }
+    variables: { id: user_id },
   });
-  const [debouncedCallback] = useDebouncedCallback(function() {
+  const [debouncedCallback] = useDebouncedCallback(function () {
     if (searchDuplicateQuery.refetch) {
       searchDuplicateQuery.refetch();
     } else {
@@ -86,7 +82,7 @@ export default (props: {
     if (data && data.parti_2020_users.length) {
       showMessage({
         type: "warning",
-        message: warningMsg
+        message: warningMsg,
       });
       setInUse(true);
     } else {
@@ -104,13 +100,13 @@ export default (props: {
     if (isInUse) {
       return showMessage({
         type: "warning",
-        message: warningMsg
+        message: warningMsg,
       });
     }
     if (userName.trim().length === 0) {
       return showMessage({
         type: "warning",
-        message: "닉네임을 입력하세요."
+        message: "닉네임을 입력하세요.",
       });
     }
     dispatch({ type: "SET_LOADING", loading: true });
@@ -118,13 +114,17 @@ export default (props: {
     try {
       if (photoUrl && photoUrl !== prevPhoroUrl) {
         console.log("new photo uploading");
-        url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then(snap =>
+        url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
           snap.ref.getDownloadURL()
         );
       }
     } catch (error) {}
     await updateName({
-      variables: { id: user_id, name: userName, photo_url: url ?? prevPhoroUrl }
+      variables: {
+        id: user_id,
+        name: userName,
+        photo_url: url ?? prevPhoroUrl,
+      },
     }).then(console.log);
     Keyboard.dismiss();
     navigate("Home");
@@ -141,7 +141,7 @@ export default (props: {
             <Text
               style={{
                 fontSize: 22,
-                color: "#333333"
+                color: "#333333",
               }}
             >
               프로필
@@ -175,7 +175,7 @@ export default (props: {
                 paddingVertical: 5,
                 paddingHorizontal: 30,
                 paddingLeft: 80,
-                paddingBottom: 26
+                paddingBottom: 26,
               }}
             >
               {userName.trim().length > 0 &&

@@ -14,15 +14,16 @@ const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
   marginTop: 20,
   paddingHorizontal: 30,
-  paddingVertical: 5
+  paddingVertical: 5,
 } as ViewStyle;
 export default () => {
   const [{ user_id }, dispatch] = useStore();
@@ -32,12 +33,12 @@ export default () => {
       category: "내 정보 관리",
       children: [
         { label: "내 프로필", page: "Profile" },
-        { label: "비밀번호 변경", page: "PasswordChange" }
-      ]
+        { label: "비밀번호 변경", page: "PasswordChange" },
+      ],
     },
     {
       category: "알림",
-      children: [{ label: "푸시 알림", page: "NotificationPush" }]
+      children: [{ label: "푸시 알림", page: "NotificationPush" }],
     },
     {
       category: "기타",
@@ -45,9 +46,9 @@ export default () => {
         { label: "이용약관", page: "TermsService" },
         { label: "개인정보처리방침", page: "TermsPrivacy" },
         { label: "로그아웃", page: "Logout" },
-        { label: "탈퇴", page: "AccountDelete" }
-      ]
-    }
+        { label: "탈퇴", page: "AccountDelete" },
+      ],
+    },
   ];
   function pagePressHandler(page: string) {
     navigate(page);
@@ -64,11 +65,11 @@ export default () => {
               ? {
                   paddingVertical: 20,
                   borderBottomColor: "#e4e4e4",
-                  borderBottomWidth: 1
+                  borderBottomWidth: 1,
                 }
               : { paddingVertical: 20 }
           }
-          onPress={e => pagePressHandler(page)}
+          onPress={(e) => pagePressHandler(page)}
         >
           <Title16 style={{ flex: 1 }}>{label}</Title16>
           <Image source={btnNext} />

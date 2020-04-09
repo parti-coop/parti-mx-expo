@@ -27,6 +27,7 @@ import iconPhoto from "../../assets/iconPhoto.png";
 const boxStyle = {
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
     height: 1,

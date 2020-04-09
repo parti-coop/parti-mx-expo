@@ -3,7 +3,7 @@ import {
   Image,
   ViewStyle,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { StackHeaderProps } from "@react-navigation/stack";
@@ -26,9 +26,10 @@ import iconPhoto from "../../assets/iconPhoto.png";
 const boxStyle = {
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
   shadowOpacity: 1,
@@ -38,7 +39,7 @@ const boxStyle = {
   justifyContent: "flex-start",
   alignItems: "center",
   padding: 50,
-  flex: 1
+  flex: 1,
 } as ViewStyle;
 export default (props: StackHeaderProps) => {
   const [{ user_id }, dispatch] = useStore();
@@ -46,15 +47,15 @@ export default (props: StackHeaderProps) => {
   const [bg_img_url, setImgUrl] = React.useState("");
   const [createDefaultSuggestionBoard] = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
-    variables: { groupName, user_id, bg_img_url }
+    variables: { groupName, user_id, bg_img_url },
   });
 
   function addImage() {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [2, 1],
-      quality: 0
-    }).then(res => {
+      quality: 0,
+    }).then((res) => {
       if (res.cancelled !== true) {
         setImgUrl(res.uri);
         console.log(res);
@@ -64,7 +65,7 @@ export default (props: StackHeaderProps) => {
   async function save() {
     async function createGroup(bg_img_url: string | null) {
       const res = await create({
-        variables: { groupName, user_id, bg_img_url }
+        variables: { groupName, user_id, bg_img_url },
       });
       const group_id = res.data.insert_parti_2020_groups.returning[0].id;
       dispatch({ type: "SET_GROUP", group_id });
@@ -73,7 +74,7 @@ export default (props: StackHeaderProps) => {
     dispatch({ type: "SET_LOADING", loading: true });
     let url = null;
     if (bg_img_url.length > 0) {
-      url = await uploadImage(bg_img_url, `bgImg/${uuid.v4()}`).then(snap =>
+      url = await uploadImage(bg_img_url, `bgImg/${uuid.v4()}`).then((snap) =>
         snap.ref.getDownloadURL()
       );
     }
@@ -108,7 +109,7 @@ export default (props: StackHeaderProps) => {
               fontSize: 17,
               width: "100%",
               textAlign: "center",
-              flex: 0
+              flex: 0,
             }}
           />
           {bg_img_url.length > 0 && (

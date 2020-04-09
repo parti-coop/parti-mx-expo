@@ -13,12 +13,13 @@ const rectangle3Copy3 = {
   borderRadius: 18,
   backgroundColor: "#30ad9f",
   shadowColor: "rgba(0, 0, 0, 0.35)",
+  elevation: 1,
   shadowOffset: {
     width: -1.8,
-    height: -2.4
+    height: -2.4,
   },
   shadowRadius: 7,
-  shadowOpacity: 1
+  shadowOpacity: 1,
 };
 export default () => {
   const { navigate } = useNavigation();
@@ -32,8 +33,8 @@ export default () => {
           justifyContent: "center",
           position: "absolute",
           bottom: 10,
-          right: 16
-        }
+          right: 16,
+        },
       ]}
     >
       <Image source={btnFloatingWrite} />
