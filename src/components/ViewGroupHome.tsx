@@ -68,6 +68,7 @@ export default () => {
 
   return (
     <>
+      <View style={{ height: 197 }} />
       <ImageBackground
         source={bg_img_url ? { uri: bg_img_url } : bgGroupMain}
         style={{ height: 222, position: "absolute", width: "100%" }}
@@ -115,7 +116,7 @@ export default () => {
           </View>
         </View>
       </ImageBackground>
-      <View style={{ height: 197 }} />
+
       <ScrollView
         style={{
           borderTopLeftRadius: 25,
