@@ -126,6 +126,7 @@ export default () => {
               placeholderTextColor="#999999"
               style={[textStyle]}
               onSubmitEditing={() => contextRef.current.focus()}
+              placeholder="제안명을 입력해 주세요"
             />
           </ViewRow>
           <LineSeperator />

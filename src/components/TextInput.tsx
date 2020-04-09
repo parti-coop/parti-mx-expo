@@ -17,15 +17,6 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
           paddingHorizontal: 20,
           height: 50,
         },
-        // Platform.select({
-        //   ios: {
-        //     height: 50,
-        //   },
-        //   android: {
-        //     height: 20,
-        //     lineHeight: 50,
-        //   },
-        // }),
         props.style,
       ]}
     >
@@ -52,16 +43,8 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
           fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
+          height: 50,
         },
-        Platform.select({
-          ios: {
-            height: 50,
-          },
-          android: {
-            height: 20,
-            lineHeight: 20,
-          },
-        }),
         props.style,
       ]}
     >
@@ -100,15 +83,6 @@ export const PasswordInput = React.forwardRef<
           alignContent: "stretch",
           alignItems: "stretch",
         },
-        Platform.select({
-          ios: {
-            height: 50,
-          },
-          android: {
-            height: 20,
-            lineHeight: 20,
-          },
-        }),
         props.style,
       ]}
     >
