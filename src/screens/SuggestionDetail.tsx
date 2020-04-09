@@ -30,20 +30,20 @@ const box = {
   shadowColor: "rgba(0, 0, 0, 0.15)",
   shadowOffset: {
     width: 0,
-    height: 1
+    height: 1,
   },
   shadowRadius: 1,
-  shadowOpacity: 1
+  shadowOpacity: 1,
 } as ViewStyle;
 const labelStyle = {
   fontSize: 13,
   textAlign: "left",
-  color: "#30ad9f"
+  color: "#30ad9f",
 } as TextStyle;
 const bodyTextStyle = {
   fontSize: 16,
   textAlign: "left",
-  color: "#555555"
+  color: "#555555",
 } as TextStyle;
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
@@ -53,7 +53,7 @@ export default (props: {
   const id = props.route.params.suggestionId;
   const [deleteSuggestion] = HooksDeleteSuggestion(id);
   const { data, loading } = useSubscription(subscribeSuggestion, {
-    variables: { id, user_id }
+    variables: { id, user_id },
   });
   const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
@@ -67,12 +67,12 @@ export default (props: {
       label: "수정하기",
       handler: () =>
         navigate("SuggestionEdit", {
-          suggestion: parti_2020_suggestions_by_pk
-        })
+          suggestion: parti_2020_suggestions_by_pk,
+        }),
     },
     // { label: "제안 정리", handler: () => {} },
     // { label: "공지 올리기", handler: () => {} },
-    { label: "삭제하기", handler: deleteSuggestion }
+    { label: "삭제하기", handler: deleteSuggestion },
   ];
 
   const {
@@ -84,21 +84,21 @@ export default (props: {
     updated_at,
     created_at,
     votes_aggregate,
-    comments
+    comments,
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => ({
     name: n.user.name,
     created_at: n.created_at,
-    photo_url: n.user.photo_url
+    photo_url: n.user.photo_url,
   }));
 
   return (
     <>
       <HeaderShare id={id} />
-      <HeaderSuggestion />
-      <ViewTitle title={title} updated_at={updated_at} />
       <KeyboardAwareScrollView ref={scrollRef}>
+        <HeaderSuggestion />
+        <ViewTitle title={title} updated_at={updated_at} />
         <View style={box}>
           <View style={{ margin: 30, marginBottom: 20 }}>
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
