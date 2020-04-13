@@ -29,7 +29,7 @@ export default (props: {
     return launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0
+      quality: 1
     }).then(res => {
       if (res.cancelled !== true) {
         props.setUrl(res.uri);

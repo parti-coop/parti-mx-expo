@@ -54,7 +54,7 @@ export default (props: StackHeaderProps) => {
     ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [2, 1],
-      quality: 0,
+      quality: 1,
     }).then((res) => {
       if (res.cancelled !== true) {
         setImgUrl(res.uri);
