@@ -37,6 +37,9 @@ export default () => {
     console.warn(error);
   }
   React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading: true });
+  }, [group_id]);
+  React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   if (!data?.parti_2020_groups_by_pk) {

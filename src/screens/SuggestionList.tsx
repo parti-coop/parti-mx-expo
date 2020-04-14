@@ -22,67 +22,67 @@ export default (props: {
   const [store, dispatch] = useStore();
   const board_id = props.route.params.id;
   const { group_id, user_id } = store;
+  const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
+    variables: { id: board_id, userId: user_id },
+  });
   React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading: true });
     dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
   }, [group_id, board_id]);
-  const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
-    variables: { id: board_id, userId: user_id }
-  });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (data && data.parti_2020_boards_by_pk) {
-    const { suggestions, title } = data.parti_2020_boards_by_pk;
-    return (
-      <>
-        <HeaderList />
-        <ScrollView>
-          <View style={{ paddingHorizontal: 30 }}>
-            <Text
-              style={{
-                fontSize: 24,
-                color: "#333333"
-              }}
-            >
-              {title}🌱
-            </Text>
-          </View>
-
-          <ViewRow
-            style={{
-              justifyContent: "space-between",
-              marginVertical: 20,
-              paddingHorizontal: 30
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                textAlign: "left",
-                color: "#333333"
-              }}
-            >
-              진행중인 제안
-            </Text>
-          </ViewRow>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#ffffff",
-              marginHorizontal: 30,
-              borderRadius: 25,
-              marginBottom: 60
-            }}
-          >
-            {suggestions.map((sugg: any, i: number) => {
-              return <TouchableSuggestionList key={i} suggestion={sugg} />;
-            })}
-          </View>
-        </ScrollView>
-        <ButtonSuggestionNew />
-      </>
-    );
-  } else {
+  if (!data?.parti_2020_boards_by_pk) {
     return null;
   }
+  const { suggestions, title } = data.parti_2020_boards_by_pk;
+  return (
+    <>
+      <HeaderList />
+      <ScrollView>
+        <View style={{ paddingHorizontal: 30 }}>
+          <Text
+            style={{
+              fontSize: 24,
+              color: "#333333",
+            }}
+          >
+            {title}🌱
+          </Text>
+        </View>
+
+        <ViewRow
+          style={{
+            justifyContent: "space-between",
+            marginVertical: 20,
+            paddingHorizontal: 30,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              textAlign: "left",
+              color: "#333333",
+            }}
+          >
+            진행중인 제안
+          </Text>
+        </ViewRow>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#ffffff",
+            marginHorizontal: 30,
+            borderRadius: 25,
+            marginBottom: 60,
+          }}
+        >
+          {suggestions.map((sugg: any, i: number) => {
+            return <TouchableSuggestionList key={i} suggestion={sugg} />;
+          })}
+        </View>
+      </ScrollView>
+      <ButtonSuggestionNew />
+    </>
+  );
 };
