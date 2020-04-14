@@ -1,16 +1,17 @@
 import React from "react";
-import { StyleProp, TextStyle } from "react-native";
+import { StyleProp, TextStyle, Image } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
+import { launchImageLibraryAsync } from "expo-image-picker";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text } from "../components/Text";
+import { Text, Title22, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
-import { View, ViewRow } from "../components/View";
-import { TO1 } from "../components/TouchableOpacity";
+import { View, ViewRow, V0 } from "../components/View";
+import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
 import HeaderSuggestion from "../components/HeaderSuggestion";
@@ -44,14 +45,25 @@ export default () => {
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
   const [closingMethod, setClosingMethod] = React.useState(0);
+  const [imageArr, setImageArr] = React.useState([]);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
+
   const { navigate } = useNavigation();
   function resetInput() {
     setSTitle("");
     setSContext("");
     setSBody("");
     // Keyboard.dismiss();
+  }
+  async function addImage() {
+    return launchImageLibraryAsync({
+      quality: 1,
+    }).then((res) => {
+      if (res.cancelled !== true) {
+        setImageArr([...imageArr, res]);
+      }
+    });
   }
   async function insertPressHandler() {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
@@ -92,15 +104,7 @@ export default () => {
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
-          <Text
-            style={{
-              fontSize: 22,
-              textAlign: "left",
-              color: "#333333",
-            }}
-          >
-            글 쓰기
-          </Text>
+          <Title22>글 쓰기</Title22>
         </View>
         <View
           style={{
@@ -130,11 +134,7 @@ export default () => {
             />
           </ViewRow>
           <LineSeperator />
-          <ViewRow
-            style={{
-              paddingHorizontal: 30,
-            }}
-          >
+          <ViewRow style={{ paddingHorizontal: 30 }}>
             <Text style={labelStyle}>종료 방법</Text>
             <TouchableClosingMethod
               value={closingMethod}
@@ -193,17 +193,25 @@ export default () => {
             />
           </View>
           <LineSeperator />
+          {imageArr.length > 0 && (
+            <>
+              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
+                {imageArr.map((o, i) => (
+                  <TO0 key={i} style={{ marginBottom: 10 }}>
+                    <Image
+                      source={o}
+                      resizeMode="cover"
+                      style={{ width: "100%", height: 186 }}
+                    />
+                  </TO0>
+                ))}
+              </View>
+              <LineSeperator />
+            </>
+          )}
           <ViewRow style={{ padding: 22 }}>
-            <TO1>
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "center",
-                  color: "#30ad9f",
-                }}
-              >
-                사진 첨부
-              </Text>
+            <TO1 onPress={addImage}>
+              <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
             </TO1>
             <View
               style={{
@@ -213,16 +221,9 @@ export default () => {
               }}
             />
             <TO1>
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "center",
-                  color: "#30ad9f",
-                  flex: 1,
-                }}
-              >
+              <Mint16 style={{ textAlign: "center", flex: 1 }}>
                 파일 첨부
-              </Text>
+              </Mint16>
             </TO1>
           </ViewRow>
         </View>
