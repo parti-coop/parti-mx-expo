@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, ViewStyle, TouchableOpacityProps } from "react-native";
+import { ViewStyle, TouchableOpacityProps } from "react-native";
+
+import { Image } from "./Image";
 import { V0 } from "./View";
 import { TOCenter } from "./TouchableOpacity";
 export default (
@@ -18,9 +20,9 @@ export default (
             width: 35,
             height: 35,
             borderRadius: 15,
-            backgroundColor: "#30ad9f"
+            backgroundColor: "#30ad9f",
           },
-          style
+          style,
         ]}
       >
         <Image source={source} />

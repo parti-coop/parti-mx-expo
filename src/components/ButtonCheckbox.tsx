@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, ViewProps, Keyboard } from "react-native";
+import { ViewProps, Keyboard } from "react-native";
+
+import { Image } from "./Image";
 import { TO0, TOCenter } from "./TouchableOpacity";
 import { View } from "./View";
 import bgCheckboxOff from "../../assets/bgCheckboxOff.png";

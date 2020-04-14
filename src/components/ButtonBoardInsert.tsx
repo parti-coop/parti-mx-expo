@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  ViewStyle,
-  StyleProp,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import RNPickerSelect from "react-native-picker-select";
@@ -12,6 +7,7 @@ import Modal from "react-native-modal";
 import { useMutation } from "@apollo/react-hooks";
 
 import { View, ViewRow, V0 } from "./View";
+import { Image } from "./Image";
 import { KeyboardAvoidingView } from "./KeyboardAvoidingView";
 import { TouchableOpacity, TORowCenter } from "./TouchableOpacity";
 import { Text, Mint16 } from "./Text";

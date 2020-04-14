@@ -1,9 +1,8 @@
 import React from "react";
-import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { Image } from "./Image";
 import { TouchableOpacity } from "./TouchableOpacity";
-// import { Text } from "./Text";
 
 import btnFloatingWrite from "../../assets/btnFloatingWrite.png";
 

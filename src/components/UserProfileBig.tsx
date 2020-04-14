@@ -1,23 +1,26 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { ViewStyle, Image, ImageStyle } from "react-native";
+import { ViewStyle, ImageStyle } from "react-native";
 import { launchImageLibraryAsync } from "expo-image-picker";
+
+import { Image, ImageCache } from "./Image";
 import { View, V0 } from "./View";
 import { Mint14 } from "./Text";
-import { TouchableOpacity, TO1, TO0 } from "../components/TouchableOpacity";
-import iconProfile from "../../assets/iconProfile.png";
+import { TO0 } from "../components/TouchableOpacity";
 
+import iconProfile from "../../assets/iconProfile.png";
 import btnDel from "../../assets/btnDel.png";
+
 const UserStyle = {
   width: 83,
   height: 83,
   borderRadius: 25,
-  backgroundColor: "#c1c1c1"
+  backgroundColor: "#c1c1c1",
 } as ViewStyle;
 const UserImageStyle = {
   width: 83,
   height: 83,
   borderRadius: 25,
-  backgroundColor: "#c1c1c1"
+  backgroundColor: "#c1c1c1",
 } as ImageStyle;
 
 export default (props: {
@@ -29,8 +32,8 @@ export default (props: {
     return launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1
-    }).then(res => {
+      quality: 1,
+    }).then((res) => {
       if (res.cancelled !== true) {
         props.setUrl(res.uri);
       }
@@ -52,7 +55,7 @@ export default (props: {
   return (
     <>
       <View>
-        <Image source={{ uri: props.url }} style={[UserImageStyle]} />
+        <ImageCache uri={props.url} style={[UserImageStyle]} />
         <TO0
           style={{
             width: 30,
@@ -61,7 +64,7 @@ export default (props: {
             backgroundColor: "#30ad9f",
             top: -8,
             right: -8,
-            position: "absolute"
+            position: "absolute",
           }}
           onPress={() => props.setUrl("")}
         >

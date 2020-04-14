@@ -1,10 +1,11 @@
 import React from "react";
-import { ViewStyle, StyleProp, Image } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
 import { View, ViewRow } from "./View";
+import { Image } from "./Image";
 import { TORow, TouchableOpacity } from "./TouchableOpacity";
 import { Mint15, Title14, Title15 } from "./Text";
 

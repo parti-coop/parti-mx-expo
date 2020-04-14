@@ -1,6 +1,8 @@
 import React from "react";
-import { Image, ViewStyle, ViewProps } from "react-native";
+import { ViewStyle, ViewProps } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
+
+import { Image } from "./Image";
 import { Red12 } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
@@ -14,18 +16,16 @@ const bgMenuBg = {
   borderRadius: 11.5,
   borderStyle: "solid",
   borderWidth: 2,
-  borderColor: "#f35f5f"
+  borderColor: "#f35f5f",
 } as ViewProps;
 export default (props: { id: number; style?: ViewStyle; count: number }) => {
   const { id, style, count } = props;
   const [{ user_id }, dispatch] = useStore();
   const [like, { loading }] = useMutation(likeComment, {
-    variables: { comment_id: id, user_id }
+    variables: { comment_id: id, user_id },
   });
   function pressHandler() {
-    like()
-      .then(console.log)
-      .catch(console.error);
+    like().then(console.log).catch(console.error);
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });

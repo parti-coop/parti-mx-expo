@@ -1,10 +1,14 @@
 import React from "react";
-import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { Image } from "./Image";
 import { View, ViewRow } from "./View";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { useNavigation } from "@react-navigation/native";
+
 import iconBack from "../../assets/iconBack.png";
 import btnOk from "../../assets/btnOk.png";
+
 export default (props: { onPress?: () => void }) => {
   const { goBack, navigate } = useNavigation();
   function backHandler() {
@@ -22,7 +26,7 @@ export default (props: { onPress?: () => void }) => {
             alignItems: "center",
             flexDirection: "row",
             justifyContent: "flex-start",
-            padding: 30
+            padding: 30,
           }}
           onPress={backHandler}
         >
@@ -31,7 +35,7 @@ export default (props: { onPress?: () => void }) => {
         <TouchableOpacity
           style={{
             alignItems: "flex-end",
-            padding: 30
+            padding: 30,
           }}
           onPress={props.onPress}
         >

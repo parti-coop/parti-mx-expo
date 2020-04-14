@@ -1,10 +1,10 @@
 import React from "react";
-import { Image, ViewProps } from "react-native";
+import { ViewProps } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
-import { Button } from "./Button";
-import { View, ViewRowCenter } from "./View";
+import { Image } from "./Image";
+import { ViewRowCenter } from "./View";
 import { Mint13, Red16 } from "./Text";
 import { TO0 } from "./TouchableOpacity";
 
@@ -16,15 +16,14 @@ const bgMenuBgCopy = {
   width: 124,
   height: 33,
   borderRadius: 16.5,
-  // backgroundColor: "#f35f5f",
   borderStyle: "solid",
   borderWidth: 2,
-  borderColor: "#f35f5f"
+  borderColor: "#f35f5f",
 } as ViewProps;
 export default ({ id }: { id: number }) => {
   const [{ user_id }, dispatch] = useStore();
   const [devote, { loading }] = useMutation(devoteSuggestion, {
-    variables: { id, user_id }
+    variables: { id, user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -33,7 +32,7 @@ export default ({ id }: { id: number }) => {
     devote().then(() =>
       showMessage({
         type: "success",
-        message: "제안 동의가 취소되었습니다"
+        message: "제안 동의가 취소되었습니다",
       })
     );
   }

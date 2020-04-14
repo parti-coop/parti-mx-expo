@@ -1,8 +1,9 @@
 import React from "react";
-import { ViewStyle, StyleProp, Image } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { View, ViewRow, V0 } from "./View";
 
+import { Image } from "./Image";
+import { View, ViewRow, V0 } from "./View";
 import { TO1, TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";

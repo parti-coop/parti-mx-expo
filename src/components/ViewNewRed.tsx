@@ -1,6 +1,8 @@
 import React from "react";
-import { ScrollView, Image, StyleProp, ViewStyle } from "react-native";
-import { View, ViewRow } from "./View";
+import { StyleProp, ViewStyle } from "react-native";
+
+import { Image } from "./Image";
+import { View } from "./View";
 import { Text } from "./Text";
 import iconGroupImg from "../../assets/icon-group-img.png";
 import iconGroup from "../../assets/icon-group.png";
@@ -14,14 +16,14 @@ export default (props: { style?: StyleProp<ViewStyle> }) => {
         backgroundColor: "#ff4848",
         alignItems: "center",
         justifyContent: "center",
-        ...(props.style as Object)
+        ...(props.style as Object),
       }}
     >
       <Text
         style={{
           fontSize: 13,
           textAlign: "center",
-          color: "#ffffff"
+          color: "#ffffff",
         }}
       >
         N

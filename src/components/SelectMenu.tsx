@@ -1,8 +1,9 @@
 import React from "react";
-import { ViewStyle, StyleProp, TextStyle, Image } from "react-native";
+import { ViewStyle, StyleProp, TextStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 
+import { Image } from "./Image";
 import { View } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity, TOCenter } from "./TouchableOpacity";

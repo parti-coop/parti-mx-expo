@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
+
+import { Image } from "./Image";
 import { ViewRow } from "./View";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { useNavigation } from "@react-navigation/native";
@@ -21,7 +23,7 @@ export default (props: { board?: any }) => {
             alignItems: "center",
             flexDirection: "row",
             justifyContent: "flex-start",
-            padding: 30
+            padding: 30,
           }}
           onPress={backHandler}
         >

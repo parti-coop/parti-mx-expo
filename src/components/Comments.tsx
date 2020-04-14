@@ -1,8 +1,9 @@
 import React from "react";
-import { ViewStyle, Image } from "react-native";
+import { ViewStyle } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
+import { Image } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Title16, Blue16, Body16 } from "./Text";
 import { TextInput } from "./TextInput";

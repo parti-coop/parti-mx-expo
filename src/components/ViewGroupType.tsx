@@ -1,10 +1,14 @@
 import React from "react";
-import { ScrollView, Image, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
+
+import { Image } from "./Image";
 import { View, ViewRow } from "./View";
+
 import iconCommunity from "../../assets/iconCommunity.png";
 import iconNews from "../../assets/iconNews.png";
 import iconSuggest from "../../assets/iconSuggest.png";
 import iconVote from "../../assets/iconVote.png";
+
 export default (props: { type?: string; style?: ViewStyle }) => {
   let icon = iconSuggest;
   switch (props.type) {
@@ -27,9 +31,9 @@ export default (props: { type?: string; style?: ViewStyle }) => {
           backgroundColor: "#30ad9f",
           borderRadius: 15,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         },
-        props.style
+        props.style,
       ]}
     >
       <Image

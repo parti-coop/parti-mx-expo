@@ -1,15 +1,17 @@
 import React from "react";
-import { Image, ViewProps } from "react-native";
+import { ViewProps } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { View } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import useGroupExit from "./useGroupExit";
+import { Image } from "./Image";
 
 import iconOut from "../../assets/iconOut.png";
 import iconMember from "../../assets/iconMember.png";
 import iconSetting from "../../assets/iconSetting.png";
+
 const btnStyle = {
   flex: 1,
   height: 100,

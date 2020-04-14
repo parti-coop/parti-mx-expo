@@ -1,9 +1,10 @@
 import React from "react";
-import { Image, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useDebounce } from "use-debounce";
 
+import { Image } from "../components/Image";
 import { ViewRow, V1, V0, View } from "../components/View";
 import { Text, Title16, Title24, Mint24, Grey12 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
@@ -39,14 +40,14 @@ export default () => {
   }
 
   const [search, { loading, refetch, data }] = useLazyQuery(searchPosts, {
-    variables: { searchKeyword: debouncedKeyword, group_id, user_id }
+    variables: { searchKeyword: debouncedKeyword, group_id, user_id },
   });
   function searchHandler() {
     search();
   }
   function postPressHandler(id: number) {
     navigate("SuggestionDetail", {
-      suggestionId: id
+      suggestionId: id,
     });
   }
   function results() {
@@ -118,7 +119,7 @@ export default () => {
           style={{
             fontSize: 16,
             borderBottomWidth: 1,
-            borderBottomColor: "#e4e4e4"
+            borderBottomColor: "#e4e4e4",
           }}
         />
         <Round35 source={iconSearchW} onPress={searchHandler} />
@@ -131,7 +132,7 @@ export default () => {
       <ScrollView
         contentContainerStyle={{
           borderRadius: 25,
-          backgroundColor: "#ffffff"
+          backgroundColor: "#ffffff",
         }}
       >
         {results()}

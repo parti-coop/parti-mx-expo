@@ -1,6 +1,9 @@
 import React from "react";
-import { Image, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
+
+import { Image } from "./Image";
 import { View } from "./View";
+
 import iconInvite from "../../assets/icon-invite.png";
 export default (props: { style?: ViewStyle }) => {
   return (
@@ -12,9 +15,9 @@ export default (props: { style?: ViewStyle }) => {
           backgroundColor: "#fdbf19",
           borderRadius: 15,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         },
-        props.style
+        props.style,
       ]}
     >
       <Image

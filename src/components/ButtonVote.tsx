@@ -1,8 +1,9 @@
 import React from "react";
-import { ViewStyle, TextStyle, Image } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
+import { Image } from "./Image";
 import { Text } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
@@ -18,12 +19,12 @@ const bgMenuBgCopy = {
   backgroundColor: "#f35f5f",
   borderStyle: "solid",
   borderWidth: 2,
-  borderColor: "#f35f5f"
+  borderColor: "#f35f5f",
 } as ViewStyle;
 const textStyle = {
   fontSize: 16,
   textAlign: "left",
-  color: "#ffffff"
+  color: "#ffffff",
 } as TextStyle;
 export default (props: {
   id: number;
@@ -33,19 +34,19 @@ export default (props: {
   const [{ user_id }, dispatch] = useStore();
   const { created_at, closing_method, id } = props;
   const [vote, { loading }] = useMutation(voteSuggestion, {
-    variables: { id, user_id }
+    variables: { id, user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   const closingAt = new Date(
-    (d => d.setDate(d.getDate() + 30))(new Date(created_at))
+    ((d) => d.setDate(d.getDate() + 30))(new Date(created_at))
   ).toDateString();
   function voteHandler() {
     vote().then(() =>
       showMessage({
         type: "success",
-        message: "제안을 동의 했습니다"
+        message: "제안을 동의 했습니다",
       })
     );
   }
@@ -61,7 +62,7 @@ export default (props: {
             fontSize: 12,
             textAlign: "center",
             color: "#f35f5f",
-            marginTop: 10
+            marginTop: 10,
           }}
         >
           {closingAt}까지 동의할 수 있습니다

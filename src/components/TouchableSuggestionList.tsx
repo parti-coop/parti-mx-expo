@@ -1,8 +1,9 @@
 import React from "react";
-import { ViewStyle, StyleProp, Image } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 
+import { Image } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Text, Grey12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
@@ -46,7 +47,7 @@ export default (props: {
   const { suggestion, style } = props;
   const [{ user_id }] = useStore();
   const [update, { data }] = useMutation(updateUserBoardCheck, {
-    variables: { user_id, board_id: suggestion.id }
+    variables: { user_id, board_id: suggestion.id },
   });
   const voteCount = suggestion.votes_aggregate.aggregate.sum.count;
   const votedByMe =
@@ -54,9 +55,9 @@ export default (props: {
   const daysLeft = calculateDays(suggestion.created_at);
   return (
     <TouchableOpacity
-      onPress={e =>
+      onPress={(e) =>
         navigate("SuggestionDetail", {
-          suggestionId: suggestion.id
+          suggestionId: suggestion.id,
         })
       }
     >
@@ -71,7 +72,7 @@ export default (props: {
             borderWidth: 2,
             borderColor: "#30ad9f",
             margin: 15,
-            flex: 0
+            flex: 0,
           }}
         >
           <Text
@@ -80,7 +81,7 @@ export default (props: {
               textAlign: "center",
               color: "#4a9f95",
               fontFamily: "notosans900",
-              lineHeight: 17
+              lineHeight: 17,
             }}
           >
             D
@@ -91,7 +92,7 @@ export default (props: {
               textAlign: "left",
               color: "#4a9f95",
               fontFamily: "notosans900",
-              lineHeight: 15
+              lineHeight: 15,
             }}
           >
             {daysLeft}
@@ -102,7 +103,7 @@ export default (props: {
             style={{
               fontSize: 16,
               textAlign: "left",
-              color: "#333333"
+              color: "#333333",
             }}
           >
             {suggestion.title}
@@ -129,7 +130,7 @@ export default (props: {
             borderRadius: 15,
             backgroundColor: "#f35f5f",
             position: "absolute",
-            right: -15
+            right: -15,
           }}
         >
           <Image source={iconSympathy} />

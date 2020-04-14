@@ -1,10 +1,10 @@
 import React from "react";
-import { Image, ViewStyle, TextStyle, Modal } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import ImageView from "react-native-image-viewing";
 
+import { ImageCache, ImageView } from "../components/Image";
 import { Text } from "../components/Text";
 import { View, V0 } from "../components/View";
 import { TO0 } from "../components/TouchableOpacity";
@@ -130,10 +130,14 @@ export default (props: {
             {images?.map((o: string, i: number) => {
               return (
                 <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
-                  <Image
-                    source={{ uri: o }}
-                    resizeMode="cover"
-                    style={{ width: "100%", height: 186, marginBottom: 10 }}
+                  <ImageCache
+                    uri={o}
+                    style={{
+                      width: "100%",
+                      height: 186,
+                      marginBottom: 10,
+                      resizeMode: "cover",
+                    }}
                   />
                 </TO0>
               );
@@ -159,7 +163,7 @@ export default (props: {
           scrollRef={scrollRef}
         />
         <ImageView
-          images={images.map((i: string) => ({ uri: i }))}
+          images={images}
           imageIndex={imgIndex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}

@@ -1,7 +1,8 @@
 import React from "react";
-import { ScrollView, Image, ViewStyle } from "react-native";
+import { ScrollView, ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { Image } from "../components/Image";
 import { Title14, Title22, Title16 } from "../components/Text";
 import { View } from "../components/View";
 import { TORow } from "../components/TouchableOpacity";

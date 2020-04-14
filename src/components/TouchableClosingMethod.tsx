@@ -1,10 +1,11 @@
 import React from "react";
-import { ViewStyle, StyleProp, TextStyle, Image } from "react-native";
+import { ViewStyle, StyleProp, TextStyle } from "react-native";
 import Modal from "react-native-modal";
 
 import { View } from "./View";
 import { Text, Mint15, Body15 } from "./Text";
 import { TORow, TouchableOpacity } from "./TouchableOpacity";
+import { Image } from "./Image";
 
 import iconSelected from "../../assets/iconSelected.png";
 const textStyle: StyleProp<TextStyle> = {

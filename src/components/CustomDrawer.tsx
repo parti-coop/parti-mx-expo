@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, Image, Keyboard } from "react-native";
+import { ScrollView, Keyboard } from "react-native";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
 import { useQuery } from "@apollo/react-hooks";
 
+import { Image } from "./Image";
 import { ViewRow } from "./View";
 import { Text } from "./Text";
 import { TouchableOpacity, TORowCenter, TO0 } from "./TouchableOpacity";
@@ -20,13 +21,13 @@ import btnSearch from "../../assets/btn-search.png";
 import partimxLogoWhite from "../../assets/partimxLogoWhite.png";
 import iconAdd from "../../assets/iconAdd.png";
 
-export default props => {
+export default (props) => {
   const [{ user_id }] = useStore();
   const appRefresh = useAppRefresh();
   const { navigate } = props.navigation;
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const query = useQuery(searchGroups, {
-    variables: { searchKeyword: `%${searchKeyword}%` }
+    variables: { searchKeyword: `%${searchKeyword}%` },
   });
   const isDrawerOpen = useIsDrawerOpen();
 
@@ -61,7 +62,7 @@ export default props => {
         </TO0>
 
         <TouchableOpacity
-          onPress={e => props.navigation.navigate("UserSetting")}
+          onPress={(e) => props.navigation.navigate("UserSetting")}
           style={{
             width: 35,
             height: 35,
@@ -71,7 +72,7 @@ export default props => {
             alignItems: "center",
             justifyContent: "center",
             position: "absolute",
-            right: 33
+            right: 33,
           }}
         >
           <Image
@@ -84,9 +85,9 @@ export default props => {
           <TouchableOpacity
             style={{
               position: "absolute",
-              right: -15
+              right: -15,
             }}
-            onPress={e => props.navigation.toggleDrawer()}
+            onPress={(e) => props.navigation.toggleDrawer()}
           >
             <ViewGroupImg />
           </TouchableOpacity>
@@ -98,7 +99,7 @@ export default props => {
           marginHorizontal: 30,
           paddingBottom: 20,
           borderBottomWidth: 1,
-          borderBottomColor: "rgba(57, 202, 186, 0.2)"
+          borderBottomColor: "rgba(57, 202, 186, 0.2)",
         }}
       >
         <Image
@@ -121,7 +122,7 @@ export default props => {
         contentContainerStyle={{
           flexGrow: 1,
           marginHorizontal: 30,
-          paddingVertical: 10
+          paddingVertical: 10,
         }}
       >
         {isSearching ? (
@@ -136,7 +137,7 @@ export default props => {
           backgroundColor: "#30ad9f",
           borderTopLeftRadius: 20,
           borderBottomRightRadius: 20,
-          height: 73
+          height: 73,
         }}
         onPress={createNewGroup}
       >

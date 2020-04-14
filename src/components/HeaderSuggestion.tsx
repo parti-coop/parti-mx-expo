@@ -1,6 +1,6 @@
 import React from "react";
-import { Share, Image } from "react-native";
 
+import { Image } from "./Image";
 import { ViewRow } from "./View";
 import { Text } from "./Text";
 
@@ -17,7 +17,7 @@ export default () => {
           fontSize: 13,
           textAlign: "left",
           color: "#888888",
-          paddingHorizontal: 2
+          paddingHorizontal: 2,
         }}
       >
         제안 게시판

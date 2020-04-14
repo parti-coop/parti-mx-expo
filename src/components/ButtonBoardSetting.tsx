@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image } from "./Image";
 import { TouchableOpacity, TORow } from "./TouchableOpacity";
 import { Text } from "./Text";
 import { useNavigation } from "@react-navigation/native";
@@ -12,15 +12,15 @@ export default () => {
       style={{
         backgroundColor: "#30ad9f",
         borderRadius: 10,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
       }}
       onPress={() => navigate("BoardSetting")}
     >
-      <Image source={iconManage} style={{marginRight: 3}} />
+      <Image source={iconManage} style={{ marginRight: 3 }} />
       <Text
         style={{
           fontSize: 12,
-          color: "#ffffff"
+          color: "#ffffff",
         }}
       >
         관리

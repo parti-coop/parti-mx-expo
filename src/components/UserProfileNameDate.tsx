@@ -1,5 +1,7 @@
 import React from "react";
-import { ViewStyle, Image, TextStyle, ImageStyle } from "react-native";
+import { ViewStyle, ImageStyle } from "react-native";
+
+import { Image, ImageCache } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Caption16, Grey12 } from "./Text";
 import IconUser from "../../assets/icon-user.png";
@@ -15,7 +17,7 @@ export default (props: { name: string; date: string; photoUrl?: string }) => {
   const { name, date, photoUrl } = props;
   const d = new Date(date).toLocaleTimeString();
   const userPhoto = (
-    <Image source={{ uri: photoUrl }} style={UserStyle as ImageStyle} />
+    <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
     <ViewRow style={{ width: "50%", flexWrap: "nowrap", marginBottom: 20 }}>

@@ -1,5 +1,7 @@
 import React from "react";
-import { Image, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
+
+import { Image } from "./Image";
 import { View } from "./View";
 import iconNotification from "../../assets/iconNotification.png";
 export default (props: { style?: ViewStyle }) => {
@@ -14,9 +16,9 @@ export default (props: { style?: ViewStyle }) => {
           justifyContent: "center",
           alignItems: "center",
           marginLeft: 8,
-          marginRight: 12
+          marginRight: 12,
         },
-        props.style
+        props.style,
       ]}
     >
       <Image

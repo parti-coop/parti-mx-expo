@@ -1,5 +1,7 @@
 import React from "react";
-import { ViewStyle, Image, TextStyle, ImageStyle } from "react-native";
+import { ViewStyle, TextStyle, ImageStyle } from "react-native";
+
+import { Image, ImageCache } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Text } from "./Text";
 import IconUser from "../../assets/icon-user.png";
@@ -8,19 +10,19 @@ const UserStyle = {
   height: 35,
   borderRadius: 15,
   backgroundColor: "#c1c1c1",
-  flex: 0
+  flex: 0,
 } as ViewStyle;
 const textStyle = {
   fontSize: 16,
   textAlign: "left",
-  color: "#444444"
+  color: "#444444",
 } as TextStyle;
 export default (
   props: React.PropsWithoutRef<{ name: string; photoUrl?: string }>
 ) => {
   const { photoUrl, name } = props;
   const userPhoto = (
-    <Image source={{ uri: photoUrl }} style={UserStyle as ImageStyle} />
+    <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
     <ViewRow>
