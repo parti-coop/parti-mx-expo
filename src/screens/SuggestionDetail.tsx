@@ -1,11 +1,13 @@
 import React from "react";
-import { Image, ViewStyle, TextStyle } from "react-native";
+import { Image, ViewStyle, TextStyle, Modal } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
+import ImageView from "react-native-image-viewing";
 
 import { Text } from "../components/Text";
 import { View, V0 } from "../components/View";
+import { TO0 } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonVote from "../components/ButtonVote";
@@ -58,6 +60,12 @@ export default (props: {
   });
   const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
+  const [visible, setIsVisible] = React.useState(false);
+  const [imgIndex, setImgIndex] = React.useState(0);
+  function showImageViewerHandler(index: number) {
+    setIsVisible(true);
+    setImgIndex(index);
+  }
 
   if (!(data && data.parti_2020_suggestions_by_pk)) {
     return null;
@@ -121,12 +129,13 @@ export default (props: {
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
             {images?.map((o: string, i: number) => {
               return (
-                <Image
-                  source={{ uri: o }}
-                  key={i}
-                  resizeMode="cover"
-                  style={{ width: "100%", height: 186, marginBottom: 10 }}
-                />
+                <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
+                  <Image
+                    source={{ uri: o }}
+                    resizeMode="cover"
+                    style={{ width: "100%", height: 186, marginBottom: 10 }}
+                  />
+                </TO0>
               );
             })}
           </View>
@@ -148,6 +157,12 @@ export default (props: {
           comments={comments}
           voteUsers={voteUsers}
           scrollRef={scrollRef}
+        />
+        <ImageView
+          images={images.map((i: string) => ({ uri: i }))}
+          imageIndex={imgIndex}
+          visible={visible}
+          onRequestClose={() => setIsVisible(false)}
         />
       </KeyboardAwareScrollView>
     </>
