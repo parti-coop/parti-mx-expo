@@ -77,6 +77,7 @@ export const updateSuggestion = gql`
     $sBody: String!
     $user_id: Int!
     $closingMethod: Int!
+    $images: _text
   ) {
     update_parti_2020_suggestions(
       where: { id: { _eq: $id } }
@@ -86,6 +87,7 @@ export const updateSuggestion = gql`
         context: $sContext
         updated_by: $user_id
         closing_method: $closingMethod
+        images: $images
       }
     ) {
       affected_rows

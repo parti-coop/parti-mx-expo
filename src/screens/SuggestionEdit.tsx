@@ -1,24 +1,34 @@
 import React from "react";
-import { StyleProp, TextStyle } from "react-native";
+import {
+  StyleProp,
+  TextStyle,
+  Image,
+  Keyboard,
+  Vibration,
+  Alert,
+} from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+import { launchImageLibraryAsync } from "expo-image-picker";
 import { useNavigation, RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Text } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
-import { TO1 } from "../components/TouchableOpacity";
+import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
 import HeaderSuggestion from "../components/HeaderSuggestion";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { uploadImageUUID } from "../firebase";
 const options = [
   { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 }
@@ -49,22 +59,69 @@ export default (props: {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
+  const [imageArr, setImageArr] = React.useState<
+    Array<ImageInfo | undefined | string>
+  >(suggestion.images);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const [{ user_id }, dispatch] = useStore();
   const { goBack } = useNavigation();
-  const [update, { loading }] = useMutation(updateSuggestion, {
-    variables: {
-      sBody,
-      sTitle,
-      sContext,
-      closingMethod,
-      id,
-      user_id,
-    },
-  });
+  const [update, { loading }] = useMutation(updateSuggestion);
+  async function addImage() {
+    Keyboard.dismiss();
+    return launchImageLibraryAsync({
+      quality: 1,
+    }).then(({ cancelled, ...res }) => {
+      if (cancelled !== true) {
+        setImageArr([...imageArr, res as ImageInfo]);
+      }
+    });
+  }
+  async function longpressHandler(imageIndex: number) {
+    Keyboard.dismiss();
+    Vibration.vibrate(500);
+    return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "삭제!",
+        onPress: function () {
+          imageArr.splice(imageIndex, 1);
+          setImageArr([...imageArr]);
+        },
+      },
+    ]);
+  }
   async function updateHandler() {
-    await update();
+    let images = null;
+    dispatch({ type: "SET_LOADING", loading: true });
+    if (imageArr?.length > 0) {
+      const urlArr = await Promise.all(
+        imageArr.map(async (o, i: number) => {
+          if (typeof o === "string") {
+            return o;
+          } else {
+            return uploadImageUUID(o.uri, "posts").then((snap) =>
+              snap.ref.getDownloadURL()
+            );
+          }
+        })
+      );
+      images = "{" + urlArr.join(",") + "}";
+    }
+    await update({
+      variables: {
+        sBody,
+        sTitle,
+        sContext,
+        closingMethod,
+        id,
+        user_id,
+        images,
+      },
+    });
     showMessage({
       message: "수정되었습니다.",
       type: "success",
@@ -79,6 +136,7 @@ export default (props: {
     setSContext(suggestion.context);
     setSBody(suggestion.body);
     setClosingMethod(suggestion.closing_method);
+    setImageArr(suggestion.images);
   }, [suggestion]);
   return (
     <>
@@ -188,8 +246,28 @@ export default (props: {
             />
           </View>
           <LineSeperator />
+          {imageArr?.length > 0 && (
+            <>
+              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
+                {imageArr?.map((o, i) => (
+                  <TO0
+                    key={i}
+                    style={{ marginBottom: 10 }}
+                    onLongPress={() => longpressHandler(i)}
+                  >
+                    <Image
+                      source={typeof o === "string" ? { uri: o } : o}
+                      resizeMode="cover"
+                      style={{ width: "100%", height: 186 }}
+                    />
+                  </TO0>
+                ))}
+              </View>
+              <LineSeperator />
+            </>
+          )}
           <ViewRow style={{ padding: 22 }}>
-            <TO1>
+            <TO1 onPress={addImage}>
               <Text
                 style={{
                   fontSize: 16,

@@ -43,6 +43,7 @@ export type RootStackParamList = {
       context: string;
       body: string;
       closing_method: number;
+      images: string[];
     };
   };
   TermsPrivacy: {};

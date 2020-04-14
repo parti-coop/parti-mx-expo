@@ -125,7 +125,7 @@ export default (props: {
                   source={{ uri: o }}
                   key={i}
                   resizeMode="cover"
-                  style={{ width: "100%", height: 186 }}
+                  style={{ width: "100%", height: 186, marginBottom: 10 }}
                 />
               );
             })}

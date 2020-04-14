@@ -12,7 +12,7 @@ import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
-import { launchImageLibraryAsync, ImagePickerResult } from "expo-image-picker";
+import { launchImageLibraryAsync } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
