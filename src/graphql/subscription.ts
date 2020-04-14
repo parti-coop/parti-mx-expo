@@ -70,6 +70,7 @@ export const subscribeSuggestion = gql`
       body
       context
       closing_method
+      images
       updatedBy {
         name
         photo_url

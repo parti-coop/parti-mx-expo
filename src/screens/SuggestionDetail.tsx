@@ -86,6 +86,7 @@ export default (props: {
     created_at,
     votes_aggregate,
     comments,
+    images,
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => ({
@@ -116,6 +117,18 @@ export default (props: {
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
             <Text style={bodyTextStyle}>{body}</Text>
+          </View>
+          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+            {images?.map((o: string, i: number) => {
+              return (
+                <Image
+                  source={{ uri: o }}
+                  key={i}
+                  resizeMode="cover"
+                  style={{ width: "100%", height: 186 }}
+                />
+              );
+            })}
           </View>
           <SelectMenu items={options} />
           <V0 style={{ marginTop: 50 }}>
