@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, TextStyle, Image } from "react-native";
+import { StyleProp, TextStyle, Image, Alert, Vibration } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -64,6 +64,22 @@ export default () => {
         setImageArr([...imageArr, res]);
       }
     });
+  }
+  async function longpressHandler(imageIndex: number) {
+    Vibration.vibrate(500);
+    return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "삭제!",
+        onPress: function () {
+          imageArr.splice(imageIndex, 1);
+          setImageArr([...imageArr]);
+        },
+      },
+    ]);
   }
   async function insertPressHandler() {
     if (sTitle.trim() == "" || sTitle.trim().length > 20) {
@@ -197,7 +213,11 @@ export default () => {
             <>
               <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
                 {imageArr.map((o, i) => (
-                  <TO0 key={i} style={{ marginBottom: 10 }}>
+                  <TO0
+                    key={i}
+                    style={{ marginBottom: 10 }}
+                    onLongPress={() => longpressHandler(i)}
+                  >
                     <Image
                       source={o}
                       resizeMode="cover"
