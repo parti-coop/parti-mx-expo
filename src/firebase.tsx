@@ -5,6 +5,7 @@ import firebaseConfig from "./firebaseConfig";
 // import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
+import uuid from "uuid";
 // 패키징 할 때만 넣는다.
 
 // Initialize Firebase
@@ -12,13 +13,15 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 export const auth = firebase.auth();
+export const uploadImageUUID = async (uri: string, dir: string) => {
+  const path = `${dir}/${uuid.v4()}`;
+  console.log({ path });
+  return uploadImage(uri, path);
+};
 export const uploadImage = async (uri: string, path: string) => {
   const response = await fetch(uri);
   const blob = await response.blob();
-  var ref = firebase
-    .storage()
-    .ref()
-    .child(path);
+  var ref = firebase.storage().ref().child(path);
   return ref.put(blob);
 };
 export const Firebase = firebase;

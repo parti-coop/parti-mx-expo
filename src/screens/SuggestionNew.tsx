@@ -1,13 +1,22 @@
 import React from "react";
-import { StyleProp, TextStyle, Image, Alert, Vibration } from "react-native";
+import {
+  StyleProp,
+  TextStyle,
+  Image,
+  Alert,
+  Vibration,
+  Keyboard,
+  ViewStyle,
+} from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
-import { launchImageLibraryAsync } from "expo-image-picker";
+import { launchImageLibraryAsync, ImagePickerResult } from "expo-image-picker";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text, Title22, Mint16 } from "../components/Text";
+import { Text, Title22, Mint16, Mint13 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
@@ -16,6 +25,7 @@ import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import LineSeperator from "../components/LineSeperator";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 
+import { uploadImageUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
 
@@ -24,18 +34,26 @@ const options = [
   // { label: "멤버 과반수 동의시 종료", value: 1 },
   // { label: "제안 정리시 종료", value: 2 }
 ];
-const labelStyle: StyleProp<TextStyle> = {
-  fontSize: 13,
-  textAlign: "left",
-  color: "#30ad9f",
-  width: 80,
-};
+
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
   color: "#555555",
   paddingHorizontal: 0,
   flex: 1,
+};
+const bgStyle: StyleProp<ViewStyle> = {
+  alignItems: "stretch",
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
 };
 
 export default () => {
@@ -45,7 +63,9 @@ export default () => {
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
   const [closingMethod, setClosingMethod] = React.useState(0);
-  const [imageArr, setImageArr] = React.useState([]);
+  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
+    []
+  );
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
 
@@ -54,18 +74,21 @@ export default () => {
     setSTitle("");
     setSContext("");
     setSBody("");
+    setImageArr([]);
     // Keyboard.dismiss();
   }
   async function addImage() {
+    Keyboard.dismiss();
     return launchImageLibraryAsync({
       quality: 1,
-    }).then((res) => {
-      if (res.cancelled !== true) {
-        setImageArr([...imageArr, res]);
+    }).then(({ cancelled, ...res }) => {
+      if (cancelled !== true) {
+        setImageArr([...imageArr, res as ImageInfo]);
       }
     });
   }
   async function longpressHandler(imageIndex: number) {
+    Keyboard.dismiss();
     Vibration.vibrate(500);
     return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
       {
@@ -94,6 +117,18 @@ export default () => {
         type: "warning",
       });
     }
+    let images = null;
+    dispatch({ type: "SET_LOADING", loading: true });
+    if (imageArr.length > 0) {
+      const urlArr = await Promise.all(
+        imageArr.map(async (o, i: number) => {
+          return uploadImageUUID(o.uri, "posts").then((snap) =>
+            snap.ref.getDownloadURL()
+          );
+        })
+      );
+      images = "{" + urlArr.join(",") + "}";
+    }
     await insert({
       variables: {
         sTitle,
@@ -103,6 +138,7 @@ export default () => {
         group_id,
         user_id,
         closingMethod,
+        images,
       },
     });
     resetInput();
@@ -122,23 +158,9 @@ export default () => {
         >
           <Title22>글 쓰기</Title22>
         </View>
-        <View
-          style={{
-            alignItems: "stretch",
-            borderRadius: 25,
-            backgroundColor: "#ffffff",
-            shadowColor: "rgba(0, 0, 0, 0.15)",
-            elevation: 1,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowRadius: 1,
-            shadowOpacity: 1,
-          }}
-        >
+        <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
+            <Mint13 style={{ paddingVertical: 24, width: 80 }}>제안명</Mint13>
             <TextInput
               value={sTitle}
               autoFocus
@@ -151,7 +173,7 @@ export default () => {
           </ViewRow>
           <LineSeperator />
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Text style={labelStyle}>종료 방법</Text>
+            <Mint13 style={{ width: 80 }}>종료 방법</Mint13>
             <TouchableClosingMethod
               value={closingMethod}
               onChange={setClosingMethod}
@@ -160,24 +182,16 @@ export default () => {
           </ViewRow>
         </View>
         <View
-          style={{
-            marginTop: 10,
-            alignItems: "stretch",
-            borderRadius: 25,
-            backgroundColor: "#ffffff",
-            shadowColor: "rgba(0, 0, 0, 0.15)",
-            elevation: 1,
-            shadowOffset: {
-              width: 0,
-              height: 1,
+          style={[
+            bgStyle,
+            {
+              marginTop: 10,
+              flex: 1,
             },
-            shadowRadius: 1,
-            shadowOpacity: 1,
-            flex: 1,
-          }}
+          ]}
         >
           <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
+            <Mint13 style={{ paddingBottom: 19 }}>제안 배경</Mint13>
             <AutoGrowingTextInput
               value={sContext}
               multiline
@@ -197,7 +211,7 @@ export default () => {
               flex: 1,
             }}
           >
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+            <Mint13 style={{ paddingBottom: 19 }}>제안 내용</Mint13>
             <AutoGrowingTextInput
               value={sBody}
               multiline
