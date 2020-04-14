@@ -59,9 +59,9 @@ export default (props: {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
-  const [imageArr, setImageArr] = React.useState<
-    Array<ImageInfo | undefined | string>
-  >(suggestion.images);
+  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | string>>(
+    suggestion.images ?? []
+  );
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const [{ user_id }, dispatch] = useStore();
@@ -74,6 +74,7 @@ export default (props: {
     }).then(({ cancelled, ...res }) => {
       if (cancelled !== true) {
         setImageArr([...imageArr, res as ImageInfo]);
+        Keyboard.dismiss();
       }
     });
   }
@@ -136,7 +137,7 @@ export default (props: {
     setSContext(suggestion.context);
     setSBody(suggestion.body);
     setClosingMethod(suggestion.closing_method);
-    setImageArr(suggestion.images);
+    setImageArr(suggestion.images ?? []);
   }, [suggestion]);
   return (
     <>
