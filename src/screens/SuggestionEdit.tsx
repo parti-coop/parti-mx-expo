@@ -74,6 +74,12 @@ export default (props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
+  React.useEffect(() => {
+    setSTitle(suggestion.title);
+    setSContext(suggestion.context);
+    setSBody(suggestion.body);
+    setClosingMethod(suggestion.closing_method);
+  }, [suggestion]);
   return (
     <>
       <HeaderConfirm onPress={updateHandler} />
