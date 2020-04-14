@@ -1,21 +1,17 @@
 import React from "react";
-import {
-  Image,
-  ViewStyle,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Image, ViewStyle, Keyboard } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { StackHeaderProps } from "@react-navigation/stack";
 import uuid from "uuid";
 import { useMutation } from "@apollo/react-hooks";
 
-import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Mint16, Title22, Sub16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRow, View } from "../components/View";
-import { TORow } from "../components/TouchableOpacity";
+import { View } from "../components/View";
+import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderConfirm from "../components/HeaderConfirm";
+import { LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { createNewGroup } from "../graphql/mutation";
@@ -37,8 +33,8 @@ const boxStyle = {
   borderTopRightRadius: 25,
   marginTop: 50,
   justifyContent: "flex-start",
-  alignItems: "center",
-  padding: 50,
+  alignItems: "stretch",
+  paddingVertical: 50,
   flex: 1,
 } as ViewStyle;
 export default (props: StackHeaderProps) => {
@@ -89,13 +85,11 @@ export default (props: StackHeaderProps) => {
   return (
     <>
       <HeaderConfirm onPress={save} />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView>
         <View style={{ paddingHorizontal: 30 }}>
           <Title22>그룹</Title22>
           <Sub16 style={{ marginTop: 15 }}>그룹을 만들어 보세요</Sub16>
         </View>
-      </TouchableWithoutFeedback>
-      <KeyboardAvoidingView contentContainerStyle={{ flex: 1 }}>
         <View style={boxStyle}>
           <TextInput
             value={groupName}
@@ -103,15 +97,11 @@ export default (props: StackHeaderProps) => {
             placeholder="그룹 이름 입력"
             onSubmitEditing={() => Keyboard.dismiss()}
             style={{
-              paddingBottom: 30,
-              borderBottomColor: "#e4e4e4",
-              borderBottomWidth: 1,
               fontSize: 17,
-              width: "100%",
               textAlign: "center",
-              flex: 0,
             }}
           />
+          <LineSeperator />
           {bg_img_url.length > 0 && (
             <Image
               source={{ uri: bg_img_url }}
@@ -119,14 +109,14 @@ export default (props: StackHeaderProps) => {
               style={{ width: 400, height: 200, marginTop: 30 }}
             />
           )}
-          <TORow style={{ marginTop: 30 }} onPress={addImage}>
+          <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
             <Mint16>
               {bg_img_url.length === 0 ? "사진 추가" : "사진 변경"}
             </Mint16>
-          </TORow>
+          </TORowCenter>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 };

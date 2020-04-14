@@ -12,7 +12,8 @@ export const KeyboardAwareScrollView = React.forwardRef<
     keyboardShouldPersistTaps={"handled"}
     enableResetScrollToCoords={false}
     ref={ref}
-    extraScrollHeight={100}
+    // extraScrollHeight={100}
+    // enableOnAndroid
     {...props}
     style={[props.style]}
   >
