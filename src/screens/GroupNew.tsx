@@ -96,9 +96,11 @@ export default (props: StackHeaderProps) => {
             onChangeText={setGroupName}
             placeholder="그룹 이름 입력"
             onSubmitEditing={() => Keyboard.dismiss()}
+            autoFocus={true}
             style={{
               fontSize: 17,
               textAlign: "center",
+              marginBottom: 30,
             }}
           />
           <LineSeperator />

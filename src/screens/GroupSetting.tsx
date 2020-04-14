@@ -1,22 +1,18 @@
 import React from "react";
-import {
-  Image,
-  ViewStyle,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Image, ViewStyle, Keyboard } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { Title22, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View } from "../components/View";
-import { TORow } from "../components/TouchableOpacity";
+import { TORow, TORowCenter } from "../components/TouchableOpacity";
 import HeaderConfirm from "../components/HeaderConfirm";
+import { LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { updateGroupName } from "../graphql/mutation";
@@ -38,8 +34,8 @@ const boxStyle = {
   borderTopRightRadius: 25,
   marginTop: 50,
   justifyContent: "flex-start",
-  alignItems: "center",
-  padding: 50,
+  alignItems: "stretch",
+  paddingVertical: 50,
   flex: 1,
 } as ViewStyle;
 export default (props: {
@@ -81,28 +77,24 @@ export default (props: {
   return (
     <>
       <HeaderConfirm onPress={save} />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView>
         <View style={{ paddingHorizontal: 30 }}>
           <Title22>그룹</Title22>
         </View>
-      </TouchableWithoutFeedback>
-      <KeyboardAvoidingView contentContainerStyle={{ flex: 1 }}>
         <View style={boxStyle}>
           <TextInput
             value={groupName}
             onChangeText={setGroupName}
             placeholder="그룹 이름 입력"
             onSubmitEditing={() => Keyboard.dismiss()}
+            autoFocus={true}
             style={{
-              paddingBottom: 30,
-              borderBottomColor: "#e4e4e4",
-              borderBottomWidth: 1,
               fontSize: 17,
-              width: "100%",
               textAlign: "center",
-              flex: 0,
+              marginBottom: 30,
             }}
           />
+          <LineSeperator />
           {bg_img_url && (
             <Image
               source={{ uri: bg_img_url }}
@@ -114,12 +106,12 @@ export default (props: {
               }}
             />
           )}
-          <TORow style={{ marginTop: 30 }} onPress={addImage}>
+          <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
             <Mint16>{bg_img_url ? "사진 변경" : "사진 추가"}</Mint16>
-          </TORow>
+          </TORowCenter>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 };
