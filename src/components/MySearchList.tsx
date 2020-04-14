@@ -9,11 +9,11 @@ import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
 import { useStore } from "../Store";
 
-export default props => {
+export default (props) => {
   const [{ user_id }] = useStore();
   const { navigate, searchKeyword } = props;
   const [update, { data, refetch }] = useLazyQuery(searchGroups, {
-    variables: { searchKeyword: `%${searchKeyword}%` }
+    variables: { searchKeyword: `%${searchKeyword}%` },
   });
   React.useEffect(() => {
     if (refetch) {
@@ -29,7 +29,7 @@ export default props => {
       </Text>
     );
   }
-  if (data && data.parti_2020_groups) {
+  if (data?.parti_2020_groups?.length > 0) {
     return data.parti_2020_groups.map((group: any, i: number) => (
       <TouchableSideNavGroupSearchList
         group={group}
@@ -38,6 +38,10 @@ export default props => {
       />
     ));
   } else {
-    return null;
+    return (
+      <Text style={{ flex: 1, fontSize: 16, color: "#39caba" }}>
+        검색된 그룹이 없습니다.
+      </Text>
+    );
   }
 };
