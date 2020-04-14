@@ -31,7 +31,7 @@ export const ImageView = (props: {
     }
   }, [images]);
   if (imgArr) {
-    return <IV images={imgArr} {...rest} />;
+    return <IV images={imgArr} presentationStyle="overFullScreen" {...rest} />;
   } else {
     return null;
   }

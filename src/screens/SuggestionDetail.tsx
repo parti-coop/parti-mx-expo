@@ -162,13 +162,13 @@ export default (props: {
           voteUsers={voteUsers}
           scrollRef={scrollRef}
         />
-        <ImageView
-          images={images}
-          imageIndex={imgIndex}
-          visible={visible}
-          onRequestClose={() => setIsVisible(false)}
-        />
       </KeyboardAwareScrollView>
+      <ImageView
+        images={images}
+        imageIndex={imgIndex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
     </>
   );
 };
