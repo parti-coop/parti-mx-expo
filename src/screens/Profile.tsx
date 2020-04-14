@@ -16,7 +16,7 @@ import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 
 import HeaderConfirm from "../components/HeaderConfirm";
-import LineSeperator from "../components/LineSeperator";
+import { LineSeperator } from "../components/LineDivider";
 
 import { updateUserName } from "../graphql/mutation";
 import { whoami, searchDuplicateName } from "../graphql/query";

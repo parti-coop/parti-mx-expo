@@ -22,7 +22,7 @@ import { auth } from "../firebase";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
 import iconPassword from "../../assets/iconPassword.png";
-import LineSeperator from "../components/LineSeperator";
+import { LineSeperator } from "../components/LineDivider";
 const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",

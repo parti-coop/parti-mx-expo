@@ -16,7 +16,7 @@ import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import HeaderShare from "../components/HeaderShare";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 import ViewTitle from "../components/ViewTitle";
-import LineSeperator from "../components/LineSeperator";
+import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
 import SuggestionTabs from "../components/SuggestionTabs";
 

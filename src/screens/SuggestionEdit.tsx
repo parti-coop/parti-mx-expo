@@ -21,7 +21,7 @@ import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
 import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
-import LineSeperator from "../components/LineSeperator";
+import { LineSeperator } from "../components/LineDivider";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
