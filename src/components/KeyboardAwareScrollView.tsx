@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import {
   KeyboardAwareScrollView as K,
-  KeyboardAwareScrollViewProps
+  KeyboardAwareScrollViewProps,
 } from "react-native-keyboard-aware-scroll-view";
 export const KeyboardAwareScrollView = React.forwardRef<
   K,
@@ -10,8 +10,9 @@ export const KeyboardAwareScrollView = React.forwardRef<
 >((props, ref: React.Ref<K>) => (
   <K
     keyboardShouldPersistTaps={"handled"}
+    enableResetScrollToCoords={false}
     ref={ref}
-    extraScrollHeight={200}
+    extraScrollHeight={100}
     {...props}
     style={[props.style]}
   >
