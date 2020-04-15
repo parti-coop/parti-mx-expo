@@ -2,7 +2,6 @@ import React from "react";
 import {
   StyleProp,
   TextStyle,
-  Image,
   Alert,
   Vibration,
   Keyboard,
@@ -14,9 +13,11 @@ import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
+import * as DocumentPicker from "expo-document-picker";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text, Title22, Mint16, Mint13 } from "../components/Text";
+import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
+import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
@@ -25,10 +26,10 @@ import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator } from "../components/LineDivider";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 
-import { uploadImageUUID } from "../firebase";
+import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
-
+import iconFormClosed from "../../assets/iconFormClosed.png";
 const options = [
   { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 },
@@ -66,6 +67,9 @@ export default () => {
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
+  const [fileArr, setFileArr] = React.useState<
+    Array<DocumentPicker.DocumentResult>
+  >([]);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
 
@@ -87,9 +91,28 @@ export default () => {
       }
     });
   }
-  async function longpressHandler(imageIndex: number) {
+  async function fileUploadHandler() {
+    const file = await DocumentPicker.getDocumentAsync();
+    setFileArr([...fileArr, file]);
+  }
+  async function fileDeleteHandler(fileIndex: number) {
+    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "삭제!",
+        onPress: function () {
+          fileArr.splice(fileIndex, 1);
+          setFileArr([...fileArr]);
+        },
+      },
+    ]);
+  }
+  async function imageLongpressHandler(imageIndex: number) {
     Keyboard.dismiss();
-    Vibration.vibrate(500);
+    Vibration.vibrate(100);
     return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
       {
         text: "취소",
@@ -122,12 +145,23 @@ export default () => {
     if (imageArr.length > 0) {
       const urlArr = await Promise.all(
         imageArr.map(async (o, i: number) => {
-          return uploadImageUUID(o.uri, "posts").then((snap) =>
+          return uploadFileUUID(o.uri, "posts").then((snap) =>
             snap.ref.getDownloadURL()
           );
         })
       );
       images = "{" + urlArr.join(",") + "}";
+    }
+    let files = null;
+    if (fileArr.length > 0) {
+      const urlArr = await Promise.all(
+        fileArr.map(async (o, i: number) => {
+          return uploadFileUUID(o.uri, "posts").then((snap) =>
+            snap.ref.getDownloadURL()
+          );
+        })
+      );
+      files = "{" + urlArr.join(",") + "}";
     }
     await insert({
       variables: {
@@ -139,6 +173,7 @@ export default () => {
         user_id,
         closingMethod,
         images,
+        files,
       },
     });
     resetInput();
@@ -230,7 +265,7 @@ export default () => {
                   <TO0
                     key={i}
                     style={{ marginBottom: 10 }}
-                    onLongPress={() => longpressHandler(i)}
+                    onLongPress={() => imageLongpressHandler(i)}
                   >
                     <Image
                       source={o}
@@ -238,6 +273,26 @@ export default () => {
                       style={{ width: "100%", height: 186 }}
                     />
                   </TO0>
+                ))}
+              </View>
+              <LineSeperator />
+            </>
+          )}
+          {fileArr.length > 0 && (
+            <>
+              <Mint13 style={{ marginVertical: 20, marginHorizontal: 30 }}>
+                파일
+              </Mint13>
+              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
+                {fileArr.map((o, i) => (
+                  <ViewRow style={{ marginBottom: 10 }} key={i}>
+                    <Body16 style={{ flex: 1, marginRight: 20 }}>
+                      {o.name}
+                    </Body16>
+                    <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
+                      <Image source={iconFormClosed} />
+                    </TO0>
+                  </ViewRow>
                 ))}
               </View>
               <LineSeperator />
@@ -254,7 +309,7 @@ export default () => {
                 backgroundColor: "#e4e4e4",
               }}
             />
-            <TO1>
+            <TO1 onPress={fileUploadHandler}>
               <Mint16 style={{ textAlign: "center", flex: 1 }}>
                 파일 첨부
               </Mint16>

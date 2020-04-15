@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 export const auth = firebase.auth();
-export const uploadImageUUID = async (uri: string, dir: string) => {
+export const uploadFileUUID = async (uri: string, dir: string) => {
   const path = `${dir}/${uuid.v4()}`;
   console.log({ path });
   return uploadImage(uri, path);

@@ -39,6 +39,7 @@ export const insertSuggestion = gql`
     $user_id: Int!
     $closingMethod: Int!
     $images: _text
+    $files: _text
   ) {
     insert_parti_2020_suggestions(
       objects: {
@@ -50,6 +51,7 @@ export const insertSuggestion = gql`
         updated_by: $user_id
         closing_method: $closingMethod
         images: $images
+        files: $files
       }
     ) {
       affected_rows
