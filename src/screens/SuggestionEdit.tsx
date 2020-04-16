@@ -1,34 +1,32 @@
 import React from "react";
-import {
-  StyleProp,
-  TextStyle,
-  Image,
-  Keyboard,
-  Vibration,
-  Alert,
-} from "react-native";
+import { StyleProp, TextStyle, Keyboard, Vibration, Alert } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { useNavigation, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import * as DocumentPicker from "expo-document-picker";
 
+import { Image } from "../components/Image";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text } from "../components/Text";
+import { Text, Mint13, Body16, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
 import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
-import { LineSeperator } from "../components/LineDivider";
+import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { useStore } from "../Store";
 import { updateSuggestion } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
-import { uploadImageUUID } from "../firebase";
+import { uploadFileUUID } from "../firebase";
+
+import iconFormClosed from "../../assets/iconFormClosed.png";
+
 const options = [
   { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 }
@@ -47,6 +45,18 @@ const textStyle: StyleProp<TextStyle> = {
   paddingHorizontal: 0,
   flex: 1,
 };
+function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
+  return new Promise(async function (res) {
+    let uri = o.uri;
+    if (uri.startsWith("file://")) {
+      uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
+        snap.ref.getDownloadURL()
+      );
+    }
+    return res({ ...o, uri });
+  });
+}
+
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
   route: RouteProp<RootStackParamList, "SuggestionEdit">;
@@ -59,9 +69,12 @@ export default (props: {
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.closing_method
   );
-  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | string>>(
+  const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
     suggestion.images ?? []
   );
+  const [fileArr, setFileArr] = React.useState<
+    Array<DocumentPicker.DocumentResult>
+  >(suggestion.files ?? []);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const [{ user_id }, dispatch] = useStore();
@@ -78,9 +91,28 @@ export default (props: {
       }
     });
   }
+  async function fileDeleteHandler(fileIndex: number) {
+    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "삭제!",
+        onPress: function () {
+          fileArr.splice(fileIndex, 1);
+          setFileArr([...fileArr]);
+        },
+      },
+    ]);
+  }
+  async function fileUploadHandler() {
+    const file = await DocumentPicker.getDocumentAsync();
+    setFileArr([...fileArr, file]);
+  }
   async function longpressHandler(imageIndex: number) {
     Keyboard.dismiss();
-    Vibration.vibrate(500);
+    Vibration.vibrate(100);
     return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
       {
         text: "취소",
@@ -96,21 +128,16 @@ export default (props: {
     ]);
   }
   async function updateHandler() {
-    let images = null;
     dispatch({ type: "SET_LOADING", loading: true });
-    if (imageArr?.length > 0) {
-      const urlArr = await Promise.all(
-        imageArr.map(async (o, i: number) => {
-          if (typeof o === "string") {
-            return o;
-          } else {
-            return uploadImageUUID(o.uri, "posts").then((snap) =>
-              snap.ref.getDownloadURL()
-            );
-          }
-        })
-      );
-      images = "{" + urlArr.join(",") + "}";
+    let images = null;
+    if (imageArr.length > 0) {
+      const urlArr = await Promise.all(imageArr.map(promiseArray));
+      images = urlArr;
+    }
+    let files = null;
+    if (fileArr.length > 0) {
+      const urlArr = await Promise.all(fileArr.map(promiseArray));
+      files = urlArr;
     }
     await update({
       variables: {
@@ -121,6 +148,7 @@ export default (props: {
         id,
         user_id,
         images,
+        files,
       },
     });
     showMessage({
@@ -138,6 +166,7 @@ export default (props: {
     setSBody(suggestion.body);
     setClosingMethod(suggestion.closing_method);
     setImageArr(suggestion.images ?? []);
+    setFileArr(suggestion.files ?? []);
   }, [suggestion]);
   return (
     <>
@@ -257,7 +286,7 @@ export default (props: {
                     onLongPress={() => longpressHandler(i)}
                   >
                     <Image
-                      source={typeof o === "string" ? { uri: o } : o}
+                      source={o}
                       resizeMode="cover"
                       style={{ width: "100%", height: 186 }}
                     />
@@ -267,36 +296,31 @@ export default (props: {
               <LineSeperator />
             </>
           )}
+          {fileArr.length > 0 && (
+            <>
+              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
+                <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
+                {fileArr.map((o, i) => (
+                  <ViewRow style={{ marginBottom: 10 }} key={i}>
+                    <Body16 style={{ flex: 1, marginRight: 20 }}>
+                      {o.name}
+                    </Body16>
+                    <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
+                      <Image source={iconFormClosed} />
+                    </TO0>
+                  </ViewRow>
+                ))}
+              </View>
+              <LineSeperator />
+            </>
+          )}
           <ViewRow style={{ padding: 22 }}>
             <TO1 onPress={addImage}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "center",
-                  color: "#30ad9f",
-                }}
-              >
-                사진 첨부
-              </Text>
+              <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
             </TO1>
-            <View
-              style={{
-                width: 1,
-                height: 11,
-                backgroundColor: "#e4e4e4",
-              }}
-            />
-            <TO1>
-              <Text
-                style={{
-                  fontSize: 16,
-                  textAlign: "center",
-                  color: "#30ad9f",
-                  flex: 1,
-                }}
-              >
-                파일 첨부
-              </Text>
+            <SmallVerticalDivider />
+            <TO1 onPress={fileUploadHandler}>
+              <Mint16 style={{ textAlign: "center" }}>파일 첨부</Mint16>
             </TO1>
           </ViewRow>
         </View>

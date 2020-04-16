@@ -1,6 +1,8 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useDebouncedCallback } from "use-debounce";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
+import { DocumentResult } from "expo-document-picker";
 
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
@@ -43,7 +45,8 @@ export type RootStackParamList = {
       context: string;
       body: string;
       closing_method: number;
-      images: string[];
+      images: ImageInfo[];
+      files: DocumentResult[];
     };
   };
   TermsPrivacy: {};

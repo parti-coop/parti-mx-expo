@@ -80,6 +80,7 @@ export const updateSuggestion = gql`
     $user_id: Int!
     $closingMethod: Int!
     $images: jsonb
+    $files: jsonb
   ) {
     update_parti_2020_suggestions(
       where: { id: { _eq: $id } }
@@ -90,6 +91,7 @@ export const updateSuggestion = gql`
         updated_by: $user_id
         closing_method: $closingMethod
         images: $images
+        files: $files
       }
     ) {
       affected_rows

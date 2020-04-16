@@ -23,7 +23,7 @@ import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
 import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
-import { LineSeperator } from "../components/LineDivider";
+import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderSuggestion from "../components/HeaderSuggestion";
 
 import { uploadFileUUID } from "../firebase";
@@ -309,17 +309,9 @@ export default () => {
             <TO1 onPress={addImage}>
               <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
             </TO1>
-            <View
-              style={{
-                width: 1,
-                height: 11,
-                backgroundColor: "#e4e4e4",
-              }}
-            />
+            <SmallVerticalDivider />
             <TO1 onPress={fileUploadHandler}>
-              <Mint16 style={{ textAlign: "center", flex: 1 }}>
-                파일 첨부
-              </Mint16>
+              <Mint16 style={{ textAlign: "center" }}>파일 첨부</Mint16>
             </TO1>
           </ViewRow>
         </View>
