@@ -39,7 +39,7 @@ export const insertSuggestion = gql`
     $user_id: Int!
     $closingMethod: Int!
     $images: _text
-    $files: _text
+    $files: jsonb
   ) {
     insert_parti_2020_suggestions(
       objects: {

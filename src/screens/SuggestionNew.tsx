@@ -29,6 +29,7 @@ import HeaderSuggestion from "../components/HeaderSuggestion";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertSuggestion } from "../graphql/mutation";
+
 import iconFormClosed from "../../assets/iconFormClosed.png";
 const options = [
   { label: "30일 후 종료", value: 0 },
@@ -156,12 +157,15 @@ export default () => {
     if (fileArr.length > 0) {
       const urlArr = await Promise.all(
         fileArr.map(async (o, i: number) => {
-          return uploadFileUUID(o.uri, "posts").then((snap) =>
-            snap.ref.getDownloadURL()
-          );
+          return {
+            ...o,
+            uri: uploadFileUUID(o.uri, "posts").then((snap) =>
+              snap.ref.getDownloadURL()
+            ),
+          };
         })
       );
-      files = "{" + urlArr.join(",") + "}";
+      files = urlArr;
     }
     await insert({
       variables: {
@@ -280,10 +284,8 @@ export default () => {
           )}
           {fileArr.length > 0 && (
             <>
-              <Mint13 style={{ marginVertical: 20, marginHorizontal: 30 }}>
-                파일
-              </Mint13>
               <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
+                <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
                 {fileArr.map((o, i) => (
                   <ViewRow style={{ marginBottom: 10 }} key={i}>
                     <Body16 style={{ flex: 1, marginRight: 20 }}>
