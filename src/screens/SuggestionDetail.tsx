@@ -73,7 +73,7 @@ export default (props: {
   }
 
   function downloadFileHandler(file: DocumentResult) {
-    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
+    return Alert.alert("파일 다운로드", "해당 파일을 다운로드 하시겠습니까?", [
       { text: "취소", style: "cancel" },
       { text: "다운로드", onPress: () => downloadFile(file) },
     ]);
