@@ -25,6 +25,7 @@
     "apollo-link-error": "^1.1.12",
     "apollo-link-http": "^1.5.16",
     "apollo-link-ws": "^1.0.19",
+    "date-fns": "^2.12.0",
     "expo": "^36.0.0",
     "expo-blur": "~8.0.0",
     "expo-constants": "~8.0.0",

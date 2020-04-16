@@ -2,6 +2,8 @@ import React from "react";
 import { ViewStyle, StyleProp, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
+import { formatDistance } from "date-fns";
+import { ko } from "date-fns/locale";
 
 import { View, ViewRow, V0 } from "./View";
 import { Text, Title18, Mint14, Purple12 } from "./Text";
@@ -46,9 +48,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
     isNew = false;
   const lastPostedDate = new Date(board.last_posted_at);
   if (board.last_posted_at) {
-    const miliseconds = new Date().getTime() - lastPostedDate.getTime();
-    const min = Math.floor(miliseconds / 1000 / 60);
-    minutes = min + " 분 전";
+    minutes = formatDistance(lastPostedDate, new Date(), { locale: ko });
     if (board.usersBoardCheck.length) {
       isNew = lastPostedDate > new Date(board.usersBoardCheck[0].updated_at);
     }
