@@ -1,11 +1,14 @@
 import React from "react";
 import {
-  Image as ImageCache,
+  Image as ImageCacheInternal,
   CacheManager,
 } from "react-native-expo-image-cache";
 export { Image } from "react-native";
 import IV from "react-native-image-viewing";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
+
+import iconGroup from "../../assets/iconGroup.png";
+// import appIcon from "../../assets/appIcon.png";
 
 export function cachedArray(imgArray: ImageInfo[]) {
   return Promise.all(
@@ -38,4 +41,8 @@ export const ImageView = (props: {
   }
 };
 
-export { ImageCache, CacheManager };
+export const ImageCache = (props) => (
+  <ImageCacheInternal preview={iconGroup} {...props} />
+);
+
+export { CacheManager };
