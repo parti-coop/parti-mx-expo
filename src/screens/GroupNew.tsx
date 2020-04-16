@@ -8,7 +8,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Mint16, Title22, Sub16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { View } from "../components/View";
+import { View, V1 } from "../components/View";
 import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { LineSeperator } from "../components/LineDivider";
@@ -105,11 +105,13 @@ export default (props: StackHeaderProps) => {
           />
           <LineSeperator />
           {bg_img_url.length > 0 && (
-            <Image
-              source={{ uri: bg_img_url }}
-              resizeMode="contain"
-              style={{ width: 400, height: 200, marginTop: 30 }}
-            />
+            <V1 style={{ margin: 30, marginBottom: 0 }}>
+              <Image
+                source={{ uri: bg_img_url }}
+                resizeMode="cover"
+                style={{ width: "100%", height: 150 }}
+              />
+            </V1>
           )}
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />

@@ -1,16 +1,17 @@
 import React from "react";
-import { Image, ViewStyle, Keyboard } from "react-native";
+import { ViewStyle, Keyboard } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
+import { ImageCache, Image } from "../components/Image";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { Title22, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { View } from "../components/View";
-import { TORow, TORowCenter } from "../components/TouchableOpacity";
+import { View, V1 } from "../components/View";
+import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { LineSeperator } from "../components/LineDivider";
 
@@ -96,15 +97,16 @@ export default (props: {
           />
           <LineSeperator />
           {bg_img_url && (
-            <Image
-              source={{ uri: bg_img_url }}
-              resizeMode="contain"
-              style={{
-                width: 300,
-                height: 150,
-                marginTop: 30,
-              }}
-            />
+            <V1 style={{ margin: 30, marginBottom: 0 }}>
+              <ImageCache
+                uri={bg_img_url}
+                resizeMode="cover"
+                style={{
+                  width: "100%",
+                  height: 150,
+                }}
+              />
+            </V1>
           )}
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
