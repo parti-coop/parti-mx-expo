@@ -5,21 +5,22 @@ import {
 } from "react-native-expo-image-cache";
 export { Image } from "react-native";
 import IV from "react-native-image-viewing";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
-export function cachedArray(imgArray: string[]) {
+export function cachedArray(imgArray: ImageInfo[]) {
   return Promise.all(
-    imgArray.map((uri) => CacheManager.get(uri, {}).getPath())
+    imgArray.map((img) => {
+      return new Promise(async (res) => {
+        const uri = await CacheManager.get(img.uri, {}).getPath();
+        res({ uri });
+      });
+    })
   );
-}
-
-export async function ImageSourceArray(imgArray: string[]) {
-  const imgArr = await cachedArray(imgArray);
-  return imgArr.map((i: string) => ({ uri: i }));
 }
 
 export const ImageView = (props: {
   imageIndex: number;
-  images: string[] | null;
+  images: ImageInfo[] | null;
   visible: boolean;
   onRequestClose: () => void;
 }) => {
@@ -27,7 +28,7 @@ export const ImageView = (props: {
   const [imgArr, setImgArr] = React.useState(null);
   React.useEffect(() => {
     if (images?.length > 0) {
-      ImageSourceArray(images).then((imgArr) => setImgArr(imgArr));
+      cachedArray(images).then((imgArr) => setImgArr(imgArr));
     }
   }, [images]);
   if (imgArr) {

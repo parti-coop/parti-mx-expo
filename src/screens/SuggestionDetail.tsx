@@ -3,6 +3,7 @@ import { ViewStyle, TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { ImageCache, ImageView } from "../components/Image";
 import { Text, Mint13, Body16 } from "../components/Text";
@@ -132,11 +133,11 @@ export default (props: {
           </View>
           {images?.length > 0 && (
             <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-              {images?.map((o: string, i: number) => {
+              {images?.map((o: ImageInfo, i: number) => {
                 return (
                   <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
                     <ImageCache
-                      uri={o}
+                      uri={o.uri}
                       style={{
                         width: "100%",
                         height: 186,

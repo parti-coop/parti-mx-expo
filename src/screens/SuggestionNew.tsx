@@ -57,6 +57,14 @@ const bgStyle: StyleProp<ViewStyle> = {
   shadowRadius: 1,
   shadowOpacity: 1,
 };
+function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
+  return new Promise(async function (res) {
+    const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
+      snap.ref.getDownloadURL()
+    );
+    res({ ...o, uri });
+  });
+}
 
 export default () => {
   const [insert, { loading }] = useMutation(insertSuggestion);
@@ -80,7 +88,7 @@ export default () => {
     setSContext("");
     setSBody("");
     setImageArr([]);
-    // Keyboard.dismiss();
+    setFileArr([]);
   }
   async function addImage() {
     Keyboard.dismiss();
@@ -129,42 +137,39 @@ export default () => {
     ]);
   }
   async function insertPressHandler() {
-    if (sTitle.trim() == "" || sTitle.trim().length > 20) {
+    if (!sTitle.trim()) {
+      return showMessage({
+        message: "제안명을 입력해주세요.",
+        type: "warning",
+      });
+    }
+    if (sTitle?.trim()?.length > 20) {
       return showMessage({
         message: "제안명을 20자 이내로 입력해주세요.",
         type: "warning",
       });
     }
-    if (sBody.trim() == "") {
+    if (!sBody?.trim()) {
       return showMessage({
         message: "제안 내용을 입력해주세요.",
+        type: "warning",
+      });
+    }
+    if (!sContext?.trim()) {
+      return showMessage({
+        message: "제안 배경을 입력해주세요.",
         type: "warning",
       });
     }
     let images = null;
     dispatch({ type: "SET_LOADING", loading: true });
     if (imageArr.length > 0) {
-      const urlArr = await Promise.all(
-        imageArr.map(async (o, i: number) => {
-          return uploadFileUUID(o.uri, "posts").then((snap) =>
-            snap.ref.getDownloadURL()
-          );
-        })
-      );
-      images = "{" + urlArr.join(",") + "}";
+      const urlArr = await Promise.all(imageArr.map(promiseArray));
+      images = urlArr;
     }
     let files = null;
     if (fileArr.length > 0) {
-      const urlArr = await Promise.all(
-        fileArr.map(async (o, i: number) => {
-          return {
-            ...o,
-            uri: uploadFileUUID(o.uri, "posts").then((snap) =>
-              snap.ref.getDownloadURL()
-            ),
-          };
-        })
-      );
+      const urlArr = await Promise.all(fileArr.map(promiseArray));
       files = urlArr;
     }
     await insert({

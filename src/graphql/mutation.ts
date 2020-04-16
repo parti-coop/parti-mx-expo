@@ -34,11 +34,11 @@ export const insertSuggestion = gql`
     $board_id: Int!
     $group_id: Int!
     $sTitle: String!
-    $sContext: String!
+    $sContext: String
     $sBody: String!
     $user_id: Int!
     $closingMethod: Int!
-    $images: _text
+    $images: jsonb
     $files: jsonb
   ) {
     insert_parti_2020_suggestions(
@@ -79,7 +79,7 @@ export const updateSuggestion = gql`
     $sBody: String!
     $user_id: Int!
     $closingMethod: Int!
-    $images: _text
+    $images: jsonb
   ) {
     update_parti_2020_suggestions(
       where: { id: { _eq: $id } }
