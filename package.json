@@ -29,6 +29,7 @@
     "expo-blur": "~8.0.0",
     "expo-constants": "~8.0.0",
     "expo-document-picker": "~8.0.0",
+    "expo-file-system": "~8.0.0",
     "expo-font": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-secure-store": "~8.0.0",
