@@ -18,33 +18,42 @@ const { revisionId } = Constants.manifest;
 // }
 export default function () {
   const [, dispatch] = useStore();
+  async function refresh(json?: any) {
+    return Alert.alert(
+      "업데이트",
+      `업데이트 된 앱이 있습니다. 새로 다운받고 시작하시겠습니까?
+      \n 현재 앱 버전: ${revisionId}
+      \n 다음 앱 버전: ${json?.revisionId}`,
+      [
+        {
+          text: "취소",
+          style: "cancel",
+        },
+        {
+          text: "update",
+          onPress: () => dispatch({ type: "APP_UPDATE" }),
+        },
+      ]
+    );
+  }
   async function refreshApp() {
     // const json = await getLastPublishTime();
-    const res = await checkForUpdateAsync();
-    if (res.isAvailable) {
-      const json = res.manifest;
-      Alert.alert(
-        "업데이트",
-        `업데이트 된 앱이 있습니다. 새로 다운받고 시작하시겠습니까?
-        \n 현재 앱 버전: ${revisionId}
-        \n 다음 앱 버전: ${json.revisionId}`,
-        [
-          {
-            text: "취소",
-            style: "cancel",
-          },
-          {
-            text: "reload",
-            onPress: () => dispatch({ type: "APP_REFRESH" }),
-          },
-        ]
-      );
-    } else {
-      Alert.alert(
-        "최신 버전입니다.",
-        `revision: ${revisionId}
-        `
-      );
+    try {
+      const res = await checkForUpdateAsync();
+      if (res.isAvailable) {
+        const json = res.manifest;
+        refresh(json);
+      } else {
+        Alert.alert("최신 버전입니다.", `revision: ${revisionId}`);
+      }
+    } catch (error) {
+      Alert.alert("리로드", `리로드 하시겠습니까?`, [
+        { text: "취소", style: "cancel" },
+        {
+          text: "reload",
+          onPress: () => dispatch({ type: "APP_REFRESH" }),
+        },
+      ]);
     }
   }
   return refreshApp;

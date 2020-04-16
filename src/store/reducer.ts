@@ -22,6 +22,7 @@ export type Action =
       group_id: number;
       board_id: number;
     }
+  | { type: "APP_UPDATE" }
   | { type: "APP_REFRESH" };
 function persistSecureStore(state, payload) {
   const jsonStr = JSON.stringify({ ...state, ...payload });
@@ -30,11 +31,13 @@ function persistSecureStore(state, payload) {
 }
 export const reducer = createReducer<State, Action>(initialState, {
   ["APP_REFRESH"]: function (state, payload) {
+    SecureStore.deleteItemAsync(PERSIST_KEY).then(reloadAsync);
+    return initialState;
+  },
+  ["APP_UPDATE"]: function (state, payload) {
     SecureStore.deleteItemAsync(PERSIST_KEY)
       .then(fetchUpdateAsync)
-      .then(reloadAsync)
-      .then(() => SecureStore.getItemAsync(PERSIST_KEY))
-      .then(console.log);
+      .then(reloadAsync);
     return { ...initialState, loading: true };
   },
   ["LOGOUT"]: function (state, payload) {

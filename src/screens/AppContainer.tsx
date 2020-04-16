@@ -4,6 +4,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import { DocumentResult } from "expo-document-picker";
 
+import Intro from "./Intro";
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
 import SuggestionNew from "./SuggestionNew";
@@ -11,7 +12,6 @@ import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
 import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
-import CustomDrawer from "../components/CustomDrawer";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
 import Logout from "./Logout";
@@ -24,11 +24,14 @@ import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
 import Search from "./Search";
 
+import CustomDrawer from "../components/CustomDrawer";
+
 import { useStore } from "../Store";
 import { auth, IdTokenResult } from "../firebase";
 import { minutesDiff } from "../Utils/CalculateDays";
 export type RootStackParamList = {
   Home: {};
+  Intro: {};
   SuggestionList: { id: number };
   GroupNew: {};
   AccountDelete: {};
@@ -92,7 +95,7 @@ export default function MyDrawer() {
   }
   return (
     <Drawer.Navigator
-      initialRouteName={isNewUser ? "Profile" : "Home"}
+      initialRouteName={isNewUser ? "Profile" : "Intro"}
       drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={(props) => <CustomDrawer {...props} />}
       drawerStyle={{
@@ -102,6 +105,7 @@ export default function MyDrawer() {
         borderTopRightRadius: 20,
       }}
     >
+      <Drawer.Screen name="Intro" component={Intro} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="GroupNew" component={GroupNew} />
       <Drawer.Screen name="GroupSetting" component={GroupSetting} />

@@ -42,7 +42,9 @@ export default (props) => {
     setSearching(true);
   }
   function blurHandler() {
-    // setSearching(false);
+    if (!searchKeyword) {
+      setSearching(false);
+    }
     Keyboard.dismiss();
   }
   React.useEffect(() => {
