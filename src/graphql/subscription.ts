@@ -71,6 +71,7 @@ export const subscribeSuggestion = gql`
       context
       closing_method
       images
+      files
       updatedBy {
         name
         photo_url
@@ -133,7 +134,12 @@ export const subscribeBoardsByGroupId = gql`
       id
       title
       bg_img_url
-      boards(order_by: { last_posted_at: desc, updated_at: desc }) {
+      boards(
+        order_by: {
+          last_posted_at: desc_nulls_last
+          updated_at: desc_nulls_last
+        }
+      ) {
         id
         title
         body

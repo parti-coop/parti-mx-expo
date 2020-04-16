@@ -5,9 +5,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
 import { ImageCache, ImageView } from "../components/Image";
-import { Text } from "../components/Text";
+import { Text, Mint13, Body16 } from "../components/Text";
 import { View, V0 } from "../components/View";
-import { TO0 } from "../components/TouchableOpacity";
+import { TO0, TORow } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonVote from "../components/ButtonVote";
@@ -66,6 +66,9 @@ export default (props: {
     setIsVisible(true);
     setImgIndex(index);
   }
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading });
+  }, [loading]);
 
   if (!(data && data.parti_2020_suggestions_by_pk)) {
     return null;
@@ -95,6 +98,7 @@ export default (props: {
     votes_aggregate,
     comments,
     images,
+    files,
   } = data.parti_2020_suggestions_by_pk;
   const voteCount = votes_aggregate.aggregate.sum.count;
   const voteUsers = votes_aggregate.nodes.map((n: any) => ({
@@ -126,23 +130,37 @@ export default (props: {
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
             <Text style={bodyTextStyle}>{body}</Text>
           </View>
-          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            {images?.map((o: string, i: number) => {
-              return (
-                <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
-                  <ImageCache
-                    uri={o}
-                    style={{
-                      width: "100%",
-                      height: 186,
-                      marginBottom: 10,
-                      resizeMode: "cover",
-                    }}
-                  />
-                </TO0>
-              );
-            })}
-          </View>
+          {images?.length > 0 && (
+            <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+              {images?.map((o: string, i: number) => {
+                return (
+                  <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
+                    <ImageCache
+                      uri={o}
+                      style={{
+                        width: "100%",
+                        height: 186,
+                        marginBottom: 10,
+                        resizeMode: "cover",
+                      }}
+                    />
+                  </TO0>
+                );
+              })}
+            </View>
+          )}
+          {files?.length > 0 && (
+            <View style={{ marginHorizontal: 30, marginTop: 40 }}>
+              <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
+              {files?.map((o: { name: string; uri: string }, i: number) => {
+                return (
+                  <TORow key={i}>
+                    <Body16>{o.name}</Body16>
+                  </TORow>
+                );
+              })}
+            </View>
+          )}
           <SelectMenu items={options} />
           <V0 style={{ marginTop: 50 }}>
             {voteCount > 0 ? (
