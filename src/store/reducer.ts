@@ -7,9 +7,9 @@ export const initialState = {
   group_id: null,
   board_id: null,
   user_id: null,
-  loading: false
+  loading: false,
 };
-import { Updates } from "expo";
+import { fetchUpdateAsync, reloadAsync } from "expo-updates";
 export type State = typeof initialState;
 export type Action =
   | { type: "CHANGE_ALL"; isInit: boolean }
@@ -29,17 +29,18 @@ function persistSecureStore(state, payload) {
   return { ...state, ...payload };
 }
 export const reducer = createReducer<State, Action>(initialState, {
-  ["APP_REFRESH"]: function(state, payload) {
+  ["APP_REFRESH"]: function (state, payload) {
     SecureStore.deleteItemAsync(PERSIST_KEY)
-      .then(Updates.reload)
+      .then(fetchUpdateAsync)
+      .then(reloadAsync)
       .then(() => SecureStore.getItemAsync(PERSIST_KEY))
       .then(console.log);
-    return initialState;
+    return { ...initialState, loading: true };
   },
-  ["LOGOUT"]: function(state, payload) {
+  ["LOGOUT"]: function (state, payload) {
     return { ...state, user_id: null };
   },
   ["SET_GROUP"]: persistSecureStore,
   ["SET_GROUP_AND_BOARD"]: persistSecureStore,
-  ["SET_USER"]: persistSecureStore
+  ["SET_USER"]: persistSecureStore,
 });

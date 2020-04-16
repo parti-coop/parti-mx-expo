@@ -34,6 +34,7 @@
     "expo-font": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-secure-store": "~8.0.0",
+    "expo-updates": "~0.0.1-rc.0",
     "firebase": "^7.7.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
