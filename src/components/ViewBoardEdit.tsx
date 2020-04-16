@@ -1,22 +1,22 @@
 import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import { Image } from "./Image";
 import { View, ViewRow, V0 } from "./View";
-import { TO1, TO0 } from "./TouchableOpacity";
+import { TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
 import { updateBoard } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
-import Modal from "react-native-modal";
 import { TextInput } from "./TextInput";
+import { Board } from "../types";
 
 import iconNewsGray from "../../assets/iconNewsGray.png";
 import iconCommunityGray from "../../assets/iconCommunityGray.png";
 import iconSuggestGray from "../../assets/iconSuggestGray.png";
 import iconVoteGray from "../../assets/iconVoteGray.png";
+
 const options = [
   { value: "notice", label: "소식", icon: iconNewsGray },
   { value: "suggestion", label: "제안", icon: iconSuggestGray },
@@ -45,16 +45,7 @@ const rectangleStyle = {
   backgroundColor: "#f0f0f0",
   marginHorizontal: 1,
 } as ViewStyle;
-type Board = {
-  id: number;
-  title: string;
-  body: string;
-  is_member_only: boolean;
-  type: string;
-  updated_at: string;
-  last_posted_at: string;
-  usersBoardCheck: Array<{ updated_at: string }>;
-};
+
 export default (props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;

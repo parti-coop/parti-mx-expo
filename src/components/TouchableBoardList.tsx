@@ -10,6 +10,7 @@ import { Text, Title18, Mint14, Purple12 } from "./Text";
 import ViewRedDot from "./ViewRedDot";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
+import { Board } from "../types";
 
 import {
   updateUserBoardCheck,
@@ -17,16 +18,6 @@ import {
 } from "../graphql/mutation";
 import { useStore } from "../Store";
 
-type Board = {
-  id: number;
-  title: string;
-  body: string;
-  is_member_only: boolean;
-  type: string;
-  updated_at: string;
-  last_posted_at: string;
-  usersBoardCheck: Array<{ updated_at: string }>;
-};
 export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const { navigate } = useNavigation();
   const { board } = props;

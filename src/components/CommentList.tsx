@@ -10,32 +10,8 @@ import ButtonLikeComment from "./ButtonLikeComment";
 import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
-
 import useCommentDelete from "./useCommentDelete";
-
-interface Comment {
-  id: number;
-  body: string;
-  updated_at: string;
-  user: { name: string; votes: [{ count: number }]; photo_url: string };
-  likes: [
-    {
-      user: {
-        name: string;
-      };
-    }
-  ];
-  likes_aggregate: {
-    aggregate: {
-      count: number;
-    };
-    nodes: {
-      user: {
-        name: string;
-      };
-    };
-  };
-}
+import { Comment } from "../types";
 
 const commentModal = {
   width: 315,

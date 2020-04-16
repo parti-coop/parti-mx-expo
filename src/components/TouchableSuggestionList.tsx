@@ -12,33 +12,12 @@ import { SmallVerticalDivider } from "./LineDivider";
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { calculateDays } from "../Utils/CalculateDays";
+import { Suggestion } from "../types";
 
 import iconSympathy from "../../assets/iconSympathy.png";
 import iconComment from "../../assets/iconComment.png";
 import iconUser from "../../assets/iconUser.png";
-type Suggestion = {
-  id: number;
-  title: string;
-  body: string;
-  closed_at: string;
-  created_at: string;
-  votes_aggregate: {
-    aggregate: {
-      sum: {
-        count: number;
-      };
-    };
-  };
-  votes: Array<{ count: number }>;
-  updatedBy: {
-    name: string;
-  };
-  comments_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+
 export default (props: {
   suggestion: Suggestion;
   style?: StyleProp<ViewStyle>;
@@ -53,6 +32,7 @@ export default (props: {
   const votedByMe =
     suggestion.votes.length > 0 && suggestion.votes[0].count > 0;
   const daysLeft = calculateDays(suggestion.created_at);
+
   return (
     <TouchableOpacity
       onPress={(e) =>

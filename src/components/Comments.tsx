@@ -15,29 +15,7 @@ import { useStore } from "../Store";
 
 import iconSend from "../../assets/iconSend.png";
 import iconClosed from "../../assets/iconClosed.png";
-interface Comment {
-  id: number;
-  body: string;
-  updated_at: string;
-  user: { name: string; votes: [{ count: number }] };
-  likes: [
-    {
-      user: {
-        name: string;
-      };
-    }
-  ];
-  likes_aggregate: {
-    aggregate: {
-      count: number;
-    };
-    nodes: {
-      user: {
-        name: string;
-      };
-    };
-  };
-}
+import { Comment } from "../types";
 
 const box = {
   paddingHorizontal: 30,
@@ -133,12 +111,7 @@ export default (props: {
   }
   const commentWriter = (autoFocus = false) => (
     <View>
-      <ViewRow
-        style={{
-          paddingHorizontal: 30,
-          paddingBottom: 21,
-        }}
-      >
+      <ViewRow style={{ paddingHorizontal: 30 }}>
         <TextInput
           value={comm}
           placeholder="댓글입력"

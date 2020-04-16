@@ -10,17 +10,8 @@ import useBoardDelete from "./useBoardDelete";
 import SelectMenu from "./SelectMenu";
 import ButtonBoardType from "./ButtonBoardType";
 import ViewBoardEdit from "./ViewBoardEdit";
+import { Board } from "../types";
 
-type Board = {
-  id: number;
-  title: string;
-  body: string;
-  is_member_only: boolean;
-  type: string;
-  updated_at: string;
-  last_posted_at: string;
-  usersBoardCheck: Array<{ updated_at: string }>;
-};
 export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const { board, style } = props;
   const [isVisible, setVisible] = React.useState(false);
