@@ -1,13 +1,11 @@
 import React from "react";
-import { Notifications } from "expo";
-import { ViewStyle, TextStyle, Alert } from "react-native";
+import { Linking } from "expo";
+import { ViewStyle, TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
-import * as FileSystem from "expo-file-system";
 import { DocumentResult } from "expo-document-picker";
-import { showMessage } from "react-native-flash-message";
 
 import { ImageCache, ImageView } from "../components/Image";
 import { Text, Mint13, Body16 } from "../components/Text";
@@ -72,31 +70,10 @@ export default (props: {
     setImgIndex(index);
   }
 
-  function downloadFileHandler(file: DocumentResult) {
-    return Alert.alert("파일 다운로드", "해당 파일을 다운로드 하시겠습니까?", [
-      { text: "취소", style: "cancel" },
-      { text: "다운로드", onPress: () => downloadFile(file) },
-    ]);
+  function openFileHandler(file: DocumentResult) {
+    Linking.openURL(file.uri);
   }
-  async function downloadFile(file: DocumentResult) {
-    dispatch({ type: "SET_LOADING", loading: true });
-    const res = await FileSystem.downloadAsync(
-      file.uri,
-      FileSystem.documentDirectory + file.name
-    );
-    const localnotification = {
-      title: "Download has finished",
-      body: file.name + " has been downloaded. Tap to open file.",
-      ios: { sound: true },
-      data: { fileUri: res.uri },
-    };
-    Notifications.presentLocalNotificationAsync(localnotification);
-    // console.log(res);
-    dispatch({ type: "SET_LOADING", loading: false });
-    if (res.status === 200) {
-      showMessage({ type: "success", message: "다운로드 하였습니다." });
-    }
-  }
+
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
@@ -185,7 +162,7 @@ export default (props: {
               <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
               {files?.map((o: DocumentResult, i: number) => {
                 return (
-                  <TORow key={i} onLongPress={() => downloadFileHandler(o)}>
+                  <TORow key={i} onPress={() => openFileHandler(o)}>
                     <Body16>{o.name}</Body16>
                   </TORow>
                 );
