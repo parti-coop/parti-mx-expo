@@ -9,7 +9,7 @@ import { DocumentResult } from "expo-document-picker";
 
 import { ImageCache, ImageView } from "../components/Image";
 import { Text, Mint13, Body16 } from "../components/Text";
-import { View, V0 } from "../components/View";
+import { View, V0, ViewRow } from "../components/View";
 import { TO0, TORow } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
@@ -122,13 +122,16 @@ export default (props: {
         <HeaderSuggestion />
         <ViewTitle title={title} updated_at={updated_at} />
         <View style={box}>
-          <View style={{ margin: 30, marginBottom: 20 }}>
-            <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
-            <UserProfileWithName
-              name={createdBy.name}
-              photoUrl={createdBy.photo_url}
-            />
-          </View>
+          <ViewRow style={{ margin: 30, marginBottom: 20 }}>
+            <View>
+              <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
+              <UserProfileWithName
+                name={createdBy.name}
+                photoUrl={createdBy.photo_url}
+              />
+            </View>
+            <SelectMenu items={options} />
+          </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안 배경</Text>
@@ -169,7 +172,6 @@ export default (props: {
               })}
             </View>
           )}
-          <SelectMenu items={options} />
           <V0 style={{ marginTop: 50 }}>
             {voteCount > 0 ? (
               <ButtonDevote id={id} />

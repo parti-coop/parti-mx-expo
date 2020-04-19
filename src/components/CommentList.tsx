@@ -74,8 +74,8 @@ export default (props: {
         <Grey12 style={{ marginLeft: 9 }}>
           {new Date(updated_at).toLocaleString("ko")}
         </Grey12>
+        <SelectMenu items={options} />
       </ViewRow>
-      <SelectMenu items={options} style={{ right: 0, top: 0 }} />
 
       <Text style={{ color: "#555555", fontSize: 16, marginVertical: 25 }}>
         {body}

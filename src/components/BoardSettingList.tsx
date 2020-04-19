@@ -46,7 +46,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
         }}
       />
       <Title14 style={{ flex: 1 }}>{board.title}</Title14>
-      <SelectMenu items={items} style={{ right: 0, position: "relative" }} />
+      <SelectMenu items={items} />
       <Modal
         isVisible={isVisible}
         animationIn="fadeIn"

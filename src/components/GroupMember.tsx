@@ -49,10 +49,7 @@ export default (props: {
       <ViewRow key={i} style={{ paddingHorizontal: 30 }}>
         <UserProfileNameDate name={name} photoUrl={photo_url} date={date} />
         {memberType === "user" && userStatus === "organizer" && (
-          <SelectMenu
-            items={options}
-            style={{ position: "relative", right: 0 }}
-          />
+          <SelectMenu items={options} />
         )}
       </ViewRow>
     );

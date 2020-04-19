@@ -5,18 +5,12 @@ import Modal from "react-native-modal";
 
 import { Image } from "./Image";
 import { View } from "./View";
-import { Text } from "./Text";
+import { White15 } from "./Text";
 import { TouchableOpacity, TOCenter } from "./TouchableOpacity";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
 import btnDetailMoreW from "../../assets/btnDetailMoreW.png";
 
-const textStyle = {
-  fontSize: 15,
-  textAlign: "left",
-  color: "#ffffff",
-  marginVertical: 12,
-} as TextStyle;
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
   // height: 197,
@@ -51,11 +45,11 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
       style={[
         {
           flex: 1,
-          position: "absolute",
-          top: 39,
-          right: 31,
+          // position: "absolute",
+          // top: 39,
+          // right: 31,
           alignItems: "flex-end",
-          zIndex: 1,
+          // zIndex: 1,
         },
         style,
       ]}
@@ -68,8 +62,8 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           width: 36,
           height: 35,
           backgroundColor: isVisible ? "#30ad9f" : "#ffffff",
-          position: "relative",
-          zIndex: 2,
+          // position: "relative",
+          // zIndex: 2,
         }}
       >
         <Image source={isVisible ? btnDetailMoreW : btnDetailMore} />
@@ -82,7 +76,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
               onPress={(e) => changeHandler(item)}
               style={{ paddingHorizontal: 25 }}
             >
-              <Text style={textStyle}>{item.label}</Text>
+              <White15 style={{ marginVertical: 12 }}>{item.label}</White15>
               {i !== items.length - 1 && (
                 <View
                   style={{ width: 131, height: 1, backgroundColor: "#2ea497" }}
