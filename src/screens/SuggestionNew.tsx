@@ -225,16 +225,8 @@ export default () => {
             />
           </ViewRow>
         </View>
-        <View
-          style={[
-            bgStyle,
-            {
-              marginTop: 10,
-              flex: 1,
-            },
-          ]}
-        >
-          <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
+        <View style={[bgStyle, { marginTop: 10 }]}>
+          <View style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}>
             <Mint13 style={{ paddingBottom: 19 }}>제안 배경</Mint13>
             <AutoGrowingTextInput
               value={sContext}
@@ -243,15 +235,15 @@ export default () => {
               placeholder="제안 배경을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSContext}
-              style={[textStyle]}
+              style={[textStyle, { minHeight: 50 }]}
               ref={contextRef}
             />
           </View>
           <LineSeperator />
           <View
             style={{
-              padding: 30,
-              paddingBottom: 20,
+              paddingHorizontal: 30,
+              paddingVertical: 20,
               flex: 1,
             }}
           >
@@ -263,7 +255,7 @@ export default () => {
               placeholder="제안 내용을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSBody}
-              style={[textStyle]}
+              style={[textStyle, { minHeight: 180 }]}
             />
           </View>
           <LineSeperator />

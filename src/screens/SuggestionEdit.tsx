@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleProp, TextStyle, Keyboard, Vibration, Alert } from "react-native";
+import {
+  StyleProp,
+  TextStyle,
+  Keyboard,
+  Vibration,
+  Alert,
+  ViewStyle,
+} from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -44,6 +51,19 @@ const textStyle: StyleProp<TextStyle> = {
   color: "#555555",
   paddingHorizontal: 0,
   flex: 1,
+};
+const bgStyle: StyleProp<ViewStyle> = {
+  alignItems: "stretch",
+  borderRadius: 25,
+  backgroundColor: "#ffffff",
+  shadowColor: "rgba(0, 0, 0, 0.15)",
+  elevation: 1,
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowRadius: 1,
+  shadowOpacity: 1,
 };
 function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
   return new Promise(async function (res) {
@@ -186,21 +206,7 @@ export default (props: {
             글 쓰기
           </Text>
         </View>
-        <View
-          style={{
-            alignItems: "stretch",
-            borderRadius: 25,
-            backgroundColor: "#ffffff",
-            shadowColor: "rgba(0, 0, 0, 0.15)",
-            elevation: 1,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowRadius: 1,
-            shadowOpacity: 1,
-          }}
-        >
+        <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
             <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
             <TextInput
@@ -226,23 +232,7 @@ export default (props: {
             />
           </ViewRow>
         </View>
-        <View
-          style={{
-            marginTop: 10,
-            alignItems: "stretch",
-            borderRadius: 25,
-            backgroundColor: "#ffffff",
-            shadowColor: "rgba(0, 0, 0, 0.15)",
-            elevation: 1,
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowRadius: 1,
-            shadowOpacity: 1,
-            flex: 1,
-          }}
-        >
+        <View style={[bgStyle, { marginTop: 10 }]}>
           <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
             <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
             <AutoGrowingTextInput
@@ -252,7 +242,7 @@ export default (props: {
               placeholder="제안 배경을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSContext}
-              style={[textStyle]}
+              style={[textStyle, , { minHeight: 50 }]}
               ref={contextRef}
             />
           </View>
@@ -272,7 +262,7 @@ export default (props: {
               placeholder="제안 내용을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSBody}
-              style={[textStyle]}
+              style={[textStyle, { minHeight: 180 }]}
             />
           </View>
           <LineSeperator />
