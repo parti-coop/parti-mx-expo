@@ -5,7 +5,7 @@ import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
-import { signInWithGoogle } from "../firebase";
+import { signUpWithGoogle } from "../firebase";
 
 import iconEmail from "../../assets/iconEmail.png";
 import iconGoogle from "../../assets/iconGoogle.png";
@@ -53,7 +53,7 @@ export default (props) => {
         }}
       >
         <TORow
-          onPress={signInWithGoogle}
+          onPress={signUpWithGoogle}
           style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
         >
           <Image
