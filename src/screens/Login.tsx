@@ -5,6 +5,8 @@ import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
+import { signInWithGoogle } from "../firebase";
+
 import iconEmail from "../../assets/iconEmail.png";
 import iconGoogle from "../../assets/iconGoogle.png";
 const roundedRectangle12 = {
@@ -15,13 +17,13 @@ const roundedRectangle12 = {
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: "#c9c9c9",
-  marginBottom: 7
+  marginBottom: 7,
 } as ViewStyle;
 const textStyle = {
   fontSize: 16,
-  color: "#777777"
+  color: "#777777",
 } as ViewStyle;
-export default props => {
+export default (props) => {
   const { navigate } = props.navigation;
   function register() {
     navigate("Signup");
@@ -47,11 +49,11 @@ export default props => {
         style={{
           marginHorizontal: 60,
           justifyContent: "flex-end",
-          marginBottom: 128
+          marginBottom: 128,
         }}
       >
         <TORow
-          onPress={loginEmail}
+          onPress={signInWithGoogle}
           style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
         >
           <Image

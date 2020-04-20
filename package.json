@@ -32,6 +32,7 @@
     "expo-document-picker": "~8.0.0",
     "expo-file-system": "~8.0.0",
     "expo-font": "~8.0.0",
+    "expo-google-sign-in": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-secure-store": "~8.0.0",
     "expo-updates": "~0.0.1-rc.0",
