@@ -34,7 +34,7 @@ export default functions
     if (user.email && user.email.indexOf("@parti.") !== -1) {
       customClaims = {
         "https://hasura.io/jwt/claims": {
-          "x-hasura-default-role": "admin",
+          "x-hasura-default-role": "user",
           "x-hasura-allowed-roles": ["user", "admin"],
           "x-hasura-user-id": String(userId)
         }
