@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.2",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "splash": {
@@ -26,11 +26,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "coop.parti.p2020",
-      "buildNumber": "1.0.2"
+      "buildNumber": "0.1.0"
     },
     "android": {
       "package": "coop.parti.p2020",
-      "versionCode": 1
+      "versionCode": 2
     }
   }
 }
