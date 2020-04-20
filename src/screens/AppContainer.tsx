@@ -47,7 +47,7 @@ export type RootStackParamList = {
       title: string;
       context: string;
       body: string;
-      closing_method: number;
+      metadata: any;
       images: ImageInfo[];
       files: DocumentResult[];
     };

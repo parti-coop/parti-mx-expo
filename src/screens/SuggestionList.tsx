@@ -13,7 +13,7 @@ import HeaderList from "../components/HeaderList";
 import ButtonSuggestionNew from "../components/ButtonSuggestionNew";
 
 import { useStore } from "../Store";
-import { subscribeSuggestionsByBoardId } from "../graphql/subscription";
+import { subscribepostsByBoardId } from "../graphql/subscription";
 
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
@@ -22,7 +22,7 @@ export default (props: {
   const [store, dispatch] = useStore();
   const board_id = props.route.params.id;
   const { group_id, user_id } = store;
-  const { data, loading } = useSubscription(subscribeSuggestionsByBoardId, {
+  const { data, loading } = useSubscription(subscribepostsByBoardId, {
     variables: { id: board_id, userId: user_id },
   });
   React.useEffect(() => {
@@ -35,7 +35,7 @@ export default (props: {
   if (!data?.parti_2020_boards_by_pk) {
     return null;
   }
-  const { suggestions, title } = data.parti_2020_boards_by_pk;
+  const { posts, title } = data.parti_2020_boards_by_pk;
   return (
     <>
       <HeaderList />
@@ -77,7 +77,7 @@ export default (props: {
             marginBottom: 60,
           }}
         >
-          {suggestions.map((sugg: any, i: number) => {
+          {posts.map((sugg: any, i: number) => {
             return <TouchableSuggestionList key={i} suggestion={sugg} />;
           })}
         </View>

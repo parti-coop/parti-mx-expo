@@ -37,19 +37,18 @@ export const insertSuggestion = gql`
     $sContext: String
     $sBody: String!
     $user_id: Int!
-    $closingMethod: Int!
+    $metadata: jsonb
     $images: jsonb
     $files: jsonb
   ) {
-    insert_parti_2020_suggestions(
+    insert_parti_2020_posts(
       objects: {
         body: $sBody
         title: $sTitle
         context: $sContext
         board_id: $board_id
-        created_by: $user_id
         updated_by: $user_id
-        closing_method: $closingMethod
+        metadata: $metadata
         images: $images
         files: $files
       }
@@ -77,19 +76,17 @@ export const updateSuggestion = gql`
     $sTitle: String!
     $sContext: String!
     $sBody: String!
-    $user_id: Int!
-    $closingMethod: Int!
+    $metadata: jsonb
     $images: jsonb
     $files: jsonb
   ) {
-    update_parti_2020_suggestions(
+    update_parti_2020_posts(
       where: { id: { _eq: $id } }
       _set: {
         body: $sBody
         title: $sTitle
         context: $sContext
-        updated_by: $user_id
-        closing_method: $closingMethod
+        metadata: $metadata
         images: $images
         files: $files
       }
@@ -101,24 +98,28 @@ export const updateSuggestion = gql`
 
 export const deleteSuggestion = gql`
   mutation($id: Int!) {
-    delete_parti_2020_suggestions(where: { id: { _eq: $id } }) {
+    delete_parti_2020_posts(where: { id: { _eq: $id } }) {
       affected_rows
     }
   }
 `;
 
-export const voteSuggestion = gql`
-  mutation($id: Int!, $user_id: Int!) {
-    insert_parti_2020_vote(objects: { suggestion_id: $id, user_id: $user_id }) {
+export const likeSuggestion = gql`
+  mutation($id: Int!) {
+    insert_parti_2020_posts_like(
+      objects: { post_id: $id, count: 1 }
+      on_conflict: { constraint: posts_like_pkey, update_columns: [count] }
+    ) {
       affected_rows
     }
   }
 `;
 
-export const devoteSuggestion = gql`
+export const unlikeSuggestion = gql`
   mutation($id: Int!, $user_id: Int!) {
-    delete_parti_2020_vote(
-      where: { suggestion_id: { _eq: $id }, user_id: { _eq: $user_id } }
+    update_parti_2020_posts_like(
+      where: { post_id: { _eq: $id }, user_id: { _eq: $user_id } }
+      _set: { count: 0 }
     ) {
       affected_rows
     }

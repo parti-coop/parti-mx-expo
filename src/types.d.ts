@@ -13,7 +13,7 @@ export interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: { name: string; votes: [{ count: number }]; photo_url: string };
+  user: { name: string; likes: [{ count: number }]; photo_url: string };
   likes: [
     {
       user: {
@@ -37,16 +37,16 @@ export type Suggestion = {
   id: number;
   title: string;
   body: string;
-  closed_at: string;
+  metadata: { closed_at: string; closing_method: number };
   created_at: string;
-  votes_aggregate: {
+  likes_aggregate: {
     aggregate: {
       sum: {
         count: number;
       };
     };
   };
-  votes: Array<{ count: number }>;
+  likes: Array<{ count: number }>;
   updatedBy: {
     name: string;
   };

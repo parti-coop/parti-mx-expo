@@ -87,7 +87,7 @@ export default (props: {
   const [sContext, setSContext] = React.useState(suggestion.context);
   const [sBody, setSBody] = React.useState(suggestion.body);
   const [closingMethod, setClosingMethod] = React.useState(
-    suggestion.closing_method
+    suggestion.metadata.closing_method
   );
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
     suggestion.images ?? []
@@ -184,7 +184,7 @@ export default (props: {
     setSTitle(suggestion.title);
     setSContext(suggestion.context);
     setSBody(suggestion.body);
-    setClosingMethod(suggestion.closing_method);
+    setClosingMethod(suggestion.metadata.closing_method);
     setImageArr(suggestion.images ?? []);
     setFileArr(suggestion.files ?? []);
   }, [suggestion]);

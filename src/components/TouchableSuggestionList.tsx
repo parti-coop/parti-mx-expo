@@ -28,9 +28,9 @@ export default (props: {
   const [update, { data }] = useMutation(updateUserBoardCheck, {
     variables: { user_id, board_id: suggestion.id },
   });
-  const voteCount = suggestion.votes_aggregate.aggregate.sum.count;
+  const voteCount = suggestion.likes_aggregate.aggregate.sum.count;
   const votedByMe =
-    suggestion.votes.length > 0 && suggestion.votes[0].count > 0;
+    suggestion.likes.length > 0 && suggestion.likes[0].count > 0;
   const daysLeft = calculateDays(suggestion.created_at);
 
   return (

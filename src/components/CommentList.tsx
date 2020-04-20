@@ -70,7 +70,7 @@ export default (props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        <Text>{user.votes[0] && "동의"}</Text>
+        <Text>{user.likes[0] && "동의"}</Text>
         <Grey12 style={{ marginLeft: 9 }}>
           {new Date(updated_at).toLocaleString("ko")}
         </Grey12>

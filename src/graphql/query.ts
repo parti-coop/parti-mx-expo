@@ -28,40 +28,14 @@ export const getGroups = gql`
   }
 `;
 
-export const getSuggestionsByGroupId = gql`
-  query($id: Int!) {
-    parti_2020_groups_by_pk(id: $id) {
-      id
-      title
-      boards {
-        id
-        title
-      }
-      boardDefault {
-        id
-        body
-        slug
-        suggestions {
-          body
-          created_at
-          id
-          updatedBy {
-            email
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const getSuggestion = gql`
   query($id: Int!) {
-    parti_2020_suggestions_by_pk(id: $id) {
+    parti_2020_posts_by_pk(id: $id) {
       id
       title
       body
       context
-      closing_method
+      metadata
       updatedBy {
         name
       }
@@ -70,7 +44,7 @@ export const getSuggestion = gql`
       }
       created_at
       updated_at
-      votes_aggregate {
+      likes_aggregate {
         aggregate {
           sum {
             count
@@ -185,7 +159,7 @@ export const searchOrganizer = gql`
 
 export const searchPosts = gql`
   query($searchKeyword: String!, $group_id: Int!, $user_id: Int!) {
-    parti_2020_suggestions(
+    parti_2020_posts(
       where: {
         _and: [
           {

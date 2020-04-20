@@ -52,10 +52,10 @@ export default () => {
   }
   function results() {
     if (keyword.length && data) {
-      if (data.parti_2020_suggestions?.length > 0) {
+      if (data.parti_2020_posts?.length > 0) {
         return (
           <View style={{ paddingVertical: 10 }}>
-            {data.parti_2020_suggestions.map(
+            {data.parti_2020_posts.map(
               (posts: SearchResultType, index: number) => {
                 const { title, createdBy, created_at, board, id } = posts;
                 const date = new Date(created_at).toLocaleString("ko");
@@ -78,7 +78,7 @@ export default () => {
                         <Grey12>{board.title}</Grey12>
                       </ViewRow>
                     </View>
-                    {data.parti_2020_suggestions.length !== index + 1 && (
+                    {data.parti_2020_posts.length !== index + 1 && (
                       <LineSeperator />
                     )}
                   </TouchableOpacity>

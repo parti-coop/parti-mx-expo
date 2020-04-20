@@ -13,8 +13,8 @@ import { View, V0, ViewRow } from "../components/View";
 import { TO0, TORow } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import ButtonVote from "../components/ButtonVote";
-import ButtonDevote from "../components/ButtonDevote";
+import ButtonLike from "../components/ButtonLike";
+import ButtonUnlike from "../components/ButtonUnlike";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import HeaderShare from "../components/HeaderShare";
 import HeaderSuggestion from "../components/HeaderSuggestion";
@@ -78,16 +78,16 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
-  if (!(data && data.parti_2020_suggestions_by_pk)) {
+  if (!(data && data.parti_2020_posts_by_pk)) {
     return null;
   }
-  const { parti_2020_suggestions_by_pk } = data;
+  const { parti_2020_posts_by_pk } = data;
   const options = [
     {
       label: "수정하기",
       handler: () =>
         navigate("SuggestionEdit", {
-          suggestion: parti_2020_suggestions_by_pk,
+          suggestion: parti_2020_posts_by_pk,
         }),
     },
     // { label: "제안 정리", handler: () => {} },
@@ -99,17 +99,17 @@ export default (props: {
     title,
     body,
     context,
-    closing_method,
+    metadata,
     createdBy,
     updated_at,
     created_at,
-    votes_aggregate,
+    likes_aggregate,
     comments,
     images,
     files,
-  } = data.parti_2020_suggestions_by_pk;
-  const voteCount = votes_aggregate.aggregate.sum.count;
-  const voteUsers = votes_aggregate.nodes.map((n: any) => ({
+  } = data.parti_2020_posts_by_pk;
+  const voteCount = likes_aggregate.aggregate.sum.count;
+  const voteUsers = likes_aggregate.nodes.map((n: any) => ({
     name: n.user.name,
     created_at: n.created_at,
     photo_url: n.user.photo_url,
@@ -174,12 +174,12 @@ export default (props: {
           )}
           <V0 style={{ marginTop: 50 }}>
             {voteCount > 0 ? (
-              <ButtonDevote id={id} />
+              <ButtonUnlike id={id} />
             ) : (
-              <ButtonVote
+              <ButtonLike
                 id={id}
                 created_at={created_at}
-                closing_method={closing_method}
+                closing_method={metadata?.closing_method}
               />
             )}
           </V0>

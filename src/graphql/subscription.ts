@@ -21,28 +21,25 @@ export const subscribeGroupsByUserId = gql`
   }
 `;
 
-export const subscribeSuggestionsByBoardId = gql`
+export const subscribepostsByBoardId = gql`
   subscription($id: Int!, $userId: Int!) {
     parti_2020_boards_by_pk(id: $id) {
       id
       body
       title
       slug
-      suggestions(
-        where: { is_open: { _eq: true } }
-        order_by: { updated_at: desc }
-      ) {
+      posts(order_by: { updated_at: desc }) {
         title
         body
         context
-        closing_method
+        metadata
         created_at
-        closed_at
+
         id
-        votes(where: { user_id: { _eq: $userId } }) {
+        likes(where: { user_id: { _eq: $userId } }) {
           count
         }
-        votes_aggregate {
+        likes_aggregate {
           aggregate {
             sum {
               count
@@ -64,12 +61,12 @@ export const subscribeSuggestionsByBoardId = gql`
 
 export const subscribeSuggestion = gql`
   subscription($id: Int!, $user_id: Int!) {
-    parti_2020_suggestions_by_pk(id: $id) {
+    parti_2020_posts_by_pk(id: $id) {
       id
       title
       body
       context
-      closing_method
+      metadata
       images
       files
       updatedBy {
@@ -87,7 +84,7 @@ export const subscribeSuggestion = gql`
         user {
           name
           photo_url
-          votes(where: { suggestion_id: { _eq: $id } }) {
+          likedPosts(where: { post_id: { _eq: $id } }) {
             count
           }
         }
@@ -110,7 +107,7 @@ export const subscribeSuggestion = gql`
       }
       created_at
       updated_at
-      votes_aggregate {
+      likes_aggregate {
         aggregate {
           sum {
             count

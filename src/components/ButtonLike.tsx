@@ -8,7 +8,7 @@ import { Text } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
 import { useStore } from "../Store";
-import { voteSuggestion } from "../graphql/mutation";
+import { likeSuggestion } from "../graphql/mutation";
 
 import iconAgree from "../../assets/iconAgree.png";
 
@@ -31,10 +31,10 @@ export default (props: {
   created_at: string;
   closing_method: number;
 }) => {
-  const [{ user_id }, dispatch] = useStore();
-  const { created_at, closing_method, id } = props;
-  const [vote, { loading }] = useMutation(voteSuggestion, {
-    variables: { id, user_id },
+  const [, dispatch] = useStore();
+  const { created_at, closing_method = 0, id } = props;
+  const [vote, { loading }] = useMutation(likeSuggestion, {
+    variables: { id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });

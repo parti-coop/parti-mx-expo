@@ -180,7 +180,7 @@ export default () => {
         board_id,
         group_id,
         user_id,
-        closingMethod,
+        metadata: { closing_method: closingMethod },
         images,
         files,
       },

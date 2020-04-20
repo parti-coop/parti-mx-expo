@@ -9,7 +9,7 @@ import { Mint13, Red16 } from "./Text";
 import { TO0 } from "./TouchableOpacity";
 
 import { useStore } from "../Store";
-import { devoteSuggestion } from "../graphql/mutation";
+import { unlikeSuggestion } from "../graphql/mutation";
 
 import iconAgreeRed from "../../assets/iconAgreeRed.png";
 const bgMenuBgCopy = {
@@ -22,14 +22,14 @@ const bgMenuBgCopy = {
 } as ViewProps;
 export default ({ id }: { id: number }) => {
   const [{ user_id }, dispatch] = useStore();
-  const [devote, { loading }] = useMutation(devoteSuggestion, {
+  const [unlike, { loading }] = useMutation(unlikeSuggestion, {
     variables: { id, user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  function devoteHandler() {
-    devote().then(() =>
+  function unlikeHandler() {
+    unlike().then(() =>
       showMessage({
         type: "success",
         message: "제안 동의가 취소되었습니다",
@@ -37,7 +37,7 @@ export default ({ id }: { id: number }) => {
     );
   }
   return (
-    <TO0 onPress={devoteHandler}>
+    <TO0 onPress={unlikeHandler}>
       <ViewRowCenter style={bgMenuBgCopy}>
         <Image source={iconAgreeRed} style={{ marginRight: 4 }} />
         <Red16>제안 동의함</Red16>
