@@ -179,7 +179,7 @@ export default () => {
         sBody,
         board_id,
         group_id,
-        metadata: { closing_method: closingMethod },
+        metadata: { closingMethod },
         images,
         files,
       },

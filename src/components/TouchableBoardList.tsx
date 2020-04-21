@@ -40,8 +40,8 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
   const lastPostedDate = new Date(board.last_posted_at);
   if (board.last_posted_at) {
     minutes = formatDistanceToNow(lastPostedDate, { locale: ko });
-    if (board.usersBoardCheck.length) {
-      isNew = lastPostedDate > new Date(board.usersBoardCheck[0].updated_at);
+    if (board.users.length) {
+      isNew = lastPostedDate > new Date(board.users[0].updated_at);
     }
   }
 
@@ -80,7 +80,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
           <Title18>{board.title}</Title18>
-          {!board?.permission === "member" && (
+          {board?.permission === "all" && (
             <V0
               style={[
                 {

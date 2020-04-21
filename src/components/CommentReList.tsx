@@ -11,8 +11,7 @@ import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
-import CommentReList from "./CommentReList";
-import { Comment, RecommentArgs } from "../types";
+import { Comment } from "../types";
 
 const commentModal = {
   width: 315,
@@ -34,19 +33,19 @@ const commentModal = {
 export default (props: {
   comment: Comment;
   edit: (arg: { body: string; id: number }) => void;
-  recomment: (arg: RecommentArgs) => void;
+  recomment: (args: { reUser: Comment["user"] }) => void;
   style?: ViewStyle;
 }) => {
   const { comment, edit: editHandler, style, recomment } = props;
-  const { id, body, likes_aggregate, user, updated_at, likes, re } = comment;
+  const { id, body, likes_aggregate, user, updated_at, likes } = comment;
   const [isVisible, setVisible] = React.useState(false);
   const [deleteComment] = useCommentDelete(id);
+  function recommentHandler() {
+    recomment({ reUser: user });
+  }
   function deleteHandler() {
     deleteComment();
     setVisible(false);
-  }
-  function recommentHandler({ reUser = null }) {
-    recomment({ id, user, reUser });
   }
   const options = [
     {
@@ -61,10 +60,11 @@ export default (props: {
     <View
       style={[
         {
-          marginTop: 14,
-          paddingBottom: 25,
-          borderBottomWidth: 1,
-          borderBottomColor: "#e4e4e4",
+          marginTop: 25,
+          paddingTop: 20,
+          paddingLeft: 25,
+          borderTopWidth: 1,
+          borderTopColor: "#e4e4e4",
         },
         style,
       ]}
@@ -97,15 +97,6 @@ export default (props: {
           />
         )}
       </ViewRow>
-      {re.map((u, i) => (
-        <CommentReList
-          comment={u}
-          key={i}
-          edit={editHandler}
-          recomment={recommentHandler}
-          style={re.length === i + 1 && { borderBottomWidth: 0 }}
-        />
-      ))}
       <Modal
         isVisible={isVisible}
         animationIn="fadeIn"

@@ -20,12 +20,12 @@ const bgMenuBg = {
 } as ViewProps;
 export default (props: { id: number; style?: ViewStyle; count: number }) => {
   const { id, style, count } = props;
-  const [{ user_id }, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [like, { loading }] = useMutation(likeComment, {
-    variables: { comment_id: id, user_id },
+    variables: { comment_id: id },
   });
   function pressHandler() {
-    like().then(console.log).catch(console.error);
+    like();
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });

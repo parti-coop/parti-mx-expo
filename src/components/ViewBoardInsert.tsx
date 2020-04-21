@@ -58,7 +58,7 @@ export default (props: {
     setType(value);
   }
   const [insert, { error, data }] = useMutation(insertBoard, {
-    variables: { group_id, user_id, type, title, body },
+    variables: { group_id, type, title, body },
   });
   if (error) {
     console.log(error);

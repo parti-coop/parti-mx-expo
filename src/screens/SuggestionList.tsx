@@ -13,7 +13,7 @@ import HeaderList from "../components/HeaderList";
 import ButtonSuggestionNew from "../components/ButtonSuggestionNew";
 
 import { useStore } from "../Store";
-import { subscribepostsByBoardId } from "../graphql/subscription";
+import { subscribePostsByBoardId } from "../graphql/subscription";
 
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
@@ -22,7 +22,7 @@ export default (props: {
   const [store, dispatch] = useStore();
   const board_id = props.route.params.id;
   const { group_id, user_id } = store;
-  const { data, loading } = useSubscription(subscribepostsByBoardId, {
+  const { data, loading } = useSubscription(subscribePostsByBoardId, {
     variables: { id: board_id, userId: user_id },
   });
   React.useEffect(() => {

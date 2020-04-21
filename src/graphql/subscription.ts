@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { commentsResult } from "./fragment";
 export const whoami = gql`
   subscription($email: String!) {
     mx_users(where: { email: { _eq: $email } }) {
@@ -21,7 +22,7 @@ export const subscribeGroupsByUserId = gql`
   }
 `;
 
-export const subscribepostsByBoardId = gql`
+export const subscribePostsByBoardId = gql`
   subscription($id: Int!, $userId: Int!) {
     mx_boards_by_pk(id: $id) {
       id
@@ -34,15 +35,14 @@ export const subscribepostsByBoardId = gql`
         context
         metadata
         created_at
-
         id
-        likes(where: { user_id: { _eq: $userId } }) {
-          count
+        users(where: { user_id: { _eq: $userId } }) {
+          like_count
         }
-        likes_aggregate {
+        users_aggregate {
           aggregate {
             sum {
-              count
+              like_count
             }
           }
         }
@@ -77,52 +77,30 @@ export const subscribeSuggestion = gql`
         name
         photo_url
       }
-      comments(order_by: { created_at: asc }) {
-        id
-        body
-        updated_at
-        createdBy {
-          name
-          photo_url
-          likedPosts(where: { post_id: { _eq: $id } }) {
-            count
-          }
-        }
-        likes(where: { user_id: { _eq: $user_id } }) {
-          user {
-            name
-          }
-        }
-        likes_aggregate {
-          aggregate {
-            count
-          }
-          nodes {
-            created_at
-            user {
-              name
-            }
-          }
+      comments(
+        order_by: { created_at: asc }
+        where: { parent_id: { _is_null: true } }
+      ) {
+        ...comments_result
+        re(order_by: { created_at: asc }) {
+          ...comments_result
         }
       }
       created_at
       updated_at
-      likes_aggregate {
-        aggregate {
-          sum {
-            count
-          }
-        }
-        nodes {
-          created_at
-          user {
-            photo_url
-            name
-          }
+      meLiked: users(where: { user_id: { _eq: $user_id } }) {
+        like_count
+      }
+      likedUsers: users {
+        created_at
+        user {
+          name
+          photo_url
         }
       }
     }
   }
+  ${commentsResult}
 `;
 
 export const subscribeBoardsByGroupId = gql`
@@ -144,7 +122,7 @@ export const subscribeBoardsByGroupId = gql`
         type
         updated_at
         last_posted_at
-        usersBoardCheck(where: { user_id: { _eq: $user_id } }) {
+        users(where: { user_id: { _eq: $user_id } }) {
           updated_at
         }
       }

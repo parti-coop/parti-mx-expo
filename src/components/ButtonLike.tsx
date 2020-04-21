@@ -29,10 +29,10 @@ const textStyle = {
 export default (props: {
   id: number;
   created_at: string;
-  closing_method: number;
+  closingMethod: number;
 }) => {
   const [, dispatch] = useStore();
-  const { created_at, closing_method = 0, id } = props;
+  const { created_at, closingMethod = 0, id } = props;
   const [vote, { loading }] = useMutation(likeSuggestion, {
     variables: { id },
   });
@@ -56,7 +56,7 @@ export default (props: {
         <Image source={iconAgree} style={{ margin: 4 }} />
         <Text style={textStyle}>이 제안에 동의합니다</Text>
       </TORowCenter>
-      {closing_method === 0 && (
+      {closingMethod === 0 && (
         <Text
           style={{
             fontSize: 12,

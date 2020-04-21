@@ -13,6 +13,13 @@ mutation($email: String!, $uid: String!) {
       id
     }
   }
+  insert_parti_2020_users(
+    objects: { email: $email,firebase_uid: $uid }
+  ) {
+    returning {
+      id
+    }
+  }
 }`;
 
 export default functions
@@ -26,9 +33,9 @@ export default functions
       body: JSON.stringify({ query, variables }),
       headers: {
         "Content-Type": "application/json",
-        "x-hasura-admin-secret": ADMIN_SECRET
-      }
-    }).then(r => r.json());
+        "x-hasura-admin-secret": ADMIN_SECRET,
+      },
+    }).then((r) => r.json());
     const userId = res.data.insert_mx_users.returning[0].id;
     let customClaims;
     if (user.email && user.email.indexOf("@parti.") !== -1) {
@@ -36,16 +43,16 @@ export default functions
         "https://hasura.io/jwt/claims": {
           "x-hasura-default-role": "user",
           "x-hasura-allowed-roles": ["user", "admin"],
-          "x-hasura-user-id": String(userId)
-        }
+          "x-hasura-user-id": String(userId),
+        },
       };
     } else {
       customClaims = {
         "https://hasura.io/jwt/claims": {
           "x-hasura-default-role": "user",
           "x-hasura-allowed-roles": ["user"],
-          "x-hasura-user-id": String(userId)
-        }
+          "x-hasura-user-id": String(userId),
+        },
       };
     }
     // Set custom user claims on this newly created user.

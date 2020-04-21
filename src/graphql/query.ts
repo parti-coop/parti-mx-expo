@@ -44,10 +44,10 @@ export const getSuggestion = gql`
       }
       created_at
       updated_at
-      likes_aggregate {
+      users_aggregate {
         aggregate {
           sum {
-            count
+            like_count
           }
         }
         nodes {

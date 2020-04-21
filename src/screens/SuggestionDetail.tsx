@@ -27,6 +27,8 @@ import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
+import { SuggestionDetail } from "../types";
+
 const box = {
   marginTop: 40,
   paddingBottom: 50,
@@ -81,13 +83,13 @@ export default (props: {
   if (!(data && data.mx_posts_by_pk)) {
     return null;
   }
-  const { mx_posts_by_pk } = data;
+  const suggestion: SuggestionDetail = data.mx_posts_by_pk;
   const options = [
     {
       label: "수정하기",
       handler: () =>
         navigate("SuggestionEdit", {
-          suggestion: mx_posts_by_pk,
+          suggestion,
         }),
     },
     // { label: "제안 정리", handler: () => {} },
@@ -103,13 +105,14 @@ export default (props: {
     createdBy,
     updated_at,
     created_at,
-    likes_aggregate,
     comments,
     images,
     files,
-  } = data.mx_posts_by_pk;
-  const voteCount = likes_aggregate.aggregate.sum.count;
-  const voteUsers = likes_aggregate.nodes.map((n: any) => ({
+    meLiked,
+    likedUsers,
+  } = suggestion;
+  const liked = meLiked[0]?.like_count ?? 0;
+  const voteUsers = likedUsers.map((n: any) => ({
     name: n.user.name,
     created_at: n.created_at,
     photo_url: n.user.photo_url,
@@ -173,13 +176,13 @@ export default (props: {
             </View>
           )}
           <V0 style={{ marginTop: 50 }}>
-            {voteCount > 0 ? (
+            {liked > 0 ? (
               <ButtonUnlike id={id} />
             ) : (
               <ButtonLike
                 id={id}
                 created_at={created_at}
-                closing_method={metadata?.closing_method}
+                closingMethod={metadata?.closingMethod}
               />
             )}
           </V0>

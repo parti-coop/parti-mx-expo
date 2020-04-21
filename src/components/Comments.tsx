@@ -15,7 +15,7 @@ import { useStore } from "../Store";
 
 import iconSend from "../../assets/iconSend.png";
 import iconClosed from "../../assets/iconClosed.png";
-import { Comment } from "../types";
+import { Comment, RecommentArgs } from "../types";
 
 const box = {
   paddingHorizontal: 30,
@@ -70,9 +70,14 @@ export default (props: {
     setComm(body);
     setEditingId(id);
   }
-  function recomment({ id, user }: { id: number; user: Comment["createdBy"] }) {
+  function recomment({ id, user, reUser = null }: RecommentArgs) {
     setRecommentId(id);
     setReAuthor(user.name);
+    if (reUser) {
+      if (!comm.startsWith("@" + reUser.name)) {
+        setComm("@" + reUser.name + " " + comm);
+      }
+    }
     textinput.current.focus();
     props.scrollRef.current.scrollToEnd();
   }

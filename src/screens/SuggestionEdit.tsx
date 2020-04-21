@@ -87,7 +87,7 @@ export default (props: {
   const [sContext, setSContext] = React.useState(suggestion.context);
   const [sBody, setSBody] = React.useState(suggestion.body);
   const [closingMethod, setClosingMethod] = React.useState(
-    suggestion.metadata.closing_method
+    suggestion.metadata?.closingMethod ?? 0
   );
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
     suggestion.images ?? []
@@ -97,7 +97,7 @@ export default (props: {
   >(suggestion.files ?? []);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
-  const [{ user_id }, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const { goBack } = useNavigation();
   const [update, { loading }] = useMutation(updateSuggestion);
   async function addImage() {
@@ -164,9 +164,8 @@ export default (props: {
         sBody,
         sTitle,
         sContext,
-        closingMethod,
+        metadata: { closingMethod },
         id,
-        user_id,
         images,
         files,
       },
@@ -184,7 +183,7 @@ export default (props: {
     setSTitle(suggestion.title);
     setSContext(suggestion.context);
     setSBody(suggestion.body);
-    setClosingMethod(suggestion.metadata.closing_method);
+    setClosingMethod(suggestion.metadata?.closingMethod ?? 0);
     setImageArr(suggestion.images ?? []);
     setFileArr(suggestion.files ?? []);
   }, [suggestion]);

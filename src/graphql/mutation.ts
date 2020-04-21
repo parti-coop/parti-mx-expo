@@ -96,9 +96,9 @@ export const deleteSuggestion = gql`
 
 export const likeSuggestion = gql`
   mutation($id: Int!) {
-    insert_mx_posts_like(
-      objects: { post_id: $id, count: 1 }
-      on_conflict: { constraint: posts_like_pkey, update_columns: [count] }
+    insert_mx_users_post(
+      objects: { post_id: $id, like_count: 1 }
+      on_conflict: { constraint: users_post_pkey, update_columns: [like_count] }
     ) {
       affected_rows
     }
@@ -107,9 +107,9 @@ export const likeSuggestion = gql`
 
 export const unlikeSuggestion = gql`
   mutation($id: Int!, $user_id: Int!) {
-    update_mx_posts_like(
+    update_mx_users_post(
       where: { post_id: { _eq: $id }, user_id: { _eq: $user_id } }
-      _set: { count: 0 }
+      _set: { like_count: 0 }
     ) {
       affected_rows
     }

@@ -10,7 +10,6 @@ import { TORow, TouchableOpacity } from "./TouchableOpacity";
 import { Mint15, Title14, Title15 } from "./Text";
 
 import { updateBoardPermission } from "../graphql/mutation";
-import { useStore } from "../Store";
 
 import selectbox from "../../assets/selectbox.png";
 import iconSelected from "../../assets/iconSelected.png";
@@ -44,7 +43,6 @@ export default (props: {
   const { boardId, style } = props;
   const [isVisible, setVisible] = React.useState(false);
   const [permission, setPermission] = React.useState(props.permission);
-  const [{ user_id }] = useStore();
   const [update, { error, data }] = useMutation(updateBoardPermission);
   const boardType = options.find((o) => o.value === permission).label;
   function valueChangeHandler(value: string) {
@@ -58,7 +56,7 @@ export default (props: {
         update_mx_boards: { affected_rows },
       },
     } = await update({
-      variables: { user_id, board_id: boardId, permission: permission },
+      variables: { board_id: boardId, permission: permission },
     });
     if (affected_rows === 1) {
       showMessage({ type: "success", message: "수정 성공" });
