@@ -18,7 +18,7 @@ export async function signInWithGoogle() {
   try {
     await GoogleSignIn.askForPlayServicesAsync();
     const { type } = await GoogleSignIn.signInAsync();
-    const data = GoogleSignIn.GoogleAuthentication.prototype.toJSON();
+    const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
     if (type === "success") {
       await firebase
         .auth()

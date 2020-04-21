@@ -1,5 +1,6 @@
 import React, { ComponentProps } from "react";
 import * as SecureStore from "expo-secure-store";
+import * as GoogleSignIn from "expo-google-sign-in";
 export const PERSIST_KEY = "coop-parti-demos";
 import createReducer from "../store/createReducer";
 export const initialState = {
@@ -41,6 +42,7 @@ export const reducer = createReducer<State, Action>(initialState, {
     return { ...initialState, loading: true };
   },
   ["LOGOUT"]: function (state, payload) {
+    GoogleSignIn.signOutAsync();
     return { ...state, user_id: null };
   },
   ["SET_GROUP"]: persistSecureStore,
