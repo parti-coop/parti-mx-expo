@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export const whoami = gql`
   query($id: Int!) {
-    parti_2020_users(where: { id: { _eq: $id } }) {
+    mx_users(where: { id: { _eq: $id } }) {
       name
       email
       photo_url
@@ -10,7 +10,7 @@ export const whoami = gql`
 `;
 export const searchDuplicateName = gql`
   query($name: String!, $id: Int!) {
-    parti_2020_users(
+    mx_users(
       where: { _and: [{ id: { _neq: $id } }, { name: { _ilike: $name } }] }
     ) {
       id
@@ -21,7 +21,7 @@ export const searchDuplicateName = gql`
 
 export const getGroups = gql`
   query {
-    parti_2020_groups {
+    mx_groups {
       title
       id
     }
@@ -30,7 +30,7 @@ export const getGroups = gql`
 
 export const getSuggestion = gql`
   query($id: Int!) {
-    parti_2020_posts_by_pk(id: $id) {
+    mx_posts_by_pk(id: $id) {
       id
       title
       body
@@ -62,14 +62,14 @@ export const getSuggestion = gql`
 
 export const getBoardsByGroupId = gql`
   query($group_id: Int!, $user_id: Int!) {
-    parti_2020_groups_by_pk(id: $group_id) {
+    mx_groups_by_pk(id: $group_id) {
       id
       title
       boards {
         id
         title
         body
-        is_member_only
+        permission
       }
       users_aggregate {
         aggregate {
@@ -85,7 +85,7 @@ export const getBoardsByGroupId = gql`
 
 export const searchGroups = gql`
   query($searchKeyword: String!) {
-    parti_2020_groups(where: { title: { _ilike: $searchKeyword } }) {
+    mx_groups(where: { title: { _ilike: $searchKeyword } }) {
       title
       id
     }
@@ -94,7 +94,7 @@ export const searchGroups = gql`
 
 export const getMemberCount = gql`
   query($group_id: Int!) {
-    users: parti_2020_users_group_aggregate(
+    users: mx_users_group_aggregate(
       where: {
         _and: [{ group_id: { _eq: $group_id } }, { status: { _eq: "user" } }]
       }
@@ -103,7 +103,7 @@ export const getMemberCount = gql`
         count
       }
     }
-    organizers: parti_2020_users_group_aggregate(
+    organizers: mx_users_group_aggregate(
       where: {
         _and: [
           { group_id: { _eq: $group_id } }
@@ -120,7 +120,7 @@ export const getMemberCount = gql`
 
 export const searchMembers = gql`
   query($searchKeyword: String!, $group_id: Int!, $memberType: String!) {
-    parti_2020_users_group(
+    mx_users_group(
       where: {
         group_id: { _eq: $group_id }
         status: { _eq: $memberType }
@@ -141,7 +141,7 @@ export const searchMembers = gql`
 
 export const searchOrganizer = gql`
   query($searchKeyword: String!, $group_id: Int!) {
-    parti_2020_users_group(
+    mx_users_group(
       where: {
         group_id: { _eq: $group_id }
         status: { _eq: "organzier" }
@@ -159,7 +159,7 @@ export const searchOrganizer = gql`
 
 export const searchPosts = gql`
   query($searchKeyword: String!, $group_id: Int!, $user_id: Int!) {
-    parti_2020_posts(
+    mx_posts(
       where: {
         _and: [
           {
@@ -175,7 +175,7 @@ export const searchPosts = gql`
                 { group: { id: { _eq: $group_id } } }
                 {
                   _or: [
-                    { is_member_only: { _eq: false } }
+                    { permission: { _eq: "member" } }
                     { group: { users: { user_id: { _eq: $user_id } } } }
                   ]
                 }

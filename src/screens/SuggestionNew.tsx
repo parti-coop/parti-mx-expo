@@ -179,17 +179,17 @@ export default () => {
         sBody,
         board_id,
         group_id,
-        user_id,
         metadata: { closing_method: closingMethod },
         images,
         files,
       },
     });
-    resetInput();
+
     navigate("SuggestionList");
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
+    return resetInput;
   }, [loading]);
 
   return (

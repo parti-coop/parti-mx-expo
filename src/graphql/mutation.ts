@@ -1,16 +1,8 @@
 import gql from "graphql-tag";
 
-export const insertGroup = gql`
-  mutation {
-    insert_parti_2020_groups(objects: { title: "test1", user_id: 1 }) {
-      affected_rows
-    }
-  }
-`;
-
 export const insertUser = gql`
   mutation($email: String!, $name: String!) {
-    insert_parti_2020_users(objects: { email: $email, name: $name }) {
+    insert_mx_users(objects: { email: $email, name: $name }) {
       returning {
         id
       }
@@ -20,7 +12,7 @@ export const insertUser = gql`
 
 export const updateUserName = gql`
   mutation($id: Int!, $name: String!, $photo_url: String) {
-    update_parti_2020_users(
+    update_mx_users(
       _set: { name: $name, photo_url: $photo_url }
       where: { id: { _eq: $id } }
     ) {
@@ -36,18 +28,16 @@ export const insertSuggestion = gql`
     $sTitle: String!
     $sContext: String
     $sBody: String!
-    $user_id: Int!
     $metadata: jsonb
     $images: jsonb
     $files: jsonb
   ) {
-    insert_parti_2020_posts(
+    insert_mx_posts(
       objects: {
         body: $sBody
         title: $sTitle
         context: $sContext
         board_id: $board_id
-        updated_by: $user_id
         metadata: $metadata
         images: $images
         files: $files
@@ -55,13 +45,13 @@ export const insertSuggestion = gql`
     ) {
       affected_rows
     }
-    update_parti_2020_boards(
+    update_mx_boards(
       _set: { last_posted_at: "now()" }
       where: { id: { _eq: $board_id } }
     ) {
       affected_rows
     }
-    update_parti_2020_groups(
+    update_mx_groups(
       _set: { last_posted_at: "now()" }
       where: { id: { _eq: $group_id } }
     ) {
@@ -80,7 +70,7 @@ export const updateSuggestion = gql`
     $images: jsonb
     $files: jsonb
   ) {
-    update_parti_2020_posts(
+    update_mx_posts(
       where: { id: { _eq: $id } }
       _set: {
         body: $sBody
@@ -98,7 +88,7 @@ export const updateSuggestion = gql`
 
 export const deleteSuggestion = gql`
   mutation($id: Int!) {
-    delete_parti_2020_posts(where: { id: { _eq: $id } }) {
+    delete_mx_posts(where: { id: { _eq: $id } }) {
       affected_rows
     }
   }
@@ -106,7 +96,7 @@ export const deleteSuggestion = gql`
 
 export const likeSuggestion = gql`
   mutation($id: Int!) {
-    insert_parti_2020_posts_like(
+    insert_mx_posts_like(
       objects: { post_id: $id, count: 1 }
       on_conflict: { constraint: posts_like_pkey, update_columns: [count] }
     ) {
@@ -117,7 +107,7 @@ export const likeSuggestion = gql`
 
 export const unlikeSuggestion = gql`
   mutation($id: Int!, $user_id: Int!) {
-    update_parti_2020_posts_like(
+    update_mx_posts_like(
       where: { post_id: { _eq: $id }, user_id: { _eq: $user_id } }
       _set: { count: 0 }
     ) {
@@ -127,9 +117,9 @@ export const unlikeSuggestion = gql`
 `;
 
 export const insertComment = gql`
-  mutation($user_id: Int!, $suggestion_id: Int!, $body: String!) {
-    insert_parti_2020_comments(
-      objects: { body: $body, suggestion_id: $suggestion_id, user_id: $user_id }
+  mutation($post_id: Int!, $body: String!, $parent_id: Int) {
+    insert_mx_comments(
+      objects: { body: $body, post_id: $post_id, parent_id: $parent_id }
     ) {
       affected_rows
     }
@@ -138,10 +128,7 @@ export const insertComment = gql`
 
 export const updateComment = gql`
   mutation($id: Int!, $body: String!) {
-    update_parti_2020_comments(
-      _set: { body: $body }
-      where: { id: { _eq: $id } }
-    ) {
+    update_mx_comments(_set: { body: $body }, where: { id: { _eq: $id } }) {
       affected_rows
     }
   }
@@ -149,17 +136,15 @@ export const updateComment = gql`
 
 export const deleteComment = gql`
   mutation($comment_id: Int!) {
-    delete_parti_2020_comments(where: { id: { _eq: $comment_id } }) {
+    delete_mx_comments(where: { id: { _eq: $comment_id } }) {
       affected_rows
     }
   }
 `;
 
 export const likeComment = gql`
-  mutation($comment_id: Int!, $user_id: Int!) {
-    insert_parti_2020_comments_like(
-      objects: { user_id: $user_id, comment_id: $comment_id }
-    ) {
+  mutation($comment_id: Int!) {
+    insert_mx_comments_like(objects: { comment_id: $comment_id }) {
       affected_rows
     }
   }
@@ -167,7 +152,7 @@ export const likeComment = gql`
 
 export const unlikeComment = gql`
   mutation($comment_id: Int!, $user_id: Int!) {
-    delete_parti_2020_comments_like(
+    delete_mx_comments_like(
       where: { user_id: { _eq: $user_id }, comment_id: { _eq: $comment_id } }
     ) {
       affected_rows
@@ -177,7 +162,7 @@ export const unlikeComment = gql`
 
 export const deleteUsersGroup = gql`
   mutation($group_id: Int!, $user_id: Int!) {
-    delete_parti_2020_users_group(
+    delete_mx_users_group(
       where: { group_id: { _eq: $group_id }, user_id: { _eq: $user_id } }
     ) {
       affected_rows
@@ -185,17 +170,15 @@ export const deleteUsersGroup = gql`
   }
 `;
 export const insertUserGroup = gql`
-  mutation($group_id: Int!, $user_id: Int!) {
-    insert_parti_2020_users_group(
-      objects: { group_id: $group_id, user_id: $user_id }
-    ) {
+  mutation($group_id: Int!) {
+    insert_mx_users_group(objects: { group_id: $group_id }) {
       affected_rows
     }
   }
 `;
 export const updateGroupName = gql`
   mutation($group_id: Int!, $groupName: String!, $bg_img_url: String) {
-    update_parti_2020_groups(
+    update_mx_groups(
       where: { id: { _eq: $group_id } }
       _set: { title: $groupName, bg_img_url: $bg_img_url }
     ) {
@@ -204,15 +187,8 @@ export const updateGroupName = gql`
   }
 `;
 export const createNewGroup = gql`
-  mutation($groupName: String!, $user_id: Int!, $bg_img_url: String) {
-    insert_parti_2020_groups(
-      objects: {
-        title: $groupName
-        bg_img_url: $bg_img_url
-        created_by: $user_id
-        updated_by: $user_id
-      }
-    ) {
+  mutation($groupName: String!, $bg_img_url: String) {
+    insert_mx_groups(objects: { title: $groupName, bg_img_url: $bg_img_url }) {
       returning {
         id
       }
@@ -220,22 +196,9 @@ export const createNewGroup = gql`
   }
 `;
 export const insertBoard = gql`
-  mutation(
-    $title: String!
-    $body: String!
-    $group_id: Int!
-    $user_id: Int!
-    $type: String!
-  ) {
-    insert_parti_2020_boards(
-      objects: {
-        group_id: $group_id
-        body: $body
-        updated_by: $user_id
-        created_by: $user_id
-        title: $title
-        type: $type
-      }
+  mutation($title: String!, $body: String!, $group_id: Int!, $type: String!) {
+    insert_mx_boards(
+      objects: { group_id: $group_id, body: $body, title: $title, type: $type }
     ) {
       returning {
         id
@@ -245,7 +208,7 @@ export const insertBoard = gql`
 `;
 export const updateBoard = gql`
   mutation($title: String!, $body: String!, $id: Int!) {
-    update_parti_2020_boards(
+    update_mx_boards(
       _set: { body: $body, title: $title }
       where: { id: { _eq: $id } }
     ) {
@@ -254,9 +217,9 @@ export const updateBoard = gql`
   }
 `;
 export const insertUserGroupAsOrganizer = gql`
-  mutation($group_id: Int!, $user_id: Int!) {
-    insert_parti_2020_users_group(
-      objects: { group_id: $group_id, user_id: $user_id, status: "organizer" }
+  mutation($group_id: Int!) {
+    insert_mx_users_group(
+      objects: { group_id: $group_id, status: "organizer" }
     ) {
       affected_rows
     }
@@ -264,7 +227,7 @@ export const insertUserGroupAsOrganizer = gql`
 `;
 export const updateUserGroupCheck = gql`
   mutation($group_id: Int!, $user_id: Int!) {
-    update_parti_2020_users_group(
+    update_mx_users_group(
       _inc: { count_click: 1 }
       where: {
         _and: [{ group_id: { _eq: $group_id } }, { user_id: { _eq: $user_id } }]
@@ -276,7 +239,7 @@ export const updateUserGroupCheck = gql`
 `;
 export const updateUserBoardCheck = gql`
   mutation($board_id: Int!, $user_id: Int!) {
-    update_parti_2020_users_board(
+    update_mx_users_board(
       _inc: { count_click: 1 }
       where: {
         _and: [{ board_id: { _eq: $board_id } }, { user_id: { _eq: $user_id } }]
@@ -287,19 +250,17 @@ export const updateUserBoardCheck = gql`
   }
 `;
 export const insertUserBoardCheck = gql`
-  mutation($board_id: Int!, $user_id: Int!) {
-    insert_parti_2020_users_board(
-      objects: { count_click: 1, board_id: $board_id, user_id: $user_id }
-    ) {
+  mutation($board_id: Int!) {
+    insert_mx_users_board(objects: { count_click: 1, board_id: $board_id }) {
       affected_rows
     }
   }
 `;
 export const updateBoardPermission = gql`
-  mutation($board_id: Int!, $user_id: Int!, $is_member_only: Boolean!) {
-    update_parti_2020_boards(
+  mutation($board_id: Int!, $permission: String!) {
+    update_mx_boards(
       where: { id: { _eq: $board_id } }
-      _set: { is_member_only: $is_member_only, updated_by: $user_id }
+      _set: { permission: $permission }
     ) {
       affected_rows
     }
@@ -307,14 +268,14 @@ export const updateBoardPermission = gql`
 `;
 export const deleteBoard = gql`
   mutation($board_id: Int!) {
-    delete_parti_2020_boards(where: { id: { _eq: $board_id } }) {
+    delete_mx_boards(where: { id: { _eq: $board_id } }) {
       affected_rows
     }
   }
 `;
 export const setOrganizer = gql`
   mutation($group_id: Int!, $user_id: Int!) {
-    update_parti_2020_users_group(
+    update_mx_users_group(
       where: {
         _and: [{ user_id: { _eq: $user_id } }, { group_id: { _eq: $group_id } }]
       }
@@ -326,7 +287,7 @@ export const setOrganizer = gql`
 `;
 export const deleteUserGroup = gql`
   mutation($group_id: Int!, $user_id: Int!) {
-    delete_parti_2020_users_group(
+    delete_mx_users_group(
       where: {
         _and: [{ user_id: { _eq: $user_id } }, { group_id: { _eq: $group_id } }]
       }
@@ -337,13 +298,13 @@ export const deleteUserGroup = gql`
 `;
 export const updateLastPostedAt = gql`
   mutation($group_id: Int!, $board_id: Int!, $time: String!) {
-    update_parti_2020_boards(
+    update_mx_boards(
       _set: { last_posted_at: $time }
       where: { id: { _eq: $board_id } }
     ) {
       affected_rows
     }
-    update_parti_2020_groups(
+    update_mx_groups(
       _set: { last_posted_at: $time }
       where: { id: { _eq: $group_id } }
     ) {

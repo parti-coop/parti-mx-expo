@@ -33,11 +33,18 @@ const commentModal = {
 export default (props: {
   comment: Comment;
   edit: (arg: { body: string; id: number }) => void;
-  recomment: (arg: { id: number; user: Comment["user"] }) => void;
+  recomment: (arg: { id: number; user: Comment["createdBy"] }) => void;
   style?: ViewStyle;
 }) => {
   const { comment, edit: editHandler, style, recomment } = props;
-  const { id, body, likes_aggregate, user, updated_at, likes } = comment;
+  const {
+    id,
+    body,
+    likes_aggregate,
+    createdBy: user,
+    updated_at,
+    likes,
+  } = comment;
   const [isVisible, setVisible] = React.useState(false);
   const [deleteComment] = useCommentDelete(id);
   function deleteHandler() {
@@ -70,7 +77,7 @@ export default (props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        <Text>{user.likes[0] && "동의"}</Text>
+        <Text>{user.likedPosts[0] && "동의"}</Text>
         <Grey12 style={{ marginLeft: 9 }}>
           {new Date(updated_at).toLocaleString("ko")}
         </Grey12>

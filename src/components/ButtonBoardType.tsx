@@ -33,32 +33,32 @@ const boxStyle: StyleProp<ViewStyle> = {
 };
 
 const options = [
-  { value: false, label: "전체" },
-  { value: true, label: "멤버" },
+  { value: "all", label: "전체" },
+  { value: "member", label: "멤버" },
 ];
 export default (props: {
   boardId: number;
   style?: StyleProp<ViewStyle>;
-  is_member_only: boolean;
+  permission: string;
 }) => {
-  const { boardId, style, is_member_only } = props;
+  const { boardId, style } = props;
   const [isVisible, setVisible] = React.useState(false);
-  const [isMemberOnly, setMemberOnly] = React.useState(is_member_only);
+  const [permission, setPermission] = React.useState(props.permission);
   const [{ user_id }] = useStore();
   const [update, { error, data }] = useMutation(updateBoardPermission);
-  const boardType = options.find((o) => o.value === isMemberOnly).label;
-  function valueChangeHandler(value: boolean) {
-    setMemberOnly(value);
+  const boardType = options.find((o) => o.value === permission).label;
+  function valueChangeHandler(value: string) {
+    setPermission(value);
     setVisible(false);
     debouncedCallback();
   }
   const [debouncedCallback] = useDebouncedCallback(async function () {
     const {
       data: {
-        update_parti_2020_boards: { affected_rows },
+        update_mx_boards: { affected_rows },
       },
     } = await update({
-      variables: { user_id, board_id: boardId, is_member_only: isMemberOnly },
+      variables: { user_id, board_id: boardId, permission: permission },
     });
     if (affected_rows === 1) {
       showMessage({ type: "success", message: "수정 성공" });
@@ -82,12 +82,12 @@ export default (props: {
               style={{ paddingHorizontal: 25 }}
             >
               <ViewRow style={{ paddingVertical: 15 }}>
-                {item.value === isMemberOnly ? (
+                {item.value === permission ? (
                   <Mint15 style={{ flex: 1 }}>{item.label}</Mint15>
                 ) : (
                   <Title15 style={{ flex: 1 }}>{item.label}</Title15>
                 )}
-                {item.value === isMemberOnly && (
+                {item.value === permission && (
                   <Image source={iconSelected} style={{ marginLeft: 10 }} />
                 )}
               </ViewRow>

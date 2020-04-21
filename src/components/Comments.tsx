@@ -48,7 +48,7 @@ const boxCommentWriter = {
 } as ViewStyle;
 export default (props: {
   comments: Comment[];
-  suggestionId: number;
+  postId: number;
   scrollRef: React.MutableRefObject<any>;
 }) => {
   const { comments } = props;
@@ -61,8 +61,8 @@ export default (props: {
   const [insert] = useMutation(insertComment, {
     variables: {
       body: comm,
-      suggestion_id: props.suggestionId,
-      user_id: user_id,
+      post_id: props.postId,
+      parent_id: recommentId,
     },
   });
   const [update] = useMutation(updateComment);
@@ -70,7 +70,7 @@ export default (props: {
     setComm(body);
     setEditingId(id);
   }
-  function recomment({ id, user }: { id: number; user: Comment["user"] }) {
+  function recomment({ id, user }: { id: number; user: Comment["createdBy"] }) {
     setRecommentId(id);
     setReAuthor(user.name);
     textinput.current.focus();

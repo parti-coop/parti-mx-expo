@@ -32,10 +32,10 @@ export default (props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (!data?.parti_2020_boards_by_pk) {
+  if (!data?.mx_boards_by_pk) {
     return null;
   }
-  const { posts, title } = data.parti_2020_boards_by_pk;
+  const { posts, title } = data.mx_boards_by_pk;
   return (
     <>
       <HeaderList />

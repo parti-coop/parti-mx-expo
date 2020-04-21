@@ -38,12 +38,12 @@ const boxStyle = {
   flex: 1,
 } as ViewStyle;
 export default (props: StackHeaderProps) => {
-  const [{ user_id }, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
   const [bg_img_url, setImgUrl] = React.useState("");
   const [createDefaultSuggestionBoard] = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
-    variables: { groupName, user_id, bg_img_url },
+    variables: { groupName, bg_img_url },
   });
 
   function addImage() {
@@ -61,9 +61,9 @@ export default (props: StackHeaderProps) => {
   async function save() {
     async function createGroup(bg_img_url: string | null) {
       const res = await create({
-        variables: { groupName, user_id, bg_img_url },
+        variables: { groupName, bg_img_url },
       });
-      const group_id = res.data.insert_parti_2020_groups.returning[0].id;
+      const group_id = res.data.insert_mx_groups.returning[0].id;
       dispatch({ type: "SET_GROUP", group_id });
       return group_id;
     }
@@ -81,6 +81,9 @@ export default (props: StackHeaderProps) => {
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
+    return () => {
+      setGroupName("");
+    };
   }, [loading]);
   return (
     <>

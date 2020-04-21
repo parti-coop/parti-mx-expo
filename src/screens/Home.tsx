@@ -42,7 +42,7 @@ export default () => {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (!data?.parti_2020_groups_by_pk) {
+  if (!data?.mx_groups_by_pk) {
     return null;
   }
   function toggleDrawer() {
@@ -54,7 +54,7 @@ export default () => {
     users_aggregate,
     users,
     bg_img_url,
-  } = data.parti_2020_groups_by_pk;
+  } = data.mx_groups_by_pk;
   const userCount = users_aggregate.aggregate.count;
   const userStatus: "organizer" | "user" | undefined | "requested" =
     users[0]?.status;

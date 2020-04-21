@@ -35,7 +35,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
     >
       <ButtonBoardType
         boardId={board.id}
-        is_member_only={board.is_member_only}
+        permission={board.permission}
       />
       <View
         style={{

@@ -40,7 +40,7 @@ export type RootStackParamList = {
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};
   SuggestionNew: {};
-  SuggestionDetail: { suggestionId: number };
+  SuggestionDetail: { postId: number };
   SuggestionEdit: {
     suggestion: {
       id: number;

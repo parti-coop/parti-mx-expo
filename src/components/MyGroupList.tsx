@@ -14,8 +14,8 @@ export default props => {
   });
   const { navigate } = props;
 
-  return !loading && data && data.parti_2020_users_group.length > 0 ? (
-    data.parti_2020_users_group.map((usersGroup: any, i: number) => (
+  return !loading && data && data.mx_users_group.length > 0 ? (
+    data.mx_users_group.map((usersGroup: any, i: number) => (
       <TouchableSideNavGroupList
         usersGroup={usersGroup}
         key={i}

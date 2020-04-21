@@ -6,7 +6,7 @@ type UserRecord = admin.auth.UserRecord;
 
 const query = `
 mutation($email: String!, $uid: String!) {
-  insert_parti_2020_users(
+  insert_mx_users(
     objects: { email: $email,firebase_uid: $uid }
   ) {
     returning {
@@ -29,7 +29,7 @@ export default functions
         "x-hasura-admin-secret": ADMIN_SECRET
       }
     }).then(r => r.json());
-    const userId = res.data.insert_parti_2020_users.returning[0].id;
+    const userId = res.data.insert_mx_users.returning[0].id;
     let customClaims;
     if (user.email && user.email.indexOf("@parti.") !== -1) {
       customClaims = {

@@ -35,7 +35,7 @@ export default (props: {
     variables: { searchKeyword: debouncedKeyword, group_id, memberType },
     fetchPolicy: "network-only",
   });
-  const list = data?.parti_2020_users_group.map((u: UserGroup, i: number) => {
+  const list = data?.mx_users_group.map((u: UserGroup, i: number) => {
     const {
       user: { name, photo_url, id },
       created_at,

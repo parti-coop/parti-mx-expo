@@ -2,7 +2,7 @@ export type Board = {
   id: number;
   title: string;
   body: string;
-  is_member_only: boolean;
+  permission: string;
   type: string;
   updated_at: string;
   last_posted_at: string;
@@ -13,7 +13,8 @@ export interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: { name: string; likes: [{ count: number }]; photo_url: string };
+  user?: { name: string; likes: [{ count: number }]; photo_url: string };
+  createdBy?: { name: string; likedPosts: [{ count: number }]; photo_url: string };
   likes: [
     {
       user: {

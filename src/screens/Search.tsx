@@ -47,15 +47,15 @@ export default () => {
   }
   function postPressHandler(id: number) {
     navigate("SuggestionDetail", {
-      suggestionId: id,
+      postId: id,
     });
   }
   function results() {
     if (keyword.length && data) {
-      if (data.parti_2020_posts?.length > 0) {
+      if (data.mx_posts?.length > 0) {
         return (
           <View style={{ paddingVertical: 10 }}>
-            {data.parti_2020_posts.map(
+            {data.mx_posts.map(
               (posts: SearchResultType, index: number) => {
                 const { title, createdBy, created_at, board, id } = posts;
                 const date = new Date(created_at).toLocaleString("ko");
@@ -78,7 +78,7 @@ export default () => {
                         <Grey12>{board.title}</Grey12>
                       </ViewRow>
                     </View>
-                    {data.parti_2020_posts.length !== index + 1 && (
+                    {data.mx_posts.length !== index + 1 && (
                       <LineSeperator />
                     )}
                   </TouchableOpacity>

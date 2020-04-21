@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export const whoami = gql`
   subscription($email: String!) {
-    parti_2020_users(where: { email: { _eq: $email } }) {
+    mx_users(where: { email: { _eq: $email } }) {
       id
     }
   }
@@ -9,7 +9,7 @@ export const whoami = gql`
 
 export const subscribeGroupsByUserId = gql`
   subscription($user_id: Int!) {
-    parti_2020_users_group(where: { user_id: { _eq: $user_id } }) {
+    mx_users_group(where: { user_id: { _eq: $user_id } }) {
       updated_at
       group {
         title
@@ -23,7 +23,7 @@ export const subscribeGroupsByUserId = gql`
 
 export const subscribepostsByBoardId = gql`
   subscription($id: Int!, $userId: Int!) {
-    parti_2020_boards_by_pk(id: $id) {
+    mx_boards_by_pk(id: $id) {
       id
       body
       title
@@ -61,7 +61,7 @@ export const subscribepostsByBoardId = gql`
 
 export const subscribeSuggestion = gql`
   subscription($id: Int!, $user_id: Int!) {
-    parti_2020_posts_by_pk(id: $id) {
+    mx_posts_by_pk(id: $id) {
       id
       title
       body
@@ -81,7 +81,7 @@ export const subscribeSuggestion = gql`
         id
         body
         updated_at
-        user {
+        createdBy {
           name
           photo_url
           likedPosts(where: { post_id: { _eq: $id } }) {
@@ -127,7 +127,7 @@ export const subscribeSuggestion = gql`
 
 export const subscribeBoardsByGroupId = gql`
   subscription($group_id: Int!, $user_id: Int!) {
-    parti_2020_groups_by_pk(id: $group_id) {
+    mx_groups_by_pk(id: $group_id) {
       id
       title
       bg_img_url
@@ -140,7 +140,7 @@ export const subscribeBoardsByGroupId = gql`
         id
         title
         body
-        is_member_only
+        permission
         type
         updated_at
         last_posted_at
@@ -162,7 +162,7 @@ export const subscribeBoardsByGroupId = gql`
 
 export const subscribeMemberCount = gql`
   subscription($group_id: Int!) {
-    users: parti_2020_users_group_aggregate(
+    users: mx_users_group_aggregate(
       where: {
         _and: [{ group_id: { _eq: $group_id } }, { status: { _eq: "user" } }]
       }
@@ -171,7 +171,7 @@ export const subscribeMemberCount = gql`
         count
       }
     }
-    organizers: parti_2020_users_group_aggregate(
+    organizers: mx_users_group_aggregate(
       where: {
         _and: [
           { group_id: { _eq: $group_id } }

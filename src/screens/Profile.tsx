@@ -68,18 +68,18 @@ export default (props: {
     }
   }, 1000);
   const warningMsg = `"${userName}" 은 이미 사용중인 별명입니다.`;
-  const prevPhoroUrl = userNameQuery?.data?.parti_2020_users?.[0]?.photo_url;
+  const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    if (data && data.parti_2020_users.length) {
+    if (data && data.mx_users.length) {
       dispatch({ type: "SET_LOADING", loading });
-      setUserName(data.parti_2020_users[0].name ?? "");
-      setEmail(data.parti_2020_users[0].email ?? "");
+      setUserName(data.mx_users[0].name ?? "");
+      setEmail(data.mx_users[0].email ?? "");
     }
   }, [userNameQuery]);
   React.useEffect(() => {
     const { data } = searchDuplicateQuery;
-    if (data && data.parti_2020_users.length) {
+    if (data && data.mx_users.length) {
       showMessage({
         type: "warning",
         message: warningMsg,

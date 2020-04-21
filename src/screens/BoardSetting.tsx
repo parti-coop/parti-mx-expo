@@ -29,7 +29,7 @@ export default (props: {
   if (!data) {
     return null;
   }
-  const { boards } = data.parti_2020_groups_by_pk;
+  const { boards } = data.mx_groups_by_pk;
   return (
     <>
       <HeaderBack />

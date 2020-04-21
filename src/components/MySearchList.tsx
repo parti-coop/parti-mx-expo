@@ -29,8 +29,8 @@ export default (props) => {
       </Text>
     );
   }
-  if (data?.parti_2020_groups?.length > 0) {
-    return data.parti_2020_groups.map((group: any, i: number) => (
+  if (data?.mx_groups?.length > 0) {
+    return data.mx_groups.map((group: any, i: number) => (
       <TouchableSideNavGroupSearchList
         group={group}
         key={i}

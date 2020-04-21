@@ -26,11 +26,11 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
     variables: { user_id, board_id: board.id },
   });
   const [insert] = useMutation(insertUserBoardCheck, {
-    variables: { user_id, board_id: board.id },
+    variables: { board_id: board.id },
   });
   React.useEffect(() => {
-    if (data && data.update_parti_2020_users_board) {
-      if (data.update_parti_2020_users_board.affected_rows === 0) {
+    if (data && data.update_mx_users_board) {
+      if (data.update_mx_users_board.affected_rows === 0) {
         insert();
       }
     }
@@ -80,7 +80,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
           <Title18>{board.title}</Title18>
-          {!board.is_member_only && (
+          {!board?.permission === "member" && (
             <V0
               style={[
                 {

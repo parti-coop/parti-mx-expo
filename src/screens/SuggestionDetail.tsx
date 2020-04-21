@@ -56,7 +56,7 @@ export default (props: {
   route: RouteProp<RootStackParamList, "SuggestionDetail">;
 }) => {
   const [{ user_id }, dispatch] = useStore();
-  const id = props.route.params.suggestionId;
+  const id = props.route.params.postId;
   const [deleteSuggestion] = HooksDeleteSuggestion(id);
   const { data, loading } = useSubscription(subscribeSuggestion, {
     variables: { id, user_id },
@@ -78,16 +78,16 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
-  if (!(data && data.parti_2020_posts_by_pk)) {
+  if (!(data && data.mx_posts_by_pk)) {
     return null;
   }
-  const { parti_2020_posts_by_pk } = data;
+  const { mx_posts_by_pk } = data;
   const options = [
     {
       label: "수정하기",
       handler: () =>
         navigate("SuggestionEdit", {
-          suggestion: parti_2020_posts_by_pk,
+          suggestion: mx_posts_by_pk,
         }),
     },
     // { label: "제안 정리", handler: () => {} },
@@ -107,7 +107,7 @@ export default (props: {
     comments,
     images,
     files,
-  } = data.parti_2020_posts_by_pk;
+  } = data.mx_posts_by_pk;
   const voteCount = likes_aggregate.aggregate.sum.count;
   const voteUsers = likes_aggregate.nodes.map((n: any) => ({
     name: n.user.name,

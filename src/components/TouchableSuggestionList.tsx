@@ -37,7 +37,7 @@ export default (props: {
     <TouchableOpacity
       onPress={(e) =>
         navigate("SuggestionDetail", {
-          suggestionId: suggestion.id,
+          postId: suggestion.id,
         })
       }
     >

@@ -56,7 +56,7 @@ export default (props: {
       </ViewRow>
 
       {showComments ? (
-        <Comments comments={comments} suggestionId={id} scrollRef={scrollRef} />
+        <Comments comments={comments} postId={id} scrollRef={scrollRef} />
       ) : (
         <SuggestionVoted voteUsers={voteUsers} />
       )}

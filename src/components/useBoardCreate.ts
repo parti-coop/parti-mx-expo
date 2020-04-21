@@ -6,7 +6,7 @@ import useRegisterGroupOrganizer from "./useRegisterGroupOrganizer";
 import { showMessage } from "react-native-flash-message";
 type board_id = number;
 export default () => {
-  const [{ user_id }, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [create, { loading }] = useMutation(insertBoard);
   const [register] = useRegisterGroupOrganizer();
   async function handler(groupId: number): Promise<board_id> {
@@ -17,12 +17,11 @@ export default () => {
           title: "제안",
           body: "제안 게시판입니다",
           type: "suggestion",
-          user_id,
-          group_id: groupId
-        }
+          group_id: groupId,
+        },
       });
       await register(groupId);
-      return res.data.insert_parti_2020_boards.returning[0].id;
+      return res.data.insert_mx_boards.returning[0].id;
     } catch (error) {
       showMessage({ type: "danger", message: JSON.stringify(error) });
     }
