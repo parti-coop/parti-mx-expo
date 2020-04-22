@@ -3,7 +3,7 @@ import { Share, ImageBackground, TextStyle } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { useSubscription } from "@apollo/react-hooks";
 
-import { View, ViewRow } from "../components/View";
+import { View, ViewRow, V1 } from "../components/View";
 import { Title14 } from "../components/Text";
 import ViewGroupImg from "../components/ViewGroupImg";
 import ViewQrCode from "../components/ViewQrCode";
@@ -43,7 +43,13 @@ export default () => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   if (!data?.parti_2020_groups_by_pk) {
-    return null;
+    return (
+      <V1>
+        <Title14>
+          그룹 로딩
+        </Title14>
+      </V1>
+    );
   }
   function toggleDrawer() {
     navigation.dispatch(DrawerActions.toggleDrawer());
