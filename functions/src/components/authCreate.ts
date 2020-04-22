@@ -7,7 +7,7 @@ type UserRecord = admin.auth.UserRecord;
 const query = `
 mutation($email: String!, $uid: String!) {
   insert_parti_2020_users(
-    objects: { email: $email,firebase_uid: $uid }
+    objects: { email: $email,firebase_uid: $uid, name: $email }
   ) {
     returning {
       id
