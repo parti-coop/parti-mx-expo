@@ -3,7 +3,7 @@ import {
   Image as ImageCacheInternal,
   CacheManager,
 } from "react-native-expo-image-cache";
-export { Image } from "react-native";
+import { Image } from "react-native";
 import IV from "react-native-image-viewing";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
@@ -41,8 +41,12 @@ export const ImageView = (props: {
   }
 };
 
-export const ImageCache = (props) => (
-  <ImageCacheInternal preview={iconGroup} {...props} />
-);
+export const ImageCache = (props) => {
+  if (props.uri.startsWith("file://")) {
+    return <Image source={{ uri: props.uri }} />;
+  } else {
+    return <ImageCacheInternal {...props} />;
+  }
+};
 
-export { CacheManager };
+export { CacheManager, Image };
