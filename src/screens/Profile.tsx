@@ -71,7 +71,7 @@ export default (props: {
   const prevPhoroUrl = userNameQuery?.data?.parti_2020_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    if (data && data.parti_2020_users.length) {
+    if (data?.parti_2020_users?.length) {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.parti_2020_users[0].name ?? "");
       setEmail(data.parti_2020_users[0].email ?? "");
