@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Parti Mx",
-    "slug": "parti-2020",
+    "slug": "parti-mx",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "splash": {
@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "coop.parti.p2020",
-      "buildNumber": "0.1.1",
+      "buildNumber": "0.2.0",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.959324853924-sidevonq158kslcnvb1uln3059dson7v"
@@ -36,7 +36,7 @@
     },
     "android": {
       "package": "coop.parti.p2020",
-      "versionCode": 3,
+      "versionCode": 5,
       "googleServicesFile": "./google-services.json"
     }
   }
