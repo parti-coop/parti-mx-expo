@@ -43,7 +43,7 @@ export const ImageView = (props: {
 
 export const ImageCache = (props) => {
   if (props.uri.startsWith("file://")) {
-    return <Image source={{ uri: props.uri }} />;
+    return <Image {...props} source={{ uri: props.uri }} />;
   } else {
     return <ImageCacheInternal {...props} />;
   }

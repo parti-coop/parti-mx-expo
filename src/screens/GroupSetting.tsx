@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useMutation } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { showMessage } from "react-native-flash-message";
 
 import { ImageCache, Image } from "../components/Image";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
@@ -45,18 +46,22 @@ export default (props: {
 }) => {
   const [{ group_id }, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState(props.route.params.title);
-  const [bg_img_url, setImgUrl] = React.useState(props.route.params.bg_img_url);
-  const [update, { loading }] = useMutation(updateGroupName, {
-    variables: { group_id, groupName, bg_img_url },
-  });
-  function save() {
+  const [imgUrl, setImgUrl] = React.useState(props.route.params.bg_img_url);
+  const [update, { loading }] = useMutation(updateGroupName);
+  console.log(imgUrl);
+  async function save() {
     dispatch({ type: "SET_LOADING", loading: true });
-    uploadImage(bg_img_url, `${group_id}/bgImg`)
-      .then((snap) => snap.ref.getDownloadURL())
-      .then((bg_img_url) =>
-        update({ variables: { bg_img_url, group_id, groupName } })
-      )
-      .then(() => props.navigation.goBack());
+    if (imgUrl) {
+      const bg_img_url = await uploadImage(
+        imgUrl,
+        `${group_id}/bgImg`
+      ).then((snap) => snap.ref.getDownloadURL());
+      await update({ variables: { bg_img_url, group_id, groupName } });
+      props.navigation.goBack();
+    } else {
+      await update({ variables: { group_id, groupName } });
+    }
+    showMessage({ type: "success", message: "변경 하였습니다." });
   }
 
   function addImage() {
@@ -96,10 +101,10 @@ export default (props: {
             }}
           />
           <LineSeperator />
-          {bg_img_url && (
+          {imgUrl && (
             <V1 style={{ margin: 30, marginBottom: 0 }}>
               <ImageCache
-                uri={bg_img_url}
+                uri={imgUrl}
                 resizeMode="cover"
                 style={{
                   width: "100%",
@@ -110,7 +115,7 @@ export default (props: {
           )}
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
-            <Mint16>{bg_img_url ? "사진 변경" : "사진 추가"}</Mint16>
+            <Mint16>{imgUrl ? "사진 변경" : "사진 추가"}</Mint16>
           </TORowCenter>
         </View>
       </KeyboardAwareScrollView>
