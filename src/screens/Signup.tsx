@@ -34,7 +34,7 @@ export default (props) => {
   return (
     <>
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>
-        <Title30>로그인</Title30>
+        <Title30>회원가입</Title30>
         <ViewRow>
           <Text style={[textStyle]}>이미 계정이 있으신가요?</Text>
           <TouchableOpacity onPress={login} style={{ marginTop: 10 }}>

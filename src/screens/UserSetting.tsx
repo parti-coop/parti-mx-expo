@@ -7,8 +7,7 @@ import { Title14, Title22, Title16 } from "../components/Text";
 import { View } from "../components/View";
 import { TORow } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
-
-import { useStore } from "../Store";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 
 import btnNext from "../../assets/btnNext.png";
 const boxStyle = {
@@ -27,7 +26,6 @@ const boxStyle = {
   paddingVertical: 5,
 } as ViewStyle;
 export default () => {
-  const [{ user_id }, dispatch] = useStore();
   const { navigate } = useNavigation();
   const list = [
     {
@@ -92,9 +90,9 @@ export default () => {
       <Title22 style={{ marginHorizontal: 30, marginBottom: 10 }}>
         내 설정
       </Title22>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={{ paddingBottom: 50 }}>{ViewList}</View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </>
   );
 };

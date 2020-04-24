@@ -48,7 +48,7 @@ export default (props: {
   route: RouteProp<RootStackParamList, "Profile">;
 }) => {
   const { navigate } = props.navigation;
-  const [{ user_id }, dispatch] = useStore();
+  const [{ user_id, group_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [photoUrl, setPhotoUrl] = React.useState(null);
@@ -71,7 +71,7 @@ export default (props: {
   const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    if (data && data.mx_users.length) {
+    if (data?.parti_2020_users?.length) {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.mx_users[0].name ?? "");
       setEmail(data.mx_users[0].email ?? "");
@@ -111,6 +111,7 @@ export default (props: {
     }
     dispatch({ type: "SET_LOADING", loading: true });
     let url = photoUrl;
+    Keyboard.dismiss();
     try {
       if (photoUrl && photoUrl !== prevPhoroUrl) {
         console.log("new photo uploading");
@@ -126,8 +127,11 @@ export default (props: {
         photo_url: url ?? prevPhoroUrl,
       },
     }).then(console.log);
-    Keyboard.dismiss();
-    navigate("Home");
+    if (group_id) {
+      navigate("Home");
+    } else {
+      navigate("Intro");
+    }
     dispatch({ type: "SET_LOADING", loading: false });
   }
   return (

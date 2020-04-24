@@ -10,11 +10,11 @@ import iconBack from "../../assets/iconBack.png";
 import btnOk from "../../assets/btnOk.png";
 
 export default (props: { onPress?: () => void }) => {
-  const { goBack, navigate } = useNavigation();
+  const { goBack, navigate, canGoBack } = useNavigation();
   function backHandler() {
-    try {
+    if (canGoBack()) {
       goBack();
-    } catch (error) {
+    } else {
       navigate("Home");
     }
   }
