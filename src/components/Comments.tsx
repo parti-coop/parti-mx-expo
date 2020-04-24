@@ -19,8 +19,7 @@ import { Comment, RecommentArgs } from "../types";
 
 const box = {
   paddingHorizontal: 30,
-  paddingTop: 14,
-  paddingBottom: 26,
+  paddingVertical: 10,
   borderTopRightRadius: 25,
   borderTopLeftRadius: 25,
   backgroundColor: "#ffffff",

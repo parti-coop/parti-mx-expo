@@ -4,7 +4,7 @@ import Modal from "react-native-modal";
 
 import UserCommentProfile from "./UserCommentProfile";
 import { View, ViewRow, V0, ViewRowCenter } from "./View";
-import { Text, Grey12, Body16, Red16 } from "./Text";
+import { Text, Grey12, Body16, Red16, Mint13 } from "./Text";
 import { TO0, TO1 } from "./TouchableOpacity";
 import ButtonLikeComment from "./ButtonLikeComment";
 import ButtonComment from "./ButtonComment";
@@ -61,8 +61,8 @@ export default (props: {
     <View
       style={[
         {
-          marginTop: 25,
-          paddingTop: 20,
+          marginTop: 15,
+          paddingTop: 15,
           paddingLeft: 25,
           borderTopWidth: 1,
           borderTopColor: "#e4e4e4",
@@ -72,14 +72,16 @@ export default (props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        <Text>{user.checkedPosts[0] && "동의"}</Text>
+        {user.checkedPosts[0] && (
+          <Mint13 style={{ marginLeft: 9 }}>동의</Mint13>
+        )}
         <Grey12 style={{ marginLeft: 9 }}>
           {formatDateFromString(updated_at)}
         </Grey12>
         <SelectMenu items={options} />
       </ViewRow>
 
-      <Text style={{ color: "#555555", fontSize: 16, marginVertical: 25 }}>
+      <Text style={{ color: "#555555", fontSize: 16, marginVertical: 10 }}>
         {body}
       </Text>
       <ViewRow>
