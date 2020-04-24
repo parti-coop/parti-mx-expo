@@ -6,7 +6,7 @@ import { useDebounce } from "use-debounce";
 import { Title22, Mint16, Caption16 } from "../components/Text";
 import { ViewRow, V1 } from "../components/View";
 import { TORow } from "../components/TouchableOpacity";
-import UserProfileNameDate from "../components/UserProfileNameDate";
+import UserProfileNameString from "./UserProfileNameString";
 import SelectMenu from "../components/SelectMenu";
 import useSetOrganizer from "../components/useSetOrganizer";
 import useUserGroupDelete from "../components/useUserGroupDelete";
@@ -37,17 +37,16 @@ export default (props: {
   });
   const list = data?.mx_users_group.map((u: UserGroup, i: number) => {
     const {
-      user: { name, photo_url, id },
-      created_at,
+      user: { name, photo_url, id, email },
+      // created_at,
     } = u;
-    const date = new Date(created_at).toLocaleDateString();
     const options = [
       { label: "오거나이저로 지정", handler: setOrganizer, value: id },
       { label: "탈퇴 시키기", handler: deleteUserGroup, value: id },
     ];
     return (
       <ViewRow key={i} style={{ paddingHorizontal: 30 }}>
-        <UserProfileNameDate name={name} photoUrl={photo_url} date={date} />
+        <UserProfileNameString name={name} photoUrl={photo_url} sub={email} />
         {memberType === "user" && userStatus === "organizer" && (
           <SelectMenu items={options} />
         )}
