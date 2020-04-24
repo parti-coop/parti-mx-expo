@@ -43,7 +43,7 @@ export const reducer = createReducer<State, Action>(initialState, {
   },
   ["LOGOUT"]: function (state, payload) {
     GoogleSignIn.signOutAsync();
-    return { ...state, user_id: null };
+    return initialState;
   },
   ["SET_GROUP"]: persistSecureStore,
   ["SET_GROUP_AND_BOARD"]: persistSecureStore,
