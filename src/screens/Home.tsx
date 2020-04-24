@@ -42,37 +42,33 @@ export default () => {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (!data?.mx_groups_by_pk) {
-    return (
-      <V1>
-        <Title14>그룹 로딩</Title14>
-      </V1>
-    );
-  }
+
   function toggleDrawer() {
     navigation.dispatch(DrawerActions.toggleDrawer());
   }
   const {
-    title,
-    boards,
-    users_aggregate,
-    users,
-    bg_img_url,
-  } = data.mx_groups_by_pk;
-  const userCount = users_aggregate.aggregate.count;
+    title = "그룹 로딩 중...",
+    boards = [],
+    users_aggregate = {},
+    users = {},
+    bg_img_url = null,
+  } = data?.mx_groups_by_pk ?? {};
+  const userCount = users_aggregate?.aggregate?.count;
   const userStatus: "organizer" | "user" | undefined | "requested" =
-    users[0]?.status;
+    users?.[0]?.status;
   const hasJoined = userStatus === "user" || userStatus === "organizer";
-  const userStatusStr = !users[0]
-    ? ""
-    : users[0].status === "requested"
-    ? "가입 신청 중"
-    : users[0].status === "user"
-    ? "유저"
-    : users[0].status === "organizer"
-    ? "오거나이저"
-    : "미확인";
-
+  let userStatusStr = "";
+  switch (userStatus) {
+    case "requested":
+      userStatusStr = "가입 신청 중";
+      break;
+    case "user":
+      userStatusStr = "유저";
+      break;
+    case "organizer":
+      userStatusStr = "오거나이저";
+      break;
+  }
   return (
     <>
       <View style={{ height: 197 }} />
