@@ -12,7 +12,7 @@ import {
 import { Text, Title30 } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
 import { ViewRow, V0 } from "../components/View";
-import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
 
@@ -85,12 +85,10 @@ export default () => {
   return (
     <>
       <HeaderBack />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView>
         <ViewRow style={{ padding: 30, paddingTop: 6 }}>
           <Title30>이메일 로그인</Title30>
         </ViewRow>
-      </TouchableWithoutFeedback>
-      <KeyboardAvoidingView style={{ justifyContent: "flex-end" }}>
         <V0 style={boxStyle}>
           <ViewRow
             style={{
@@ -140,7 +138,7 @@ export default () => {
             </Text>
           </TORowCenter>
         </V0>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 };
