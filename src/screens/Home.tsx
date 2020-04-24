@@ -135,7 +135,7 @@ export default () => {
           <ViewRow
             style={{ justifyContent: "space-between", paddingVertical: 20 }}
           >
-            <Title14>목록1</Title14>
+            <Title14>목록</Title14>
             {userStatus === "organizer" && <ButtonBoardSetting />}
           </ViewRow>
           {boards.map((b: any, index: number) => (
