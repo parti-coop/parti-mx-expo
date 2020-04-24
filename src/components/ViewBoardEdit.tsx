@@ -7,7 +7,6 @@ import { TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
 import { updateBoard } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
 import { TextInput } from "./TextInput";
 import { Board } from "../types";
@@ -52,12 +51,11 @@ export default (props: {
   board: Board;
 }) => {
   const { board } = props;
-  const [{ group_id, user_id }, dispatch] = useStore();
   const [type, setType] = React.useState(board.type);
   const [title, setTitle] = React.useState(board.title);
   const [body, setBody] = React.useState(board.body);
   const bodyRef = React.useRef(null);
-  const [update, { error, data }] = useMutation(updateBoard, {
+  const [update, { error }] = useMutation(updateBoard, {
     variables: { id: board.id, title, body },
   });
   if (error) {
@@ -73,7 +71,7 @@ export default (props: {
   }
   return (
     <View style={boxStyle}>
-      <Title22 style={{ paddingBottom: 20 }}>게시판 추가</Title22>
+      <Title22 style={{ paddingBottom: 20 }}>게시판 수정</Title22>
       <ViewRow style={{ paddingVertical: 20 }}>
         {options.map(({ icon, label, value }, index) => {
           if (value === type) {
@@ -81,7 +79,6 @@ export default (props: {
               <TO0
                 style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
                 key={index}
-                onPress={() => setType(value)}
                 disabled
               >
                 <Image source={icon} style={{ tintColor: "white" }} />
@@ -90,12 +87,7 @@ export default (props: {
             );
           }
           return (
-            <TO0
-              style={rectangleStyle}
-              key={index}
-              onPress={() => setType(value)}
-              disabled
-            >
+            <TO0 style={rectangleStyle} key={index} disabled>
               <Image source={icon} />
               <Caption16>{label}</Caption16>
             </TO0>

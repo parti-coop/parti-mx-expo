@@ -7,6 +7,7 @@ import { DocumentResult } from "expo-document-picker";
 import Intro from "./Intro";
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
+import NoticeList from "./NoticeList";
 import SuggestionNew from "./SuggestionNew";
 import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
@@ -33,6 +34,7 @@ export type RootStackParamList = {
   Home: {};
   Intro: {};
   SuggestionList: { id: number };
+  NoticeList: { id: number };
   GroupNew: {};
   AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
@@ -113,6 +115,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
+      <Drawer.Screen name="NoticeList" component={NoticeList} />
       <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />

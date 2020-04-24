@@ -49,13 +49,17 @@ export default (props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;
 }) => {
-  const [{ group_id, user_id }, dispatch] = useStore();
+  const [{ group_id }] = useStore();
   const [type, setType] = React.useState("suggestion");
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const bodyRef = React.useRef(null);
   function pickerHandler(value: string) {
-    setType(value);
+    switch (value) {
+      case "notice":
+      case "suggestion":
+        return setType(value);
+    }
   }
   const [insert, { error, data }] = useMutation(insertBoard, {
     variables: { group_id, type, title, body },
@@ -81,7 +85,6 @@ export default (props: {
               <TO0
                 style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
                 key={index}
-                onPress={() => setType(value)}
                 disabled
               >
                 <Image source={icon} style={{ tintColor: "white" }} />
@@ -93,8 +96,7 @@ export default (props: {
             <TO0
               style={rectangleStyle}
               key={index}
-              onPress={() => setType(value)}
-              disabled
+              onPress={() => pickerHandler(value)}
             >
               <Image source={icon} />
               <Caption16>{label}</Caption16>
