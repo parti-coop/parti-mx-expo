@@ -6,7 +6,7 @@ export function calculateDays(date: string) {
   // const daysDiff = timeDiff / 1000 / 60 / 60 / 24;
   // const daysDiffCeil = Math.ceil(daysDiff);
   // return daysDiffCeil;
-  return differenceInDays(addDays(new Date(date), 30), new Date());
+  return differenceInDays(new Date(), addDays(new Date(date), 30));
 }
 export function minutesDiff(date: string) {
   const time = new Date(date).getTime();
