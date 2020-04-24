@@ -14,6 +14,7 @@ import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { searchPosts } from "../graphql/query";
+import { formatDateFromString } from "../Utils/CalculateDays";
 
 import iconBack from "../../assets/iconBack.png";
 import iconSearchW from "../../assets/iconSearchW.png";
@@ -55,36 +56,32 @@ export default () => {
       if (data.mx_posts?.length > 0) {
         return (
           <View style={{ paddingVertical: 10 }}>
-            {data.mx_posts.map(
-              (posts: SearchResultType, index: number) => {
-                const { title, createdBy, created_at, board, id } = posts;
-                const date = new Date(created_at).toLocaleString("ko");
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => postPressHandler(id)}
-                  >
-                    <View style={{ marginHorizontal: 30, marginVertical: 10 }}>
-                      <ViewRow>
-                        <Title16>{title}</Title16>
-                      </ViewRow>
-                      <ViewRow>
-                        <Image source={iconUser} style={{ marginRight: 8 }} />
-                        <Grey12 style={{ marginRight: 8 }}>
-                          {createdBy.name}
-                        </Grey12>
-                        <Grey12>{date}</Grey12>
-                        <SmallVerticalDivider />
-                        <Grey12>{board.title}</Grey12>
-                      </ViewRow>
-                    </View>
-                    {data.mx_posts.length !== index + 1 && (
-                      <LineSeperator />
-                    )}
-                  </TouchableOpacity>
-                );
-              }
-            )}
+            {data.mx_posts.map((posts: SearchResultType, index: number) => {
+              const { title, createdBy, created_at, board, id } = posts;
+              const date = formatDateFromString(created_at);
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => postPressHandler(id)}
+                >
+                  <View style={{ marginHorizontal: 30, marginVertical: 10 }}>
+                    <ViewRow>
+                      <Title16>{title}</Title16>
+                    </ViewRow>
+                    <ViewRow>
+                      <Image source={iconUser} style={{ marginRight: 8 }} />
+                      <Grey12 style={{ marginRight: 8 }}>
+                        {createdBy.name}
+                      </Grey12>
+                      <Grey12>{date}</Grey12>
+                      <SmallVerticalDivider />
+                      <Grey12>{board.title}</Grey12>
+                    </ViewRow>
+                  </View>
+                  {data.mx_posts.length !== index + 1 && <LineSeperator />}
+                </TouchableOpacity>
+              );
+            })}
           </View>
         );
       } else {

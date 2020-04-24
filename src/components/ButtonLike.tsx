@@ -8,6 +8,7 @@ import { Text } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
 import { useStore } from "../Store";
+import { closingDateFrom } from "../Utils/CalculateDays";
 import { likeSuggestion } from "../graphql/mutation";
 
 import iconAgree from "../../assets/iconAgree.png";
@@ -39,9 +40,7 @@ export default (props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  const closingAt = new Date(
-    ((d) => d.setDate(d.getDate() + 30))(new Date(created_at))
-  ).toDateString();
+  const closingAt = closingDateFrom(created_at);
   function voteHandler() {
     vote().then(() =>
       showMessage({

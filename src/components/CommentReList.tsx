@@ -13,6 +13,7 @@ import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
 import { Comment } from "../types";
 
+import { formatDateFromString } from "../Utils/CalculateDays";
 const commentModal = {
   width: 315,
   height: 171,
@@ -73,7 +74,7 @@ export default (props: {
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
         <Text>{user.checkedPosts[0] && "동의"}</Text>
         <Grey12 style={{ marginLeft: 9 }}>
-          {new Date(updated_at).toLocaleString("ko")}
+          {formatDateFromString(updated_at)}
         </Grey12>
         <SelectMenu items={options} />
       </ViewRow>
