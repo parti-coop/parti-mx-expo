@@ -27,15 +27,12 @@ export default (props: {
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
-    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
-  }, [group_id, board_id]);
+    dispatch({ type: "SET_GROUP", group_id });
+  }, [group_id]);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  if (!data?.mx_boards_by_pk) {
-    return null;
-  }
-  const { posts, title } = data.mx_boards_by_pk;
+  const { posts = [], title = "소식 로드 중" } = data?.mx_boards_by_pk ?? {};
   return (
     <>
       <HeaderList />
