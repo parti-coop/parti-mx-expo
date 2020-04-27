@@ -44,7 +44,7 @@ export default (props: {
               color: "#333333",
             }}
           >
-            {title}🌱
+            {title}
           </Text>
         </View>
 
