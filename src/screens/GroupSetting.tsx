@@ -49,7 +49,6 @@ export default (props: {
   const [groupName, setGroupName] = React.useState(props.route.params.title);
   const [imgUrl, setImgUrl] = React.useState(props.route.params.bg_img_url);
   const [update, { loading }] = useMutation(updateGroupName);
-  console.log(imgUrl);
   async function save() {
     dispatch({ type: "SET_LOADING", loading: true });
     if (imgUrl) {

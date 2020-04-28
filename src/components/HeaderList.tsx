@@ -33,7 +33,7 @@ export default (props: { board?: any }) => {
         }}
         onPress={navigateSearch}
       >
-        <Image source={iconSearch} />
+        <Image source={iconSearch} style={{ tintColor: "black" }} />
       </TouchableOpacity>
     </ViewRow>
   );

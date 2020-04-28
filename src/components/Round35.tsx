@@ -4,14 +4,16 @@ import { ViewStyle, TouchableOpacityProps } from "react-native";
 import { Image } from "./Image";
 import { V0 } from "./View";
 import { TOCenter } from "./TouchableOpacity";
+
+import iconSearch from "../../assets/iconSearch.png";
 export default (
   props: TouchableOpacityProps & {
     padding?: number;
-    source: any;
+    source?: any;
     style?: ViewStyle;
   }
 ) => {
-  const { padding = 30, source = null, style, ...prop } = props;
+  const { padding = 30, source = iconSearch, style, ...prop } = props;
   return (
     <TOCenter {...prop} style={{ padding }}>
       <V0
@@ -25,7 +27,7 @@ export default (
           style,
         ]}
       >
-        <Image source={source} />
+        <Image source={source} style={{ tintColor: "white" }} />
       </V0>
     </TOCenter>
   );

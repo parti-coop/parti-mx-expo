@@ -8,7 +8,7 @@ import { Mint14 } from "./Text";
 import { TO0 } from "../components/TouchableOpacity";
 
 import iconProfile from "../../assets/iconProfile.png";
-import btnDel from "../../assets/btnDel.png";
+import iconClosed from "../../assets/iconClosed.png";
 
 const UserStyle = {
   width: 83,
@@ -68,7 +68,7 @@ export default (props: {
           }}
           onPress={() => props.setUrl("")}
         >
-          <Image source={btnDel} />
+          <Image source={iconClosed} style={{ tintColor: "white" }} />
         </TO0>
       </View>
       <TO0 onPress={addImage}>

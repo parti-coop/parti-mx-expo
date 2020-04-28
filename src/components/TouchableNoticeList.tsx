@@ -15,7 +15,7 @@ import { useStore } from "../Store";
 import { Post } from "../types";
 
 import iconComment from "../../assets/iconComment.png";
-import iconUser from "../../assets/iconUser.png";
+import iconUserGrey from "../../assets/iconUserGrey.png";
 
 export default (props: { post: Post; style?: StyleProp<ViewStyle> }) => {
   const { navigate } = useNavigation();
@@ -60,7 +60,7 @@ export default (props: { post: Post; style?: StyleProp<ViewStyle> }) => {
             {post.title}
           </Text>
           <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Image source={iconUser} style={{ marginRight: 8 }} />
+            <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{post.updatedBy.name}</Grey12>
             <SmallVerticalDivider style={{ marginLeft: 10 }} />
             <Image

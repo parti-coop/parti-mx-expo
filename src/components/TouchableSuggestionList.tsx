@@ -17,7 +17,7 @@ import { Suggestion } from "../types";
 
 import iconSympathy from "../../assets/iconSympathy.png";
 import iconComment from "../../assets/iconComment.png";
-import iconUser from "../../assets/iconUser.png";
+import iconUserGrey from "../../assets/iconUserGrey.png";
 
 export default (props: {
   suggestion: Suggestion;
@@ -101,7 +101,7 @@ export default (props: {
             {suggestion.title}
           </Text>
           <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Image source={iconUser} style={{ marginRight: 8 }} />
+            <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{suggestion.updatedBy.name}</Grey12>
             <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
               {votedByMe && ", 동의함"}

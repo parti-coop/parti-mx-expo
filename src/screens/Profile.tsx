@@ -126,7 +126,7 @@ export default (props: {
         name: userName,
         photo_url: url ?? prevPhoroUrl,
       },
-    }).then(console.log);
+    });
     if (group_id) {
       navigate("Home");
     } else {

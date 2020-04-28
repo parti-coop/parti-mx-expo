@@ -11,7 +11,7 @@ import { TO0 } from "./TouchableOpacity";
 import { useStore } from "../Store";
 import { unlikeSuggestion } from "../graphql/mutation";
 
-import iconAgreeRed from "../../assets/iconAgreeRed.png";
+import iconAgree from "../../assets/iconAgree.png";
 const bgMenuBgCopy = {
   width: 124,
   height: 33,
@@ -39,7 +39,10 @@ export default ({ id }: { id: number }) => {
   return (
     <TO0 onPress={unlikeHandler}>
       <ViewRowCenter style={bgMenuBgCopy}>
-        <Image source={iconAgreeRed} style={{ marginRight: 4 }} />
+        <Image
+          source={iconAgree}
+          style={{ marginRight: 4, tintColor: "#f35f5f" }}
+        />
         <Red16>제안 동의함</Red16>
       </ViewRowCenter>
       <Mint13 style={{ marginTop: 9 }}>제안 동의 취소</Mint13>

@@ -55,7 +55,6 @@ export default (props: StackHeaderProps) => {
     }).then((res) => {
       if (res.cancelled !== true) {
         setImgUrl(res.uri);
-        console.log(res);
       }
     });
   }

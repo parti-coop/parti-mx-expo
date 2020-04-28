@@ -17,8 +17,8 @@ import { searchPosts } from "../graphql/query";
 import { formatDateFromString } from "../Utils/CalculateDays";
 
 import iconBack from "../../assets/iconBack.png";
-import iconSearchW from "../../assets/iconSearchW.png";
 import iconUser from "../../assets/iconUser.png";
+
 interface SearchResultType {
   id: number;
   title: string;
@@ -119,7 +119,7 @@ export default () => {
             borderBottomColor: "#e4e4e4",
           }}
         />
-        <Round35 source={iconSearchW} onPress={searchHandler} />
+        <Round35 onPress={searchHandler} />
       </ViewRow>
       <Text
         style={{ fontSize: 13, color: "#999999", marginLeft: 100, top: -15 }}

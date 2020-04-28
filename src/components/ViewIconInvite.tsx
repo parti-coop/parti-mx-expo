@@ -4,7 +4,7 @@ import { ViewStyle } from "react-native";
 import { Image } from "./Image";
 import { View } from "./View";
 
-import iconInvite from "../../assets/icon-invite.png";
+import iconInvite from "../../assets/iconInvite.png";
 export default (props: { style?: ViewStyle }) => {
   return (
     <View

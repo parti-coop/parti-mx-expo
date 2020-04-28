@@ -33,7 +33,7 @@ import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
 
-import iconFormClosed from "../../assets/iconFormClosed.png";
+import iconClosed from "../../assets/iconClosed.png";
 const options = [
   { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 },
@@ -296,7 +296,7 @@ export default (props: {
                       {o.name}
                     </Body16>
                     <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
-                      <Image source={iconFormClosed} />
+                      <Image source={iconClosed} />
                     </TO0>
                   </ViewRow>
                 ))}

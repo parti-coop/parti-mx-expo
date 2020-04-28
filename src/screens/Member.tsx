@@ -17,7 +17,7 @@ import { useStore } from "../Store";
 import { getMemberCount } from "../graphql/query";
 import { subscribeMemberCount } from "../graphql/subscription";
 
-import iconSearchMint from "../../assets/iconSearchMint.png";
+import iconSearch from "../../assets/iconSearch.png";
 const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
@@ -75,7 +75,7 @@ export default (props: { route: RouteProp<RootStackParamList, "Member"> }) => {
               placeholder="닉네임 입력"
               style={{ fontSize: 16, color: "#999999", paddingLeft: 0 }}
             />
-            <Image source={iconSearchMint} />
+            <Image source={iconSearch} style={{ tintColor: "#30ad9f" }} />
           </ViewRow>
           <GroupMember
             searchKeyword={searchKeyword}

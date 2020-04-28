@@ -9,7 +9,7 @@ import { TORowCenter } from "./TouchableOpacity";
 import { useStore } from "../Store";
 import { likeComment } from "../graphql/mutation";
 
-import iconAgreeRed11 from "../../assets/iconAgreeRed11.png";
+import iconAgree11 from "../../assets/iconAgree11.png";
 const bgMenuBg = {
   width: 51,
   height: 23,
@@ -32,7 +32,7 @@ export default (props: { id: number; style?: ViewStyle; count: number }) => {
   }, [loading]);
   return (
     <TORowCenter style={[bgMenuBg, style]} onPress={pressHandler}>
-      <Image source={iconAgreeRed11} style={{ marginRight: 3 }} />
+      <Image source={iconAgree11} style={{ marginRight: 3 }} />
       <Red12>{count}</Red12>
     </TORowCenter>
   );

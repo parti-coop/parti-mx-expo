@@ -9,7 +9,6 @@ import { White15 } from "./Text";
 import { TouchableOpacity, TOCenter } from "./TouchableOpacity";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
-import btnDetailMoreW from "../../assets/btnDetailMoreW.png";
 
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
@@ -66,7 +65,10 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           // zIndex: 2,
         }}
       >
-        <Image source={isVisible ? btnDetailMoreW : btnDetailMore} />
+        <Image
+          source={btnDetailMore}
+          style={isVisible && { tintColor: "white" }}
+        />
       </TOCenter>
       {isVisible && (
         <View style={[boxStyle]}>

@@ -8,7 +8,7 @@ import { Image } from "./Image";
 import { useStore } from "../Store";
 import { unlikeComment } from "../graphql/mutation";
 
-import iconAgreeRed11 from "../../assets/iconAgreeRed11.png";
+import iconAgree11 from "../../assets/iconAgree11.png";
 const bgMenuBg = {
   width: 51,
   height: 23,
@@ -24,14 +24,14 @@ export default (props: { id: number; style?: ViewStyle; count: number }) => {
     variables: { comment_id: id, user_id },
   });
   function pressHandler() {
-    unlike().then(console.log).catch(console.error);
+    unlike();
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return (
     <TORowCenter style={[bgMenuBg, style]} onPress={pressHandler}>
-      <Image source={iconAgreeRed11} style={{ marginRight: 3 }} />
+      <Image source={iconAgree11} style={{ marginRight: 3 }} />
       <Red12>{count}</Red12>
     </TORowCenter>
   );

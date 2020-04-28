@@ -32,7 +32,7 @@ import { updateSuggestion } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
 import { uploadFileUUID } from "../firebase";
 
-import iconFormClosed from "../../assets/iconFormClosed.png";
+import iconClosed from "../../assets/iconClosed.png";
 
 const options = [
   { label: "30일 후 종료", value: 0 },
@@ -295,7 +295,7 @@ export default (props: {
                       {o.name}
                     </Body16>
                     <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
-                      <Image source={iconFormClosed} />
+                      <Image source={iconClosed} />
                     </TO0>
                   </ViewRow>
                 ))}

@@ -4,7 +4,7 @@ import { ViewStyle } from "react-native";
 import { Image } from "./Image";
 import { View } from "./View";
 
-import iconQr from "../../assets/icon-qr.png";
+import iconQr from "../../assets/iconQr.png";
 
 export default (props: { style?: ViewStyle }) => {
   return (
