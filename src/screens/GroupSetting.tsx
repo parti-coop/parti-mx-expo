@@ -21,6 +21,7 @@ import { updateGroupName } from "../graphql/mutation";
 import { uploadImage } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";
+import iconNoImg from "../../assets/iconNoImg.png";
 
 const boxStyle = {
   backgroundColor: "#ffffff",
@@ -101,8 +102,8 @@ export default (props: {
             }}
           />
           <LineSeperator />
-          {imgUrl && (
-            <V1 style={{ margin: 30, marginBottom: 0 }}>
+          <V1 style={{ margin: 30, marginBottom: 0 }}>
+            {imgUrl ? (
               <ImageCache
                 uri={imgUrl}
                 resizeMode="cover"
@@ -111,8 +112,17 @@ export default (props: {
                   height: 150,
                 }}
               />
-            </V1>
-          )}
+            ) : (
+              <Image
+                source={iconNoImg}
+                resizeMode="cover"
+                style={{
+                  width: "100%",
+                  height: 150,
+                }}
+              />
+            )}
+          </V1>
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
             <Mint16>{imgUrl ? "사진 변경" : "사진 추가"}</Mint16>

@@ -19,6 +19,7 @@ import useBoardCreate from "../components/useBoardCreate";
 import { uploadImage } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";
+import iconNoImg from "../../assets/iconNoImg.png";
 const boxStyle = {
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
@@ -40,7 +41,7 @@ const boxStyle = {
 export default (props: StackHeaderProps) => {
   const [, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
-  const [bg_img_url, setImgUrl] = React.useState("");
+  const [bg_img_url, setImgUrl] = React.useState(null);
   const [createDefaultSuggestionBoard] = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
     variables: { groupName, bg_img_url },
@@ -69,7 +70,7 @@ export default (props: StackHeaderProps) => {
     }
     dispatch({ type: "SET_LOADING", loading: true });
     let url = null;
-    if (bg_img_url.length > 0) {
+    if (bg_img_url) {
       url = await uploadImage(bg_img_url, `bgImg/${uuid.v4()}`).then((snap) =>
         snap.ref.getDownloadURL()
       );
@@ -107,20 +108,16 @@ export default (props: StackHeaderProps) => {
             }}
           />
           <LineSeperator />
-          {bg_img_url.length > 0 && (
-            <V1 style={{ margin: 30, marginBottom: 0 }}>
-              <Image
-                source={{ uri: bg_img_url }}
-                resizeMode="cover"
-                style={{ width: "100%", height: 150 }}
-              />
-            </V1>
-          )}
+          <V1 style={{ margin: 30, marginBottom: 0 }}>
+            <Image
+              source={bg_img_url ? { uri: bg_img_url } : iconNoImg}
+              resizeMode="cover"
+              style={{ width: "100%", height: 150 }}
+            />
+          </V1>
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
-            <Mint16>
-              {bg_img_url.length === 0 ? "사진 추가" : "사진 변경"}
-            </Mint16>
+            <Mint16>{bg_img_url ? "사진 추가" : "사진 변경"}</Mint16>
           </TORowCenter>
         </View>
       </KeyboardAwareScrollView>
