@@ -4,7 +4,7 @@ import { ViewStyle, TextStyle, ImageStyle } from "react-native";
 import { Image, ImageCache } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Text } from "./Text";
-import IconUser from "../../assets/icon-user.png";
+import IconUser from "../../assets/iconUser.png";
 const UserStyle = {
   width: 35,
   height: 35,

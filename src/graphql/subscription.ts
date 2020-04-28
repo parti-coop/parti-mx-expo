@@ -29,7 +29,12 @@ export const subscribePostsByBoardId = gql`
       body
       title
       slug
-      posts(order_by: { updated_at: desc }) {
+      posts_aggregate {
+        aggregate {
+          count
+        }
+      }
+      posts(order_by: { updated_at: desc }, limit: 20) {
         title
         body
         context

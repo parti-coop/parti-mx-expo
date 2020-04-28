@@ -5,7 +5,7 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useSubscription } from "@apollo/react-hooks";
 
-import { Text } from "../components/Text";
+import { Text, Title24 } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import TouchableSuggestionList from "../components/TouchableSuggestionList";
 import HeaderList from "../components/HeaderList";
@@ -39,14 +39,7 @@ export default (props: {
       <HeaderList />
       <ScrollView>
         <View style={{ paddingHorizontal: 30 }}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: "#333333",
-            }}
-          >
-            {title}
-          </Text>
+          <Title24>{title}</Title24>
         </View>
 
         <ViewRow

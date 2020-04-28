@@ -13,16 +13,15 @@ import MySearchList from "./MySearchList";
 import useAppRefresh from "../components/useAppRefresh";
 
 import { searchGroups } from "../graphql/query";
-import { useStore } from "../Store";
 
-import iconUser from "../../assets/icon-user.png";
+import iconUser from "../../assets/iconUser.png";
 import ViewGroupImg from "./ViewGroupImg";
-import btnSearch from "../../assets/btn-search.png";
+import btnSearch from "../../assets/btnSearch.png";
+import btnSearchOn from "../../assets/btnSearchOn.png";
 import partimxLogoWhite from "../../assets/partimxLogoWhite.png";
 import iconAdd from "../../assets/iconAdd.png";
 
 export default (props) => {
-  const [{ user_id }] = useStore();
   const appRefresh = useAppRefresh();
   const { navigate } = props.navigation;
   const [searchKeyword, setSearchKeyword] = React.useState("");
@@ -105,7 +104,7 @@ export default (props) => {
         }}
       >
         <Image
-          source={btnSearch}
+          source={isSearching ? btnSearchOn : btnSearch}
           resizeMode="contain"
           style={{ width: 19, height: 20 }}
         />
@@ -115,7 +114,7 @@ export default (props) => {
           onFocus={focusHandler}
           placeholder="그룹명 입력"
           placeholderTextColor="rgba(57, 202, 186, 0.3)"
-          style={{ fontSize: 17 }}
+          style={{ fontSize: 17, color: "#4bdecd" }}
           onBlur={blurHandler}
         />
       </ViewRow>
