@@ -7,10 +7,9 @@ import { useSubscription } from "@apollo/react-hooks";
 
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
 import TouchableSuggestionList from "../components/TouchableSuggestionList";
 import HeaderList from "../components/HeaderList";
-import ButtonSuggestionNew from "../components/ButtonSuggestionNew";
+import ButtonNew from "../components/ButtonNew";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
@@ -79,7 +78,7 @@ export default (props: {
           })}
         </View>
       </ScrollView>
-      <ButtonSuggestionNew />
+      <ButtonNew onPress={() => props.navigation.navigate("SuggestionNew")} />
     </>
   );
 };

@@ -20,18 +20,17 @@ const rectangle3Copy3 = {
   shadowRadius: 7,
   shadowOpacity: 1,
 };
-export default () => {
-  const { navigate } = useNavigation();
+export default (props: { onPress: () => void }) => {
   return (
     <TouchableOpacity
-      onPress={() => navigate("SuggestionNew")}
+      onPress={props.onPress}
       style={[
         rectangle3Copy3,
         {
           alignItems: "center",
           justifyContent: "center",
           position: "absolute",
-          bottom: 10,
+          bottom: 50,
           right: 16,
         },
       ]}

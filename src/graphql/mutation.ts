@@ -21,7 +21,7 @@ export const updateUserName = gql`
   }
 `;
 
-export const insertSuggestion = gql`
+export const insertPost = gql`
   mutation(
     $board_id: Int!
     $group_id: Int!

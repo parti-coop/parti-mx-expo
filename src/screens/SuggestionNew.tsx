@@ -24,11 +24,11 @@ import { View, ViewRow, V0 } from "../components/View";
 import { TO1, TO0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
-import HeaderSuggestion from "../components/HeaderSuggestion";
+import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
-import { insertSuggestion } from "../graphql/mutation";
+import { insertPost } from "../graphql/mutation";
 
 import iconFormClosed from "../../assets/iconFormClosed.png";
 const options = [
@@ -67,7 +67,7 @@ function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
 }
 
 export default () => {
-  const [insert, { loading }] = useMutation(insertSuggestion);
+  const [insert, { loading }] = useMutation(insertPost);
   const [{ board_id, user_id, group_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
@@ -196,7 +196,7 @@ export default () => {
     <>
       <HeaderConfirm onPress={insertPressHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderSuggestion />
+        <HeaderBreadcrumb />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >

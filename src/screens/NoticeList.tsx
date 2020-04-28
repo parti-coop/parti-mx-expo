@@ -7,10 +7,9 @@ import { useSubscription } from "@apollo/react-hooks";
 
 import { Text } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import { TouchableOpacity } from "../components/TouchableOpacity";
-import TouchableSuggestionList from "../components/TouchableSuggestionList";
+import TouchableNoticeList from "../components/TouchableNoticeList";
 import HeaderList from "../components/HeaderList";
-import ButtonSuggestionNew from "../components/ButtonSuggestionNew";
+import ButtonNew from "../components/ButtonNew";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
@@ -27,7 +26,7 @@ export default (props: {
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
-    dispatch({ type: "SET_GROUP", group_id });
+    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
   }, [group_id]);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -75,11 +74,11 @@ export default (props: {
           }}
         >
           {posts.map((sugg: any, i: number) => {
-            return <TouchableSuggestionList key={i} suggestion={sugg} />;
+            return <TouchableNoticeList key={i} suggestion={sugg} />;
           })}
         </View>
       </ScrollView>
-      <ButtonSuggestionNew />
+      <ButtonNew onPress={() => props.navigation.navigate("NoticeNew")} />
     </>
   );
 };

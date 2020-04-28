@@ -2,49 +2,35 @@ import React from "react";
 import {
   StyleProp,
   TextStyle,
-  Keyboard,
-  Vibration,
   Alert,
+  Vibration,
+  Keyboard,
   ViewStyle,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+import { useNavigation } from "@react-navigation/native";
 import { launchImageLibraryAsync } from "expo-image-picker";
-import { useNavigation, RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as DocumentPicker from "expo-document-picker";
 
-import { Image } from "../components/Image";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text, Mint13, Body16, Mint16 } from "../components/Text";
+import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
+import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
-import { View, ViewRow } from "../components/View";
+import { View, ViewRow, V0 } from "../components/View";
 import { TO1, TO0 } from "../components/TouchableOpacity";
-import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
-import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
-import { useStore } from "../Store";
-import { updateSuggestion } from "../graphql/mutation";
-import { RootStackParamList } from "./AppContainer";
 import { uploadFileUUID } from "../firebase";
+import { useStore } from "../Store";
+import { insertPost } from "../graphql/mutation";
 
 import iconFormClosed from "../../assets/iconFormClosed.png";
 
-const options = [
-  { label: "30일 후 종료", value: 0 },
-  // { label: "멤버 과반수 동의시 종료", value: 1 }
-  // { label: "제안 정리시 종료", value: 2 }
-];
-const labelStyle: StyleProp<TextStyle> = {
-  fontSize: 13,
-  textAlign: "left",
-  color: "#30ad9f",
-  width: 80,
-};
 const textStyle: StyleProp<TextStyle> = {
   fontSize: 16,
   textAlign: "left",
@@ -67,39 +53,34 @@ const bgStyle: StyleProp<ViewStyle> = {
 };
 function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
   return new Promise(async function (res) {
-    let uri = o.uri;
-    if (uri.startsWith("file://")) {
-      uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
-        snap.ref.getDownloadURL()
-      );
-    }
-    return res({ ...o, uri });
+    const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
+      snap.ref.getDownloadURL()
+    );
+    res({ ...o, uri });
   });
 }
 
-export default (props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
-  route: RouteProp<RootStackParamList, "SuggestionEdit">;
-}) => {
-  const suggestion = props.route.params.suggestion;
-  const { id } = suggestion;
-  const [sTitle, setSTitle] = React.useState(suggestion.title);
-  const [sContext, setSContext] = React.useState(suggestion.context);
-  const [sBody, setSBody] = React.useState(suggestion.body);
-  const [closingMethod, setClosingMethod] = React.useState(
-    suggestion.metadata?.closingMethod ?? 0
-  );
-  const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
-    suggestion.images ?? []
+export default () => {
+  const [insert, { loading }] = useMutation(insertPost);
+  const [{ board_id, group_id }, dispatch] = useStore();
+  const [sTitle, setSTitle] = React.useState("");
+  const [sBody, setSBody] = React.useState("");
+  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
+    []
   );
   const [fileArr, setFileArr] = React.useState<
     Array<DocumentPicker.DocumentResult>
-  >(suggestion.files ?? []);
+  >([]);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
-  const [, dispatch] = useStore();
-  const { goBack } = useNavigation();
-  const [update, { loading }] = useMutation(updateSuggestion);
+
+  const { navigate } = useNavigation();
+  function resetInput() {
+    setSTitle("");
+    setSBody("");
+    setImageArr([]);
+    setFileArr([]);
+  }
   async function addImage() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -107,9 +88,12 @@ export default (props: {
     }).then(({ cancelled, ...res }) => {
       if (cancelled !== true) {
         setImageArr([...imageArr, res as ImageInfo]);
-        Keyboard.dismiss();
       }
     });
+  }
+  async function fileUploadHandler() {
+    const file = await DocumentPicker.getDocumentAsync();
+    setFileArr([...fileArr, file]);
   }
   async function fileDeleteHandler(fileIndex: number) {
     return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
@@ -126,11 +110,7 @@ export default (props: {
       },
     ]);
   }
-  async function fileUploadHandler() {
-    const file = await DocumentPicker.getDocumentAsync();
-    setFileArr([...fileArr, file]);
-  }
-  async function longpressHandler(imageIndex: number) {
+  async function imageLongpressHandler(imageIndex: number) {
     Keyboard.dismiss();
     Vibration.vibrate(100);
     return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
@@ -147,9 +127,27 @@ export default (props: {
       },
     ]);
   }
-  async function updateHandler() {
-    dispatch({ type: "SET_LOADING", loading: true });
+  async function insertPressHandler() {
+    if (!sTitle.trim()) {
+      return showMessage({
+        message: "소식명을 입력해주세요.",
+        type: "warning",
+      });
+    }
+    if (sTitle?.trim()?.length > 20) {
+      return showMessage({
+        message: "소식명을 20자 이내로 입력해주세요.",
+        type: "warning",
+      });
+    }
+    if (!sBody?.trim()) {
+      return showMessage({
+        message: "소식 내용을 입력해주세요.",
+        type: "warning",
+      });
+    }
     let images = null;
+    dispatch({ type: "SET_LOADING", loading: true });
     if (imageArr.length > 0) {
       const urlArr = await Promise.all(imageArr.map(promiseArray));
       images = urlArr;
@@ -159,120 +157,76 @@ export default (props: {
       const urlArr = await Promise.all(fileArr.map(promiseArray));
       files = urlArr;
     }
-    await update({
+    await insert({
       variables: {
-        sBody,
         sTitle,
-        sContext,
-        metadata: { closingMethod },
-        id,
+        sBody,
+        board_id,
+        group_id,
         images,
         files,
       },
     });
-    showMessage({
-      message: "수정되었습니다.",
-      type: "success",
-    });
-    goBack();
+
+    navigate("NoticeList");
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
+    return resetInput;
   }, [loading]);
-  React.useEffect(() => {
-    setSTitle(suggestion.title);
-    setSContext(suggestion.context);
-    setSBody(suggestion.body);
-    setClosingMethod(suggestion.metadata?.closingMethod ?? 0);
-    setImageArr(suggestion.images ?? []);
-    setFileArr(suggestion.files ?? []);
-  }, [suggestion]);
+
   return (
     <>
-      <HeaderConfirm onPress={updateHandler} />
+      <HeaderConfirm onPress={insertPressHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderBreadcrumb />
+        <HeaderBreadcrumb boardName="소식 게시판" />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
-          <Text
-            style={{
-              fontSize: 22,
-              textAlign: "left",
-              color: "#333333",
-            }}
-          >
-            글 쓰기
-          </Text>
+          <Title22>글 쓰기</Title22>
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
+            <Mint13 style={{ paddingVertical: 24, width: 80 }}>제목</Mint13>
             <TextInput
               value={sTitle}
               autoFocus
               onChangeText={setSTitle}
               placeholderTextColor="#999999"
-              style={textStyle}
+              style={[textStyle]}
               onSubmitEditing={() => contextRef.current.focus()}
-            />
-          </ViewRow>
-          <LineSeperator />
-          <ViewRow
-            style={{
-              paddingHorizontal: 30,
-            }}
-          >
-            <Text style={labelStyle}>종료 방법</Text>
-            <TouchableClosingMethod
-              value={closingMethod}
-              onChange={setClosingMethod}
-              items={options}
+              placeholder="제목을 입력해 주세요"
             />
           </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
-          <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
-            <AutoGrowingTextInput
-              value={sContext}
-              multiline
-              textAlignVertical="top"
-              placeholder="제안 배경을 입력해 주세요"
-              placeholderTextColor="#999999"
-              onChangeText={setSContext}
-              style={[textStyle, , { minHeight: 50 }]}
-              ref={contextRef}
-            />
-          </View>
-          <LineSeperator />
           <View
             style={{
-              padding: 30,
-              paddingBottom: 20,
+              paddingHorizontal: 30,
+              paddingVertical: 20,
               flex: 1,
             }}
           >
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+            <Mint13 style={{ paddingBottom: 19 }}>내용 입력</Mint13>
             <AutoGrowingTextInput
               value={sBody}
               multiline
               textAlignVertical="top"
-              placeholder="제안 내용을 입력해 주세요"
+              placeholder="내용을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSBody}
               style={[textStyle, { minHeight: 180 }]}
             />
           </View>
           <LineSeperator />
-          {imageArr?.length > 0 && (
+          {imageArr.length > 0 && (
             <>
               <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                {imageArr?.map((o, i) => (
+                {imageArr.map((o, i) => (
                   <TO0
                     key={i}
                     style={{ marginBottom: 10 }}
-                    onLongPress={() => longpressHandler(i)}
+                    onLongPress={() => imageLongpressHandler(i)}
                   >
                     <Image
                       source={o}

@@ -7,7 +7,8 @@ import { Text } from "./Text";
 import iconHome from "../../assets/iconHome.png";
 import iconNavi from "../../assets/iconNavi.png";
 
-export default () => {
+export default (props: { boardName?: string }) => {
+  const { boardName = "제안 게시판" } = props;
   return (
     <ViewRow style={{ paddingHorizontal: 30 }}>
       <Image source={iconHome} />
@@ -20,7 +21,7 @@ export default () => {
           paddingHorizontal: 2,
         }}
       >
-        제안 게시판
+        {boardName}
       </Text>
     </ViewRow>
   );

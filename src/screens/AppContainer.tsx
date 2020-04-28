@@ -9,6 +9,7 @@ import Home from "./Home";
 import SuggestionList from "./SuggestionList";
 import NoticeList from "./NoticeList";
 import SuggestionNew from "./SuggestionNew";
+import NoticeNew from "./NoticeNew";
 import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
 import UserSetting from "./UserSetting";
@@ -42,6 +43,7 @@ export type RootStackParamList = {
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};
   SuggestionNew: {};
+  NoticeNew: {};
   SuggestionDetail: { postId: number };
   SuggestionEdit: {
     suggestion: {
@@ -117,6 +119,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
       <Drawer.Screen name="NoticeList" component={NoticeList} />
       <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
+      <Drawer.Screen name="NoticeNew" component={NoticeNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
       <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />

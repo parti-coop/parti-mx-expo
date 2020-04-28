@@ -17,7 +17,7 @@ import ButtonLike from "../components/ButtonLike";
 import ButtonUnlike from "../components/ButtonUnlike";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import HeaderShare from "../components/HeaderShare";
-import HeaderSuggestion from "../components/HeaderSuggestion";
+import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
@@ -122,7 +122,7 @@ export default (props: {
     <>
       <HeaderShare id={id} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderSuggestion />
+        <HeaderBreadcrumb />
         <ViewTitle title={title} updated_at={updated_at} />
         <View style={box}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
