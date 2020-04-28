@@ -8,26 +8,26 @@ import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import { DocumentResult } from "expo-document-picker";
 
 import { ImageCache, ImageView } from "../components/Image";
-import { Text, Mint13, Body16 } from "../components/Text";
+import { Text, Mint13, Body16, Title14 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
 import { TO0, TORow } from "../components/TouchableOpacity";
-import UserProfileWithName from "../components/UserProfileWithName";
+import UserProfileNameDate from "../components/UserProfileNameDate";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import ButtonSuggestionLike from "../components/ButtonSuggestionLike";
-import ButtonUnlike from "../components/ButtonUnlike";
+import ButtonPostLike from "../components/ButtonPostLike";
+import ButtonPostUnlike from "../components/ButtonPostUnlike";
 import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
-import SuggestionTabs from "../components/SuggestionTabs";
+import Comments from "../components/Comments";
 
 import { useStore } from "../Store";
-import { subscribeSuggestion } from "../graphql/subscription";
+import { subscribeNotice } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
-import { PostDetail } from "../types";
+import { NoticeDetail } from "../types";
 
 const box = {
   marginTop: 40,
@@ -54,14 +54,14 @@ const bodyTextStyle = {
   color: "#555555",
 } as TextStyle;
 export default (props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
-  route: RouteProp<RootStackParamList, "SuggestionDetail">;
+  navigation: StackNavigationProp<RootStackParamList, "NoticeDetail">;
+  route: RouteProp<RootStackParamList, "NoticeDetail">;
 }) => {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.postId;
 
   const [deleteSuggestion] = HooksDeleteSuggestion(id);
-  const { data, loading } = useSubscription(subscribeSuggestion, {
+  const { data, loading } = useSubscription(subscribeNotice, {
     variables: { id, user_id },
   });
   const scrollRef = React.useRef(null);
@@ -84,13 +84,13 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading: true });
   }, [id]);
 
-  const suggestion: PostDetail = data?.mx_posts_by_pk ?? {};
+  const notice: NoticeDetail = data?.mx_posts_by_pk ?? {};
   const options = [
     {
       label: "수정하기",
       handler: () =>
-        navigate("SuggestionEdit", {
-          suggestion,
+        navigate("NoticeEdit", {
+          notice,
         }),
     },
     // { label: "제안 정리", handler: () => {} },
@@ -101,8 +101,6 @@ export default (props: {
   const {
     title = "제목 로딩 중",
     body = "",
-    context = "",
-    metadata = {},
     createdBy = { photo_url: "", name: "" },
     updated_at = "",
     created_at = "",
@@ -110,40 +108,29 @@ export default (props: {
     images = [],
     files = [],
     meLiked = [],
-    likedUsers = [],
     board = { title: "" },
-  } = suggestion;
+    users_aggregate,
+  } = notice;
   const liked = meLiked?.[0]?.like_count ?? 0;
-  const voteUsers = likedUsers.map((n: any) => ({
-    name: n.user.name,
-    created_at: n.created_at,
-    photo_url: n.user.photo_url,
-  }));
+  const totalLiked = users_aggregate?.aggregate?.sum?.like_count ?? 0;
 
   return (
     <>
       <HeaderShare id={id} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
-        <ViewTitle title={title} updated_at={updated_at} />
+        <ViewTitle title={title} />
         <View style={box}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
-            <View>
-              <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
-              <UserProfileWithName
-                name={createdBy.name}
-                photoUrl={createdBy.photo_url}
-              />
-            </View>
+            <UserProfileNameDate
+              name={createdBy.name}
+              photoUrl={createdBy.photo_url}
+              date={updated_at}
+            />
             <SelectMenu items={options} />
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Text style={[labelStyle, { marginBottom: 19 }]}>제안 배경</Text>
-            <Text style={bodyTextStyle}>{context}</Text>
-          </View>
-          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
             <Text style={bodyTextStyle}>{body}</Text>
           </View>
           {images?.length > 0 && (
@@ -179,22 +166,16 @@ export default (props: {
           )}
           <V0 style={{ marginTop: 50 }}>
             {liked > 0 ? (
-              <ButtonUnlike id={id} />
+              <ButtonPostUnlike id={id} total={totalLiked} />
             ) : (
-              <ButtonSuggestionLike
-                id={id}
-                created_at={created_at}
-                closingMethod={metadata?.closingMethod}
-              />
+              <ButtonPostLike id={id} total={totalLiked} />
             )}
           </V0>
         </View>
-        <SuggestionTabs
-          id={id}
-          comments={comments}
-          voteUsers={voteUsers}
-          scrollRef={scrollRef}
-        />
+        <ViewRow style={{ paddingVertical: 20, paddingHorizontal: 30 }}>
+          <Title14>댓글 {comments.length}</Title14>
+        </ViewRow>
+        <Comments comments={comments} postId={id} scrollRef={scrollRef} />
       </KeyboardAwareScrollView>
       <ImageView
         images={images}

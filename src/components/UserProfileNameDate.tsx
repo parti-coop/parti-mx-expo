@@ -4,7 +4,11 @@ import { ViewStyle, ImageStyle } from "react-native";
 import { Image, ImageCache } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Caption16, Grey12 } from "./Text";
+
+import { formatDateFromString } from "../Utils/CalculateDays";
+
 import IconUser from "../../assets/iconUser.png";
+
 const UserStyle = {
   width: 35,
   height: 35,
@@ -15,7 +19,7 @@ const UserStyle = {
 
 export default (props: { name: string; date: string; photoUrl?: string }) => {
   const { name, date, photoUrl } = props;
-  const d = new Date(date).toLocaleTimeString();
+  const d = formatDateFromString(date);
   const userPhoto = (
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );

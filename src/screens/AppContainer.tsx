@@ -12,6 +12,7 @@ import SuggestionNew from "./SuggestionNew";
 import NoticeNew from "./NoticeNew";
 import SuggestionEdit from "./SuggestionEdit";
 import SuggestionDetail from "./SuggestionDetail";
+import NoticeDetail from "./NoticeDetail";
 import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
 import TermsPrivacy from "./TermsPrivacy";
@@ -45,6 +46,7 @@ export type RootStackParamList = {
   SuggestionNew: { boardId: number; boardName: string };
   NoticeNew: { boardId: number; boardName: string };
   SuggestionDetail: { postId: number };
+  NoticeDetail: { postId: number };
   SuggestionEdit: {
     suggestion: {
       id: number;
@@ -67,7 +69,7 @@ export type RootStackParamList = {
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 export default function MyDrawer() {
-  const [{ loading }, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [debouncedRefreshToken] = useDebouncedCallback(refreshAuthToken, 2000);
   const [isNewUser, setNewUser] = React.useState(null);
   async function refreshAuthToken() {
@@ -121,6 +123,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
       <Drawer.Screen name="NoticeNew" component={NoticeNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
+      <Drawer.Screen name="NoticeDetail" component={NoticeDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
       <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />
       <Drawer.Screen name="TermsService" component={TermsService} />

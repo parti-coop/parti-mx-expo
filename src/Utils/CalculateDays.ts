@@ -18,5 +18,9 @@ export function closingDateFrom(created_at: string) {
   return format(addDays(new Date(), 30), "yyyy.MM.dd");
 }
 export function formatDateFromString(date: string) {
-  return format(new Date(date), "yyyy.MM.dd HH:mm:ss");
+  try {
+    return format(new Date(date), "yyyy.MM.dd HH:mm");
+  } catch (error) {
+    return error.message;
+  }
 }

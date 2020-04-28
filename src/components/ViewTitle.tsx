@@ -14,13 +14,13 @@ const dateStyle = {
   textAlign: "left",
   color: "#909090",
 } as TextStyle;
-export default (props: { title: string; updated_at: string }) => {
-  const { title, updated_at } = props;
+export default (props: { title: string; updated_at?: string }) => {
+  const { title, updated_at = null } = props;
   const date = formatDateFromString(updated_at);
   return (
     <View style={{ paddingHorizontal: 30, paddingTop: 20 }}>
       <Text style={titleStyle}>{title}</Text>
-      <Text style={dateStyle}>{date}</Text>
+      {updated_at && <Text style={dateStyle}>{date}</Text>}
     </View>
   );
 };

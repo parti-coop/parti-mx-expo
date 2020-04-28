@@ -64,11 +64,10 @@ export type User = {
   photo_url: string;
 };
 
-export type SuggestionDetail = {
+export type PostDetail = {
   id: number;
   title: string;
   body: string;
-  context: string;
   metadata: any;
   images: any;
   files: any;
@@ -80,11 +79,26 @@ export type SuggestionDetail = {
   meLiked: {
     like_count: number;
   }[];
+  board: {
+    title: string;
+  };
+};
+export interface SuggestionDetail extends PostDetail {
   likedUsers: {
     created_at: string;
     user: User;
   }[];
-};
+  context: string;
+}
+export interface NoticeDetail extends PostDetail {
+  users_aggregate: {
+    aggregate: {
+      sum: {
+        like_count: number;
+      };
+    };
+  };
+}
 
 export type RecommentArgs = {
   id: number;

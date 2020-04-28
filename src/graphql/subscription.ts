@@ -74,6 +74,9 @@ export const subscribeSuggestion = gql`
       metadata
       images
       files
+      board {
+        title
+      }
       updatedBy {
         name
         photo_url
@@ -101,6 +104,53 @@ export const subscribeSuggestion = gql`
         user {
           name
           photo_url
+        }
+      }
+    }
+  }
+  ${commentsResult}
+`;
+
+export const subscribeNotice = gql`
+  subscription($id: Int!, $user_id: Int!) {
+    mx_posts_by_pk(id: $id) {
+      id
+      title
+      body
+      context
+      metadata
+      images
+      files
+      board {
+        title
+      }
+      updatedBy {
+        name
+        photo_url
+      }
+      createdBy {
+        name
+        photo_url
+      }
+      comments(
+        order_by: { created_at: asc }
+        where: { parent_id: { _is_null: true } }
+      ) {
+        ...comments_result
+        re(order_by: { created_at: asc }) {
+          ...comments_result
+        }
+      }
+      created_at
+      updated_at
+      meLiked: users(where: { user_id: { _eq: $user_id } }) {
+        like_count
+      }
+      users_aggregate {
+        aggregate {
+          sum {
+            like_count
+          }
         }
       }
     }

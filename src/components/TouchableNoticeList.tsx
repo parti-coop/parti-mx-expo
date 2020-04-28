@@ -29,7 +29,7 @@ export default (props: { post: Post; style?: StyleProp<ViewStyle> }) => {
   return (
     <TouchableOpacity
       onPress={(e) =>
-        navigate("SuggestionDetail", {
+        navigate("NoticeDetail", {
           postId: post.id,
         })
       }
