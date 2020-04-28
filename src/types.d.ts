@@ -34,7 +34,7 @@ export interface Comment {
   re?: Comment[];
 }
 
-export type Suggestion = {
+export type Post = {
   id: number;
   title: string;
   body: string;
@@ -57,6 +57,7 @@ export type Suggestion = {
     };
   };
 };
+export type Suggestion = Post;
 
 export type User = {
   name: string;

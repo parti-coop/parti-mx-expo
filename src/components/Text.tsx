@@ -508,6 +508,28 @@ export const Blue16: React.FunctionComponent<TextProps> = (props) => (
   </T>
 );
 
+export const White11: React.FunctionComponent<TextProps> = (props) => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 11,
+        color: "#ffffff",
+      },
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(16),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const White15: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}

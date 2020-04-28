@@ -4,10 +4,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
-import { View, ViewRow, V0 } from "./View";
+import { V1, ViewRow, V0 } from "./View";
 import { Text, Grey12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
+import ViewLikeCount from "./ViewLikeCount";
 
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
@@ -28,7 +29,8 @@ export default (props: {
   const [update, { data }] = useMutation(updateUserBoardCheck, {
     variables: { user_id, board_id: suggestion.id },
   });
-  const voteCount = suggestion.users_aggregate.aggregate.sum.like_count;
+  const voteCount =
+    suggestion?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe =
     suggestion.users.length > 0 && suggestion.users[0].like_count > 0;
   const daysLeft = calculateDays(suggestion.created_at);
@@ -78,7 +80,17 @@ export default (props: {
             {daysLeft}
           </Text>
         </V0>
-        <View style={{ flex: 1 }}>
+        <V1
+          style={[
+            {
+              alignItems: "flex-start",
+              paddingVertical: 19,
+              borderBottomColor: "#e4e4e4",
+              marginRight: 25,
+            },
+            style,
+          ]}
+        >
           <Text
             style={{
               fontSize: 16,
@@ -102,22 +114,11 @@ export default (props: {
             <Grey12>{suggestion.comments_aggregate.aggregate.count}</Grey12>
             {/* {suggestion.closed_at && <Text>{suggestion.closed_at}</Text>} */}
           </ViewRow>
-        </View>
-        <V0
-          style={{
-            width: 35,
-            height: 35,
-            borderRadius: 15,
-            backgroundColor: "#f35f5f",
-            position: "absolute",
-            right: -15,
-          }}
-        >
-          <Image source={iconSympathy} />
-          <Text style={{ fontSize: 11, textAlign: "center", color: "#ffffff" }}>
-            {voteCount || 0}
-          </Text>
-        </V0>
+        </V1>
+        <ViewLikeCount
+          style={{ position: "absolute", right: -15 }}
+          count={voteCount}
+        />
       </ViewRow>
     </TouchableOpacity>
   );

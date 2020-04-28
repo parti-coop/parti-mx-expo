@@ -76,7 +76,13 @@ export default (props: {
           }}
         >
           {posts.map((sugg: any, i: number) => {
-            return <TouchableSuggestionList key={i} suggestion={sugg} />;
+            return (
+              <TouchableSuggestionList
+                key={i}
+                suggestion={sugg}
+                style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
+              />
+            );
           })}
         </View>
       </ScrollView>
