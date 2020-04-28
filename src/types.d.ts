@@ -34,7 +34,7 @@ export interface Comment {
   re?: Comment[];
 }
 
-export type Post = {
+export type PostListType = {
   id: number;
   title: string;
   body: string;
@@ -57,14 +57,14 @@ export type Post = {
     };
   };
 };
-export type Suggestion = Post;
+export type SuggestionListType = PostListType;
 
 export type User = {
   name: string;
   photo_url: string;
 };
 
-export type PostDetail = {
+export type PostDetailType = {
   id: number;
   title: string;
   body: string;
@@ -83,14 +83,14 @@ export type PostDetail = {
     title: string;
   };
 };
-export interface SuggestionDetail extends PostDetail {
+export interface SuggestionDetailType extends PostDetailType {
   likedUsers: {
     created_at: string;
     user: User;
   }[];
   context: string;
 }
-export interface NoticeDetail extends PostDetail {
+export interface NoticeDetailType extends PostDetailType {
   users_aggregate: {
     aggregate: {
       sum: {

@@ -86,7 +86,7 @@ export const updateSuggestion = gql`
   }
 `;
 
-export const deleteSuggestion = gql`
+export const deletePost = gql`
   mutation($id: Int!) {
     delete_mx_posts(where: { id: { _eq: $id } }) {
       affected_rows

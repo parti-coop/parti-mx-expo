@@ -14,7 +14,7 @@ import UserProfileNameDate from "../components/UserProfileNameDate";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonPostLike from "../components/ButtonPostLike";
 import ButtonPostUnlike from "../components/ButtonPostUnlike";
-import HooksDeleteSuggestion from "../components/HooksDeleteSuggestion";
+import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
@@ -26,7 +26,7 @@ import { useStore } from "../Store";
 import { subscribeNotice } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
-import { NoticeDetail, File } from "../types";
+import { NoticeDetailType, File } from "../types";
 
 const box = {
   marginTop: 40,
@@ -59,7 +59,7 @@ export default (props: {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.postId;
 
-  const [deleteSuggestion] = HooksDeleteSuggestion(id);
+  const [deletePost] = usePostDelete(id);
   const { data, loading } = useSubscription(subscribeNotice, {
     variables: { id, user_id },
   });
@@ -83,7 +83,7 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading: true });
   }, [id]);
 
-  const notice: NoticeDetail = data?.mx_posts_by_pk ?? {};
+  const notice: NoticeDetailType = data?.mx_posts_by_pk ?? {};
   const options = [
     {
       label: "수정하기",
@@ -94,7 +94,7 @@ export default (props: {
     },
     // { label: "제안 정리", handler: () => {} },
     // { label: "공지 올리기", handler: () => {} },
-    { label: "삭제하기", handler: deleteSuggestion },
+    { label: "삭제하기", handler: deletePost },
   ];
 
   const {

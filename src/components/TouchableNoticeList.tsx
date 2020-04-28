@@ -12,12 +12,15 @@ import ViewLikeCount from "./ViewLikeCount";
 
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
-import { Post } from "../types";
+import { PostListType } from "../types";
 
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
 
-export default (props: { post: Post; style?: StyleProp<ViewStyle> }) => {
+export default (props: {
+  post: PostListType;
+  style?: StyleProp<ViewStyle>;
+}) => {
   const { navigate } = useNavigation();
   const { post, style } = props;
   const [{ user_id }] = useStore();

@@ -13,14 +13,14 @@ import ViewLikeCount from "./ViewLikeCount";
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { calculateDays } from "../Utils/CalculateDays";
-import { Suggestion } from "../types";
+import { SuggestionListType } from "../types";
 
 import iconSympathy from "../../assets/iconSympathy.png";
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
 
 export default (props: {
-  suggestion: Suggestion;
+  suggestion: SuggestionListType;
   style?: StyleProp<ViewStyle>;
 }) => {
   const { navigate } = useNavigation();

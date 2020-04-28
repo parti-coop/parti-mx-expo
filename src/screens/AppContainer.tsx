@@ -32,6 +32,7 @@ import CustomDrawer from "../components/CustomDrawer";
 import { useStore } from "../Store";
 import { auth, IdTokenResult } from "../firebase";
 import { minutesDiff } from "../Utils/CalculateDays";
+import { SuggestionDetailType, NoticeDetailType } from "../types";
 export type RootStackParamList = {
   Home: {};
   Intro: {};
@@ -48,15 +49,10 @@ export type RootStackParamList = {
   SuggestionDetail: { postId: number };
   NoticeDetail: { postId: number };
   SuggestionEdit: {
-    suggestion: {
-      id: number;
-      title: string;
-      context: string;
-      body: string;
-      metadata: any;
-      images: ImageInfo[];
-      files: DocumentResult[];
-    };
+    suggestion: SuggestionDetailType;
+  };
+  NoticeEdit: {
+    notice: NoticeDetailType;
   };
   TermsPrivacy: {};
   TermsService: {};
