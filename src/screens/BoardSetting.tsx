@@ -26,10 +26,7 @@ export default (props: {
   if (error) {
     console.log(error);
   }
-  if (!data) {
-    return null;
-  }
-  const { boards } = data.mx_groups_by_pk;
+  const { boards = [] } = data?.mx_groups_by_pk ?? {};
   return (
     <>
       <HeaderBack />
