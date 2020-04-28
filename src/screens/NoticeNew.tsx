@@ -8,6 +8,9 @@ import {
   ViewStyle,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
+import { RootStackParamList } from "./AppContainer";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
@@ -60,9 +63,13 @@ function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
   });
 }
 
-export default () => {
+export default (props: {
+  navigation: StackNavigationProp<RootStackParamList, "NoticeNew">;
+  route: RouteProp<RootStackParamList, "NoticeNew">;
+}) => {
+  const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
-  const [{ board_id, group_id }, dispatch] = useStore();
+  const [{ group_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sBody, setSBody] = React.useState("");
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
@@ -161,7 +168,7 @@ export default () => {
       variables: {
         sTitle,
         sBody,
-        board_id,
+        board_id: boardId,
         group_id,
         images,
         files,
@@ -179,7 +186,7 @@ export default () => {
     <>
       <HeaderConfirm onPress={insertPressHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderBreadcrumb boardName="소식 게시판" />
+        <HeaderBreadcrumb boardName={boardName} />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >

@@ -42,8 +42,8 @@ export type RootStackParamList = {
   Logout: {};
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};
-  SuggestionNew: {};
-  NoticeNew: {};
+  SuggestionNew: { boardId: number; boardName: string };
+  NoticeNew: { boardId: number; boardName: string };
   SuggestionDetail: { postId: number };
   SuggestionEdit: {
     suggestion: {

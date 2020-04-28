@@ -19,19 +19,22 @@ export default (props: {
   route: RouteProp<RootStackParamList, "NoticeList">;
 }) => {
   const [store, dispatch] = useStore();
-  const board_id = props.route.params.id;
+  const boardId = props.route.params.id;
   const { group_id, user_id } = store;
   const { data, loading } = useSubscription(subscribePostsByBoardId, {
-    variables: { id: board_id, userId: user_id },
+    variables: { id: boardId, userId: user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
-    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
+    dispatch({ type: "SET_GROUP", group_id });
   }, [group_id]);
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   const { posts = [], title = "소식 로드 중" } = data?.mx_boards_by_pk ?? {};
+  function navigateNew() {
+    props.navigation.navigate("NoticeNew", { boardId, boardName: title });
+  }
   return (
     <>
       <HeaderList />
@@ -78,7 +81,7 @@ export default (props: {
           })}
         </View>
       </ScrollView>
-      <ButtonNew onPress={() => props.navigation.navigate("NoticeNew")} />
+      <ButtonNew onPress={navigateNew} />
     </>
   );
 };

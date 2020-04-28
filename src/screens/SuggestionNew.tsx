@@ -14,6 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as DocumentPicker from "expo-document-picker";
+import { RootStackParamList } from "./AppContainer";
+import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
@@ -66,9 +69,13 @@ function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
   });
 }
 
-export default () => {
+export default (props: {
+  navigation: StackNavigationProp<RootStackParamList, "SuggestionNew">;
+  route: RouteProp<RootStackParamList, "SuggestionNew">;
+}) => {
+  const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
-  const [{ board_id, user_id, group_id }, dispatch] = useStore();
+  const [{ group_id }, dispatch] = useStore();
   const [sTitle, setSTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [sBody, setSBody] = React.useState("");
@@ -177,7 +184,7 @@ export default () => {
         sTitle,
         sContext,
         sBody,
-        board_id,
+        board_id: boardId,
         group_id,
         metadata: { closingMethod },
         images,
@@ -196,7 +203,7 @@ export default () => {
     <>
       <HeaderConfirm onPress={insertPressHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderBreadcrumb />
+        <HeaderBreadcrumb boardName={boardName} />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
