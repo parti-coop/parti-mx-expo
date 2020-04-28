@@ -3,7 +3,6 @@
     "name": "Parti Mx",
     "slug": "parti-mx",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",

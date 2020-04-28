@@ -5,7 +5,6 @@ import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
-import { DocumentResult } from "expo-document-picker";
 
 import { ImageCache, ImageView } from "../components/Image";
 import { Text, Mint13, Body16, Title14 } from "../components/Text";
@@ -27,7 +26,7 @@ import { useStore } from "../Store";
 import { subscribeNotice } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
-import { NoticeDetail } from "../types";
+import { NoticeDetail, File } from "../types";
 
 const box = {
   marginTop: 40,
@@ -73,7 +72,7 @@ export default (props: {
     setImgIndex(index);
   }
 
-  function openFileHandler(file: DocumentResult) {
+  function openFileHandler(file: File) {
     Linking.openURL(file.uri);
   }
 
@@ -155,7 +154,7 @@ export default (props: {
           {files?.length > 0 && (
             <View style={{ marginHorizontal: 30, marginTop: 40 }}>
               <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
-              {files?.map((o: DocumentResult, i: number) => {
+              {files?.map((o: File, i: number) => {
                 return (
                   <TORow key={i} onPress={() => openFileHandler(o)}>
                     <Body16>{o.name}</Body16>

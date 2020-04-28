@@ -105,3 +105,11 @@ export type RecommentArgs = {
   user: Comment["user"];
   reUser?: Comment["user"];
 };
+
+export interface File {
+  name: string;
+  size: number;
+  uri: string;
+  lastModified?: number;
+  file?: File;
+}
