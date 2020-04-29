@@ -9,7 +9,7 @@ import { deletePost } from "../graphql/mutation";
 
 export default (id: number) => {
   const [, dispatch] = useStore();
-  const { navigate } = useNavigation();
+  const { goBack } = useNavigation();
   const [del, { loading }] = useMutation(deletePost, {
     variables: { id },
   });
@@ -22,7 +22,7 @@ export default (id: number) => {
       type: "success",
       message: "삭제 되었습니다",
     });
-    navigate("SuggestionList");
+    goBack();
   }
 
   function showAlert() {
