@@ -24,11 +24,12 @@ import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
-import { TO1, TO0 } from "../components/TouchableOpacity";
+import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 
+import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
@@ -60,7 +61,7 @@ const bgStyle: StyleProp<ViewStyle> = {
   shadowRadius: 1,
   shadowOpacity: 1,
 };
-function promiseArray(o: ImageInfo | DocumentPicker.DocumentResult) {
+function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
       snap.ref.getDownloadURL()
@@ -83,9 +84,7 @@ export default (props: {
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
-  const [fileArr, setFileArr] = React.useState<
-    Array<DocumentPicker.DocumentResult>
-  >([]);
+  const [fileArr, setFileArr] = React.useState<Array<File>>([]);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
 
@@ -109,7 +108,10 @@ export default (props: {
   }
   async function fileUploadHandler() {
     const file = await DocumentPicker.getDocumentAsync();
-    setFileArr([...fileArr, file]);
+    const { type, ...rest } = file;
+    if (type === "success") {
+      setFileArr([...fileArr, rest as File]);
+    }
   }
   async function fileDeleteHandler(fileIndex: number) {
     return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
@@ -270,7 +272,7 @@ export default (props: {
             <>
               <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
                 {imageArr.map((o, i) => (
-                  <TO0
+                  <TWF0
                     key={i}
                     style={{ marginBottom: 10 }}
                     onLongPress={() => imageLongpressHandler(i)}
@@ -280,7 +282,7 @@ export default (props: {
                       resizeMode="cover"
                       style={{ width: "100%", height: 186 }}
                     />
-                  </TO0>
+                  </TWF0>
                 ))}
               </View>
               <LineSeperator />

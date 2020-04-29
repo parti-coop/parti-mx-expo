@@ -21,8 +21,7 @@ import { Text, Mint13, Body16, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
-import { TO1, TO0 } from "../components/TouchableOpacity";
-import TouchableClosingMethod from "../components/TouchableClosingMethod";
+import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
@@ -230,7 +229,7 @@ export default function NoticeEdit(props: {
             <>
               <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
                 {imageArr?.map((o, i) => (
-                  <TO0
+                  <TWF0
                     key={i}
                     style={{ marginBottom: 10 }}
                     onLongPress={() => longpressHandler(i)}
@@ -240,7 +239,7 @@ export default function NoticeEdit(props: {
                       resizeMode="cover"
                       style={{ width: "100%", height: 186 }}
                     />
-                  </TO0>
+                  </TWF0>
                 ))}
               </View>
               <LineSeperator />

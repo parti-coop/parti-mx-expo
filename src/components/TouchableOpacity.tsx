@@ -1,102 +1,109 @@
 import React from "react";
 import { getRandomColor } from "../Utils/RandomColorGenerator";
-import { TouchableOpacity as TO, TouchableOpacityProps } from "react-native";
+import {
+  TouchableOpacity as TO,
+  TouchableOpacityProps,
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackProps,
+} from "react-native";
 
-export const TouchableOpacity: React.FunctionComponent<TouchableOpacityProps> = props => (
-  <TO {...props}>{props.children}</TO>
+export const TWF0: React.FunctionComponent<TouchableWithoutFeedbackProps> = (
+  props
+) => (
+  <TouchableWithoutFeedback
+    {...props}
+    style={[
+      {
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      props.style,
+    ]}
+  >
+    {props.children}
+  </TouchableWithoutFeedback>
 );
 
-export class ButtonRound extends React.PureComponent<TouchableOpacityProps> {
-  render() {
-    return (
-      <TouchableOpacity
-        {...this.props}
-        style={{
-          width: 56,
-          height: 56,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#03A9F4",
-          borderRadius: 30,
-          elevation: 8,
-          ...(this.props.style as Object)
-        }}
-      >
-        {this.props.children}
-      </TouchableOpacity>
-    );
-  }
-}
-export const TO1: React.FunctionComponent<TouchableOpacityProps> = props => (
+export const TouchableOpacity: React.FunctionComponent<TouchableOpacityProps> = (
+  props
+) => <TO {...props}>{props.children}</TO>;
+
+export const TO1: React.FunctionComponent<TouchableOpacityProps> = (props) => (
   <TO
     {...props}
     style={[
       {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      props.style
+      props.style,
     ]}
   >
     {props.children}
   </TO>
 );
-export const TO0: React.FunctionComponent<TouchableOpacityProps> = props => (
+export const TO0: React.FunctionComponent<TouchableOpacityProps> = (props) => (
   <TO
     {...props}
     style={[
       {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      props.style
+      props.style,
     ]}
   >
     {props.children}
   </TO>
 );
 
-export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = props => (
+export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = (
+  props
+) => (
   <TO
     {...props}
     style={[
       {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      props.style
+      props.style,
     ]}
   >
     {props.children}
   </TO>
 );
 
-export const TORow: React.FunctionComponent<TouchableOpacityProps> = props => (
-  <TO
-    {...props}
-    style={[
-      {
-        flexDirection: "row",
-        alignItems: "center"
-      },
-      props.style
-    ]}
-  >
-    {props.children}
-  </TO>
-);
-
-export const TORowCenter: React.FunctionComponent<TouchableOpacityProps> = props => (
+export const TORow: React.FunctionComponent<TouchableOpacityProps> = (
+  props
+) => (
   <TO
     {...props}
     style={[
       {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
       },
-      props.style
+      props.style,
+    ]}
+  >
+    {props.children}
+  </TO>
+);
+
+export const TORowCenter: React.FunctionComponent<TouchableOpacityProps> = (
+  props
+) => (
+  <TO
+    {...props}
+    style={[
+      {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      props.style,
     ]}
   >
     {props.children}
