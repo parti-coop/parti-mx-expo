@@ -323,3 +323,14 @@ export const announcePost = gql`
     }
   }
 `;
+
+export const denouncePost = gql`
+  mutation($id: Int!) {
+    update_mx_posts(
+      where: { id: { _eq: $id } }
+      _delete_key: { metadata: "announcement" }
+    ) {
+      affected_rows
+    }
+  }
+`;

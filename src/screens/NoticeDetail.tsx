@@ -16,6 +16,7 @@ import ButtonPostLike from "../components/ButtonPostLike";
 import ButtonPostUnlike from "../components/ButtonPostUnlike";
 import usePostDelete from "../components/usePostDelete";
 import usePostAnnounce from "../components/usePostAnnounce";
+import usePostDenounce from "../components/usePostDenounce";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
@@ -43,16 +44,7 @@ const box = {
   shadowRadius: 1,
   shadowOpacity: 1,
 } as ViewStyle;
-const labelStyle = {
-  fontSize: 13,
-  textAlign: "left",
-  color: "#30ad9f",
-} as TextStyle;
-const bodyTextStyle = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-} as TextStyle;
+
 export default (props: {
   navigation: StackNavigationProp<RootStackParamList, "NoticeDetail">;
   route: RouteProp<RootStackParamList, "NoticeDetail">;
@@ -62,6 +54,7 @@ export default (props: {
 
   const [deletePost] = usePostDelete(id);
   const [announcePost] = usePostAnnounce(id);
+  const [denouncePost] = usePostDenounce(id);
   const { data, loading } = useSubscription(subscribeNotice, {
     variables: { id, user_id },
   });
@@ -92,7 +85,6 @@ export default (props: {
     });
   }
   const options = [
-    { label: "공지 올리기", handler: announcePost },
     { label: "수정하기", handler: navigateEdit },
     { label: "삭제하기", handler: deletePost },
     // { label: "제안 정리", handler: () => {} },
@@ -103,7 +95,7 @@ export default (props: {
     body = "",
     createdBy = { photo_url: "", name: "" },
     updated_at = "",
-    created_at = "",
+    metadata = { announcement: false },
     comments = [],
     images = [],
     files = [],
@@ -113,7 +105,11 @@ export default (props: {
   } = notice;
   const liked = meLiked?.[0]?.like_count ?? 0;
   const totalLiked = users_aggregate?.aggregate?.sum?.like_count ?? 0;
-
+  if (metadata.announcement) {
+    options.unshift({ label: "공지 내리기", handler: denouncePost });
+  } else {
+    options.unshift({ label: "공지 올리기", handler: announcePost });
+  }
   return (
     <>
       <HeaderShare id={id} />
@@ -131,7 +127,7 @@ export default (props: {
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Text style={bodyTextStyle}>{body}</Text>
+            <Body16>{body}</Body16>
           </View>
           {images?.length > 0 && (
             <View style={{ marginHorizontal: 30, marginTop: 40 }}>
