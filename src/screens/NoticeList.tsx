@@ -14,7 +14,7 @@ import ButtonNew from "../components/ButtonNew";
 import { Image } from "../components/Image";
 
 import { useStore } from "../Store";
-import { subscribePostsByBoardId } from "../graphql/subscription";
+import { subscribeNoticeList } from "../graphql/subscription";
 
 import btnFormSelect from "../../assets/btnFormSelect.png";
 
@@ -26,7 +26,7 @@ export default (props: {
   const boardId = props.route.params.id;
   const { group_id, user_id } = store;
   const [sort, setSort] = React.useState("created_at");
-  const { data, loading } = useSubscription(subscribePostsByBoardId, {
+  const { data, loading } = useSubscription(subscribeNoticeList, {
     variables: { id: boardId, userId: user_id },
   });
   React.useEffect(() => {
@@ -36,8 +36,12 @@ export default (props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  const { posts = [], title = "소식 로드 중", posts_aggregate = {} } =
-    data?.mx_boards_by_pk ?? {};
+  const {
+    announcements = [],
+    posts = [],
+    title = "소식 로드 중",
+    posts_aggregate = {},
+  } = data?.mx_boards_by_pk ?? {};
   const totalCount = posts_aggregate?.aggregate?.count ?? 0;
   function navigateNew() {
     props.navigation.navigate("NoticeNew", { boardId, boardName: title });
@@ -81,6 +85,27 @@ export default (props: {
             }}
           />
         </ViewRow>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#d4e7e4",
+            marginHorizontal: 30,
+            borderRadius: 25,
+            marginBottom: 20,
+          }}
+        >
+          {announcements.map((post: any, i: number) => {
+            return (
+              <TouchableNoticeList
+                key={i}
+                post={post}
+                style={
+                  announcements.length !== i + 1 && { borderBottomWidth: 1 }
+                }
+              />
+            );
+          })}
+        </View>
         <View
           style={{
             flex: 1,

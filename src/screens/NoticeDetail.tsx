@@ -15,6 +15,7 @@ import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonPostLike from "../components/ButtonPostLike";
 import ButtonPostUnlike from "../components/ButtonPostUnlike";
 import usePostDelete from "../components/usePostDelete";
+import usePostAnnounce from "../components/usePostAnnounce";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
@@ -60,6 +61,7 @@ export default (props: {
   const id = props.route.params.postId;
 
   const [deletePost] = usePostDelete(id);
+  const [announcePost] = usePostAnnounce(id);
   const { data, loading } = useSubscription(subscribeNotice, {
     variables: { id, user_id },
   });
@@ -84,17 +86,16 @@ export default (props: {
   }, [id]);
 
   const notice: NoticeDetailType = data?.mx_posts_by_pk ?? {};
+  function navigateEdit() {
+    navigate("NoticeEdit", {
+      notice,
+    });
+  }
   const options = [
-    {
-      label: "수정하기",
-      handler: () =>
-        navigate("NoticeEdit", {
-          notice,
-        }),
-    },
-    // { label: "제안 정리", handler: () => {} },
-    // { label: "공지 올리기", handler: () => {} },
+    { label: "공지 올리기", handler: announcePost },
+    { label: "수정하기", handler: navigateEdit },
     { label: "삭제하기", handler: deletePost },
+    // { label: "제안 정리", handler: () => {} },
   ];
 
   const {

@@ -28,7 +28,7 @@ export const insertPost = gql`
     $sTitle: String!
     $sContext: String
     $sBody: String!
-    $metadata: jsonb
+    $metadata: jsonb = {}
     $images: jsonb
     $files: jsonb
   ) {
@@ -66,7 +66,7 @@ export const updatePost = gql`
     $sTitle: String!
     $sContext: String
     $sBody: String!
-    $metadata: jsonb
+    $metadata: jsonb = {}
     $images: jsonb
     $files: jsonb
   ) {
@@ -76,10 +76,10 @@ export const updatePost = gql`
         body: $sBody
         title: $sTitle
         context: $sContext
-        metadata: $metadata
         images: $images
         files: $files
       }
+      _append: { metadata: $metadata }
     ) {
       affected_rows
     }
@@ -307,6 +307,17 @@ export const updateLastPostedAt = gql`
     update_mx_groups(
       _set: { last_posted_at: $time }
       where: { id: { _eq: $group_id } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const announcePost = gql`
+  mutation($id: Int!) {
+    update_mx_posts(
+      where: { id: { _eq: $id } }
+      _append: { metadata: { announcement: true } }
     ) {
       affected_rows
     }

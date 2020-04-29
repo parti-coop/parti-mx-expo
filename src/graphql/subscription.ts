@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { commentsResult, noticeCommentsResult } from "./fragment";
+import { commentsResult, noticeCommentsResult, postResult } from "./fragment";
 export const whoami = gql`
   subscription($email: String!) {
     mx_users(where: { email: { _eq: $email } }) {
@@ -35,33 +35,11 @@ export const subscribePostsByBoardId = gql`
         }
       }
       posts(order_by: { updated_at: desc }, limit: 20) {
-        title
-        body
-        context
-        metadata
-        created_at
-        id
-        users(where: { user_id: { _eq: $userId } }) {
-          like_count
-        }
-        users_aggregate {
-          aggregate {
-            sum {
-              like_count
-            }
-          }
-        }
-        comments_aggregate {
-          aggregate {
-            count
-          }
-        }
-        updatedBy {
-          name
-        }
+        ...post_result
       }
     }
   }
+  ${postResult}
 `;
 
 export const subscribeSuggestion = gql`
@@ -217,4 +195,36 @@ export const subscribeMemberCount = gql`
       }
     }
   }
+`;
+
+export const subscribeNoticeList = gql`
+  subscription($id: Int!, $userId: Int!) {
+    mx_boards_by_pk(id: $id) {
+      id
+      body
+      title
+      slug
+      posts_aggregate {
+        aggregate {
+          count
+        }
+      }
+      announcements: posts(
+        order_by: { updated_at: desc }
+        limit: 20
+        where: { metadata: { _contains: { announcement: true } } }
+      ) {
+        ...post_result
+      }
+
+      posts: posts(
+        order_by: { updated_at: desc }
+        limit: 20
+        where: { _not: { metadata: { _contains: { announcement: true } } } }
+      ) {
+        ...post_result
+      }
+    }
+  }
+  ${postResult}
 `;

@@ -44,3 +44,31 @@ export const noticeCommentsResult = gql`
     }
   }
 `;
+export const postResult = gql`
+  fragment post_result on mx_posts {
+    title
+    body
+    context
+    metadata
+    created_at
+    id
+    users(where: { user_id: { _eq: $userId } }) {
+      like_count
+    }
+    users_aggregate {
+      aggregate {
+        sum {
+          like_count
+        }
+      }
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+    updatedBy {
+      name
+    }
+  }
+`;
