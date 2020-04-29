@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
 import { Image } from "./Image";
-import { Text } from "./Text";
+import { Text, Red16 } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
 import { useStore } from "../Store";
@@ -17,16 +17,11 @@ const bgMenuBgCopy = {
   width: 184,
   height: 33,
   borderRadius: 16.5,
-  backgroundColor: "#f35f5f",
   borderStyle: "solid",
   borderWidth: 2,
   borderColor: "#f35f5f",
 } as ViewStyle;
-const textStyle = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#ffffff",
-} as TextStyle;
+
 export default (props: {
   id: number;
   created_at: string;
@@ -52,8 +47,8 @@ export default (props: {
   return (
     <>
       <TORowCenter style={bgMenuBgCopy} onPress={voteHandler}>
-        <Image source={iconAgree} style={{ margin: 4 }} />
-        <Text style={textStyle}>이 제안에 동의합니다</Text>
+        <Image source={iconAgree} style={{ margin: 4, tintColor: "#f35f5f" }} />
+        <Red16>이 제안에 동의합니다</Red16>
       </TORowCenter>
       {closingMethod === 0 && (
         <Text

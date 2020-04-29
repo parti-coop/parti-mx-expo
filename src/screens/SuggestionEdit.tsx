@@ -78,10 +78,10 @@ function promiseArray(o: ImageInfo | File) {
   });
 }
 
-export default (props: {
+export default function SuggestionEdit(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
   route: RouteProp<RootStackParamList, "SuggestionEdit">;
-}) => {
+}) {
   const suggestion = props.route.params.suggestion;
   const { id } = suggestion;
   const [sTitle, setSTitle] = React.useState(suggestion.title);
@@ -320,4 +320,4 @@ export default (props: {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

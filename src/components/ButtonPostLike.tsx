@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
 
 import { Image } from "./Image";
-import { White16 } from "./Text";
+import { Red16 } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
 import { useStore } from "../Store";
@@ -16,7 +16,6 @@ const bgMenuBgCopy = {
   height: 33,
   paddingHorizontal: 15,
   borderRadius: 16.5,
-  backgroundColor: "#f35f5f",
   borderStyle: "solid",
   borderWidth: 2,
   borderColor: "#f35f5f",
@@ -36,8 +35,8 @@ export default (props: { id: number; total: number }) => {
   return (
     <>
       <TORowCenter style={bgMenuBgCopy} onPress={voteHandler}>
-        <Image source={iconAgree} style={{ margin: 4 }} />
-        <White16>{total}</White16>
+        <Image source={iconAgree} style={{ margin: 4, tintColor: "#f35f5f" }} />
+        <Red16>{total}</Red16>
       </TORowCenter>
     </>
   );

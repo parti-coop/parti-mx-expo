@@ -1,7 +1,7 @@
 import React from "react";
 import { ViewStyle, ViewProps } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
-import { Red12 } from "./Text";
+import { White12 } from "./Text";
 import { TORowCenter } from "./TouchableOpacity";
 
 import { Image } from "./Image";
@@ -15,6 +15,7 @@ const bgMenuBg = {
   borderRadius: 11.5,
   borderStyle: "solid",
   borderWidth: 2,
+  backgroundColor: "#f35f5f",
   borderColor: "#f35f5f",
 } as ViewProps;
 export default (props: { id: number; style?: ViewStyle; count: number }) => {
@@ -31,8 +32,11 @@ export default (props: { id: number; style?: ViewStyle; count: number }) => {
   }, [loading]);
   return (
     <TORowCenter style={[bgMenuBg, style]} onPress={pressHandler}>
-      <Image source={iconAgree11} style={{ marginRight: 3 }} />
-      <Red12>{count}</Red12>
+      <Image
+        source={iconAgree11}
+        style={{ marginRight: 3, tintColor: "#ffffff" }}
+      />
+      <White12>{count}</White12>
     </TORowCenter>
   );
 };
