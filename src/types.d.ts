@@ -13,7 +13,7 @@ export interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: { name: string; checkedPosts: [{ count: number }]; photo_url: string };
+  user: { name: string; checkedPosts?: [{ count: number }]; photo_url: string };
   likes: [
     {
       user: {

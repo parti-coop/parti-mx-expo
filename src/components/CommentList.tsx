@@ -32,12 +32,12 @@ const commentModal = {
   paddingTop: 40,
   paddingBottom: 10,
 } as ViewStyle;
-export default (props: {
+export default function CommentList(props: {
   comment: Comment;
   edit: (arg: { body: string; id: number }) => void;
   recomment: (arg: RecommentArgs) => void;
   style?: ViewStyle;
-}) => {
+}) {
   const { comment, edit: editHandler, style, recomment } = props;
   const { id, body, likes_aggregate, user, updated_at, likes, re } = comment;
   const [isVisible, setVisible] = React.useState(false);
@@ -72,7 +72,7 @@ export default (props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        {user.checkedPosts[0] && (
+        {user?.checkedPosts?.[0] && (
           <Mint13 style={{ marginLeft: 9 }}>동의</Mint13>
         )}
         <Grey12 style={{ marginLeft: 9 }}>
@@ -134,4 +134,4 @@ export default (props: {
       </Modal>
     </View>
   );
-};
+}

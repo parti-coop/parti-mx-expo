@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { commentsResult } from "./fragment";
+import { commentsResult, noticeCommentsResult } from "./fragment";
 export const whoami = gql`
   subscription($email: String!) {
     mx_users(where: { email: { _eq: $email } }) {
@@ -136,9 +136,9 @@ export const subscribeNotice = gql`
         order_by: { created_at: asc }
         where: { parent_id: { _is_null: true } }
       ) {
-        ...comments_result
+        ...notice_comments_result
         re(order_by: { created_at: asc }) {
-          ...comments_result
+          ...notice_comments_result
         }
       }
       created_at
@@ -155,7 +155,7 @@ export const subscribeNotice = gql`
       }
     }
   }
-  ${commentsResult}
+  ${noticeCommentsResult}
 `;
 
 export const subscribeBoardsByGroupId = gql`

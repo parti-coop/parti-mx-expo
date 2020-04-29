@@ -45,11 +45,11 @@ const boxCommentWriter = {
   shadowRadius: 20,
   shadowOpacity: 1,
 } as ViewStyle;
-export default (props: {
+export default function Comments(props: {
   comments: Comment[];
   postId: number;
   scrollRef: React.MutableRefObject<any>;
-}) => {
+}) {
   const { comments } = props;
   const [{ user_id }] = useStore();
   const [comm, setComm] = React.useState("");
@@ -198,4 +198,4 @@ export default (props: {
       {commentKind()}
     </View>
   );
-};
+}
