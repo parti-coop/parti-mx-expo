@@ -60,11 +60,11 @@ export const insertPost = gql`
   }
 `;
 
-export const updateSuggestion = gql`
+export const updatePost = gql`
   mutation(
     $id: Int!
     $sTitle: String!
-    $sContext: String!
+    $sContext: String
     $sBody: String!
     $metadata: jsonb
     $images: jsonb

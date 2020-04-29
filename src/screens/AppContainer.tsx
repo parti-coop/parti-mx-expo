@@ -11,6 +11,7 @@ import NoticeList from "./NoticeList";
 import SuggestionNew from "./SuggestionNew";
 import NoticeNew from "./NoticeNew";
 import SuggestionEdit from "./SuggestionEdit";
+import NoticeEdit from "./NoticeEdit";
 import SuggestionDetail from "./SuggestionDetail";
 import NoticeDetail from "./NoticeDetail";
 import UserSetting from "./UserSetting";
@@ -121,6 +122,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
       <Drawer.Screen name="NoticeDetail" component={NoticeDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
+      <Drawer.Screen name="NoticeEdit" component={NoticeEdit} />
       <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />
       <Drawer.Screen name="TermsService" component={TermsService} />
       <Drawer.Screen name="UserSetting" component={UserSetting} />

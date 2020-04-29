@@ -28,7 +28,7 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { useStore } from "../Store";
-import { updateSuggestion } from "../graphql/mutation";
+import { updatePost } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
 import { uploadFileUUID } from "../firebase";
 import { File } from "../types";
@@ -100,7 +100,7 @@ export default (props: {
   const scrollRef = React.useRef(null);
   const [, dispatch] = useStore();
   const { goBack } = useNavigation();
-  const [update, { loading }] = useMutation(updateSuggestion);
+  const [update, { loading }] = useMutation(updatePost);
   async function addImage() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -195,7 +195,7 @@ export default (props: {
     <>
       <HeaderConfirm onPress={updateHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderBreadcrumb />
+        <HeaderBreadcrumb boardName={suggestion.board.title} />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >

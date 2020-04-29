@@ -28,18 +28,12 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
 import { useStore } from "../Store";
-import { updateSuggestion } from "../graphql/mutation";
+import { updatePost } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
 import { uploadFileUUID } from "../firebase";
 import { File } from "../types";
 
 import iconClosed from "../../assets/iconClosed.png";
-
-const options = [
-  { label: "30일 후 종료", value: 0 },
-  // { label: "멤버 과반수 동의시 종료", value: 1 }
-  // { label: "제안 정리시 종료", value: 2 }
-];
 const labelStyle: StyleProp<TextStyle> = {
   fontSize: 13,
   textAlign: "left",
@@ -78,29 +72,23 @@ function promiseArray(o: ImageInfo | File) {
   });
 }
 
-export default (props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
-  route: RouteProp<RootStackParamList, "SuggestionEdit">;
-}) => {
-  const suggestion = props.route.params.suggestion;
-  const { id } = suggestion;
-  const [sTitle, setSTitle] = React.useState(suggestion.title);
-  const [sContext, setSContext] = React.useState(suggestion.context);
-  const [sBody, setSBody] = React.useState(suggestion.body);
-  const [closingMethod, setClosingMethod] = React.useState(
-    suggestion.metadata?.closingMethod ?? 0
-  );
+export default function NoticeEdit(props: {
+  navigation: StackNavigationProp<RootStackParamList, "NoticeEdit">;
+  route: RouteProp<RootStackParamList, "NoticeEdit">;
+}) {
+  const notice = props.route.params.notice;
+  const { id } = notice;
+  const [sTitle, setSTitle] = React.useState(notice.title);
+  const [sBody, setSBody] = React.useState(notice.body);
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
-    suggestion.images ?? []
+    notice.images ?? []
   );
-  const [fileArr, setFileArr] = React.useState<Array<File>>(
-    suggestion.files ?? []
-  );
+  const [fileArr, setFileArr] = React.useState<Array<File>>(notice.files ?? []);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const [, dispatch] = useStore();
   const { goBack } = useNavigation();
-  const [update, { loading }] = useMutation(updateSuggestion);
+  const [update, { loading }] = useMutation(updatePost);
   async function addImage() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -167,8 +155,6 @@ export default (props: {
       variables: {
         sBody,
         sTitle,
-        sContext,
-        metadata: { closingMethod },
         id,
         images,
         files,
@@ -184,18 +170,16 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   React.useEffect(() => {
-    setSTitle(suggestion.title);
-    setSContext(suggestion.context);
-    setSBody(suggestion.body);
-    setClosingMethod(suggestion.metadata?.closingMethod ?? 0);
-    setImageArr(suggestion.images ?? []);
-    setFileArr(suggestion.files ?? []);
-  }, [suggestion]);
+    setSTitle(notice.title);
+    setSBody(notice.body);
+    setImageArr(notice.images ?? []);
+    setFileArr(notice.files ?? []);
+  }, [notice]);
   return (
     <>
       <HeaderConfirm onPress={updateHandler} />
       <KeyboardAwareScrollView ref={scrollRef}>
-        <HeaderBreadcrumb />
+        <HeaderBreadcrumb boardName={notice.board.title} />
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
@@ -211,7 +195,7 @@ export default (props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
+            <Text style={[labelStyle, { paddingVertical: 24 }]}>제목</Text>
             <TextInput
               value={sTitle}
               autoFocus
@@ -221,35 +205,8 @@ export default (props: {
               onSubmitEditing={() => contextRef.current.focus()}
             />
           </ViewRow>
-          <LineSeperator />
-          <ViewRow
-            style={{
-              paddingHorizontal: 30,
-            }}
-          >
-            <Text style={labelStyle}>종료 방법</Text>
-            <TouchableClosingMethod
-              value={closingMethod}
-              onChange={setClosingMethod}
-              items={options}
-            />
-          </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
-          <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
-            <AutoGrowingTextInput
-              value={sContext}
-              multiline
-              textAlignVertical="top"
-              placeholder="제안 배경을 입력해 주세요"
-              placeholderTextColor="#999999"
-              onChangeText={setSContext}
-              style={[textStyle, , { minHeight: 50 }]}
-              ref={contextRef}
-            />
-          </View>
-          <LineSeperator />
           <View
             style={{
               padding: 30,
@@ -257,12 +214,12 @@ export default (props: {
               flex: 1,
             }}
           >
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+            <Text style={[labelStyle, { paddingBottom: 19 }]}>내용 입력</Text>
             <AutoGrowingTextInput
               value={sBody}
               multiline
               textAlignVertical="top"
-              placeholder="제안 내용을 입력해 주세요"
+              placeholder="내용을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSBody}
               style={[textStyle, { minHeight: 180 }]}
@@ -320,4 +277,4 @@ export default (props: {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

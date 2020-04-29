@@ -20,7 +20,7 @@ export default (props: { title: string; updated_at?: string }) => {
   return (
     <View style={{ paddingHorizontal: 30, paddingTop: 20 }}>
       <Text style={titleStyle}>{title}</Text>
-      {updated_at && <Text style={dateStyle}>{date}</Text>}
+      {!!updated_at && <Text style={dateStyle}>{date}</Text>}
     </View>
   );
 };
