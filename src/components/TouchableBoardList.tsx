@@ -7,7 +7,7 @@ import { ko } from "date-fns/locale";
 
 import { View, ViewRow, V0 } from "./View";
 import { Text, Title18, Mint14, Purple12 } from "./Text";
-import ViewRedDot from "./ViewRedDot";
+import { DotRed8 } from "./Dots";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
 import { Board } from "../types";
@@ -96,7 +96,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
               <Purple12>전체공개</Purple12>
             </V0>
           )}
-          {isNew && <ViewRedDot style={{ marginLeft: 10 }} />}
+          {isNew && <DotRed8 style={{ marginLeft: 10 }} />}
           <Mint14 style={{ position: "absolute", right: 0 }}>{minutes}</Mint14>
         </ViewRow>
         <Text

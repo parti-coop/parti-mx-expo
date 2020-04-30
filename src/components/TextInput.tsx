@@ -93,7 +93,6 @@ export const PasswordInput = React.forwardRef<
         enablesReturnKeyAutomatically={true}
         secureTextEntry={secure.secureTextEntry}
         placeholderTextColor="#c5c5c5"
-        selectionColor={Platform.OS === "android" ? null : "white"}
         {...props}
       />
       {props.showEye && (
