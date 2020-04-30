@@ -7,6 +7,7 @@ import { Title14, Title22, Title16 } from "../components/Text";
 import { View } from "../components/View";
 import { TORow } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
+import useLogout from "../components/useLogout";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 
 import btnNext from "../../assets/btnNext.png";
@@ -27,6 +28,7 @@ const boxStyle = {
 } as ViewStyle;
 export default () => {
   const { navigate } = useNavigation();
+  const logout = useLogout();
   const list = [
     {
       category: "내 정보 관리",
@@ -44,18 +46,22 @@ export default () => {
       children: [
         { label: "이용약관", page: "TermsService" },
         { label: "개인정보처리방침", page: "TermsPrivacy" },
-        { label: "로그아웃", page: "Logout" },
+        { label: "로그아웃", handler: logout },
         { label: "탈퇴", page: "AccountDelete" },
       ],
     },
   ];
-  function pagePressHandler(page: string) {
-    navigate(page);
-  }
   const ViewList = list.map((a, i) => {
     const { category, children } = a;
     const ViewChildren = children.map((child, i2) => {
-      const { label, page } = child;
+      const { label, page, handler = null } = child;
+      function pressHandler() {
+        if (handler) {
+          handler();
+        } else {
+          navigate(page);
+        }
+      }
       return (
         <TORow
           key={i2}
@@ -68,7 +74,7 @@ export default () => {
                 }
               : { paddingVertical: 20 }
           }
-          onPress={(e) => pagePressHandler(page)}
+          onPress={pressHandler}
         >
           <Title16 style={{ flex: 1 }}>{label}</Title16>
           <Image source={btnNext} />

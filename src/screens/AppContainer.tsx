@@ -1,8 +1,6 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useDebouncedCallback } from "use-debounce";
-import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
-import { DocumentResult } from "expo-document-picker";
 
 import Intro from "./Intro";
 import Home from "./Home";
@@ -18,7 +16,6 @@ import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
-import Logout from "./Logout";
 import Member from "./Member";
 import GroupSetting from "./GroupSetting";
 import GroupNew from "./GroupNew";
@@ -42,7 +39,6 @@ export type RootStackParamList = {
   GroupNew: {};
   AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
-  Logout: {};
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};
   SuggestionNew: { boardId: number; boardName: string };
@@ -112,7 +108,6 @@ export default function MyDrawer() {
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="GroupNew" component={GroupNew} />
       <Drawer.Screen name="GroupSetting" component={GroupSetting} />
-      <Drawer.Screen name="Logout" component={Logout} />
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
