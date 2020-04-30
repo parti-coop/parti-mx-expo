@@ -12,6 +12,7 @@ import ViewNotification from "../components/ViewNotification";
 import ButtonBoardSetting from "../components/ButtonBoardSetting";
 import TouchableBoardList from "../components/TouchableBoardList";
 import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
+import { Alert1 } from "../components/Alert";
 
 import ButtonJoinGroup from "../components/ButtonJoinGroup";
 import ViewGroupManage from "../components/ViewGroupManage";
@@ -89,7 +90,7 @@ export default () => {
               <TouchableOpacity onPress={toggleDrawer}>
                 <ViewGroupImg color={false} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={toggleDrawer}>
+              <TouchableOpacity onPress={() => Alert1()}>
                 <ViewNotification />
               </TouchableOpacity>
             </ViewRow>
@@ -104,16 +105,13 @@ export default () => {
           </View>
 
           <View style={{ position: "absolute", right: 30, top: 39 }}>
-            <TO0 onPress={() => navigate("QRcode")}>
+            <TO0 onPress={() => Alert1()}>
               <ViewGroupImg color={true} />
             </TO0>
-            <TO0 onPress={() => navigate("QRcode")} style={{ marginTop: 10 }}>
+            <TO0 onPress={() => Alert1()} style={{ marginTop: 10 }}>
               <ViewQrCode style={{}} />
             </TO0>
-            <TO0
-              style={{ marginTop: 10 }}
-              onPress={(e) => Share.share({ message: "제안을 공유합니다." })}
-            >
+            <TO0 style={{ marginTop: 10 }} onPress={() => Alert1()}>
               <ViewIconInvite />
             </TO0>
           </View>

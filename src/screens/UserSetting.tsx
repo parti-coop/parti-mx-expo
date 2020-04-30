@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { Image } from "../components/Image";
@@ -7,6 +7,7 @@ import { Title14, Title22, Title16 } from "../components/Text";
 import { View } from "../components/View";
 import { TORow } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
+import { Alert1 } from "../components/Alert";
 import useLogout from "../components/useLogout";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 
@@ -39,7 +40,13 @@ export default () => {
     },
     {
       category: "알림",
-      children: [{ label: "푸시 알림", page: "NotificationPush" }],
+      children: [
+        {
+          label: "푸시 알림",
+          handler: Alert1,
+          page: "NotificationPush",
+        },
+      ],
     },
     {
       category: "기타",
