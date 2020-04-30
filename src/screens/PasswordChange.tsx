@@ -1,6 +1,7 @@
 import React from "react";
-import { TouchableWithoutFeedback, Keyboard, ViewProps } from "react-native";
+import { ViewProps } from "react-native";
 import { showMessage } from "react-native-flash-message";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { Mint13, Title30 } from "../components/Text";
 import { View, ViewRow } from "../components/View";
@@ -36,6 +37,11 @@ export default (props) => {
     setOldP("");
     setNewP("");
   }
+  useFocusEffect(
+    React.useCallback(() => {
+      return resetInput;
+    }, [])
+  );
   async function reauth() {
     if (!(oldP && newP)) {
       return showMessage({ type: "info", message: "모두 입력하십시오" });

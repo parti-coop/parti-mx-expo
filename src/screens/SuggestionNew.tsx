@@ -10,7 +10,7 @@ import {
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as DocumentPicker from "expo-document-picker";
@@ -96,6 +96,11 @@ export default (props: {
     setImageArr([]);
     setFileArr([]);
   }
+  useFocusEffect(
+    React.useCallback(() => {
+      return resetInput;
+    }, [])
+  );
   async function addImage() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -198,7 +203,6 @@ export default (props: {
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
-    return resetInput;
   }, [loading]);
 
   return (

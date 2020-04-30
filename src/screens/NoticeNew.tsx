@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { RootStackParamList } from "./AppContainer";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -87,6 +87,12 @@ export default (props: {
     setImageArr([]);
     setFileArr([]);
   }
+  useFocusEffect(
+    React.useCallback(() => {
+      return resetInput;
+    }, [])
+  );
+
   async function addImage() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -181,7 +187,6 @@ export default (props: {
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
-    return resetInput;
   }, [loading]);
 
   return (
