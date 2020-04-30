@@ -95,7 +95,9 @@ export default () => {
               </TouchableOpacity>
             </ViewRow>
             <View style={{ height: 52, marginTop: 19, marginRight: 80 }}>
-              <Title14 style={[titleStyle]}>{title}</Title14>
+              <Title14 numberOfLines={1} style={[titleStyle]}>
+                {title}
+              </Title14>
             </View>
             <View style={{ marginTop: 8 }}>
               <Title14 style={{ fontSize: 15, color: "#777777" }}>

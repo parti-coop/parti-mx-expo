@@ -9,7 +9,7 @@ import { ViewRow, V1, V0, View } from "../components/View";
 import { Text, Title16, Title24, Mint24, Grey12 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { TO0, TouchableOpacity } from "../components/TouchableOpacity";
-import Round35 from "../components/Round35";
+import { Round35 } from "../components/Round";
 import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";

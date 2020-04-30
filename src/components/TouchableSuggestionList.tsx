@@ -5,17 +5,17 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow, V0 } from "./View";
-import { Text, Grey12 } from "./Text";
+import { Text, Grey12, Title16 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";
+import { RoundDDays } from "./Round";
 
 import { updateUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { calculateDays } from "../Utils/CalculateDays";
 import { SuggestionListType } from "../types";
 
-import iconSympathy from "../../assets/iconSympathy.png";
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
 
@@ -44,42 +44,7 @@ export default (props: {
       }
     >
       <ViewRow style={{ justifyContent: "flex-start" }}>
-        <V0
-          style={{
-            width: 54,
-            height: 54,
-            borderRadius: 22.2,
-            backgroundColor: "#ffffff",
-            borderStyle: "solid",
-            borderWidth: 2,
-            borderColor: "#30ad9f",
-            margin: 15,
-            flex: 0,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 16,
-              textAlign: "center",
-              color: "#4a9f95",
-              fontFamily: "notosans900",
-              lineHeight: 17,
-            }}
-          >
-            D
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              textAlign: "left",
-              color: "#4a9f95",
-              fontFamily: "notosans900",
-              lineHeight: 15,
-            }}
-          >
-            {daysLeft}
-          </Text>
-        </V0>
+        <RoundDDays number={daysLeft} />
         <V1
           style={[
             {
@@ -91,15 +56,7 @@ export default (props: {
             style,
           ]}
         >
-          <Text
-            style={{
-              fontSize: 16,
-              textAlign: "left",
-              color: "#333333",
-            }}
-          >
-            {suggestion.title}
-          </Text>
+          <Title16 numberOfLines={1}>{suggestion.title}</Title16>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{suggestion.updatedBy.name}</Grey12>

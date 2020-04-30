@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow, V0 } from "./View";
-import { Text, Grey12 } from "./Text";
+import { Title16, Grey12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";
@@ -53,15 +53,7 @@ export default (props: {
             style,
           ]}
         >
-          <Text
-            style={{
-              fontSize: 16,
-              textAlign: "left",
-              color: "#333333",
-            }}
-          >
-            {post.title}
-          </Text>
+          <Title16 numberOfLines={1}>{post.title}</Title16>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{post.updatedBy.name}</Grey12>

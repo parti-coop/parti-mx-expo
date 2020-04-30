@@ -79,7 +79,9 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
         }}
       >
         <ViewRow style={{ justifyContent: "flex-start" }}>
-          <Title18>{board.title}</Title18>
+          <Title18 numberOfLines={1} style={{ flex: 1 }}>
+            {board.title}
+          </Title18>
           {board?.permission === "all" && (
             <V0
               style={[
@@ -97,7 +99,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
             </V0>
           )}
           {isNew && <DotRed8 style={{ marginLeft: 10 }} />}
-          <Mint14 style={{ position: "absolute", right: 0 }}>{minutes}</Mint14>
+          <Mint14 style={{ marginLeft: 5 }}>{minutes}</Mint14>
         </ViewRow>
         <Text
           style={{
