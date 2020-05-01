@@ -5,14 +5,17 @@ import Modal from "react-native-modal";
 import { View, ViewRow, V0 } from "./View";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { KeyboardAvoidingView } from "./KeyboardAvoidingView";
-import { Text, Title14 } from "./Text";
+import { Title14 } from "./Text";
 import useBoardDelete from "./useBoardDelete";
 import SelectMenu from "./SelectMenu";
 import ButtonBoardType from "./ButtonBoardType";
 import ViewBoardEdit from "./ViewBoardEdit";
 import { Board } from "../types";
 
-export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
+export default function BoardSettingList(props: {
+  board: Board;
+  style?: StyleProp<ViewStyle>;
+}) {
   const { board, style } = props;
   const [isVisible, setVisible] = React.useState(false);
   const deleteBoard = useBoardDelete(board.id);
@@ -33,10 +36,7 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
         style,
       ]}
     >
-      <ButtonBoardType
-        boardId={board.id}
-        permission={board.permission}
-      />
+      <ButtonBoardType boardId={board.id} permission={board.permission} />
       <View
         style={{
           width: 1,
@@ -67,4 +67,4 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       </Modal>
     </ViewRow>
   );
-};
+}
