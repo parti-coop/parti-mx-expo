@@ -1,5 +1,5 @@
 import React from "react";
-import { ViewStyle, Image } from "react-native";
+import { ViewStyle, Image, Platform } from "react-native";
 
 import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
@@ -23,7 +23,7 @@ const textStyle = {
   fontSize: 16,
   color: "#777777",
 } as ViewStyle;
-export default (props) => {
+export default function Login(props) {
   const { navigate } = props.navigation;
   function register() {
     navigate("Signup");
@@ -52,16 +52,22 @@ export default (props) => {
           marginBottom: 128,
         }}
       >
-        <TORow
-          onPress={signInWithGoogle}
-          style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
-        >
-          <Image
-            source={iconGoogle}
-            style={{ marginLeft: 46, marginRight: 18 }}
-          />
-          <Text style={{ fontSize: 16, color: "#ffffff" }}>구글로 로그인</Text>
-        </TORow>
+        {Platform.select({
+          android: (
+            <TORow
+              onPress={signInWithGoogle}
+              style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
+            >
+              <Image
+                source={iconGoogle}
+                style={{ marginLeft: 46, marginRight: 18 }}
+              />
+              <Text style={{ fontSize: 16, color: "#ffffff" }}>
+                구글로 로그인
+              </Text>
+            </TORow>
+          ),
+        })}
         <TORow onPress={loginEmail} style={[roundedRectangle12]}>
           <Image
             source={iconEmail}
@@ -74,4 +80,4 @@ export default (props) => {
       </V1>
     </>
   );
-};
+}

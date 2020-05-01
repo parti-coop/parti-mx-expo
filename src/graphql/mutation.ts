@@ -303,22 +303,6 @@ export const deleteUserGroup = gql`
     }
   }
 `;
-export const updateLastPostedAt = gql`
-  mutation($group_id: Int!, $board_id: Int!, $time: String!) {
-    update_mx_boards(
-      _set: { last_posted_at: $time }
-      where: { id: { _eq: $board_id } }
-    ) {
-      affected_rows
-    }
-    update_mx_groups(
-      _set: { last_posted_at: $time }
-      where: { id: { _eq: $group_id } }
-    ) {
-      affected_rows
-    }
-  }
-`;
 
 export const announcePost = gql`
   mutation($id: Int!) {
