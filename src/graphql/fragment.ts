@@ -51,9 +51,11 @@ export const postResult = gql`
     context
     metadata
     created_at
+    updated_at
     id
     users(where: { user_id: { _eq: $userId } }) {
       like_count
+      updated_at
     }
     users_aggregate {
       aggregate {

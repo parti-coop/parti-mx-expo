@@ -10,33 +10,36 @@ import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";
 
-import { updateUserBoardCheck } from "../graphql/mutation";
+import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { PostListType } from "../types";
+import { isAfterString } from "../Utils/CalculateDays";
 
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
+import { DotRed8 } from "./Dots";
 
-export default (props: {
+export default function TouchableNoticeList(props: {
   post: PostListType;
   style?: StyleProp<ViewStyle>;
-}) => {
+}) {
   const { navigate } = useNavigation();
   const { post, style } = props;
   const [{ user_id }] = useStore();
-  const [update, { data }] = useMutation(updateUserBoardCheck, {
-    variables: { user_id, board_id: post.id },
+  const [update, { data }] = useMutation(incrementUserPostCheck, {
+    variables: { user_id, post_id: post.id },
   });
-  const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
-
+  const likeCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
+  const hasChecked = isAfterString(
+    post?.updated_at,
+    post?.users?.[0]?.updated_at
+  );
+  function pressHandler() {
+    update();
+    navigate("NoticeDetail", { postId: post.id });
+  }
   return (
-    <TouchableOpacity
-      onPress={(e) =>
-        navigate("NoticeDetail", {
-          postId: post.id,
-        })
-      }
-    >
+    <TouchableOpacity onPress={pressHandler}>
       <ViewRow
         style={{
           justifyContent: "flex-start",
@@ -53,7 +56,10 @@ export default (props: {
             style,
           ]}
         >
-          <Title16 numberOfLines={1}>{post.title}</Title16>
+          <ViewRow style={{ justifyContent: "flex-start" }}>
+            <Title16 numberOfLines={1}>{post.title}</Title16>
+            {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
+          </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{post.updatedBy.name}</Grey12>
@@ -68,9 +74,9 @@ export default (props: {
         </V1>
         <ViewLikeCount
           style={{ position: "absolute", right: -15 }}
-          count={voteCount}
+          count={likeCount}
         />
       </ViewRow>
     </TouchableOpacity>
   );
-};
+}

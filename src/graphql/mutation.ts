@@ -334,3 +334,21 @@ export const denouncePost = gql`
     }
   }
 `;
+export const incrementUserPostCheck = gql`
+  mutation($post_id: Int!, $user_id: Int!) {
+    update_mx_users_post(
+      _inc: { view_count: 1 }
+      where: {
+        _and: [{ post_id: { _eq: $post_id } }, { user_id: { _eq: $user_id } }]
+      }
+    ) {
+      affected_rows
+    }
+    insert_mx_users_post(
+      objects: { view_count: 1, post_id: $post_id }
+      on_conflict: { update_columns: [], constraint: users_post_pkey }
+    ) {
+      affected_rows
+    }
+  }
+`;

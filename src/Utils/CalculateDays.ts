@@ -1,4 +1,4 @@
-import { differenceInDays, addDays, format } from "date-fns";
+import { differenceInDays, addDays, format, isAfter } from "date-fns";
 import { ko } from "date-fns/locale";
 export function calculateDays(date: string) {
   // const time = (_ => _.setDate(_.getDate() + 30))(new Date(date));
@@ -22,5 +22,14 @@ export function formatDateFromString(date: string) {
     return format(new Date(date), "yyyy.MM.dd HH:mm");
   } catch (error) {
     return error.message;
+  }
+}
+export function isAfterString(date1: string, date2: string) {
+  try {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    return isAfter(d1, d2);
+  } catch (error) {
+    return false;
   }
 }

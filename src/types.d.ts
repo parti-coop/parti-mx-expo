@@ -40,6 +40,7 @@ export type PostListType = {
   body: string;
   metadata: { closed_at: string; closingMethod: number };
   created_at: string;
+  updated_at: string;
   users_aggregate: {
     aggregate: {
       sum: {
@@ -47,7 +48,7 @@ export type PostListType = {
       };
     };
   };
-  users: Array<{ like_count: number }>;
+  users: Array<{ like_count: number; updated_at: string }>;
   updatedBy: {
     name: string;
   };
