@@ -25,6 +25,12 @@ export function formatDateFromString(date: string) {
   }
 }
 export function isAfterString(date1: string, date2: string) {
+  if (date1 === null) {
+    return false;
+  }
+  if (date2 === undefined) {
+    return true;
+  }
   try {
     const d1 = new Date(date1);
     const d2 = new Date(date2);

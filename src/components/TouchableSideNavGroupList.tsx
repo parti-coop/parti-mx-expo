@@ -7,6 +7,7 @@ import ViewGroupImg from "./ViewGroupImg";
 import ViewNewRed from "./ViewNewRed";
 
 import { useStore } from "../Store";
+import { isAfterString } from "../Utils/CalculateDays";
 import { updateUserGroupCheck } from "../graphql/mutation";
 export default (props: {
   usersGroup: {
@@ -17,7 +18,7 @@ export default (props: {
 }) => {
   const [{ user_id }, dispatch] = useStore();
   const { group, updated_at } = props.usersGroup;
-  const isNew = new Date(updated_at) < new Date(group.last_posted_at);
+  const isNew = isAfterString(group.last_posted_at, updated_at);
   const [update] = useMutation(updateUserGroupCheck);
   function goToGroup(group_id: number) {
     dispatch({ type: "SET_GROUP", group_id });
@@ -34,7 +35,7 @@ export default (props: {
         flexDirection: "row",
         marginBottom: 11,
         paddingLeft: 8,
-        paddingRight: 15
+        paddingRight: 15,
       }}
       onPress={() => goToGroup(group.id)}
     >
@@ -44,7 +45,7 @@ export default (props: {
           fontSize: 16,
           color: "white",
           flex: 1,
-          marginLeft: 12
+          marginLeft: 12,
         }}
       >
         {group.title}

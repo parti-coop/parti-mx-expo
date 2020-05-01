@@ -244,7 +244,7 @@ export const updateUserGroupCheck = gql`
     }
   }
 `;
-export const updateUserBoardCheck = gql`
+export const incrementUserBoardCheck = gql`
   mutation($board_id: Int!, $user_id: Int!) {
     update_mx_users_board(
       _inc: { count_click: 1 }
@@ -254,25 +254,15 @@ export const updateUserBoardCheck = gql`
     ) {
       affected_rows
     }
-  }
-`;
-export const insertUserBoardCheck = gql`
-  mutation($board_id: Int!) {
-    insert_mx_users_board(objects: { count_click: 1, board_id: $board_id }) {
-      affected_rows
-    }
-  }
-`;
-export const updateBoardPermission = gql`
-  mutation($board_id: Int!, $permission: String!) {
-    update_mx_boards(
-      where: { id: { _eq: $board_id } }
-      _set: { permission: $permission }
+    insert_mx_users_board(
+      objects: { count_click: 1, board_id: $board_id }
+      on_conflict: { update_columns: [], constraint: users_board_pkey }
     ) {
       affected_rows
     }
   }
 `;
+
 export const deleteBoard = gql`
   mutation($board_id: Int!) {
     delete_mx_boards(where: { id: { _eq: $board_id } }) {

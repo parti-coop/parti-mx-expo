@@ -12,41 +12,33 @@ import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
 import { Board } from "../types";
 
-import {
-  updateUserBoardCheck,
-  insertUserBoardCheck,
-} from "../graphql/mutation";
+import { incrementUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
+import { isAfterString } from "../Utils/CalculateDays";
 
-export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
+export default function TouchableBoardList(props: {
+  board: Board;
+  style?: StyleProp<ViewStyle>;
+}) {
   const { navigate } = useNavigation();
   const { board } = props;
   const [{ user_id }] = useStore();
-  const [update, { data }] = useMutation(updateUserBoardCheck, {
+  const [increment] = useMutation(incrementUserBoardCheck, {
     variables: { user_id, board_id: board.id },
   });
-  const [insert] = useMutation(insertUserBoardCheck, {
-    variables: { board_id: board.id },
-  });
-  React.useEffect(() => {
-    if (data && data.update_mx_users_board) {
-      if (data.update_mx_users_board.affected_rows === 0) {
-        insert();
-      }
-    }
-  }, [data]);
-  let minutes = "비어있습니다",
-    isNew = false;
+
+  let minutes = "비어있습니다";
+  const isNew = isAfterString(
+    board?.last_posted_at,
+    board?.users?.[0]?.updated_at
+  );
   const lastPostedDate = new Date(board.last_posted_at);
   if (board.last_posted_at) {
     minutes = formatDistanceToNow(lastPostedDate, { locale: ko });
-    if (board.users.length) {
-      isNew = lastPostedDate > new Date(board.users[0].updated_at);
-    }
   }
 
   function goToBoard() {
-    update();
+    increment();
     switch (board.type) {
       case "suggestion":
         return navigate("SuggestionList", { id: board.id });
@@ -117,4 +109,4 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
       />
     </TouchableOpacity>
   );
-};
+}
