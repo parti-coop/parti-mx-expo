@@ -19,22 +19,26 @@ interface UserGroup {
   created_at: string;
 }
 
-export default (props: {
+export default function GroupMember(props: {
   searchKeyword: string;
   memberType: "user" | "organizer";
-  refetch: () => void;
+  refetchCount: () => void;
   userStatus: "user" | "organizer";
-}) => {
-  const { searchKeyword, memberType, refetch, userStatus } = props;
+}) {
+  const { searchKeyword, memberType, refetchCount, userStatus } = props;
   const [debouncedKeyword] = useDebounce(`%${searchKeyword}%`, 500);
   const [{ group_id }, dispatch] = useStore();
-  const setOrganizer = useSetOrganizer(refetch);
-  const deleteUserGroup = useUserGroupDelete(refetch);
 
-  const { data, loading } = useQuery(searchMembers, {
+  const { data, loading, refetch } = useQuery(searchMembers, {
     variables: { searchKeyword: debouncedKeyword, group_id, memberType },
     fetchPolicy: "network-only",
   });
+  function refresh() {
+    refetch && refetch();
+    refetchCount && refetchCount();
+  }
+  const setOrganizer = useSetOrganizer(refresh);
+  const deleteUserGroup = useUserGroupDelete(refresh);
   const list = data?.mx_users_group.map((u: UserGroup, i: number) => {
     const {
       user: { name, photo_url, id, email },
@@ -57,4 +61,4 @@ export default (props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   return <ScrollView>{list}</ScrollView>;
-};
+}

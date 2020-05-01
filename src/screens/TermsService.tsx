@@ -18,7 +18,7 @@ const box = {
   shadowOpacity: 1,
   padding: 30,
 } as ViewStyle;
-export default () => {
+export default function TermsService() {
   const [md, setMd] = React.useState("");
   React.useEffect(() => {
     fetch(
@@ -40,4 +40,4 @@ export default () => {
       </ScrollView>
     </>
   );
-};
+}

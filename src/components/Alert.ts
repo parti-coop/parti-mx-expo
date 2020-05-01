@@ -11,3 +11,20 @@ export function Alert1(
     },
   ]);
 }
+
+export function Alert2(
+  title = "삭제",
+  desc = "삭제 하시겠습니까?",
+  handler: (args: any) => any
+) {
+  return A.alert(title, desc, [
+    {
+      text: "취소",
+      style: "cancel",
+    },
+    {
+      text: "네",
+      onPress: handler,
+    },
+  ]);
+}

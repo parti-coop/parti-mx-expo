@@ -15,16 +15,18 @@ import GroupMember from "../components/GroupMember";
 
 import { useStore } from "../Store";
 import { getMemberCount } from "../graphql/query";
-import { subscribeMemberCount } from "../graphql/subscription";
+// import { subscribeMemberCount } from "../graphql/subscription";
 
 import iconSearch from "../../assets/iconSearch.png";
 const boxStyle = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
 };
-export default (props: { route: RouteProp<RootStackParamList, "Member"> }) => {
+export default function Member(props: {
+  route: RouteProp<RootStackParamList, "Member">;
+}) {
   const { userStatus } = props.route.params;
-  const [{ group_id }, dispatch] = useStore();
+  const [{ group_id }] = useStore();
 
   const [searchKeyword, setSearchKeyword] = React.useState("");
   const [memberType, setMemberType] = React.useState<"user" | "organizer">(
@@ -36,9 +38,11 @@ export default (props: { route: RouteProp<RootStackParamList, "Member"> }) => {
     fetchPolicy: "network-only",
   });
   function showUsers() {
+    refetch();
     setMemberType("user");
   }
   function showOrganizers() {
+    refetch();
     setMemberType("organizer");
   }
   return (
@@ -80,11 +84,11 @@ export default (props: { route: RouteProp<RootStackParamList, "Member"> }) => {
           <GroupMember
             searchKeyword={searchKeyword}
             memberType={memberType}
-            refetch={refetch}
+            refetchCount={refetch}
             userStatus={userStatus}
           />
         </View>
       </KeyboardAvoidingView>
     </>
   );
-};
+}
