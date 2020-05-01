@@ -13,6 +13,7 @@ import ButtonBoardSetting from "../components/ButtonBoardSetting";
 import TouchableBoardList from "../components/TouchableBoardList";
 import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
 import { Alert1 } from "../components/Alert";
+import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 
 import ButtonJoinGroup from "../components/ButtonJoinGroup";
 import ViewGroupManage from "../components/ViewGroupManage";
@@ -21,7 +22,6 @@ import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import { useStore } from "../Store";
 
 import bgGroupMain from "../../assets/bgGroupMain.png";
-import { ScrollView } from "react-native-gesture-handler";
 
 const titleStyle = {
   fontSize: 28,
@@ -120,7 +120,7 @@ export default () => {
         </View>
       </ImageBackground>
 
-      <ScrollView
+      <KeyboardAwareScrollView
         style={{
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
@@ -146,7 +146,7 @@ export default () => {
             userStatus={userStatus}
           />
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
       {!hasJoined && <ButtonJoinGroup title={title} />}
     </>
   );

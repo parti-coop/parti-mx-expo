@@ -111,7 +111,10 @@ export default (props: { board: Board; style?: StyleProp<ViewStyle> }) => {
           {board.body}
         </Text>
       </View>
-      <ViewGroupType style={{ position: "absolute", right: -17, top: 44 }} />
+      <ViewGroupType
+        type={board.type}
+        style={{ position: "absolute", right: -17, top: 44 }}
+      />
     </TouchableOpacity>
   );
 };
