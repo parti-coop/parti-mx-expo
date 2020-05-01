@@ -15,7 +15,6 @@ import { LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { createNewGroup } from "../graphql/mutation";
-import useBoardCreate from "../components/useBoardCreate";
 import { uploadImage } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";
@@ -42,7 +41,6 @@ export default (props: StackHeaderProps) => {
   const [, dispatch] = useStore();
   const [groupName, setGroupName] = React.useState("");
   const [bg_img_url, setImgUrl] = React.useState(null);
-  const [createDefaultSuggestionBoard] = useBoardCreate();
   const [create, { loading }] = useMutation(createNewGroup, {
     variables: { groupName, bg_img_url },
   });
@@ -75,8 +73,7 @@ export default (props: StackHeaderProps) => {
       );
     }
     const group_id = await createGroup(url);
-    const board_id = await createDefaultSuggestionBoard(group_id);
-    dispatch({ type: "SET_GROUP_AND_BOARD", group_id, board_id });
+    dispatch({ type: "SET_GROUP", group_id });
     props.navigation.navigate("Home");
   }
   React.useEffect(() => {

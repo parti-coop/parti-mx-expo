@@ -188,7 +188,23 @@ export const updateGroupName = gql`
 `;
 export const createNewGroup = gql`
   mutation($groupName: String!, $bg_img_url: String) {
-    insert_mx_groups(objects: { title: $groupName, bg_img_url: $bg_img_url }) {
+    insert_mx_groups(
+      objects: {
+        title: $groupName
+        bg_img_url: $bg_img_url
+        users: { data: { status: "organizer" } }
+        boards: {
+          data: [
+            {
+              title: "제안 게시판"
+              body: "제안 게시판입니다"
+              type: "suggestion"
+            }
+            { title: "소식 게시판", body: "소식 게시판입니다", type: "notice" }
+          ]
+        }
+      }
+    ) {
       returning {
         id
       }
@@ -211,15 +227,6 @@ export const updateBoard = gql`
     update_mx_boards(
       _set: { body: $body, title: $title }
       where: { id: { _eq: $id } }
-    ) {
-      affected_rows
-    }
-  }
-`;
-export const insertUserGroupAsOrganizer = gql`
-  mutation($group_id: Int!) {
-    insert_mx_users_group(
-      objects: { group_id: $group_id, status: "organizer" }
     ) {
       affected_rows
     }

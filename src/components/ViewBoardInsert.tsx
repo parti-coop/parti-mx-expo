@@ -9,8 +9,6 @@ import { useMutation } from "@apollo/react-hooks";
 import { insertBoard } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
-import RNPickerSelect from "react-native-picker-select";
-import Modal from "react-native-modal";
 import { TextInput } from "./TextInput";
 
 import iconNewsGray from "../../assets/iconNewsGray.png";
