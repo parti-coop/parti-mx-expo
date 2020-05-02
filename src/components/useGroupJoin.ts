@@ -3,7 +3,7 @@ import { useStore } from "../Store";
 import { useMutation } from "@apollo/react-hooks";
 import { insertUserGroup } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
-export default () => {
+export default function useGroupJoin() {
   const [{ group_id }, dispatch] = useStore();
 
   const [join, { loading }] = useMutation(insertUserGroup, {
@@ -18,4 +18,4 @@ export default () => {
     );
   }
   return joinGroup;
-};
+}

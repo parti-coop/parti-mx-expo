@@ -171,7 +171,10 @@ export const deleteUsersGroup = gql`
 `;
 export const insertUserGroup = gql`
   mutation($group_id: Int!) {
-    insert_mx_users_group(objects: { group_id: $group_id }) {
+    insert_mx_users_group(
+      objects: { group_id: $group_id, status: "user" }
+      on_conflict: { update_columns: [status], constraint: users_group_pkey }
+    ) {
       affected_rows
     }
   }
@@ -328,6 +331,26 @@ export const incrementUserPostCheck = gql`
     insert_mx_users_post(
       objects: { view_count: 1, post_id: $post_id }
       on_conflict: { update_columns: [], constraint: users_post_pkey }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const updateBoardPermission = gql`
+  mutation($board_id: Int!, $permission: String!) {
+    update_mx_boards(
+      where: { id: { _eq: $board_id } }
+      _set: { permission: $permission }
+    ) {
+      affected_rows
+    }
+  }
+`;
+export const exitUsersGroup = gql`
+  mutation($group_id: Int!, $user_id: Int!) {
+    update_mx_users_group(
+      _set: { status: "exit" }
+      where: { group_id: { _eq: $group_id }, user_id: { _eq: $user_id } }
     ) {
       affected_rows
     }

@@ -27,9 +27,8 @@ const titleStyle = {
   fontSize: 28,
   color: "#333333",
 } as TextStyle;
-export default () => {
+export default function Home() {
   const navigation = useNavigation();
-  const { navigate } = navigation;
   const [{ group_id, user_id }, dispatch] = useStore();
   const { data, loading, error } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id },
@@ -150,4 +149,4 @@ export default () => {
       {!hasJoined && <ButtonJoinGroup title={title} />}
     </>
   );
-};
+}

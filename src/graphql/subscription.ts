@@ -105,6 +105,7 @@ export const subscribeNotice = gql`
         title
       }
       updatedBy {
+        id
         name
         photo_url
       }

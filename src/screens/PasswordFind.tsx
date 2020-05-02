@@ -3,18 +3,17 @@ import {
   Alert,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
   ViewProps,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Text, Title30, Sub15, White16 } from "../components/Text";
+import { Title30, Sub15, White16 } from "../components/Text";
+import { Image } from "../components/Image";
 import { ViewRow } from "../components/View";
-import { TO1, TOCenter } from "../components/TouchableOpacity";
+import { TOCenter } from "../components/TouchableOpacity";
 import { EmailInput } from "../components/TextInput";
 import HeaderBack from "../components/HeaderBack";
 
-import { useStore } from "../Store";
 import { auth } from "../firebase";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
@@ -44,9 +43,8 @@ const roundedRectangle12 = {
   marginHorizontal: 30,
   marginVertical: 21,
 } as ViewProps;
-export default (props) => {
-  const { navigate, goBack } = useNavigation();
-  const [store, dispatch] = useStore();
+export default function PasswordFind() {
+  const { goBack } = useNavigation();
   const [email, setEmail] = React.useState("");
   function sendEmail() {
     auth
@@ -103,4 +101,4 @@ export default (props) => {
       </TOCenter>
     </>
   );
-};
+}

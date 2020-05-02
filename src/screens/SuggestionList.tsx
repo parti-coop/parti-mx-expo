@@ -20,7 +20,7 @@ export default (props: {
 }) => {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
-  const { data, loading } = useSubscription(subscribePostsByBoardId, {
+  const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
     variables: { id: boardId, userId: user_id },
   });
   React.useEffect(() => {
@@ -33,6 +33,9 @@ export default (props: {
   const { posts = [], title = "소식 로드 중" } = data?.mx_boards_by_pk ?? {};
   function navigateNew() {
     props.navigation.navigate("SuggestionNew", { boardId, boardName: title });
+  }
+  if (error) {
+    console.log(error);
   }
   return (
     <>

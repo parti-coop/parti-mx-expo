@@ -48,13 +48,13 @@ export const noticeCommentsResult = gql`
 `;
 export const postResult = gql`
   fragment post_result on mx_posts {
+    id
     title
     body
     context
     metadata
     created_at
     updated_at
-    id
     users(where: { user_id: { _eq: $userId } }) {
       like_count
       updated_at
@@ -72,6 +72,7 @@ export const postResult = gql`
       }
     }
     updatedBy {
+      id
       name
     }
   }

@@ -55,9 +55,12 @@ export default function NoticeDetail(props: {
   const [deletePost] = usePostDelete(id);
   const [announcePost] = usePostAnnounce(id);
   const [denouncePost] = usePostDenounce(id);
-  const { data, loading } = useSubscription(subscribeNotice, {
+  const { data, loading, error } = useSubscription(subscribeNotice, {
     variables: { id, user_id },
   });
+  if (error) {
+    console.log(error);
+  }
   const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
   const [visible, setIsVisible] = React.useState(false);

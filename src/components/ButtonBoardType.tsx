@@ -35,20 +35,22 @@ const options = [
   { value: "all", label: "전체" },
   { value: "member", label: "멤버" },
 ];
-export default (props: {
+export default function ButtonBoardType(props: {
   boardId: number;
   style?: StyleProp<ViewStyle>;
   permission: string;
-}) => {
+}) {
   const { boardId, style } = props;
   const [isVisible, setVisible] = React.useState(false);
   const [permission, setPermission] = React.useState(props.permission);
-  const [update, { error, data }] = useMutation(updateBoardPermission);
+  const [update, { error }] = useMutation(updateBoardPermission);
   const boardType = options.find((o) => o.value === permission).label;
   function valueChangeHandler(value: string) {
     setPermission(value);
     setVisible(false);
-    debouncedCallback();
+    if (value !== permission) {
+      debouncedCallback();
+    }
   }
   const [debouncedCallback] = useDebouncedCallback(async function () {
     const {
@@ -56,12 +58,15 @@ export default (props: {
         update_mx_boards: { affected_rows },
       },
     } = await update({
-      variables: { board_id: boardId, permission: permission },
+      variables: { board_id: boardId, permission },
     });
     if (affected_rows === 1) {
       showMessage({ type: "success", message: "수정 성공" });
     }
   }, 1000);
+  if (error) {
+    console.log(error);
+  }
   return (
     <>
       <TORow
@@ -98,4 +103,4 @@ export default (props: {
       )}
     </>
   );
-};
+}

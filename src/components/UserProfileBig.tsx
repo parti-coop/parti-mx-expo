@@ -23,13 +23,13 @@ const UserImageStyle = {
   backgroundColor: "#c1c1c1",
 } as ImageStyle;
 
-export default (props: {
+export default function UserProfileBig(props: {
   style?: ViewStyle;
   url: string;
   setUrl: Dispatch<SetStateAction<string>>;
-}) => {
+}) {
   function addImage() {
-    return launchImageLibraryAsync({
+    launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -76,4 +76,4 @@ export default (props: {
       </TO0>
     </>
   );
-};
+}

@@ -26,7 +26,7 @@ export default (props: {
   const boardId = props.route.params.id;
   const { group_id, user_id } = store;
   const [sort, setSort] = React.useState("created_at");
-  const { data, loading } = useSubscription(subscribeNoticeList, {
+  const { data, error, loading } = useSubscription(subscribeNoticeList, {
     variables: { id: boardId, userId: user_id },
   });
   React.useEffect(() => {
@@ -45,6 +45,9 @@ export default (props: {
   const totalCount = posts_aggregate?.aggregate?.count ?? 0;
   function navigateNew() {
     props.navigation.navigate("NoticeNew", { boardId, boardName: title });
+  }
+  if (error) {
+    console.log(error);
   }
   return (
     <>

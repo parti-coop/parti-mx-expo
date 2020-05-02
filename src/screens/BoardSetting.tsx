@@ -15,14 +15,14 @@ import HeaderBack from "../components/HeaderBack";
 
 import { useStore } from "../Store";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
-export default (props: {
-  navigation: StackNavigationProp<RootStackParamList, "BoardSetting">;
-  route: RouteProp<RootStackParamList, "BoardSetting">;
-}) => {
+export default function BoardSetting() {
   const [{ group_id, user_id }, dispatch] = useStore();
-  const { data, error } = useSubscription(subscribeBoardsByGroupId, {
+  const { data, error, loading } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id },
   });
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading });
+  }, [loading]);
   if (error) {
     console.log(error);
   }
@@ -34,7 +34,7 @@ export default (props: {
       <View style={{ borderRadius: 25, backgroundColor: "#ffffff", flex: 1 }}>
         <ScrollView contentContainerStyle={{}}>
           <Mint13 style={{ margin: 30 }}>게시판</Mint13>
-          {boards.map((b: any, i: number) => {
+          {boards.map((b, i: number) => {
             return <BoardSettingList board={b} key={i} />;
           })}
         </ScrollView>
@@ -42,4 +42,4 @@ export default (props: {
       </View>
     </>
   );
-};
+}
