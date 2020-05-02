@@ -5,6 +5,7 @@ export const commentsResult = gql`
     body
     updated_at
     user {
+      id
       name
       photo_url
       checkedPosts(where: { post_id: { _eq: $id }, like_count: { _gt: 0 } }) {
@@ -29,6 +30,7 @@ export const noticeCommentsResult = gql`
     body
     updated_at
     user {
+      id
       name
       photo_url
     }

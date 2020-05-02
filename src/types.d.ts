@@ -13,7 +13,12 @@ export interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: { name: string; checkedPosts?: [{ count: number }]; photo_url: string };
+  user: {
+    name: string;
+    checkedPosts?: [{ count: number }];
+    photo_url: string;
+    id: number;
+  };
   likes: [
     {
       user: {
@@ -24,11 +29,6 @@ export interface Comment {
   likes_aggregate: {
     aggregate: {
       count: number;
-    };
-    nodes: {
-      user: {
-        name: string;
-      };
     };
   };
   re?: Comment[];
@@ -61,6 +61,7 @@ export type PostListType = {
 export type SuggestionListType = PostListType;
 
 export type User = {
+  id?: number;
   name: string;
   photo_url: string;
 };

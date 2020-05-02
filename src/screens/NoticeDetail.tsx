@@ -45,10 +45,10 @@ const box = {
   shadowOpacity: 1,
 } as ViewStyle;
 
-export default (props: {
+export default function NoticeDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "NoticeDetail">;
   route: RouteProp<RootStackParamList, "NoticeDetail">;
-}) => {
+}) {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.postId;
 
@@ -80,9 +80,7 @@ export default (props: {
 
   const notice: NoticeDetailType = data?.mx_posts_by_pk ?? {};
   function navigateEdit() {
-    navigate("NoticeEdit", {
-      notice,
-    });
+    navigate("NoticeEdit", { notice });
   }
   const options = [
     { label: "수정하기", handler: navigateEdit },
@@ -93,7 +91,7 @@ export default (props: {
   const {
     title = "제목 로딩 중",
     body = "",
-    createdBy = { photo_url: "", name: "" },
+    createdBy = { photo_url: "", name: "", id: null },
     updated_at = "",
     metadata = { announcement: false },
     comments = [],
@@ -123,7 +121,7 @@ export default (props: {
               photoUrl={createdBy.photo_url}
               date={updated_at}
             />
-            <SelectMenu items={options} />
+            {createdBy.id === user_id && <SelectMenu items={options} />}
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
@@ -181,4 +179,4 @@ export default (props: {
       />
     </>
   );
-};
+}

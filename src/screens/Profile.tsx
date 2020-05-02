@@ -43,10 +43,10 @@ const textStyle = {
   color: "#555555",
   paddingHorizontal: 10,
 } as TextProps;
-export default (props: {
+export default function Profile(props: {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
   route: RouteProp<RootStackParamList, "Profile">;
-}) => {
+}) {
   const { navigate } = props.navigation;
   const [{ user_id, group_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
@@ -71,7 +71,7 @@ export default (props: {
   const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    if (data?.parti_2020_users?.length) {
+    if (data?.mx_users?.length) {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.mx_users[0].name ?? "");
       setEmail(data.mx_users[0].email ?? "");
@@ -203,4 +203,4 @@ export default (props: {
       </ViewColumnStretch>
     </>
   );
-};
+}

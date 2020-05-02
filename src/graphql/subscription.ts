@@ -58,10 +58,12 @@ export const subscribeSuggestion = gql`
       updatedBy {
         name
         photo_url
+        id
       }
       createdBy {
         name
         photo_url
+        id
       }
       comments(
         order_by: { created_at: asc }
@@ -107,6 +109,7 @@ export const subscribeNotice = gql`
         photo_url
       }
       createdBy {
+        id
         name
         photo_url
       }

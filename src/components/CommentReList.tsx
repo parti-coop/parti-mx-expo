@@ -1,19 +1,21 @@
 import React from "react";
-import { ViewStyle, Image } from "react-native";
+import { ViewStyle } from "react-native";
 import Modal from "react-native-modal";
 
 import UserCommentProfile from "./UserCommentProfile";
 import { View, ViewRow, V0, ViewRowCenter } from "./View";
 import { Text, Grey12, Body16, Red16, Mint13 } from "./Text";
-import { TO0, TO1 } from "./TouchableOpacity";
+import { TO1 } from "./TouchableOpacity";
 import ButtonLikeComment from "./ButtonLikeComment";
 import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
-import { Comment } from "../types";
 
+import { Comment } from "../types";
+import { useStore } from "../Store";
 import { formatDateFromString } from "../Utils/CalculateDays";
+
 const commentModal = {
   width: 315,
   height: 171,
@@ -40,6 +42,7 @@ export default function CommentReList(props: {
   const { comment, edit: editHandler, style, recomment } = props;
   const { id, body, likes_aggregate, user, updated_at, likes } = comment;
   const [isVisible, setVisible] = React.useState(false);
+  const [{ user_id }] = useStore();
   const [deleteComment] = useCommentDelete(id);
   function recommentHandler() {
     recomment({ reUser: user });
@@ -78,7 +81,7 @@ export default function CommentReList(props: {
         <Grey12 style={{ marginLeft: 9 }}>
           {formatDateFromString(updated_at)}
         </Grey12>
-        <SelectMenu items={options} />
+        {user.id === user_id && <SelectMenu items={options} />}
       </ViewRow>
 
       <Text style={{ color: "#555555", fontSize: 16, marginVertical: 10 }}>

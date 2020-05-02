@@ -52,10 +52,10 @@ const bodyTextStyle = {
   textAlign: "left",
   color: "#555555",
 } as TextStyle;
-export default (props: {
+export default function SuggestionDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
   route: RouteProp<RootStackParamList, "SuggestionDetail">;
-}) => {
+}) {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.postId;
 
@@ -102,7 +102,7 @@ export default (props: {
     body = "",
     context = "",
     metadata = {},
-    createdBy = { photo_url: "", name: "" },
+    createdBy = { photo_url: "", name: "", id: null },
     updated_at = "",
     created_at = "",
     comments = [],
@@ -134,7 +134,7 @@ export default (props: {
                 photoUrl={createdBy.photo_url}
               />
             </View>
-            <SelectMenu items={options} />
+            {createdBy.id === user_id && <SelectMenu items={options} />}
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
@@ -203,4 +203,4 @@ export default (props: {
       />
     </>
   );
-};
+}

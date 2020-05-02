@@ -7,11 +7,10 @@ import { Image } from "./Image";
 import { View, ViewRow, V0 } from "./View";
 import { Title16, Blue16, Body16 } from "./Text";
 import { TextInput } from "./TextInput";
-import { TO0, TO1 } from "./TouchableOpacity";
+import { TO0 } from "./TouchableOpacity";
 import CommentList from "./CommentList";
 
 import { insertComment, updateComment } from "../graphql/mutation";
-import { useStore } from "../Store";
 
 import iconSend from "../../assets/iconSend.png";
 import iconClosed from "../../assets/iconClosed.png";
@@ -51,7 +50,6 @@ export default function Comments(props: {
   scrollRef: React.MutableRefObject<any>;
 }) {
   const { comments } = props;
-  const [{ user_id }] = useStore();
   const [comm, setComm] = React.useState("");
   const [reAuthor, setReAuthor] = React.useState("");
   const [editingId, setEditingId] = React.useState(null);
