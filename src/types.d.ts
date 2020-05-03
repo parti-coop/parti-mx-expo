@@ -52,6 +52,9 @@ export type PostListType = {
   updatedBy: {
     name: string;
   };
+  createdBy: {
+    name: string;
+  };
   comments_aggregate: {
     aggregate: {
       count: number;

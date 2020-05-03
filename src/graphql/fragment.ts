@@ -71,7 +71,7 @@ export const postResult = gql`
         count
       }
     }
-    updatedBy {
+    createdBy {
       id
       name
     }

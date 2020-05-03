@@ -64,7 +64,7 @@ export default function TouchableSuggestionList(props: {
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12>{suggestion.updatedBy.name}</Grey12>
+            <Grey12>{suggestion.createdBy.name}</Grey12>
             <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
               {votedByMe && ", 동의함"}
             </Text>

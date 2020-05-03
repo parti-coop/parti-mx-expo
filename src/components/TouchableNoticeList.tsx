@@ -62,7 +62,7 @@ export default function TouchableNoticeList(props: {
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12>{post.updatedBy.name}</Grey12>
+            <Grey12>{post.createdBy.name}</Grey12>
             <SmallVerticalDivider style={{ marginLeft: 10 }} />
             <Image
               source={iconComment}
