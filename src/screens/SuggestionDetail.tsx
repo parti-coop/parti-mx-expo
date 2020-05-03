@@ -79,9 +79,6 @@ export default function SuggestionDetail(props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", loading: true });
-  }, [id]);
 
   const suggestion: SuggestionDetailType = data?.mx_posts_by_pk ?? {};
   const options = [
