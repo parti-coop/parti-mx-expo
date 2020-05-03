@@ -15,6 +15,7 @@ import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonPostLike from "../components/ButtonPostLike";
 import ButtonPostUnlike from "../components/ButtonPostUnlike";
 import usePostDelete from "../components/usePostDelete";
+import useReport from "../components/useReport";
 import usePostAnnounce from "../components/usePostAnnounce";
 import usePostDenounce from "../components/usePostDenounce";
 import HeaderShare from "../components/HeaderShare";
@@ -53,6 +54,7 @@ export default function NoticeDetail(props: {
   const id = props.route.params.postId;
 
   const [deletePost] = usePostDelete(id);
+  const [reportPost] = useReport(id, "post");
   const [announcePost] = usePostAnnounce(id);
   const [denouncePost] = usePostDenounce(id);
   const { data, loading, error } = useSubscription(subscribeNotice, {
@@ -77,19 +79,12 @@ export default function NoticeDetail(props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  React.useEffect(() => {
-    dispatch({ type: "SET_LOADING", loading: true });
-  }, [id]);
 
   const notice: NoticeDetailType = data?.mx_posts_by_pk ?? {};
   function navigateEdit() {
     navigate("NoticeEdit", { notice });
   }
-  const options = [
-    { label: "수정하기", handler: navigateEdit },
-    { label: "삭제하기", handler: deletePost },
-    // { label: "제안 정리", handler: () => {} },
-  ];
+  const options = [];
 
   const {
     title = "제목 로딩 중",
@@ -106,10 +101,19 @@ export default function NoticeDetail(props: {
   } = notice;
   const liked = meLiked?.[0]?.like_count ?? 0;
   const totalLiked = users_aggregate?.aggregate?.sum?.like_count ?? 0;
-  if (metadata.announcement) {
-    options.unshift({ label: "공지 내리기", handler: denouncePost });
+  if (createdBy.id === user_id) {
+    if (metadata.announcement) {
+      options.unshift({ label: "공지 내리기", handler: denouncePost });
+    } else {
+      options.unshift({ label: "공지 올리기", handler: announcePost });
+    }
+    options.push(
+      { label: "수정하기", handler: navigateEdit },
+      { label: "삭제하기", handler: deletePost },
+      { label: "신고하기", handler: reportPost }
+    );
   } else {
-    options.unshift({ label: "공지 올리기", handler: announcePost });
+    options.push({ label: "신고하기", handler: reportPost });
   }
   return (
     <>
@@ -124,7 +128,7 @@ export default function NoticeDetail(props: {
               photoUrl={createdBy.photo_url}
               date={updated_at}
             />
-            {createdBy.id === user_id && <SelectMenu items={options} />}
+            <SelectMenu items={options} />
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>

@@ -5,13 +5,14 @@ import Modal from "react-native-modal";
 import UserCommentProfile from "./UserCommentProfile";
 import { View, ViewRow, V0, ViewRowCenter } from "./View";
 import { Text, Grey12, Body16, Red16, Mint13 } from "./Text";
-import { TO1 } from "./TouchableOpacity";
+import { TO1, TO0 } from "./TouchableOpacity";
 import ButtonLikeComment from "./ButtonLikeComment";
 import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
 import CommentReList from "./CommentReList";
+import useReport from "../components/useReport";
 
 import { Comment, RecommentArgs } from "../types";
 import { formatDateFromString } from "../Utils/CalculateDays";
@@ -43,6 +44,7 @@ export default function CommentList(props: {
   const { comment, edit: editHandler, style, recomment } = props;
   const { id, body, likes_aggregate, user, updated_at, likes, re } = comment;
   const [isVisible, setVisible] = React.useState(false);
+  const [report] = useReport(id, "comment");
   const [{ user_id }] = useStore();
   const [deleteComment] = useCommentDelete(id);
   function deleteHandler() {
@@ -89,6 +91,9 @@ export default function CommentList(props: {
       </Text>
       <ViewRow>
         <ButtonComment recomment={recommentHandler} />
+        <TO0 style={{ marginLeft: 20 }} onPress={report}>
+          <Mint13>신고하기</Mint13>
+        </TO0>
         {likes[0] ? (
           <ButtonUnlikeComment
             style={{ right: 0, position: "absolute" }}

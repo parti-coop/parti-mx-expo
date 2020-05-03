@@ -14,10 +14,10 @@ import ButtonNew from "../components/ButtonNew";
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
 
-export default (props: {
+export default function SuggestionList(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
   route: RouteProp<RootStackParamList, "SuggestionList">;
-}) => {
+}) {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
   const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
@@ -85,4 +85,4 @@ export default (props: {
       <ButtonNew onPress={navigateNew} />
     </>
   );
-};
+}

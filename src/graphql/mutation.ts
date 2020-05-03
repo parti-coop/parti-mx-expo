@@ -356,3 +356,10 @@ export const exitUsersGroup = gql`
     }
   }
 `;
+export const fileReport = gql`
+  mutation($id: Int!, $body: String!, $type: String = "post") {
+    insert_mx_reports(objects: { body: $body, type: $type, type_id: $id }) {
+      affected_rows
+    }
+  }
+`;
