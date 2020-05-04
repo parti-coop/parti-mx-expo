@@ -63,7 +63,7 @@ export default function ButtonBoardType(props: {
     if (affected_rows === 1) {
       showMessage({ type: "success", message: "수정 성공" });
     }
-  }, 1000);
+  }, 300);
   if (error) {
     console.log(error);
   }
