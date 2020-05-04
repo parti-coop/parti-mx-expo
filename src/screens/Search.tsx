@@ -5,7 +5,7 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { useDebounce } from "use-debounce";
 
 import { Image } from "../components/Image";
-import { ViewRow, V1, V0, View } from "../components/View";
+import { ViewRow, V0, View } from "../components/View";
 import { Text, Title16, Title24, Mint24, Grey12 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { TO0, TouchableOpacity } from "../components/TouchableOpacity";
@@ -15,22 +15,12 @@ import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
 import { useStore } from "../Store";
 import { searchPosts } from "../graphql/query";
 import { formatDateFromString } from "../Utils/CalculateDays";
+import { SearchResultType } from "../types";
 
 import iconBack from "../../assets/iconBack.png";
-import iconUser from "../../assets/iconUser.png";
+import iconCommentUser from "../../assets/iconCommentUser.png";
 
-interface SearchResultType {
-  id: number;
-  title: string;
-  created_at: string;
-  createdBy: {
-    name: string;
-  };
-  board: {
-    title: string;
-  };
-}
-export default () => {
+export default function Search() {
   const { navigate, goBack } = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
 
@@ -40,17 +30,16 @@ export default () => {
     goBack();
   }
 
-  const [search, { loading, refetch, data }] = useLazyQuery(searchPosts, {
+  const [search, { loading, data, error }] = useLazyQuery(searchPosts, {
     variables: { searchKeyword: debouncedKeyword, group_id, user_id },
   });
+  if (error) {
+    console.log(error);
+  }
   function searchHandler() {
     search();
   }
-  function postPressHandler(id: number) {
-    navigate("SuggestionDetail", {
-      postId: id,
-    });
-  }
+
   function results() {
     if (keyword.length && data) {
       if (data.mx_posts?.length > 0) {
@@ -59,17 +48,25 @@ export default () => {
             {data.mx_posts.map((posts: SearchResultType, index: number) => {
               const { title, createdBy, created_at, board, id } = posts;
               const date = formatDateFromString(created_at);
+              function postPressHandler() {
+                switch (board.type) {
+                  case "suggestion":
+                    return navigate("SuggestionDetail", { postId: id });
+                  case "notice":
+                    return navigate("NoticeDetail", { postId: id });
+                }
+              }
               return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => postPressHandler(id)}
-                >
+                <TouchableOpacity key={index} onPress={postPressHandler}>
                   <View style={{ marginHorizontal: 30, marginVertical: 10 }}>
                     <ViewRow>
-                      <Title16>{title}</Title16>
+                      <Title16 numberOfLines={1}>{title}</Title16>
                     </ViewRow>
                     <ViewRow>
-                      <Image source={iconUser} style={{ marginRight: 8 }} />
+                      <Image
+                        source={iconCommentUser}
+                        style={{ marginRight: 8, tintColor: "#909090" }}
+                      />
                       <Grey12 style={{ marginRight: 8 }}>
                         {createdBy.name}
                       </Grey12>
@@ -136,4 +133,4 @@ export default () => {
       </ScrollView>
     </>
   );
-};
+}

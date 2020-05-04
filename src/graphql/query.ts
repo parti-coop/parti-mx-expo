@@ -189,10 +189,12 @@ export const searchPosts = gql`
       title
       created_at
       createdBy {
+        id
         name
       }
       board {
         title
+        type
       }
     }
   }

@@ -118,3 +118,17 @@ export interface File {
   lastModified?: number;
   file?: File;
 }
+
+export interface SearchResultType {
+  id: number;
+  title: string;
+  created_at: string;
+  createdBy: {
+    id: number;
+    name: string;
+  };
+  board: {
+    type: string;
+    title: string;
+  };
+}
