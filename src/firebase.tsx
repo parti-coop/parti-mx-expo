@@ -14,26 +14,6 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 export const auth = firebase.auth();
-export async function signInWithGoogle() {
-  try {
-    await GoogleSignIn.askForPlayServicesAsync();
-    const { type } = await GoogleSignIn.signInAsync();
-    const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
-    if (type === "success") {
-      await firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        data.idToken,
-        data.accessToken
-      );
-      const googleProfileData = await auth.signInWithCredential(credential);
-      return googleProfileData;
-    }
-  } catch ({ message }) {
-    alert("login: Error:" + message);
-  }
-}
 export async function signUpWithGoogle() {
   try {
     await GoogleSignIn.askForPlayServicesAsync();
@@ -67,7 +47,7 @@ export type IdTokenResult = Modify<
   firebase.auth.IdTokenResult,
   {
     claims: {
-      "https://hasura.io/jwt/claims": {
+      "https://hasura.io/jwt/claims"?: {
         "x-hasura-allowed-roles": string[];
         "x-hasura-default-role": string;
         "x-hasura-user-id": string;

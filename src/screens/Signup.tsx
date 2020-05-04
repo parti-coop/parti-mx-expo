@@ -1,11 +1,13 @@
 import React from "react";
 import { ViewStyle, Image, Platform } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
-import { Text, Title30 } from "../components/Text";
+import { Text, Title30, Mint16, Sub16 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
-import { signUpWithGoogle } from "../firebase";
+import { signUpWithGoogle, IdTokenResult } from "../firebase";
+import { useStore } from "../Store";
 
 import iconEmail from "../../assets/iconEmail.png";
 import iconGoogle from "../../assets/iconGoogle.png";
@@ -19,14 +21,31 @@ const roundedRectangle12 = {
   borderColor: "#c9c9c9",
   marginBottom: 7,
 } as ViewStyle;
-const textStyle = {
-  fontSize: 16,
-  color: "#777777",
-} as ViewStyle;
 export default function Singup(props) {
   const { navigate } = props.navigation;
+  const [, dispatch] = useStore();
   function SignupEmail() {
     navigate("SignupEmail");
+  }
+  async function SignupGoogle() {
+    const res = await signUpWithGoogle();
+    if (res.additionalUserInfo.isNewUser) {
+      navigate("AuthProfile", { showTerms: true });
+    } else {
+      const tokenResult: IdTokenResult = await res.user.getIdTokenResult();
+      const userId = Number(
+        tokenResult?.claims?.["https://hasura.io/jwt/claims"]?.[
+          "x-hasura-user-id"
+        ]
+      );
+      if (!isNaN(userId)) {
+        dispatch({ type: "SET_USER", user_id: userId });
+        showMessage({
+          type: "success",
+          message: "이미 가입 하셨습니다. 바로 로그인 합니다.",
+        });
+      }
+    }
   }
   function login() {
     navigate("Login");
@@ -36,11 +55,9 @@ export default function Singup(props) {
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>
         <Title30>회원가입</Title30>
         <ViewRow>
-          <Text style={[textStyle]}>이미 계정이 있으신가요?</Text>
+          <Sub16>이미 계정이 있으신가요?</Sub16>
           <TouchableOpacity onPress={login} style={{ marginTop: 10 }}>
-            <Text style={[textStyle, { color: "#30ad9f", marginLeft: 10 }]}>
-              로그인
-            </Text>
+            <Mint16 style={{ marginLeft: 10 }}>로그인</Mint16>
           </TouchableOpacity>
         </ViewRow>
       </View>
@@ -55,7 +72,7 @@ export default function Singup(props) {
         {Platform.select({
           android: (
             <TORow
-              onPress={signUpWithGoogle}
+              onPress={SignupGoogle}
               style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
             >
               <Image

@@ -1,27 +1,25 @@
 import React from "react";
-import { Keyboard, TextProps, ViewProps } from "react-native";
+import { TextProps, ViewProps } from "react-native";
 import uuid from "uuid";
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useMutation } from "@apollo/react-hooks";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { showMessage } from "react-native-flash-message";
 import { useDebouncedCallback } from "use-debounce";
+import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+import { useNavigation } from "@react-navigation/native";
+import { showMessage } from "react-native-flash-message";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
-import { Text, Mint13, Mint14 } from "../components/Text";
+import { Text, Mint13 } from "../components/Text";
 import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 
-import HeaderConfirm from "../components/HeaderConfirm";
+import HeaderOnlyConfirm from "../components/HeaderOnlyConfirm";
 import { LineSeperator } from "../components/LineDivider";
 
 import { updateUserName } from "../graphql/mutation";
-import { whoami, searchDuplicateNameWithoutMine } from "../graphql/query";
-import { auth, uploadImage } from "../firebase";
+import { searchDuplicateName } from "../graphql/query";
 import { useStore } from "../Store";
+import { auth, IdTokenResult, uploadImage } from "../firebase";
 
 const box = {
   borderRadius: 25,
@@ -42,55 +40,28 @@ const textStyle = {
   color: "#555555",
   paddingHorizontal: 10,
 } as TextProps;
-export default function Profile(props: {
-  navigation: StackNavigationProp<RootStackParamList, "Profile">;
-  route: RouteProp<RootStackParamList, "Profile">;
-}) {
-  const { goBack } = props.navigation;
+export default function AuthProfile() {
   const email = auth.currentUser.email;
-  const [{ user_id }, dispatch] = useStore();
-  const [userName, setUserName] = React.useState("");
+  const [, dispatch] = useStore();
+  const [userName, setUserName] = React.useState(email);
   const [photoUrl, setPhotoUrl] = React.useState(null);
   const [updateName] = useMutation(updateUserName);
-  const [firstFetch, searchDuplicateQuery] = useLazyQuery(
-    searchDuplicateNameWithoutMine,
-    {
-      variables: { name: userName, id: user_id },
-      fetchPolicy: "network-only",
-    }
-  );
-  const [isInUse, setInUse] = React.useState(false);
-  const userNameQuery = useQuery(whoami, {
-    variables: { id: user_id },
+  const { refetch, data } = useQuery(searchDuplicateName, {
+    variables: { name: userName },
+    fetchPolicy: "network-only",
   });
-  const [debouncedCallback] = useDebouncedCallback(function () {
-    if (searchDuplicateQuery.refetch) {
-      searchDuplicateQuery.refetch();
-    } else {
-      firstFetch();
-    }
-  }, 1000);
+  const [isInUse, setInUse] = React.useState(false);
+  const [debouncedCallback] = useDebouncedCallback(refetch, 1000);
   const warningMsg = `"${userName}" 은 이미 사용중인 유저명 입니다.`;
-  const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
+
   React.useEffect(() => {
-    const { data, loading } = userNameQuery;
     if (data?.mx_users?.length) {
-      dispatch({ type: "SET_LOADING", loading });
-      setUserName(data.mx_users[0].name ?? "");
-    }
-  }, [userNameQuery]);
-  React.useEffect(() => {
-    const { data } = searchDuplicateQuery;
-    if (data?.mx_users?.length) {
-      showMessage({
-        type: "warning",
-        message: warningMsg,
-      });
+      showMessage({ type: "warning", message: warningMsg });
       setInUse(true);
     } else {
       setInUse(false);
     }
-  }, [searchDuplicateQuery.data]);
+  }, [data]);
 
   function nicknameHandler(text: string) {
     setUserName(text);
@@ -100,38 +71,44 @@ export default function Profile(props: {
   }
   async function saveHandler() {
     if (isInUse) {
-      return showMessage({
-        type: "warning",
-        message: warningMsg,
-      });
+      return showMessage({ type: "warning", message: warningMsg });
     }
     if (userName.trim().length === 0) {
-      return showMessage({
-        type: "warning",
-        message: "유저명을 입력하세요.",
-      });
+      return showMessage({ type: "warning", message: "유저명을 입력하세요." });
     }
     dispatch({ type: "SET_LOADING", loading: true });
-    let url = photoUrl;
-    if (photoUrl && photoUrl !== prevPhoroUrl) {
+    let url = null;
+    if (photoUrl) {
       console.log("new photo uploading");
       url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
         snap.ref.getDownloadURL()
       );
     }
+    const res: IdTokenResult = await auth.currentUser.getIdTokenResult();
+    const userId = Number(
+      res?.claims?.["https://hasura.io/jwt/claims"]?.["x-hasura-user-id"]
+    );
+    if (isNaN(userId)) {
+      console.log(res.claims);
+      return showMessage({
+        type: "warning",
+        message: "서버로 부터 인증을 받지 못했습니다.",
+      });
+    }
     await updateName({
       variables: {
-        id: user_id,
+        id: userId,
         name: userName,
-        photo_url: url ?? prevPhoroUrl,
+        photo_url: url,
       },
     });
-    goBack();
+    dispatch({ type: "SET_USER", user_id: userId });
     dispatch({ type: "SET_LOADING", loading: false });
   }
+
   return (
     <>
-      <HeaderConfirm onPress={saveHandler} />
+      <HeaderOnlyConfirm onPress={saveHandler} />
       <ViewColumnStretch
         style={{ alignItems: "stretch", marginHorizontal: 30, marginTop: 12 }}
       >
@@ -146,10 +123,7 @@ export default function Profile(props: {
               프로필
             </Text>
             <V0 style={{ marginTop: 70, marginBottom: 60 }}>
-              <UserProfileBig
-                url={photoUrl ?? prevPhoroUrl}
-                setUrl={setPhotoUrl}
-              />
+              <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
             </V0>
           </View>
 

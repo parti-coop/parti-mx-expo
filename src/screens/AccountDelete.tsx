@@ -13,6 +13,7 @@ import { PasswordInput } from "../components/TextInput";
 import { DotMint4 } from "../components/Dots";
 
 import { auth, Firebase } from "../firebase";
+import { useStore } from "../Store";
 const box = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
@@ -28,6 +29,7 @@ const box = {
 } as ViewStyle;
 export default function AccountDelete() {
   const [password, setPassword] = React.useState("");
+  const [, dispatch] = useStore();
   useFocusEffect(
     React.useCallback(() => {
       return () => setPassword("");
@@ -56,6 +58,7 @@ export default function AccountDelete() {
           try {
             await auth.currentUser.reauthenticateWithCredential(credential);
             await auth.currentUser.delete();
+            dispatch({ type: "LOGOUT" });
             showMessage({ type: "success", message: "회원탈퇴 하였습니다." });
           } catch (error) {
             showMessage({ type: "danger", message: JSON.stringify(error) });

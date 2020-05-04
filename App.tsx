@@ -16,7 +16,7 @@ import { getMainDefinition } from "apollo-utilities";
 import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
 import { setContext } from "apollo-link-context";
-import { auth } from "./src/firebase";
+import { auth, IdTokenResult } from "./src/firebase";
 const HASURA_DOMAIN = `hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/v1/graphql`;
 
 const wsLink = new WebSocketLink({
@@ -24,8 +24,8 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     lazy: true,
-    connectionParams: getFirebaseAuthHeader
-  }
+    connectionParams: getFirebaseAuthHeader,
+  },
 });
 
 const httpLink = ApolloLink.from([
@@ -40,8 +40,8 @@ const httpLink = ApolloLink.from([
   }),
   new HttpLink({
     uri: `http://${HASURA_DOMAIN}`,
-    credentials: "same-origin"
-  })
+    credentials: "same-origin",
+  }),
 ]);
 
 const link = split(
@@ -57,17 +57,31 @@ const link = split(
   wsLink,
   httpLink
 );
+async function delay(t: number) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, t);
+  });
+}
+let refreshCounts = 0;
+async function extractValidToken(refresh = false) {
+  const res: IdTokenResult = await auth.currentUser.getIdTokenResult(refresh);
+  if (res?.claims?.["https://hasura.io/jwt/claims"]?.["x-hasura-user-id"]) {
+    return res.token;
+  } else {
+    if (refresh) {
+      refreshCounts++;
+      await delay(500);
+      console.log("token try: " + refreshCounts);
+    }
+    return extractValidToken(true);
+  }
+}
 async function getFirebaseAuthHeader(_previousHeader?: Object) {
   const header = {};
   if (_previousHeader) {
     Object.assign(header, _previousHeader);
   }
-  let token = null;
-  try {
-    token = await auth.currentUser.getIdToken();
-  } catch (error) {
-    console.log("not logged in");
-  }
+  let token = await extractValidToken();
 
   if (token) {
     const Authorization = "Bearer " + token;
@@ -86,12 +100,12 @@ declare global {
 global.fetch = fetch;
 const client = new ApolloClient({
   link: authLink.concat(link),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 export default class App extends React.PureComponent {
   state = {
-    isReady: false
+    isReady: false,
   };
 
   async _cacheResourcesAsync() {
@@ -99,7 +113,7 @@ export default class App extends React.PureComponent {
       notosans: require("./assets/NotoSansCJKkr-Regular.otf"),
       notosans500: require("./assets/NotoSansCJKkr-Medium.otf"),
       notosans700: require("./assets/NotoSansCJKkr-Bold.otf"),
-      notosans900: require("./assets/NotoSansCJKkr-Black.otf")
+      notosans900: require("./assets/NotoSansCJKkr-Black.otf"),
     });
   }
 

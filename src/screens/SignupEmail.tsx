@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Keyboard,
-  ViewProps,
-  TextProps,
-  TouchableWithoutFeedback,
-  Image,
-} from "react-native";
+import { Keyboard, ViewProps, TextProps, Image } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
 import { Text, Title30, Body16 } from "../components/Text";
@@ -52,7 +46,7 @@ const btnStyle = {
   borderColor: "#c9c9c9",
   margin: 30,
 } as ViewProps;
-export default (props) => {
+export default function SingupEmail(props) {
   const { navigate } = props.navigation;
   const [, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
@@ -63,26 +57,27 @@ export default (props) => {
   function keyboardDownHandler() {
     Keyboard.dismiss();
   }
-  function registerHandler() {
+  async function registerHandler() {
     if (checkboxes.includes(false)) {
       return showMessage({ type: "warning", message: "약관에 동의해주세요" });
     }
     dispatch({ type: "SET_LOADING", loading: true });
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(() =>
+    try {
+      const credential = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      if (credential.additionalUserInfo.isNewUser) {
         showMessage({
           type: "success",
-          message: "회원가입에 성공 하셨습니다.",
-        })
-      )
-      .catch((err) => showMessage({ type: "danger", message: err.message }))
-      .finally(() =>
-        dispatch({
-          type: "SET_LOADING",
-          loading: false,
-        })
-      );
+          message: "회원가입에 성공 하셨습니다. 고유한 유저명을 만들어 주세요.",
+        });
+        navigate("AuthProfile");
+      }
+    } catch (error) {
+      showMessage({ type: "danger", message: error.message });
+    }
+    dispatch({ type: "SET_LOADING", loading: false });
   }
 
   function checkboxHandler1(v: boolean) {
@@ -154,4 +149,4 @@ export default (props) => {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

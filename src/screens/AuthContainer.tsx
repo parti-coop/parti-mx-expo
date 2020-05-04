@@ -8,6 +8,7 @@ import LoginEmail from "./LoginEmail";
 import TermsPrivacy from "./TermsPrivacy";
 import TermsService from "./TermsService";
 import PasswordFind from "./PasswordFind";
+import AuthProfile from "./AuthProfile";
 const Stack = createStackNavigator();
 export default function AuthContainer() {
   return (
@@ -20,6 +21,7 @@ export default function AuthContainer() {
       <Stack.Screen name="TermsPrivacy" component={TermsPrivacy} />
       <Stack.Screen name="TermsService" component={TermsService} />
       <Stack.Screen name="PasswordFind" component={PasswordFind} />
+      <Stack.Screen name="AuthProfile" component={AuthProfile} />
     </Stack.Navigator>
   );
 }

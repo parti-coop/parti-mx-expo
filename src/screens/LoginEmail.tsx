@@ -1,13 +1,7 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
-import {
-  ViewProps,
-  TextProps,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { ViewProps, TextProps, Image } from "react-native";
 
 import { Text, Title30 } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
@@ -16,7 +10,7 @@ import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
 
-import { auth } from "../firebase";
+import { auth, IdTokenResult } from "../firebase";
 import { useStore } from "../Store";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
@@ -50,7 +44,7 @@ const btnStyle = {
   borderWidth: 1,
   borderColor: "#c9c9c9",
 } as ViewProps;
-export default () => {
+export default function LoginEmail() {
   const { navigate, goBack } = useNavigation();
   const [, dispatch] = useStore();
   const [email, setEmail] = React.useState("");
@@ -58,29 +52,37 @@ export default () => {
   const emailTextInput = React.useRef(null);
   const pswTextInput = React.useRef(null);
 
-  function loginHandler() {
+  async function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(({ user }) => user.uid)
-      .then(() =>
-        showMessage({
-          type: "success",
-          message: "로그인 성공 하셨습니다.",
-        })
-      )
-      .catch((err) =>
-        showMessage({
-          type: "danger",
-          message: JSON.stringify(err),
-        })
-      )
-      .finally(() =>
-        dispatch({
-          type: "SET_LOADING",
-          loading: false,
-        })
+    try {
+      const credential = await auth.signInWithEmailAndPassword(email, password);
+
+      const tokenResult: IdTokenResult = await credential.user.getIdTokenResult();
+      const userId = Number(
+        tokenResult?.claims?.["https://hasura.io/jwt/claims"]?.[
+          "x-hasura-user-id"
+        ]
       );
+      if (isNaN(userId)) {
+        console.log(tokenResult);
+        return showMessage({
+          type: "danger",
+          message: "서버로 부터 인증을 받지 못하였습니다.",
+        });
+      }
+      showMessage({
+        type: "success",
+        message: "로그인 성공 하셨습니다.",
+      });
+      dispatch({ type: "SET_LOADING", loading: false });
+      dispatch({ type: "SET_USER", user_id: Number(userId) });
+    } catch (error) {
+      showMessage({
+        type: "danger",
+        message: JSON.stringify(error),
+      });
+    }
+    dispatch({ type: "SET_LOADING", loading: false });
   }
   return (
     <>
@@ -141,4 +143,4 @@ export default () => {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

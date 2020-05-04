@@ -27,6 +27,7 @@ export default functions
       headers: {
         "Content-Type": "application/json",
         "x-hasura-admin-secret": ADMIN_SECRET,
+        "x-hasura-use-backend-only-permissions": "true",
       },
     }).then((r) => r.json());
     const userId = res.data?.insert_mx_users?.returning[0]?.id;

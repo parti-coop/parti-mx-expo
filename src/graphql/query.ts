@@ -8,13 +8,20 @@ export const whoami = gql`
     }
   }
 `;
-export const searchDuplicateName = gql`
+export const searchDuplicateNameWithoutMine = gql`
   query($name: String!, $id: Int!) {
     mx_users(
       where: { _and: [{ id: { _neq: $id } }, { name: { _ilike: $name } }] }
     ) {
       id
       email
+    }
+  }
+`;
+export const searchDuplicateName = gql`
+  query($name: String!) {
+    mx_users(where: { _and: [{ name: { _ilike: $name } }] }) {
+      name
     }
   }
 `;

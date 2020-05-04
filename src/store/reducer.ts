@@ -18,14 +18,9 @@ export type Action =
   | { type: "SET_GROUP"; group_id: number }
   | { type: "SET_USER"; user_id: number }
   | { type: "LOGOUT" }
-  | {
-      type: "SET_GROUP_AND_BOARD";
-      group_id: number;
-      board_id: number;
-    }
   | { type: "APP_UPDATE" }
   | { type: "APP_REFRESH" };
-function persistSecureStore(state, payload) {
+function persistSecureStore(state: State, payload: any) {
   const jsonStr = JSON.stringify({ ...state, ...payload });
   SecureStore.setItemAsync(PERSIST_KEY, jsonStr);
   return { ...state, ...payload };
@@ -43,9 +38,8 @@ export const reducer = createReducer<State, Action>(initialState, {
   },
   ["LOGOUT"]: function (state, payload) {
     GoogleSignIn.signOutAsync();
-    return initialState;
+    return persistSecureStore(state, initialState);
   },
   ["SET_GROUP"]: persistSecureStore,
-  ["SET_GROUP_AND_BOARD"]: persistSecureStore,
   ["SET_USER"]: persistSecureStore,
 });

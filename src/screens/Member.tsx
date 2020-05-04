@@ -76,7 +76,7 @@ export default function Member(props: {
             <TextInput
               value={searchKeyword}
               onChangeText={setSearchKeyword}
-              placeholder="닉네임 입력"
+              placeholder="유저명 입력"
               style={{ fontSize: 16, color: "#999999", paddingLeft: 0 }}
             />
             <Image source={iconSearch} style={{ tintColor: "#30ad9f" }} />

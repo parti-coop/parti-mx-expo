@@ -1,11 +1,13 @@
 import React from "react";
 import { ViewStyle, Image, Platform } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
 import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
-import { signInWithGoogle } from "../firebase";
+import { signUpWithGoogle, IdTokenResult } from "../firebase";
+import { useStore } from "../Store";
 
 import iconEmail from "../../assets/iconEmail.png";
 import iconGoogle from "../../assets/iconGoogle.png";
@@ -25,11 +27,32 @@ const textStyle = {
 } as ViewStyle;
 export default function Login(props) {
   const { navigate } = props.navigation;
+  const [, dispatch] = useStore();
   function register() {
     navigate("Signup");
   }
   function loginEmail() {
     navigate("LoginEmail");
+  }
+  async function SigninGoogle() {
+    const res = await signUpWithGoogle();
+    if (res.additionalUserInfo.isNewUser) {
+      showMessage({
+        type: "info",
+        message: "아직 가입 하지 않았습니다, 가입 절차를 진행합니다.",
+      });
+      navigate("AuthProfile", { showTerms: true });
+    } else {
+      const tokenResult: IdTokenResult = await res.user.getIdTokenResult();
+      const userId = Number(
+        tokenResult?.claims?.["https://hasura.io/jwt/claims"]?.[
+          "x-hasura-user-id"
+        ]
+      );
+      if (!isNaN(userId)) {
+        dispatch({ type: "SET_USER", user_id: userId });
+      }
+    }
   }
   return (
     <>
@@ -55,7 +78,7 @@ export default function Login(props) {
         {Platform.select({
           android: (
             <TORow
-              onPress={signInWithGoogle}
+              onPress={SigninGoogle}
               style={[roundedRectangle12, { backgroundColor: "#ee4822" }]}
             >
               <Image
