@@ -14,6 +14,6 @@ web-report/
 .DS_Store
 src/firebaseConfig.ts
 
-google-services.json
+google-*.json
 GoogleService-Info.plist
 parti-mx.keystore
