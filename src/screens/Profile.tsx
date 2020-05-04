@@ -19,9 +19,8 @@ import HeaderConfirm from "../components/HeaderConfirm";
 import { LineSeperator } from "../components/LineDivider";
 
 import { updateUserName } from "../graphql/mutation";
-import { whoami, searchDuplicateName } from "../graphql/query";
-
-import { uploadImage } from "../firebase";
+import { whoami, searchDuplicateNameWithoutMine } from "../graphql/query";
+import { auth, uploadImage } from "../firebase";
 import { useStore } from "../Store";
 
 const box = {
@@ -47,15 +46,19 @@ export default function Profile(props: {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
   route: RouteProp<RootStackParamList, "Profile">;
 }) {
-  const { navigate } = props.navigation;
+  const { goBack } = props.navigation;
+  const email = auth.currentUser.email;
   const [{ user_id, group_id }, dispatch] = useStore();
   const [userName, setUserName] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [photoUrl, setPhotoUrl] = React.useState(null);
   const [updateName] = useMutation(updateUserName);
-  const [firstFetch, searchDuplicateQuery] = useLazyQuery(searchDuplicateName, {
-    variables: { name: userName, id: user_id },
-  });
+  const [firstFetch, searchDuplicateQuery] = useLazyQuery(
+    searchDuplicateNameWithoutMine,
+    {
+      variables: { name: userName, id: user_id },
+      fetchPolicy: "network-only",
+    }
+  );
   const [isInUse, setInUse] = React.useState(false);
   const userNameQuery = useQuery(whoami, {
     variables: { id: user_id },
@@ -67,19 +70,18 @@ export default function Profile(props: {
       firstFetch();
     }
   }, 1000);
-  const warningMsg = `"${userName}" 은 이미 사용중인 별명입니다.`;
+  const warningMsg = `"${userName}" 은 이미 사용중인 유저명 입니다.`;
   const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
     if (data?.mx_users?.length) {
       dispatch({ type: "SET_LOADING", loading });
       setUserName(data.mx_users[0].name ?? "");
-      setEmail(data.mx_users[0].email ?? "");
     }
   }, [userNameQuery]);
   React.useEffect(() => {
     const { data } = searchDuplicateQuery;
-    if (data && data.mx_users.length) {
+    if (data?.mx_users?.length) {
       showMessage({
         type: "warning",
         message: warningMsg,
@@ -106,20 +108,17 @@ export default function Profile(props: {
     if (userName.trim().length === 0) {
       return showMessage({
         type: "warning",
-        message: "닉네임을 입력하세요.",
+        message: "유저명을 입력하세요.",
       });
     }
     dispatch({ type: "SET_LOADING", loading: true });
     let url = photoUrl;
-    Keyboard.dismiss();
-    try {
-      if (photoUrl && photoUrl !== prevPhoroUrl) {
-        console.log("new photo uploading");
-        url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
-          snap.ref.getDownloadURL()
-        );
-      }
-    } catch (error) {}
+    if (photoUrl && photoUrl !== prevPhoroUrl) {
+      console.log("new photo uploading");
+      url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
+        snap.ref.getDownloadURL()
+      );
+    }
     await updateName({
       variables: {
         id: user_id,
@@ -127,11 +126,7 @@ export default function Profile(props: {
         photo_url: url ?? prevPhoroUrl,
       },
     });
-    if (group_id) {
-      navigate("Home");
-    } else {
-      navigate("Intro");
-    }
+    goBack();
     dispatch({ type: "SET_LOADING", loading: false });
   }
   return (
@@ -160,11 +155,11 @@ export default function Profile(props: {
 
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
-              <Mint13 style={{ width: 40 }}>닉네임</Mint13>
+              <Mint13 style={{ width: 40 }}>유저명</Mint13>
               <TextInput
                 value={userName}
                 textContentType="nickname"
-                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
+                placeholder="유저명 (한글, 영어 알파벳, 숫자, _)"
                 autoFocus={true}
                 returnKeyType="send"
                 placeholderTextColor="#c5c5c5"

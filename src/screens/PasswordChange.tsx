@@ -29,7 +29,7 @@ const boxStyle = {
   padding: 30,
 } as ViewProps;
 export default (props) => {
-  const { navigate, goBack } = props.navigation;
+  const { goBack } = props.navigation;
   const [store, dispatch] = useStore();
   const [oldP, setOldP] = React.useState("");
   const [newP, setNewP] = React.useState("");
@@ -59,6 +59,7 @@ export default (props) => {
         type: "success",
         message: "비밀번호 갱신에 성공했습니다.",
       });
+      goBack();
     } catch (error) {
       showMessage({ type: "danger", message: error.message });
     }
