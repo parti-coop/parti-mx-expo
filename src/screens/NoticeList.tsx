@@ -7,7 +7,7 @@ import { useSubscription } from "@apollo/react-hooks";
 import PickerSelect from "react-native-picker-select";
 
 import { Mint14, Title24, Title14 } from "../components/Text";
-import { View, ViewRow, V0 } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import TouchableNoticeList from "../components/TouchableNoticeList";
 import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";

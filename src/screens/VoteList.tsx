@@ -7,16 +7,16 @@ import { useSubscription } from "@apollo/react-hooks";
 
 import { Title14, Title24 } from "../components/Text";
 import { View, ViewRow } from "../components/View";
-import TouchableSuggestionList from "../components/TouchableSuggestionList";
+import TouchableVoteList from "../components/TouchableVoteList";
 import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
 
-export default function SuggestionList(props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
-  route: RouteProp<RootStackParamList, "SuggestionList">;
+export default function VoteList(props: {
+  navigation: StackNavigationProp<RootStackParamList, "VoteList">;
+  route: RouteProp<RootStackParamList, "VoteList">;
 }) {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
@@ -30,9 +30,9 @@ export default function SuggestionList(props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  const { posts = [], title = "소식 로드 중" } = data?.mx_boards_by_pk ?? {};
+  const { posts = [], title = "투표 로드 중" } = data?.mx_boards_by_pk ?? {};
   function navigateNew() {
-    props.navigation.navigate("SuggestionNew", { boardId, boardName: title });
+    props.navigation.navigate("VoteNew", { boardId, boardName: title });
   }
   if (error) {
     console.log(error);
@@ -52,7 +52,7 @@ export default function SuggestionList(props: {
             paddingHorizontal: 30,
           }}
         >
-          <Title14>진행중인 제안</Title14>
+          <Title14>진행중인 투표</Title14>
         </ViewRow>
         <View
           style={{
@@ -63,11 +63,11 @@ export default function SuggestionList(props: {
             marginBottom: 60,
           }}
         >
-          {posts.map((sugg: any, i: number) => {
+          {posts.map((post: any, i: number) => {
             return (
-              <TouchableSuggestionList
+              <TouchableVoteList
                 key={i}
-                suggestion={sugg}
+                post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
               />
             );

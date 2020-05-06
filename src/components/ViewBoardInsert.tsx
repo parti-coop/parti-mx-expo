@@ -1,26 +1,16 @@
 import React from "react";
 import { ViewStyle, StyleProp, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { View, ViewRow, V0 } from "./View";
 
-import { TO1, TO0 } from "./TouchableOpacity";
+import { TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
 import { useMutation } from "@apollo/react-hooks";
 import { insertBoard } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
 import { TextInput } from "./TextInput";
+import { boardOptions, boardTypes } from "./boardTypes";
 
-import iconNewsGray from "../../assets/iconNewsGray.png";
-import iconCommunityGray from "../../assets/iconCommunityGray.png";
-import iconSuggestGray from "../../assets/iconSuggestGray.png";
-import iconVoteGray from "../../assets/iconVoteGray.png";
-const options = [
-  { value: "notice", label: "소식", icon: iconNewsGray },
-  { value: "suggestion", label: "제안", icon: iconSuggestGray },
-  { value: "event", label: "모임", icon: iconCommunityGray },
-  { value: "vote", label: "투표", icon: iconVoteGray },
-];
 const boxStyle = {
   width: 315,
   height: 361,
@@ -43,19 +33,20 @@ const rectangleStyle = {
   backgroundColor: "#f0f0f0",
   marginHorizontal: 1,
 } as ViewStyle;
-export default (props: {
+export default function ViewBoardInsert(props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;
-}) => {
+}) {
   const [{ group_id }] = useStore();
-  const [type, setType] = React.useState("suggestion");
+  const [type, setType] = React.useState(boardTypes.SUGGESTION);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const bodyRef = React.useRef(null);
   function pickerHandler(value: string) {
     switch (value) {
-      case "notice":
-      case "suggestion":
+      case boardTypes.NOTICE:
+      case boardTypes.SUGGESTION:
+      case boardTypes.VOTE:
         return setType(value);
     }
   }
@@ -77,7 +68,7 @@ export default (props: {
     <View style={boxStyle}>
       <Title22 style={{ paddingBottom: 20 }}>게시판 추가</Title22>
       <ViewRow style={{ paddingVertical: 20 }}>
-        {options.map(({ icon, label, value }, index) => {
+        {boardOptions.map(({ icon, label, value }, index) => {
           if (value === type) {
             return (
               <TO0
@@ -134,4 +125,4 @@ export default (props: {
       </TO0>
     </View>
   );
-};
+}

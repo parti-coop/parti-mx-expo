@@ -10,18 +10,8 @@ import { updateBoard } from "../graphql/mutation";
 import { showMessage } from "react-native-flash-message";
 import { TextInput } from "./TextInput";
 import { Board } from "../types";
+import { boardOptions } from "./boardTypes";
 
-import iconNewsGray from "../../assets/iconNewsGray.png";
-import iconCommunityGray from "../../assets/iconCommunityGray.png";
-import iconSuggestGray from "../../assets/iconSuggestGray.png";
-import iconVoteGray from "../../assets/iconVoteGray.png";
-
-const options = [
-  { value: "notice", label: "소식", icon: iconNewsGray },
-  { value: "suggestion", label: "제안", icon: iconSuggestGray },
-  { value: "event", label: "모임", icon: iconCommunityGray },
-  { value: "vote", label: "투표", icon: iconVoteGray },
-];
 const boxStyle = {
   width: 315,
   height: 361,
@@ -45,11 +35,11 @@ const rectangleStyle = {
   marginHorizontal: 1,
 } as ViewStyle;
 
-export default (props: {
+export default function ViewBoardEdit(props: {
   style?: StyleProp<ViewStyle>;
   setVisible: (visible: boolean) => void;
   board: Board;
-}) => {
+}) {
   const { board } = props;
   const [type, setType] = React.useState(board.type);
   const [title, setTitle] = React.useState(board.title);
@@ -73,7 +63,7 @@ export default (props: {
     <View style={boxStyle}>
       <Title22 style={{ paddingBottom: 20 }}>게시판 수정</Title22>
       <ViewRow style={{ paddingVertical: 20 }}>
-        {options.map(({ icon, label, value }, index) => {
+        {boardOptions.map(({ icon, label, value }, index) => {
           if (value === type) {
             return (
               <TO0
@@ -126,4 +116,4 @@ export default (props: {
       </TO0>
     </View>
   );
-};
+}

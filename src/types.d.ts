@@ -62,6 +62,7 @@ export type PostListType = {
   };
 };
 export type SuggestionListType = PostListType;
+export interface VoteListType extends PostListType {}
 
 export type User = {
   id?: number;

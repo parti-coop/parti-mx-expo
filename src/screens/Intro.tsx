@@ -13,7 +13,7 @@ function Intro(props) {
   }, [group_id]);
   return null;
 }
-export default () => {
+export default function IntroContainer() {
   return (
     <Drawer.Navigator
       initialRouteName={"Intro"}
@@ -30,4 +30,4 @@ export default () => {
       <Drawer.Screen name="Intro" component={Intro} />
     </Drawer.Navigator>
   );
-};
+}

@@ -10,8 +10,9 @@ import { Text, Title18, Mint14, Purple12 } from "./Text";
 import { DotRed8 } from "./Dots";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
-import { Board } from "../types";
+import { boardTypes } from "./boardTypes";
 
+import { Board } from "../types";
 import { incrementUserBoardCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { isAfterString } from "../Utils/CalculateDays";
@@ -40,10 +41,12 @@ export default function TouchableBoardList(props: {
   function goToBoard() {
     increment();
     switch (board.type) {
-      case "suggestion":
+      case boardTypes.SUGGESTION:
         return navigate("SuggestionList", { id: board.id });
-      case "notice":
+      case boardTypes.NOTICE:
         return navigate("NoticeList", { id: board.id });
+      case boardTypes.VOTE:
+        return navigate("VoteList", { id: board.id });
       default:
         return navigate("SuggestionList", { id: board.id });
     }

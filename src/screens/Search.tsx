@@ -11,6 +11,7 @@ import { TextInput } from "../components/TextInput";
 import { TO0, TouchableOpacity } from "../components/TouchableOpacity";
 import { Round35 } from "../components/Round";
 import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
+import { boardTypes } from "../components/boardTypes";
 
 import { useStore } from "../Store";
 import { searchPosts } from "../graphql/query";
@@ -50,10 +51,12 @@ export default function Search() {
               const date = formatDateFromString(created_at);
               function postPressHandler() {
                 switch (board.type) {
-                  case "suggestion":
+                  case boardTypes.SUGGESTION:
                     return navigate("SuggestionDetail", { postId: id });
-                  case "notice":
+                  case boardTypes.NOTICE:
                     return navigate("NoticeDetail", { postId: id });
+                  case boardTypes.VOTE:
+                    return navigate("VoteDetail", { postId: id });
                 }
               }
               return (

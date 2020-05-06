@@ -31,6 +31,7 @@ export type RootStackParamList = {
   Home: {};
   Intro: {};
   SuggestionList: { id: number };
+  VoteList: { id: number };
   NoticeList: { id: number };
   GroupNew: {};
   AccountDelete: {};
@@ -38,8 +39,10 @@ export type RootStackParamList = {
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};
   SuggestionNew: { boardId: number; boardName: string };
+  VoteNew: { boardId: number; boardName: string };
   NoticeNew: { boardId: number; boardName: string };
   SuggestionDetail: { postId: number };
+  VoteDetail: { postId: number };
   NoticeDetail: { postId: number };
   SuggestionEdit: {
     suggestion: SuggestionDetailType;
@@ -77,10 +80,13 @@ export default function AppContainer() {
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
+      <Drawer.Screen name="VoteList" component={SuggestionList} />
       <Drawer.Screen name="NoticeList" component={NoticeList} />
       <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
+      <Drawer.Screen name="VoteNew" component={SuggestionNew} />
       <Drawer.Screen name="NoticeNew" component={NoticeNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
+      <Drawer.Screen name="VoteDetail" component={SuggestionDetail} />
       <Drawer.Screen name="NoticeDetail" component={NoticeDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
       <Drawer.Screen name="NoticeEdit" component={NoticeEdit} />
