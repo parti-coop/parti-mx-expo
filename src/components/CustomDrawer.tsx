@@ -1,7 +1,6 @@
 import React from "react";
 import { ScrollView, Keyboard } from "react-native";
 import { useIsDrawerOpen } from "@react-navigation/drawer";
-import { useQuery } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { ViewRow } from "./View";
@@ -12,8 +11,6 @@ import MyGroupList from "./MyGroupList";
 import MySearchList from "./MySearchList";
 import useAppRefresh from "../components/useAppRefresh";
 
-import { searchGroups } from "../graphql/query";
-
 import iconUser from "../../assets/iconUser.png";
 import ViewGroupImg from "./ViewGroupImg";
 import btnSearch from "../../assets/btnSearch.png";
@@ -21,13 +18,10 @@ import btnSearchOn from "../../assets/btnSearchOn.png";
 import appIcon from "../../assets/appIcon.png";
 import iconAdd from "../../assets/iconAdd.png";
 
-export default (props) => {
+export default function CustomDrawer(props) {
   const appRefresh = useAppRefresh();
   const { navigate } = props.navigation;
   const [searchKeyword, setSearchKeyword] = React.useState("");
-  const query = useQuery(searchGroups, {
-    variables: { searchKeyword: `%${searchKeyword}%` },
-  });
   const isDrawerOpen = useIsDrawerOpen();
 
   React.useEffect(() => {
@@ -150,4 +144,4 @@ export default (props) => {
       </TORowCenter>
     </>
   );
-};
+}

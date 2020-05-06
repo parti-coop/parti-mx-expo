@@ -1,19 +1,16 @@
 import React from "react";
-import { useSubscription } from "@apollo/react-hooks";
 import { useLazyQuery } from "@apollo/react-hooks";
 
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import { Text } from "./Text";
 
-import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { searchGroups } from "../graphql/query";
-import { useStore } from "../Store";
 
-export default (props) => {
-  const [{ user_id }] = useStore();
+export default function MySearchList(props) {
   const { navigate, searchKeyword } = props;
   const [update, { data, refetch }] = useLazyQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` },
+    fetchPolicy: "network-only",
   });
   React.useEffect(() => {
     if (refetch) {
@@ -44,4 +41,4 @@ export default (props) => {
       </Text>
     );
   }
-};
+}
