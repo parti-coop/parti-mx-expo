@@ -75,7 +75,7 @@ export default function Login(props) {
           marginBottom: 128,
         }}
       >
-        {Platform.select({
+        {/* {Platform.select({
           android: (
             <TORow
               onPress={SigninGoogle}
@@ -90,7 +90,7 @@ export default function Login(props) {
               </Text>
             </TORow>
           ),
-        })}
+        })} */}
         <TORow onPress={loginEmail} style={[roundedRectangle12]}>
           <Image
             source={iconEmail}

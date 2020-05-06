@@ -69,7 +69,7 @@ export default function Singup(props) {
           marginBottom: 128,
         }}
       >
-        {Platform.select({
+        {/* {Platform.select({
           android: (
             <TORow
               onPress={SignupGoogle}
@@ -84,7 +84,7 @@ export default function Singup(props) {
               </Text>
             </TORow>
           ),
-        })}
+        })} */}
         <TORow onPress={SignupEmail} style={[roundedRectangle12]}>
           <Image
             source={iconEmail}
