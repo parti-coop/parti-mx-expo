@@ -10,7 +10,7 @@ const rectangle3Copy3 = {
   width: 56,
   height: 51,
   borderRadius: 18,
-  backgroundColor: "#30ad9f",
+  backgroundColor: "#12BD8E",
   shadowColor: "rgba(0, 0, 0, 0.35)",
   elevation: 1,
   shadowOffset: {

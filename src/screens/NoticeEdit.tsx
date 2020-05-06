@@ -36,7 +36,7 @@ import iconClosed from "../../assets/iconClosed.png";
 const labelStyle: StyleProp<TextStyle> = {
   fontSize: 13,
   textAlign: "left",
-  color: "#30ad9f",
+  color: "#12BD8E",
   width: 80,
 };
 const textStyle: StyleProp<TextStyle> = {

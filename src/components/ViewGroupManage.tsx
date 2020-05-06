@@ -16,7 +16,7 @@ const btnStyle = {
   flex: 1,
   height: 100,
   borderRadius: 25,
-  backgroundColor: "#30ad9f",
+  backgroundColor: "#12BD8E",
   marginHorizontal: 5,
   alignItems: "center",
   justifyContent: "center",

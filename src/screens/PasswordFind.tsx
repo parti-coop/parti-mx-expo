@@ -36,7 +36,7 @@ const boxStyle = {
 const roundedRectangle12 = {
   height: 56,
   borderRadius: 15,
-  backgroundColor: "#30ad9f",
+  backgroundColor: "#12BD8E",
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: "#c9c9c9",

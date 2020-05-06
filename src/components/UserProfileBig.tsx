@@ -61,7 +61,7 @@ export default function UserProfileBig(props: {
             width: 30,
             height: 30,
             borderRadius: 10,
-            backgroundColor: "#30ad9f",
+            backgroundColor: "#12BD8E",
             top: -8,
             right: -8,
             position: "absolute",

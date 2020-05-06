@@ -10,7 +10,7 @@ export default () => {
   return (
     <TORow
       style={{
-        backgroundColor: "#30ad9f",
+        backgroundColor: "#12BD8E",
         borderRadius: 10,
         paddingHorizontal: 10,
       }}

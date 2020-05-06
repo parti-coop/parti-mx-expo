@@ -87,7 +87,7 @@ export default function Home() {
           <View>
             <ViewRow>
               <TouchableOpacity onPress={toggleDrawer}>
-                <ViewGroupImg color={false} />
+                <ViewGroupImg />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => Alert1()}>
                 <ViewNotification />
@@ -107,7 +107,7 @@ export default function Home() {
 
           <View style={{ position: "absolute", right: 30, top: 39 }}>
             <TO0 onPress={() => Alert1()}>
-              <ViewGroupImg color={true} />
+              <ViewGroupImg />
             </TO0>
             <TO0 onPress={() => Alert1()} style={{ marginTop: 10 }}>
               <ViewQrCode style={{}} />

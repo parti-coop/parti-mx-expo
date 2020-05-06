@@ -39,7 +39,7 @@ export default (props: {
       }}
       onPress={() => goToGroup(group.id)}
     >
-      <ViewGroupImg color={false} />
+      <ViewGroupImg />
       <Text
         style={{
           fontSize: 16,

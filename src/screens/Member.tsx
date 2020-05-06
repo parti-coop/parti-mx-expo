@@ -79,7 +79,7 @@ export default function Member(props: {
               placeholder="유저명 입력"
               style={{ fontSize: 16, color: "#999999", paddingLeft: 0 }}
             />
-            <Image source={iconSearch} style={{ tintColor: "#30ad9f" }} />
+            <Image source={iconSearch} style={{ tintColor: "#12BD8E" }} />
           </ViewRow>
           <GroupMember
             searchKeyword={searchKeyword}

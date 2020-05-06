@@ -1,27 +1,28 @@
 import React from "react";
-import { ImageBackground, ViewProps, TextProps, Image } from "react-native";
+import { ImageBackground, ViewProps, TextProps } from "react-native";
 
 import { Text } from "../components/Text";
+import { Image } from "../components/Image";
 import { View, ViewRow } from "../components/View";
 import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
 import useAppRefresh from "../components/useAppRefresh";
 
 import bgIntro from "../../assets/bgIntro.png";
-import partimxLogo from "../../assets/partimxLogo.png";
+import appIcon from "../../assets/appIcon.png";
 const box = {
   height: 96,
   backgroundColor: "#008489",
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: "#c9c9c9"
+  borderColor: "#12BD8E",
 } as ViewProps;
 const textStyle = {
   fontSize: 16,
   lineHeight: 28,
   textAlign: "center",
-  color: "#ffffff"
+  color: "#ffffff",
 } as TextProps;
-export default props => {
+export default (props) => {
   const { navigate } = props.navigation;
   const appRefresh = useAppRefresh();
   function register() {
@@ -32,16 +33,16 @@ export default props => {
   }
 
   return (
-    <ImageBackground source={bgIntro} style={{ flex: 1 }}>
-      <View>
+    <ImageBackground source={appIcon} style={{ flex: 1 }}>
+      {/* <View>
         <Text></Text>
         <TouchableOpacity
           onPress={appRefresh}
           style={{ position: "absolute", right: 29, top: 96 }}
         >
-          <Image source={partimxLogo} />
+          <Image source={appIcon} style={{ width: 100, height: 100 }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <ViewRow style={{ position: "absolute", bottom: 0 }}>
         <TO1 onPress={register} style={[box, { borderTopRightRadius: 30 }]}>
           <Text style={[textStyle]}>신규 이용자</Text>

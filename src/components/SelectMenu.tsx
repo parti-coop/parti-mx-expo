@@ -13,7 +13,7 @@ import btnDetailMore from "../../assets/btnDetailMore.png";
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
   // height: 197,
-  backgroundColor: "#30ad9f",
+  backgroundColor: "#12BD8E",
   shadowColor: "rgba(0, 0, 0, 0.32)",
   elevation: 1,
   shadowOffset: {
@@ -60,7 +60,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           borderTopStartRadius: 5,
           width: 36,
           height: 35,
-          backgroundColor: isVisible ? "#30ad9f" : "#ffffff",
+          backgroundColor: isVisible ? "#12BD8E" : "#ffffff",
           // position: "relative",
           // zIndex: 2,
         }}

@@ -119,7 +119,7 @@ export default function Comments(props: {
           placeholder="댓글입력"
           onChange={(e) => setComm(e.nativeEvent.text)}
           style={{ flex: 1, fontSize: 17, paddingLeft: 0 }}
-          placeholderTextColor="#30ad9f"
+          placeholderTextColor="#12BD8E"
           textAlignVertical="top"
           ref={textinput}
           autoFocus={autoFocus}
@@ -131,7 +131,7 @@ export default function Comments(props: {
       </ViewRow>
       <View
         style={{
-          borderBottomColor: "#30ad9f",
+          borderBottomColor: "#12BD8E",
           borderBottomWidth: 1,
           marginBottom: 17,
           marginHorizontal: 30,

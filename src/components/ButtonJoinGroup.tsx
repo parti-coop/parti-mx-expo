@@ -14,7 +14,7 @@ export default (props: { title: string }) => {
       <View
         style={{
           padding: 10,
-          backgroundColor: "#30ad9f",
+          backgroundColor: "#12BD8E",
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           height: 113,

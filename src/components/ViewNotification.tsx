@@ -11,7 +11,7 @@ export default (props: { style?: ViewStyle }) => {
         {
           width: 35,
           height: 35,
-          backgroundColor: "#30ad9f",
+          backgroundColor: "#12BD8E",
           borderRadius: 15,
           justifyContent: "center",
           alignItems: "center",

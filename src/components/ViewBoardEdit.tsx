@@ -77,7 +77,7 @@ export default (props: {
           if (value === type) {
             return (
               <TO0
-                style={[rectangleStyle, { backgroundColor: "#30ad9f" }]}
+                style={[rectangleStyle, { backgroundColor: "#12BD8E" }]}
                 key={index}
                 disabled
               >

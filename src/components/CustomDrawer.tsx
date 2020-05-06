@@ -18,7 +18,7 @@ import iconUser from "../../assets/iconUser.png";
 import ViewGroupImg from "./ViewGroupImg";
 import btnSearch from "../../assets/btnSearch.png";
 import btnSearchOn from "../../assets/btnSearchOn.png";
-import partimxLogoWhite from "../../assets/partimxLogoWhite.png";
+import appIcon from "../../assets/appIcon.png";
 import iconAdd from "../../assets/iconAdd.png";
 
 export default (props) => {
@@ -59,7 +59,10 @@ export default (props) => {
     <>
       <ViewRow style={{ marginLeft: 30, marginTop: 40 }}>
         <TO0 onPress={appRefresh}>
-          <Image source={partimxLogoWhite} />
+          <Image
+            source={appIcon}
+            style={{ width: 50, height: 50, borderRadius: 15 }}
+          />
         </TO0>
 
         <TouchableOpacity
@@ -68,7 +71,7 @@ export default (props) => {
             width: 35,
             height: 35,
             borderRadius: 15,
-            backgroundColor: "#30ad9f",
+            backgroundColor: "#12BD8E",
             overflow: "hidden",
             alignItems: "center",
             justifyContent: "center",
@@ -135,7 +138,7 @@ export default (props) => {
       <TORowCenter
         style={{
           padding: 10,
-          backgroundColor: "#30ad9f",
+          backgroundColor: "#12BD8E",
           borderTopLeftRadius: 20,
           borderBottomRightRadius: 20,
           height: 73,

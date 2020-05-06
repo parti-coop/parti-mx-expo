@@ -23,7 +23,7 @@ export function Round35(
             width: 35,
             height: 35,
             borderRadius: 15,
-            backgroundColor: "#30ad9f",
+            backgroundColor: "#12BD8E",
           },
           style,
         ]}
@@ -50,7 +50,7 @@ export function RoundDDays(
           backgroundColor: "#ffffff",
           borderStyle: "solid",
           borderWidth: 2,
-          borderColor: "#30ad9f",
+          borderColor: "#12BD8E",
           margin: 15,
           flex: 0,
         },

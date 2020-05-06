@@ -33,7 +33,7 @@ export const Mint13: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 13,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {
@@ -55,7 +55,7 @@ export const Mint14: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 14,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {
@@ -77,7 +77,7 @@ export const Mint15: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {
@@ -99,7 +99,7 @@ export const Mint16: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {
@@ -120,7 +120,7 @@ export const Mint17: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 17,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {
@@ -141,7 +141,7 @@ export const Mint24: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 24,
-        color: "#30ad9f",
+        color: "#12BD8E",
       },
       Platform.select({
         android: {

@@ -2,19 +2,20 @@
   "expo": {
     "name": "Parti Mx",
     "slug": "parti-mx",
+    "scheme": "parti-mx",
     "privacy": "public",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "0.2.0",
+    "version": "0.2.1",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/appIcon.png",
       "resizeMode": "cover",
-      "backgroundColor": "#30AD9F"
+      "backgroundColor": "#12BD8E"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "coop.parti.p2020",
-      "buildNumber": "0.2.0",
+      "buildNumber": "0.2.1",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.959324853924-sidevonq158kslcnvb1uln3059dson7v"
@@ -35,8 +36,13 @@
     },
     "android": {
       "package": "coop.parti.p2020",
-      "versionCode": 5,
-      "googleServicesFile": "./google-services.json"
+      "versionCode": 6,
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+            "certificateHash": "B2:FD:20:79:0E:C0:09:54:46:27:EB:C3:C5:81:2D:76:C9:96:20:0F"
+        }
+      }
     }
   }
 }

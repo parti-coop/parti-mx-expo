@@ -106,7 +106,7 @@ export default function AccountDelete() {
           style={{
             height: 50,
             borderRadius: 15,
-            backgroundColor: "#30ad9f",
+            backgroundColor: "#12BD8E",
           }}
         >
           <White18>탈퇴합니다</White18>

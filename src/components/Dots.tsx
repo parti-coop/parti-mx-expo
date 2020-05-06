@@ -27,7 +27,7 @@ export function DotMint4(props: { style?: ViewStyle }) {
         {
           width: 4,
           height: 4,
-          backgroundColor: "#30ad9f",
+          backgroundColor: "#12BD8E",
           borderRadius: 2,
         },
       ]}

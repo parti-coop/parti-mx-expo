@@ -1,10 +1,10 @@
 import React from "react";
-import { Text } from "./Text";
+import { White16 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { useMutation } from "@apollo/react-hooks";
 import { useStore } from "../Store";
 import ViewGroupImg from "./ViewGroupImg";
-import ViewNewRed from "./ViewNewRed";
+// import ViewNewRed from "./ViewNewRed";
 import { updateUserGroupCheck } from "../graphql/mutation";
 export default (props: {
   group: { title: string; id: number; last_posted_at: string };
@@ -28,21 +28,14 @@ export default (props: {
         flexDirection: "row",
         marginBottom: 11,
         paddingLeft: 8,
-        paddingRight: 15
+        paddingRight: 15,
       }}
       onPress={() => goToGroup(id)}
     >
-      <ViewGroupImg color={false} />
-      <Text
-        style={{
-          fontSize: 16,
-          color: "white",
-          flex: 1,
-          marginLeft: 12
-        }}
-      >
+      <ViewGroupImg />
+      <White16 numberOfLines={1} style={{ flex: 1, marginLeft: 12 }}>
         {title}
-      </Text>
+      </White16>
     </TouchableOpacity>
   );
 };

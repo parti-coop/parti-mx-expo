@@ -45,7 +45,7 @@ const box = {
 const labelStyle = {
   fontSize: 13,
   textAlign: "left",
-  color: "#30ad9f",
+  color: "#12BD8E",
 } as TextStyle;
 const bodyTextStyle = {
   fontSize: 16,

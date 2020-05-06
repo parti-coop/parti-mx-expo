@@ -15,7 +15,7 @@ const roundedRectangle12 = {
   width: 255,
   height: 56,
   borderRadius: 15,
-  backgroundColor: "#30ad9f",
+  backgroundColor: "#12BD8E",
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: "#c9c9c9",
@@ -61,7 +61,7 @@ export default function Login(props) {
         <ViewRow>
           <Text style={[textStyle]}>아직 계정이 없으신가요?</Text>
           <TouchableOpacity onPress={register} style={{ marginTop: 10 }}>
-            <Text style={[textStyle, { color: "#30ad9f", marginLeft: 10 }]}>
+            <Text style={[textStyle, { color: "#12BD8E", marginLeft: 10 }]}>
               회원가입
             </Text>
           </TouchableOpacity>
