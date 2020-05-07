@@ -42,6 +42,7 @@ const textStyle = {
   color: "#555555",
   paddingHorizontal: 10,
 } as TextProps;
+const patternUsername = /^[ㄱ-힣a-zA-Z0-9_]*$/;
 export default function Profile(props: {
   navigation: StackNavigationProp<RootStackParamList, "Profile">;
   route: RouteProp<RootStackParamList, "Profile">;
@@ -93,9 +94,12 @@ export default function Profile(props: {
   }, [searchDuplicateQuery.data]);
 
   function nicknameHandler(text: string) {
-    setUserName(text);
-    if (text.trim().length > 0) {
-      debouncedCallback();
+    const test = patternUsername.test(text);
+    if (test) {
+      setUserName(text);
+      if (text.trim().length > 0) {
+        debouncedCallback();
+      }
     }
   }
   async function saveHandler() {
@@ -103,6 +107,12 @@ export default function Profile(props: {
       return showMessage({
         type: "warning",
         message: warningMsg,
+      });
+    }
+    if (userName.trim().length === 0) {
+      return showMessage({
+        type: "warning",
+        message: "닉네임을 입력하세요.",
       });
     }
     if (userName.trim().length === 0) {
@@ -159,7 +169,7 @@ export default function Profile(props: {
               <TextInput
                 value={userName}
                 textContentType="nickname"
-                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
+                placeholder="닉네임 (한글, 영어, 숫자, _)"
                 autoFocus={true}
                 returnKeyType="send"
                 placeholderTextColor="#c5c5c5"

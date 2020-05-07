@@ -40,6 +40,7 @@ const textStyle = {
   color: "#555555",
   paddingHorizontal: 10,
 } as TextProps;
+const patternUsername = /^[ㄱ-힣a-zA-Z0-9_]*$/;
 export default function AuthProfile() {
   const email = auth.currentUser.email;
   const [, dispatch] = useStore();
@@ -64,9 +65,12 @@ export default function AuthProfile() {
   }, [data]);
 
   function nicknameHandler(text: string) {
-    setUserName(text);
-    if (text.trim().length > 0) {
-      debouncedCallback();
+    const test = patternUsername.test(text);
+    if (test) {
+      setUserName(text);
+      if (text.trim().length > 0) {
+        debouncedCallback();
+      }
     }
   }
   async function saveHandler() {
@@ -133,7 +137,7 @@ export default function AuthProfile() {
               <TextInput
                 value={userName}
                 textContentType="nickname"
-                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
+                placeholder="닉네임 (한글, 영어, 숫자, _)"
                 autoFocus={true}
                 returnKeyType="send"
                 placeholderTextColor="#c5c5c5"
