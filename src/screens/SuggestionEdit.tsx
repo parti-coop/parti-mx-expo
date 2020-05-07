@@ -21,6 +21,7 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import { bgStyle, textStyle } from "../components/Styles";
 import BottomImageFile from "../components/BottomImageFile";
+import ViewNewImageFile from "../components/ViewNewImageFile";
 
 import { useStore } from "../Store";
 import { updatePost } from "../graphql/mutation";
@@ -88,44 +89,13 @@ export default function SuggestionEdit(props: {
       }
     });
   }
-  async function fileDeleteHandler(fileIndex: number) {
-    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          fileArr.splice(fileIndex, 1);
-          setFileArr([...fileArr]);
-        },
-      },
-    ]);
-  }
+
   async function fileUploadHandler() {
     const file = await DocumentPicker.getDocumentAsync();
     const { type, ...rest } = file;
     if (type === "success") {
       setFileArr([...fileArr, rest as File]);
     }
-  }
-  async function longpressHandler(imageIndex: number) {
-    Keyboard.dismiss();
-    Vibration.vibrate(100);
-    return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          imageArr.splice(imageIndex, 1);
-          setImageArr([...imageArr]);
-        },
-      },
-    ]);
   }
   async function updateHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
@@ -237,45 +207,12 @@ export default function SuggestionEdit(props: {
             />
           </View>
           <LineSeperator />
-          {imageArr?.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                {imageArr?.map((o, i) => (
-                  <TWF0
-                    key={i}
-                    style={{ marginBottom: 10 }}
-                    onLongPress={() => longpressHandler(i)}
-                  >
-                    <Image
-                      source={o}
-                      resizeMode="cover"
-                      style={{ width: "100%", height: 186 }}
-                    />
-                  </TWF0>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
-          {fileArr.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
-                {fileArr.map((o, i) => (
-                  <ViewRow style={{ marginBottom: 10 }} key={i}>
-                    <Body16 style={{ flex: 1, marginRight: 20 }}>
-                      {o.name}
-                    </Body16>
-                    <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
-                      <Image source={iconClosed} />
-                    </TO0>
-                  </ViewRow>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
-
+          <ViewNewImageFile
+            imageArr={imageArr}
+            fileArr={fileArr}
+            setFileArr={setFileArr}
+            setImageArr={setImageArr}
+          />
           <BottomImageFile
             onFile={fileUploadHandler}
             onImage={imageUploadHandler}

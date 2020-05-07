@@ -12,23 +12,20 @@ import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as DocumentPicker from "expo-document-picker";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Body16, Title22, Mint13 } from "../components/Text";
-import { Image } from "../components/Image";
+import { Title22, Mint13 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
-import { View, ViewRow, V0 } from "../components/View";
-import { TO0, TWF0 } from "../components/TouchableOpacity";
+import { View, ViewRow } from "../components/View";
 import { LineSeperator } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { bgStyle, textStyle } from "../components/Styles";
 import BottomImageFile from "../components/BottomImageFile";
+import ViewNewImageFile from "../components/ViewNewImageFile";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
-
-import iconClosed from "../../assets/iconClosed.png";
 
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
@@ -85,38 +82,7 @@ export default function NoticeNew(props: {
       setFileArr([...fileArr, rest as File]);
     }
   }
-  async function fileDeleteHandler(fileIndex: number) {
-    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          fileArr.splice(fileIndex, 1);
-          setFileArr([...fileArr]);
-        },
-      },
-    ]);
-  }
-  async function imageLongpressHandler(imageIndex: number) {
-    Keyboard.dismiss();
-    Vibration.vibrate(100);
-    return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          imageArr.splice(imageIndex, 1);
-          setImageArr([...imageArr]);
-        },
-      },
-    ]);
-  }
+
   async function insertPressHandler() {
     if (!title.trim()) {
       return showMessage({
@@ -208,45 +174,12 @@ export default function NoticeNew(props: {
             />
           </View>
           <LineSeperator />
-          {imageArr.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                {imageArr.map((o, i) => (
-                  <TWF0
-                    key={i}
-                    style={{ marginBottom: 10 }}
-                    onLongPress={() => imageLongpressHandler(i)}
-                  >
-                    <Image
-                      source={o}
-                      resizeMode="cover"
-                      style={{ width: "100%", height: 186 }}
-                    />
-                  </TWF0>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
-          {fileArr.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
-                {fileArr.map((o, i) => (
-                  <ViewRow style={{ marginBottom: 10 }} key={i}>
-                    <Body16 style={{ flex: 1, marginRight: 20 }}>
-                      {o.name}
-                    </Body16>
-                    <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
-                      <Image source={iconClosed} />
-                    </TO0>
-                  </ViewRow>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
-
+          <ViewNewImageFile
+            imageArr={imageArr}
+            fileArr={fileArr}
+            setFileArr={setFileArr}
+            setImageArr={setImageArr}
+          />
           <BottomImageFile
             onFile={fileUploadHandler}
             onImage={imageUploadHandler}

@@ -1,6 +1,5 @@
 import { StyleProp, ViewStyle, TextStyle } from "react-native";
-export const bgStyle: StyleProp<ViewStyle> = {
-  alignItems: "stretch",
+export const whiteRoundBg: StyleProp<ViewStyle> = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.15)",
@@ -11,6 +10,10 @@ export const bgStyle: StyleProp<ViewStyle> = {
   },
   shadowRadius: 1,
   shadowOpacity: 1,
+};
+export const bgStyle: StyleProp<ViewStyle> = {
+  ...whiteRoundBg,
+  alignItems: "stretch",
   paddingVertical: 10,
 };
 

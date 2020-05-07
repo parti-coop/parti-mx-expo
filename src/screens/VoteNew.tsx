@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Vibration, Keyboard } from "react-native";
+import { Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -12,29 +12,21 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
-import { Image } from "../components/Image";
+import { Title22, Mint13 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
-import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import ToggleBox from "../components/ToggleBox";
 import { LineSeperator } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
-import BottomImageFile from "../components/BottomImageFile";
 import { bgStyle, textStyle } from "../components/Styles";
+import BottomImageFile from "../components/BottomImageFile";
+import ViewNewImageFile from "../components/ViewNewImageFile";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
-
-import iconClosed from "../../assets/iconClosed.png";
-const options = [
-  { label: "30일 후 종료", value: 0 },
-  // { label: "멤버 과반수 동의시 종료", value: 1 },
-  // { label: "투표 정리시 종료", value: 2 }
-];
 
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
@@ -91,38 +83,7 @@ export default function VoteNew(props: {
       setFileArr([...fileArr, rest as File]);
     }
   }
-  async function fileDeleteHandler(fileIndex: number) {
-    return Alert.alert("파일 삭제", "해당 파일을 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          fileArr.splice(fileIndex, 1);
-          setFileArr([...fileArr]);
-        },
-      },
-    ]);
-  }
-  async function imageLongpressHandler(imageIndex: number) {
-    Keyboard.dismiss();
-    Vibration.vibrate(100);
-    return Alert.alert("이미지 삭제", "해당 이미지를 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제!",
-        onPress: function () {
-          imageArr.splice(imageIndex, 1);
-          setImageArr([...imageArr]);
-        },
-      },
-    ]);
-  }
+
   async function insertPressHandler() {
     if (!title.trim()) {
       return showMessage({
@@ -227,44 +188,12 @@ export default function VoteNew(props: {
             />
           </View>
           <LineSeperator />
-          {imageArr.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                {imageArr.map((o, i) => (
-                  <TWF0
-                    key={i}
-                    style={{ marginBottom: 10 }}
-                    onLongPress={() => imageLongpressHandler(i)}
-                  >
-                    <Image
-                      source={o}
-                      resizeMode="cover"
-                      style={{ width: "100%", height: 186 }}
-                    />
-                  </TWF0>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
-          {fileArr.length > 0 && (
-            <>
-              <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
-                <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
-                {fileArr.map((o, i) => (
-                  <ViewRow style={{ marginBottom: 10 }} key={i}>
-                    <Body16 style={{ flex: 1, marginRight: 20 }}>
-                      {o.name}
-                    </Body16>
-                    <TO0 key={i} onPress={() => fileDeleteHandler(i)}>
-                      <Image source={iconClosed} />
-                    </TO0>
-                  </ViewRow>
-                ))}
-              </View>
-              <LineSeperator />
-            </>
-          )}
+          <ViewNewImageFile
+            imageArr={imageArr}
+            fileArr={fileArr}
+            setFileArr={setFileArr}
+            setImageArr={setImageArr}
+          />
           <BottomImageFile
             onFile={fileUploadHandler}
             onImage={imageUploadHandler}
