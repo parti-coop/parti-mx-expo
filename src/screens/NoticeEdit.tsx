@@ -77,8 +77,8 @@ export default function NoticeEdit(props: {
 }) {
   const notice = props.route.params.notice;
   const { id } = notice;
-  const [sTitle, setSTitle] = React.useState(notice.title);
-  const [sBody, setSBody] = React.useState(notice.body);
+  const [title, setTitle] = React.useState(notice.title);
+  const [body, setBody] = React.useState(notice.body);
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo>>(
     notice.images ?? []
   );
@@ -152,8 +152,8 @@ export default function NoticeEdit(props: {
     }
     await update({
       variables: {
-        sBody,
-        sTitle,
+        body,
+        title,
         id,
         images,
         files,
@@ -169,8 +169,8 @@ export default function NoticeEdit(props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   React.useEffect(() => {
-    setSTitle(notice.title);
-    setSBody(notice.body);
+    setTitle(notice.title);
+    setBody(notice.body);
     setImageArr(notice.images ?? []);
     setFileArr(notice.files ?? []);
   }, [notice]);
@@ -196,9 +196,9 @@ export default function NoticeEdit(props: {
           <ViewRow style={{ paddingHorizontal: 30 }}>
             <Text style={[labelStyle, { paddingVertical: 24 }]}>제목</Text>
             <TextInput
-              value={sTitle}
+              value={title}
               autoFocus
-              onChangeText={setSTitle}
+              onChangeText={setTitle}
               placeholderTextColor="#999999"
               style={textStyle}
               onSubmitEditing={() => contextRef.current.focus()}
@@ -215,12 +215,12 @@ export default function NoticeEdit(props: {
           >
             <Text style={[labelStyle, { paddingBottom: 19 }]}>내용 입력</Text>
             <AutoGrowingTextInput
-              value={sBody}
+              value={body}
               multiline
               textAlignVertical="top"
               placeholder="내용을 입력해 주세요"
               placeholderTextColor="#999999"
-              onChangeText={setSBody}
+              onChangeText={setBody}
               style={[textStyle, { minHeight: 180 }]}
             />
           </View>

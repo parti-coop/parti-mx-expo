@@ -25,17 +25,17 @@ export const insertPost = gql`
   mutation(
     $board_id: Int!
     $group_id: Int!
-    $sTitle: String!
+    $title: String!
     $sContext: String
-    $sBody: String!
+    $body: String!
     $metadata: jsonb = {}
     $images: jsonb
     $files: jsonb
   ) {
     insert_mx_posts(
       objects: {
-        body: $sBody
-        title: $sTitle
+        body: $body
+        title: $title
         context: $sContext
         board_id: $board_id
         metadata: $metadata
@@ -63,9 +63,9 @@ export const insertPost = gql`
 export const updatePost = gql`
   mutation(
     $id: Int!
-    $sTitle: String!
+    $title: String!
     $sContext: String
-    $sBody: String!
+    $body: String!
     $metadata: jsonb = {}
     $images: jsonb
     $files: jsonb
@@ -73,8 +73,8 @@ export const updatePost = gql`
     update_mx_posts(
       where: { id: { _eq: $id } }
       _set: {
-        body: $sBody
-        title: $sTitle
+        body: $body
+        title: $title
         context: $sContext
         images: $images
         files: $files

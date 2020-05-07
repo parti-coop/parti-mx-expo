@@ -77,9 +77,8 @@ export default (props: {
   const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
   const [{ group_id }, dispatch] = useStore();
-  const [sTitle, setSTitle] = React.useState("");
-  const [sContext, setSContext] = React.useState("");
-  const [sBody, setSBody] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [body, setBody] = React.useState("");
   const [closingMethod, setClosingMethod] = React.useState(0);
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
@@ -90,9 +89,8 @@ export default (props: {
 
   const { navigate } = useNavigation();
   function resetInput() {
-    setSTitle("");
-    setSContext("");
-    setSBody("");
+    setTitle("");
+    setBody("");
     setImageArr([]);
     setFileArr([]);
   }
@@ -151,19 +149,19 @@ export default (props: {
     ]);
   }
   async function insertPressHandler() {
-    if (!sTitle.trim()) {
+    if (!title.trim()) {
       return showMessage({
         message: "제안명을 입력해주세요.",
         type: "warning",
       });
     }
-    if (sTitle?.trim()?.length > 20) {
+    if (title?.trim()?.length > 20) {
       return showMessage({
         message: "제안명을 20자 이내로 입력해주세요.",
         type: "warning",
       });
     }
-    if (!sBody?.trim()) {
+    if (!body?.trim()) {
       return showMessage({
         message: "제안 내용을 입력해주세요.",
         type: "warning",
@@ -188,9 +186,9 @@ export default (props: {
     }
     await insert({
       variables: {
-        sTitle,
+        title,
         sContext,
-        sBody,
+        body,
         board_id: boardId,
         group_id,
         metadata: { closingMethod },
@@ -217,15 +215,17 @@ export default (props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 24, width: 80 }}>제안명</Mint13>
+            <Mint13 style={{ paddingVertical: 24, width: 80 }}>
+              투표 제목
+            </Mint13>
             <TextInput
-              value={sTitle}
+              value={title}
               autoFocus
-              onChangeText={setSTitle}
+              onChangeText={setTitle}
               placeholderTextColor="#999999"
               style={[textStyle]}
               onSubmitEditing={() => contextRef.current.focus()}
-              placeholder="제안명을 입력해 주세요"
+              placeholder="제목 입력"
             />
           </ViewRow>
           <LineSeperator />
@@ -262,12 +262,12 @@ export default (props: {
           >
             <Mint13 style={{ paddingBottom: 19 }}>제안 내용</Mint13>
             <AutoGrowingTextInput
-              value={sBody}
+              value={body}
               multiline
               textAlignVertical="top"
               placeholder="제안 내용을 입력해 주세요"
               placeholderTextColor="#999999"
-              onChangeText={setSBody}
+              onChangeText={setBody}
               style={[textStyle, { minHeight: 180 }]}
             />
           </View>

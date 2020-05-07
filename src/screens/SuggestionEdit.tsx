@@ -84,9 +84,9 @@ export default function SuggestionEdit(props: {
 }) {
   const suggestion = props.route.params.suggestion;
   const { id } = suggestion;
-  const [sTitle, setSTitle] = React.useState(suggestion.title);
+  const [title, setTitle] = React.useState(suggestion.title);
   const [sContext, setSContext] = React.useState(suggestion.context);
-  const [sBody, setSBody] = React.useState(suggestion.body);
+  const [body, setBody] = React.useState(suggestion.body);
   const [closingMethod, setClosingMethod] = React.useState(
     suggestion.metadata?.closingMethod ?? 0
   );
@@ -165,8 +165,8 @@ export default function SuggestionEdit(props: {
     }
     await update({
       variables: {
-        sBody,
-        sTitle,
+        body,
+        title,
         sContext,
         metadata: { closingMethod },
         id,
@@ -184,9 +184,9 @@ export default function SuggestionEdit(props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   React.useEffect(() => {
-    setSTitle(suggestion.title);
+    setTitle(suggestion.title);
     setSContext(suggestion.context);
-    setSBody(suggestion.body);
+    setBody(suggestion.body);
     setClosingMethod(suggestion.metadata?.closingMethod ?? 0);
     setImageArr(suggestion.images ?? []);
     setFileArr(suggestion.files ?? []);
@@ -213,9 +213,9 @@ export default function SuggestionEdit(props: {
           <ViewRow style={{ paddingHorizontal: 30 }}>
             <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
             <TextInput
-              value={sTitle}
+              value={title}
               autoFocus
-              onChangeText={setSTitle}
+              onChangeText={setTitle}
               placeholderTextColor="#999999"
               style={textStyle}
               onSubmitEditing={() => contextRef.current.focus()}
@@ -259,12 +259,12 @@ export default function SuggestionEdit(props: {
           >
             <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
             <AutoGrowingTextInput
-              value={sBody}
+              value={body}
               multiline
               textAlignVertical="top"
               placeholder="제안 내용을 입력해 주세요"
               placeholderTextColor="#999999"
-              onChangeText={setSBody}
+              onChangeText={setBody}
               style={[textStyle, { minHeight: 180 }]}
             />
           </View>
