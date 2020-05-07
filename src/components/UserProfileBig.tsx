@@ -47,7 +47,7 @@ export default function UserProfileBig(props: {
         </V0>
 
         <TO0 onPress={addImage}>
-          <Mint14 style={{ marginTop: 9 }}>추가</Mint14>
+          <Mint14 style={{ marginTop: 9 }}>사진추가</Mint14>
         </TO0>
       </>
     );
