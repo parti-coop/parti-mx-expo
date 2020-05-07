@@ -79,7 +79,7 @@ export default (props) => {
             <PasswordInput
               value={oldP}
               onChangeText={setOldP}
-              placeholder="현재 비밀번호를입력해 주세요"
+              placeholder="현재 비밀번호 입력"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
@@ -88,7 +88,7 @@ export default (props) => {
             <PasswordInput
               value={newP}
               onChangeText={setNewP}
-              placeholder="신규 비밀번호를 입력해주세요"
+              placeholder="신규 비밀번호 입력"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
