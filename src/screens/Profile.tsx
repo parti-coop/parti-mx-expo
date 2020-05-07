@@ -70,7 +70,7 @@ export default function Profile(props: {
       firstFetch();
     }
   }, 1000);
-  const warningMsg = `"${userName}" 은 이미 사용중인 유저명 입니다.`;
+  const warningMsg = `"${userName}" 은 이미 사용중인 닉네임 입니다.`;
   const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
@@ -108,7 +108,7 @@ export default function Profile(props: {
     if (userName.trim().length === 0) {
       return showMessage({
         type: "warning",
-        message: "유저명을 입력하세요.",
+        message: "닉네임을 입력하세요.",
       });
     }
     dispatch({ type: "SET_LOADING", loading: true });
@@ -155,11 +155,11 @@ export default function Profile(props: {
 
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
-              <Mint13 style={{ width: 40 }}>유저명</Mint13>
+              <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
                 value={userName}
                 textContentType="nickname"
-                placeholder="유저명 (한글, 영어 알파벳, 숫자, _)"
+                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
                 autoFocus={true}
                 returnKeyType="send"
                 placeholderTextColor="#c5c5c5"

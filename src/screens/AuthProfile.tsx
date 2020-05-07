@@ -52,7 +52,7 @@ export default function AuthProfile() {
   });
   const [isInUse, setInUse] = React.useState(false);
   const [debouncedCallback] = useDebouncedCallback(refetch, 1000);
-  const warningMsg = `"${userName}" 은 이미 사용중인 유저명 입니다.`;
+  const warningMsg = `"${userName}" 은 이미 사용중인 닉네임 입니다.`;
 
   React.useEffect(() => {
     if (data?.mx_users?.length) {
@@ -74,7 +74,7 @@ export default function AuthProfile() {
       return showMessage({ type: "warning", message: warningMsg });
     }
     if (userName.trim().length === 0) {
-      return showMessage({ type: "warning", message: "유저명을 입력하세요." });
+      return showMessage({ type: "warning", message: "닉네임을 입력하세요." });
     }
     dispatch({ type: "SET_LOADING", loading: true });
     let url = null;
@@ -129,11 +129,11 @@ export default function AuthProfile() {
 
           <View style={box}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
-              <Mint13 style={{ width: 40 }}>유저명</Mint13>
+              <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
                 value={userName}
                 textContentType="nickname"
-                placeholder="유저명 (한글, 영어 알파벳, 숫자, _)"
+                placeholder="닉네임 (한글, 영어 알파벳, 숫자, _)"
                 autoFocus={true}
                 returnKeyType="send"
                 placeholderTextColor="#c5c5c5"

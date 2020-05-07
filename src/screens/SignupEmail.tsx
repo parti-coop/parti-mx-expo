@@ -70,7 +70,7 @@ export default function SingupEmail(props) {
       if (credential.additionalUserInfo.isNewUser) {
         showMessage({
           type: "success",
-          message: "회원가입에 성공 하셨습니다. 고유한 유저명을 만들어 주세요.",
+          message: "회원가입에 성공 하셨습니다. 고유한 닉네임을 만들어 주세요.",
         });
         navigate("AuthProfile");
       }
