@@ -31,7 +31,7 @@ export default function TermsService() {
     <>
       <HeaderBack />
       <ViewRow style={{ padding: 30, paddingTop: 6 }}>
-        <Title30>개인정보처리방침</Title30>
+        <Title30>이용약관</Title30>
       </ViewRow>
       <ScrollView style={box}>
         <Markdown style={{ body: { fontSize: 16, color: "#555555" } }}>
