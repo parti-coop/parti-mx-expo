@@ -1,19 +1,14 @@
 import React from "react";
-import { ViewStyle, StyleProp, TextStyle } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import Modal from "react-native-modal";
 
 import { View } from "./View";
-import { Text, Mint15, Body15 } from "./Text";
+import { Mint15, Body15, Body16 } from "./Text";
 import { TORow, TouchableOpacity } from "./TouchableOpacity";
 import { Image } from "./Image";
 
 import iconSelected from "../../assets/iconSelected.png";
-const textStyle: StyleProp<TextStyle> = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-  paddingVertical: 24,
-};
+
 const boxStyle: StyleProp<ViewStyle> = {
   width: 207,
   height: 224,
@@ -33,12 +28,12 @@ const boxStyle: StyleProp<ViewStyle> = {
   borderRadius: 25,
   borderTopRightRadius: 0,
 };
-export default (props: {
+export default function TouchableClosingMethod(props: {
   style?: StyleProp<ViewStyle>;
   value: number;
   onChange: (value: number) => void;
   items: Array<{ value: number; label: string }>;
-}) => {
+}) {
   const { items, value, onChange } = props;
   const currentItem = items.find((i) => i.value === value);
   const [isVisible, setVisible] = React.useState(false);
@@ -51,7 +46,7 @@ export default (props: {
       onPress={() => setVisible(!isVisible)}
       style={{ flex: 1 }}
     >
-      <Text style={[textStyle]}>{currentItem.label}</Text>
+      <Body16 style={{ paddingVertical: 15 }}>{currentItem.label}</Body16>
       <Modal
         isVisible={isVisible}
         animationIn="fadeIn"
@@ -87,4 +82,4 @@ export default (props: {
       </Modal>
     </TouchableOpacity>
   );
-};
+}

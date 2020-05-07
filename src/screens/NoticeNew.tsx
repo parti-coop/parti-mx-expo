@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleProp,
-  TextStyle,
-  Alert,
-  Vibration,
-  Keyboard,
-  ViewStyle,
-} from "react-native";
+import { StyleProp, TextStyle, Alert, Vibration, Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp, useFocusEffect } from "@react-navigation/native";
@@ -27,6 +20,7 @@ import { View, ViewRow, V0 } from "../components/View";
 import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
+import { bgStyle, textStyle } from "../components/Styles";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
@@ -35,26 +29,6 @@ import { insertPost } from "../graphql/mutation";
 
 import iconClosed from "../../assets/iconClosed.png";
 
-const textStyle: StyleProp<TextStyle> = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-  paddingHorizontal: 0,
-  flex: 1,
-};
-const bgStyle: StyleProp<ViewStyle> = {
-  alignItems: "stretch",
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-};
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
@@ -64,10 +38,10 @@ function promiseArray(o: ImageInfo | File) {
   });
 }
 
-export default (props: {
+export default function NoticeNew(props: {
   navigation: StackNavigationProp<RootStackParamList, "NoticeNew">;
   route: RouteProp<RootStackParamList, "NoticeNew">;
-}) => {
+}) {
   const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
   const [{ group_id }, dispatch] = useStore();
@@ -201,7 +175,7 @@ export default (props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 24, width: 80 }}>제목</Mint13>
+            <Mint13 style={{ paddingVertical: 15, width: 80 }}>제목</Mint13>
             <TextInput
               value={title}
               autoFocus
@@ -284,4 +258,4 @@ export default (props: {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

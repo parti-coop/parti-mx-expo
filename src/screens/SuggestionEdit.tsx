@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleProp,
-  TextStyle,
-  Keyboard,
-  Vibration,
-  Alert,
-  ViewStyle,
-} from "react-native";
+import { StyleProp, TextStyle, Keyboard, Vibration, Alert } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -26,6 +19,7 @@ import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
+import { bgStyle, textStyle } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { updatePost } from "../graphql/mutation";
@@ -46,26 +40,7 @@ const labelStyle: StyleProp<TextStyle> = {
   color: "#12BD8E",
   width: 80,
 };
-const textStyle: StyleProp<TextStyle> = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-  paddingHorizontal: 0,
-  flex: 1,
-};
-const bgStyle: StyleProp<ViewStyle> = {
-  alignItems: "stretch",
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-};
+
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     let uri = o.uri;
@@ -211,7 +186,7 @@ export default function SuggestionEdit(props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Text style={[labelStyle, { paddingVertical: 24 }]}>제안명</Text>
+            <Text style={[labelStyle, { paddingVertical: 15 }]}>제안명</Text>
             <TextInput
               value={title}
               autoFocus

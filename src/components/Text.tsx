@@ -1,10 +1,11 @@
 import React from "react";
 import { Text as T, TextProps, Platform } from "react-native";
-import { getRandomColor } from "../Utils/RandomColorGenerator";
+import COLORS from "./Colors";
 function lineHeight(fontSize: number) {
   const multiplier = fontSize > 20 ? 1.5 : 1;
   return Math.floor(fontSize + fontSize * multiplier);
 }
+
 export const Text: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
@@ -33,7 +34,7 @@ export const Mint13: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 13,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {
@@ -55,7 +56,7 @@ export const Mint14: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 14,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {
@@ -77,7 +78,7 @@ export const Mint15: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 15,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {
@@ -99,7 +100,7 @@ export const Mint16: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 16,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {
@@ -120,7 +121,7 @@ export const Mint17: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 17,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {
@@ -141,7 +142,7 @@ export const Mint24: React.FunctionComponent<TextProps> = (props) => (
       {
         fontFamily: "notosans",
         fontSize: 24,
-        color: "#12BD8E",
+        color: COLORS.MINT,
       },
       Platform.select({
         android: {

@@ -4,12 +4,15 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Intro from "./Intro";
 import Home from "./Home";
 import SuggestionList from "./SuggestionList";
+import VoteList from "./VoteList";
 import NoticeList from "./NoticeList";
 import SuggestionNew from "./SuggestionNew";
+import VoteNew from "./VoteNew";
 import NoticeNew from "./NoticeNew";
 import SuggestionEdit from "./SuggestionEdit";
 import NoticeEdit from "./NoticeEdit";
 import SuggestionDetail from "./SuggestionDetail";
+import VoteDetail from "./VoteDetail";
 import NoticeDetail from "./NoticeDetail";
 import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
@@ -80,13 +83,13 @@ export default function AppContainer() {
       <Drawer.Screen name="Member" component={Member} />
       <Drawer.Screen name="QRcode" component={QRcode} />
       <Drawer.Screen name="SuggestionList" component={SuggestionList} />
-      <Drawer.Screen name="VoteList" component={SuggestionList} />
+      <Drawer.Screen name="VoteList" component={VoteList} />
       <Drawer.Screen name="NoticeList" component={NoticeList} />
       <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
-      <Drawer.Screen name="VoteNew" component={SuggestionNew} />
+      <Drawer.Screen name="VoteNew" component={VoteNew} />
       <Drawer.Screen name="NoticeNew" component={NoticeNew} />
       <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
-      <Drawer.Screen name="VoteDetail" component={SuggestionDetail} />
+      <Drawer.Screen name="VoteDetail" component={VoteDetail} />
       <Drawer.Screen name="NoticeDetail" component={NoticeDetail} />
       <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
       <Drawer.Screen name="NoticeEdit" component={NoticeEdit} />

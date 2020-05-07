@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleProp,
-  TextStyle,
-  Alert,
-  Vibration,
-  Keyboard,
-  ViewStyle,
-} from "react-native";
+import { Alert, Vibration, Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -23,11 +16,12 @@ import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
 import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
-import { View, ViewRow, V0 } from "../components/View";
+import { View, ViewRow } from "../components/View";
 import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
-import TouchableClosingMethod from "../components/TouchableClosingMethod";
+import ToggleBox from "../components/ToggleBox";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
+import { bgStyle, textStyle } from "../components/Styles";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
@@ -41,26 +35,6 @@ const options = [
   // { label: "제안 정리시 종료", value: 2 }
 ];
 
-const textStyle: StyleProp<TextStyle> = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-  paddingHorizontal: 0,
-  flex: 1,
-};
-const bgStyle: StyleProp<ViewStyle> = {
-  alignItems: "stretch",
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-};
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
@@ -70,16 +44,16 @@ function promiseArray(o: ImageInfo | File) {
   });
 }
 
-export default (props: {
+export default function VoteNew(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionNew">;
   route: RouteProp<RootStackParamList, "SuggestionNew">;
-}) => {
+}) {
   const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
   const [{ group_id }, dispatch] = useStore();
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
-  const [closingMethod, setClosingMethod] = React.useState(0);
+  const [binary, setBinary] = React.useState(false);
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
@@ -167,12 +141,7 @@ export default (props: {
         type: "warning",
       });
     }
-    if (!sContext?.trim()) {
-      return showMessage({
-        message: "제안 배경을 입력해주세요.",
-        type: "warning",
-      });
-    }
+
     let images = null;
     dispatch({ type: "SET_LOADING", loading: true });
     if (imageArr.length > 0) {
@@ -187,11 +156,10 @@ export default (props: {
     await insert({
       variables: {
         title,
-        sContext,
         body,
         board_id: boardId,
         group_id,
-        metadata: { closingMethod },
+        metadata: { binary },
         images,
         files,
       },
@@ -215,8 +183,8 @@ export default (props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 24, width: 80 }}>
-              투표 제목
+            <Mint13 style={{ paddingVertical: 15, width: 80 }}>
+              투표 제목*
             </Mint13>
             <TextInput
               value={title}
@@ -229,30 +197,16 @@ export default (props: {
             />
           </ViewRow>
           <LineSeperator />
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ width: 80 }}>종료 방법</Mint13>
-            <TouchableClosingMethod
-              value={closingMethod}
-              onChange={setClosingMethod}
-              items={options}
-            />
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ width: 80, paddingVertical: 15 }}>
+              찬반투표 사용
+            </Mint13>
+            <ToggleBox value={binary} changeHandler={setBinary} />
           </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
-          <View style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}>
-            <Mint13 style={{ paddingBottom: 19 }}>제안 배경</Mint13>
-            <AutoGrowingTextInput
-              value={sContext}
-              multiline
-              textAlignVertical="top"
-              placeholder="제안 배경을 입력해 주세요"
-              placeholderTextColor="#999999"
-              onChangeText={setSContext}
-              style={[textStyle, { minHeight: 50 }]}
-              ref={contextRef}
-            />
-          </View>
-          <LineSeperator />
           <View
             style={{
               paddingHorizontal: 30,
@@ -323,4 +277,4 @@ export default (props: {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleProp,
-  TextStyle,
-  Alert,
-  Vibration,
-  Keyboard,
-  ViewStyle,
-} from "react-native";
+import { Alert, Vibration, Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -28,6 +21,7 @@ import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
+import { bgStyle, textStyle } from "../components/Styles";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
@@ -41,26 +35,6 @@ const options = [
   // { label: "제안 정리시 종료", value: 2 }
 ];
 
-const textStyle: StyleProp<TextStyle> = {
-  fontSize: 16,
-  textAlign: "left",
-  color: "#555555",
-  paddingHorizontal: 0,
-  flex: 1,
-};
-const bgStyle: StyleProp<ViewStyle> = {
-  alignItems: "stretch",
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-};
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
@@ -70,10 +44,10 @@ function promiseArray(o: ImageInfo | File) {
   });
 }
 
-export default (props: {
+export default function SuggestionNew(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionNew">;
   route: RouteProp<RootStackParamList, "SuggestionNew">;
-}) => {
+}) {
   const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertPost);
   const [{ group_id }, dispatch] = useStore();
@@ -217,7 +191,7 @@ export default (props: {
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 24, width: 80 }}>제안명</Mint13>
+            <Mint13 style={{ paddingVertical: 15, width: 80 }}>제안명</Mint13>
             <TextInput
               value={title}
               autoFocus
@@ -323,4 +297,4 @@ export default (props: {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}
