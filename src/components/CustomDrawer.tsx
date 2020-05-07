@@ -110,6 +110,7 @@ export default function CustomDrawer(props) {
           onChangeText={setSearchKeyword}
           onFocus={focusHandler}
           placeholder="그룹명 입력"
+          selectionColor="white"
           placeholderTextColor="rgba(57, 202, 186, 0.3)"
           style={{ fontSize: 17, color: "#4bdecd" }}
           onBlur={blurHandler}
