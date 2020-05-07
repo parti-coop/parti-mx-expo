@@ -14,7 +14,12 @@ export default function SuggestionTabs(props: {
 }) {
   const { comments, voteUsers, id, scrollRef } = props;
   const [showComments, setShowComments] = React.useState(true);
+  const isFirstRun = React.useRef(true);
   React.useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
     scrollRef.current.scrollToEnd();
   }, [showComments]);
 
