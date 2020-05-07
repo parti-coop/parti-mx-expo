@@ -2,7 +2,7 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 
 import * as firebase from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
-import * as GoogleSignIn from "expo-google-sign-in";
+// import * as GoogleSignIn from "expo-google-sign-in";
 // import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
@@ -14,23 +14,23 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 export const auth = firebase.auth();
-export async function signUpWithGoogle() {
-  try {
-    await GoogleSignIn.askForPlayServicesAsync();
-    const { type, user } = await GoogleSignIn.signInAsync();
-    if (type === "success") {
-      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        user.auth.idToken,
-        user.auth.accessToken
-      );
-      const googleProfileData = await auth.signInWithCredential(credential);
-      return googleProfileData;
-    }
-  } catch ({ message }) {
-    alert("login: Error:" + message);
-  }
-}
+// export async function signUpWithGoogle() {
+//   try {
+//     await GoogleSignIn.askForPlayServicesAsync();
+//     const { type, user } = await GoogleSignIn.signInAsync();
+//     if (type === "success") {
+//       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+//       const credential = firebase.auth.GoogleAuthProvider.credential(
+//         user.auth.idToken,
+//         user.auth.accessToken
+//       );
+//       const googleProfileData = await auth.signInWithCredential(credential);
+//       return googleProfileData;
+//     }
+//   } catch ({ message }) {
+//     alert("login: Error:" + message);
+//   }
+// }
 export const uploadFileUUID = async (uri: string, dir: string) => {
   const path = `${dir}/${uuid.v4()}`;
   console.log({ path });
