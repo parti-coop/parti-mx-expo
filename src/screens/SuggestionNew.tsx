@@ -12,15 +12,16 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
+import { Body16, Title22, Mint13 } from "../components/Text";
 import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
 import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
-import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
+import { LineSeperator } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
+import BottomImageFile from "../components/BottomImageFile";
 import { bgStyle, textStyle } from "../components/Styles";
 
 import { File } from "../types";
@@ -75,7 +76,7 @@ export default function SuggestionNew(props: {
       return resetInput;
     }, [])
   );
-  async function addImage() {
+  async function imageUploadHandler() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
       quality: 1,
@@ -284,15 +285,10 @@ export default function SuggestionNew(props: {
               <LineSeperator />
             </>
           )}
-          <ViewRow style={{ padding: 22 }}>
-            <TO1 onPress={addImage}>
-              <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
-            </TO1>
-            <SmallVerticalDivider />
-            <TO1 onPress={fileUploadHandler}>
-              <Mint16 style={{ textAlign: "center" }}>파일 첨부</Mint16>
-            </TO1>
-          </ViewRow>
+          <BottomImageFile
+            onFile={fileUploadHandler}
+            onImage={imageUploadHandler}
+          />
         </View>
       </KeyboardAwareScrollView>
     </>

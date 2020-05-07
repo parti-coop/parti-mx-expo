@@ -10,16 +10,17 @@ import * as DocumentPicker from "expo-document-picker";
 
 import { Image } from "../components/Image";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Text, Mint13, Body16, Mint16 } from "../components/Text";
+import { Text, Mint13, Body16, Title22 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow } from "../components/View";
-import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
+import { TO0, TWF0 } from "../components/TouchableOpacity";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
-import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
+import { LineSeperator } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import { bgStyle, textStyle } from "../components/Styles";
+import BottomImageFile from "../components/BottomImageFile";
 
 import { useStore } from "../Store";
 import { updatePost } from "../graphql/mutation";
@@ -76,7 +77,7 @@ export default function SuggestionEdit(props: {
   const [, dispatch] = useStore();
   const { goBack } = useNavigation();
   const [update, { loading }] = useMutation(updatePost);
-  async function addImage() {
+  async function imageUploadHandler() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
       quality: 1,
@@ -174,15 +175,7 @@ export default function SuggestionEdit(props: {
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
-          <Text
-            style={{
-              fontSize: 22,
-              textAlign: "left",
-              color: "#333333",
-            }}
-          >
-            글 쓰기
-          </Text>
+          <Title22>글 쓰기</Title22>
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
@@ -282,15 +275,11 @@ export default function SuggestionEdit(props: {
               <LineSeperator />
             </>
           )}
-          <ViewRow style={{ padding: 22 }}>
-            <TO1 onPress={addImage}>
-              <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
-            </TO1>
-            <SmallVerticalDivider />
-            <TO1 onPress={fileUploadHandler}>
-              <Mint16 style={{ textAlign: "center" }}>파일 첨부</Mint16>
-            </TO1>
-          </ViewRow>
+
+          <BottomImageFile
+            onFile={fileUploadHandler}
+            onImage={imageUploadHandler}
+          />
         </View>
       </KeyboardAwareScrollView>
     </>

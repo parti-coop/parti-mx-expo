@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, TextStyle, Alert, Vibration, Keyboard } from "react-native";
+import { Alert, Vibration, Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp, useFocusEffect } from "@react-navigation/native";
@@ -12,15 +12,16 @@ import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as DocumentPicker from "expo-document-picker";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import { Body16, Title22, Mint16, Mint13 } from "../components/Text";
+import { Body16, Title22, Mint13 } from "../components/Text";
 import { Image } from "../components/Image";
 import { TextInput } from "../components/TextInput";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { View, ViewRow, V0 } from "../components/View";
-import { TO1, TO0, TWF0 } from "../components/TouchableOpacity";
-import { LineSeperator, SmallVerticalDivider } from "../components/LineDivider";
+import { TO0, TWF0 } from "../components/TouchableOpacity";
+import { LineSeperator } from "../components/LineDivider";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { bgStyle, textStyle } from "../components/Styles";
+import BottomImageFile from "../components/BottomImageFile";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
@@ -67,7 +68,7 @@ export default function NoticeNew(props: {
     }, [])
   );
 
-  async function addImage() {
+  async function imageUploadHandler() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
       quality: 1,
@@ -245,15 +246,11 @@ export default function NoticeNew(props: {
               <LineSeperator />
             </>
           )}
-          <ViewRow style={{ padding: 22 }}>
-            <TO1 onPress={addImage}>
-              <Mint16 style={{ textAlign: "center" }}>사진 첨부</Mint16>
-            </TO1>
-            <SmallVerticalDivider />
-            <TO1 onPress={fileUploadHandler}>
-              <Mint16 style={{ textAlign: "center" }}>파일 첨부</Mint16>
-            </TO1>
-          </ViewRow>
+
+          <BottomImageFile
+            onFile={fileUploadHandler}
+            onImage={imageUploadHandler}
+          />
         </View>
       </KeyboardAwareScrollView>
     </>
