@@ -195,7 +195,7 @@ export default function NoticeNew(props: {
               flex: 1,
             }}
           >
-            <Mint13 style={{ paddingBottom: 19 }}>내용 입력</Mint13>
+            <Mint13 style={{ paddingBottom: 10 }}>내용 입력</Mint13>
             <AutoGrowingTextInput
               value={body}
               multiline

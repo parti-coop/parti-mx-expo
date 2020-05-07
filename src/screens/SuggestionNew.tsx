@@ -214,7 +214,7 @@ export default function SuggestionNew(props: {
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
           <View style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}>
-            <Mint13 style={{ paddingBottom: 19 }}>제안 배경</Mint13>
+            <Mint13 style={{ paddingBottom: 10 }}>제안 배경</Mint13>
             <AutoGrowingTextInput
               value={sContext}
               multiline
@@ -234,7 +234,7 @@ export default function SuggestionNew(props: {
               flex: 1,
             }}
           >
-            <Mint13 style={{ paddingBottom: 19 }}>제안 내용</Mint13>
+            <Mint13 style={{ paddingBottom: 10 }}>제안 내용</Mint13>
             <AutoGrowingTextInput
               value={body}
               multiline

@@ -212,7 +212,7 @@ export default function SuggestionEdit(props: {
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
           <View style={{ padding: 30, paddingBottom: 20, flex: 1 }}>
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 배경</Text>
+            <Text style={[labelStyle, { paddingBottom: 10 }]}>제안 배경</Text>
             <AutoGrowingTextInput
               value={sContext}
               multiline
@@ -232,7 +232,7 @@ export default function SuggestionEdit(props: {
               flex: 1,
             }}
           >
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>제안 내용</Text>
+            <Text style={[labelStyle, { paddingBottom: 10 }]}>제안 내용</Text>
             <AutoGrowingTextInput
               value={body}
               multiline

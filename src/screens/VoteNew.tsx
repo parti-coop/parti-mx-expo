@@ -32,7 +32,7 @@ import iconClosed from "../../assets/iconClosed.png";
 const options = [
   { label: "30일 후 종료", value: 0 },
   // { label: "멤버 과반수 동의시 종료", value: 1 },
-  // { label: "제안 정리시 종료", value: 2 }
+  // { label: "투표 정리시 종료", value: 2 }
 ];
 
 function promiseArray(o: ImageInfo | File) {
@@ -125,19 +125,19 @@ export default function VoteNew(props: {
   async function insertPressHandler() {
     if (!title.trim()) {
       return showMessage({
-        message: "제안명을 입력해주세요.",
+        message: "투표명을 입력해주세요.",
         type: "warning",
       });
     }
     if (title?.trim()?.length > 20) {
       return showMessage({
-        message: "제안명을 20자 이내로 입력해주세요.",
+        message: "투표명을 20자 이내로 입력해주세요.",
         type: "warning",
       });
     }
     if (!body?.trim()) {
       return showMessage({
-        message: "제안 내용을 입력해주세요.",
+        message: "투표 내용을 입력해주세요.",
         type: "warning",
       });
     }
@@ -214,15 +214,15 @@ export default function VoteNew(props: {
               flex: 1,
             }}
           >
-            <Mint13 style={{ paddingBottom: 19 }}>제안 내용</Mint13>
+            <Mint13 style={{ paddingBottom: 10 }}>투표 내용</Mint13>
             <AutoGrowingTextInput
               value={body}
               multiline
               textAlignVertical="top"
-              placeholder="제안 내용을 입력해 주세요"
+              placeholder="투표 내용을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setBody}
-              style={[textStyle, { minHeight: 180 }]}
+              style={[textStyle, { minHeight: 100 }]}
             />
           </View>
           <LineSeperator />

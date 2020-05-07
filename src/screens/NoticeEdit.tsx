@@ -188,7 +188,7 @@ export default function NoticeEdit(props: {
               flex: 1,
             }}
           >
-            <Text style={[labelStyle, { paddingBottom: 19 }]}>내용 입력</Text>
+            <Text style={[labelStyle, { paddingBottom: 10 }]}>내용 입력</Text>
             <AutoGrowingTextInput
               value={body}
               multiline
