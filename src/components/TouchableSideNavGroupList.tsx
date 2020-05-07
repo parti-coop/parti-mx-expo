@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 
-import { Text } from "./Text";
+import { Text, White16 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupImg from "./ViewGroupImg";
 import ViewNewRed from "./ViewNewRed";
@@ -40,16 +40,9 @@ export default (props: {
       onPress={() => goToGroup(group.id)}
     >
       <ViewGroupImg />
-      <Text
-        style={{
-          fontSize: 16,
-          color: "white",
-          flex: 1,
-          marginLeft: 12,
-        }}
-      >
+      <White16 numberOfLines={1} style={{ flex: 1, marginLeft: 12 }}>
         {group.title}
-      </Text>
+      </White16>
       {isNew && <ViewNewRed />}
     </TouchableOpacity>
   );
