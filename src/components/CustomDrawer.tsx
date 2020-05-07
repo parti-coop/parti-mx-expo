@@ -95,7 +95,7 @@ export default function CustomDrawer(props) {
         style={{
           marginTop: 83,
           marginHorizontal: 30,
-          paddingBottom: 20,
+          // paddingBottom: ,
           borderBottomWidth: 1,
           borderBottomColor: "rgba(57, 202, 186, 0.2)",
         }}
