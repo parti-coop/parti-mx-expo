@@ -173,7 +173,9 @@ export default function SuggestionNew(props: {
           </ViewRow>
           <LineSeperator />
           <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ width: 80 }}>종료 방법</Mint13>
+            <Mint13 style={{ paddingVertical: 15, width: 80 }}>
+              종료 방법
+            </Mint13>
             <TouchableClosingMethod
               value={closingMethod}
               onChange={setClosingMethod}
