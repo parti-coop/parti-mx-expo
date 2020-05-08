@@ -51,7 +51,7 @@ export default function VoteNew(props: {
   const [isBinary, setBinary] = React.useState(false);
   const [isMultiple, setMultiple] = React.useState(false);
   const [isAnonymous, setAnonymous] = React.useState(false);
-  const [closingMethod, setClosingMethod] = React.useState(0);
+  const [closingMethod, setClosingMethod] = React.useState("3days");
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
@@ -192,9 +192,9 @@ export default function VoteNew(props: {
               value={closingMethod}
               onChange={setClosingMethod}
               items={[
-                { label: "7일 후 종료", value: 0 },
-                { label: "3일 후 종료", value: 1 },
-                { label: "토론 정리시 종료", value: 2 },
+                { label: "7일 후 종료", value: "7days" },
+                { label: "3일 후 종료", value: "3days" },
+                { label: "토론 정리시 종료", value: "manual" },
               ]}
             />
           </ViewRow>

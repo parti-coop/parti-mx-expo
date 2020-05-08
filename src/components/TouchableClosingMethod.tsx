@@ -33,11 +33,12 @@ const boxStyle: StyleProp<ViewStyle> = {
   borderRadius: 25,
   borderTopRightRadius: 0,
 };
+type Value = number | string;
 export default function TouchableClosingMethod(props: {
   style?: StyleProp<ViewStyle>;
-  value: number;
-  onChange: (value: number) => void;
-  items: Array<{ value: number; label: string }>;
+  value: Value;
+  onChange: any;
+  items: Array<{ value: Value; label: string }>;
 }) {
   const { items, value, onChange } = props;
   const currentItem = items.find((i) => i.value === value);
@@ -47,7 +48,7 @@ export default function TouchableClosingMethod(props: {
     bottom?: number;
   }>({ top: 0 });
 
-  function changeHandler(value: number) {
+  function changeHandler(value: Value) {
     onChange(value);
     setVisible(false);
   }

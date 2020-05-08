@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Vibration, Keyboard } from "react-native";
+import { Keyboard } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -28,9 +28,8 @@ import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
 
-import iconClosed from "../../assets/iconClosed.png";
 const options = [
-  { label: "30일 후 종료", value: 0 },
+  { label: "30일 후 종료", value: "30days" },
   // { label: "멤버 과반수 동의시 종료", value: 1 },
   // { label: "제안 정리시 종료", value: 2 }
 ];
@@ -54,7 +53,7 @@ export default function SuggestionNew(props: {
   const [title, setTitle] = React.useState("");
   const [sContext, setSContext] = React.useState("");
   const [body, setBody] = React.useState("");
-  const [closingMethod, setClosingMethod] = React.useState(0);
+  const [closingMethod, setClosingMethod] = React.useState("30days");
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
