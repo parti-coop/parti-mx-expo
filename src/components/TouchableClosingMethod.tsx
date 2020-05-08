@@ -4,14 +4,14 @@ import Modal from "react-native-modal";
 
 import { View } from "./View";
 import { Mint15, Body15, Body16 } from "./Text";
-import { TORow, TouchableOpacity } from "./TouchableOpacity";
+import { TORow } from "./TouchableOpacity";
 import { Image } from "./Image";
 
 import iconSelected from "../../assets/iconSelected.png";
+import btnFormSelect from "../../assets/btnFormSelect.png";
 
 const boxStyle: StyleProp<ViewStyle> = {
   width: 207,
-  height: 224,
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.32)",
   elevation: 1,
@@ -41,45 +41,51 @@ export default function TouchableClosingMethod(props: {
     onChange(value);
     setVisible(false);
   }
+  function toggleHandler() {
+    setVisible(!isVisible);
+  }
   return (
-    <TouchableOpacity
-      onPress={() => setVisible(!isVisible)}
-      style={{ flex: 1 }}
-    >
-      <Body16 style={{ paddingVertical: 15 }}>{currentItem.label}</Body16>
-      <Modal
-        isVisible={isVisible}
-        animationIn="fadeIn"
-        animationOut="fadeOut"
-        backdropOpacity={0}
-        onBackdropPress={() => setVisible(false)}
+    <>
+      <TORow
+        onPress={toggleHandler}
+        style={{ flex: 1, justifyContent: "space-between" }}
       >
-        <View style={[boxStyle]}>
-          {items.map((item, i) => (
-            <TORow
-              key={i}
-              onPress={(e) => changeHandler(item.value)}
-              style={
-                items.length !== i + 1 && {
-                  borderBottomColor: "#e4e4e4",
-                  borderBottomWidth: 1,
-                  paddingBottom: 15,
-                  marginBottom: 15,
+        <Body16>{currentItem.label}</Body16>
+        <Image source={btnFormSelect} />
+        <Modal
+          isVisible={isVisible}
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          backdropOpacity={0}
+          onBackdropPress={() => setVisible(false)}
+        >
+          <View style={[boxStyle]}>
+            {items.map((item, i) => (
+              <TORow
+                key={i}
+                onPress={(e) => changeHandler(item.value)}
+                style={
+                  items.length !== i + 1 && {
+                    borderBottomColor: "#e4e4e4",
+                    borderBottomWidth: 1,
+                    paddingBottom: 15,
+                    marginBottom: 15,
+                  }
                 }
-              }
-            >
-              {item.value === value ? (
-                <Mint15 style={{ flex: 1 }}>{item.label}</Mint15>
-              ) : (
-                <Body15 style={{ flex: 1 }}>{item.label}</Body15>
-              )}
-              {item.value === value && (
-                <Image source={iconSelected} style={{ marginLeft: 10 }} />
-              )}
-            </TORow>
-          ))}
-        </View>
-      </Modal>
-    </TouchableOpacity>
+              >
+                {item.value === value ? (
+                  <Mint15 style={{ flex: 1 }}>{item.label}</Mint15>
+                ) : (
+                  <Body15 style={{ flex: 1 }}>{item.label}</Body15>
+                )}
+                {item.value === value && (
+                  <Image source={iconSelected} style={{ marginLeft: 10 }} />
+                )}
+              </TORow>
+            ))}
+          </View>
+        </Modal>
+      </TORow>
+    </>
   );
 }

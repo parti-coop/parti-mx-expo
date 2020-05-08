@@ -22,12 +22,13 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { bgStyle, textStyle } from "../components/Styles";
 import BottomImageFile from "../components/BottomImageFile";
 import ViewNewImageFile from "../components/ViewNewImageFile";
+import CandidateEdit from "../components/CandidateEdit";
+import TouchableClosingMethod from "../components/TouchableClosingMethod";
 
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
-
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
@@ -46,7 +47,11 @@ export default function VoteNew(props: {
   const [{ group_id }, dispatch] = useStore();
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
-  const [binary, setBinary] = React.useState(false);
+  const [candidates, setCandidates] = React.useState([""]);
+  const [isBinary, setBinary] = React.useState(false);
+  const [isMultiple, setMultiple] = React.useState(false);
+  const [isAnonymous, setAnonymous] = React.useState(false);
+  const [closingMethod, setClosingMethod] = React.useState(0);
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
@@ -121,7 +126,7 @@ export default function VoteNew(props: {
         body,
         board_id: boardId,
         group_id,
-        metadata: { binary },
+        metadata: { isBinary },
         images,
         files,
       },
@@ -165,17 +170,55 @@ export default function VoteNew(props: {
             <Mint13 style={{ width: 80, paddingVertical: 15 }}>
               찬반투표 사용
             </Mint13>
-            <ToggleBox value={binary} changeHandler={setBinary} />
+            <ToggleBox value={isBinary} changeHandler={setBinary} />
+          </ViewRow>
+        </View>
+        {!isBinary && (
+          <View style={[bgStyle, { marginTop: 10 }]}>
+            <View
+              style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}
+            >
+              <Mint13 style={{}}>투표 항목</Mint13>
+              <CandidateEdit values={candidates} setValues={setCandidates} />
+            </View>
+          </View>
+        )}
+        <View style={[bgStyle, { marginTop: 10 }]}>
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ width: 80, paddingVertical: 15 }}>종료일</Mint13>
+            <TouchableClosingMethod
+              value={closingMethod}
+              onChange={setClosingMethod}
+              items={[
+                { label: "7일 후 종료", value: 0 },
+                { label: "3일 후 종료", value: 1 },
+                { label: "토론 정리시 종료", value: 2 },
+              ]}
+            />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ width: 80, paddingVertical: 15 }}>
+              복수 투표
+            </Mint13>
+            <ToggleBox value={isMultiple} changeHandler={setMultiple} />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ width: 80, paddingVertical: 15 }}>
+              익명 투표
+            </Mint13>
+            <ToggleBox value={isAnonymous} changeHandler={setAnonymous} />
           </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
-          <View
-            style={{
-              paddingHorizontal: 30,
-              paddingVertical: 20,
-              flex: 1,
-            }}
-          >
+          <View style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}>
             <Mint13 style={{ paddingBottom: 10 }}>투표 내용</Mint13>
             <AutoGrowingTextInput
               value={body}
