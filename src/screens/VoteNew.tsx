@@ -126,13 +126,13 @@ export default function VoteNew(props: {
         body,
         board_id: boardId,
         group_id,
-        metadata: { isBinary },
+        metadata: { isBinary, isMultiple, isAnonymous, closingMethod },
         images,
         files,
       },
     });
 
-    navigate("SuggestionList");
+    navigate("VoteList");
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -199,15 +199,22 @@ export default function VoteNew(props: {
             />
           </ViewRow>
           <LineSeperator />
-          <ViewRow
-            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
-          >
-            <Mint13 style={{ width: 80, paddingVertical: 15 }}>
-              복수 투표
-            </Mint13>
-            <ToggleBox value={isMultiple} changeHandler={setMultiple} />
-          </ViewRow>
-          <LineSeperator />
+          {!isBinary && (
+            <>
+              <ViewRow
+                style={{
+                  paddingHorizontal: 30,
+                  justifyContent: "space-between",
+                }}
+              >
+                <Mint13 style={{ width: 80, paddingVertical: 15 }}>
+                  복수 투표
+                </Mint13>
+                <ToggleBox value={isMultiple} changeHandler={setMultiple} />
+              </ViewRow>
+              <LineSeperator />
+            </>
+          )}
           <ViewRow
             style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
           >
