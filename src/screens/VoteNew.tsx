@@ -47,7 +47,7 @@ export default function VoteNew(props: {
   const [{ group_id }, dispatch] = useStore();
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
-  const [candidates, setCandidates] = React.useState([""]);
+  const [candidates, setCandidates] = React.useState(["", ""]);
   const [isBinary, setBinary] = React.useState(false);
   const [isMultiple, setMultiple] = React.useState(false);
   const [isAnonymous, setAnonymous] = React.useState(false);

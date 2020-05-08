@@ -17,7 +17,7 @@ export default function BottomImageFile(props: {
   values: string[];
   setValues: any;
 }) {
-  const { values = [], setValues } = props;
+  const { values = ["", ""], setValues } = props;
   function addHandler() {
     values.push("");
     setValues([...values]);
@@ -30,8 +30,13 @@ export default function BottomImageFile(props: {
           setValues([...values]);
         }
         function removeHandler() {
-          values.splice(i, 1);
-          setValues([...values]);
+          if (values.length > 2) {
+            values.splice(i, 1);
+            setValues([...values]);
+          } else {
+            values[i] = "";
+            setValues([...values]);
+          }
           //  {
           //   showMessage({
           //     type: "warning",
@@ -61,7 +66,7 @@ export default function BottomImageFile(props: {
         );
       })}
       <TORowCenter style={{ paddingTop: 15 }} onPress={addHandler}>
-        <Image source={iconAddForm} />
+        <Image source={iconAddForm} style={{ marginRight: 10 }} />
         <Mint16>항목추가</Mint16>
       </TORowCenter>
     </>
