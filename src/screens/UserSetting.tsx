@@ -1,5 +1,4 @@
 import React from "react";
-import { ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { Image } from "../components/Image";
@@ -10,27 +9,17 @@ import HeaderBack from "../components/HeaderBack";
 import { Alert1 } from "../components/Alert";
 import useLogout from "../components/useLogout";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
+import { whiteRoundBg } from "../components/Styles";
 
 import btnNext from "../../assets/btnNext.png";
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginTop: 20,
-  paddingHorizontal: 30,
-  paddingVertical: 5,
-} as ViewStyle;
-export default () => {
+
+export default function UserSetting() {
   const { navigate } = useNavigation();
   const logout = useLogout();
-  const list = [
+  const list: {
+    category: string;
+    children: { label: string; page?: string; handler?: any }[];
+  }[] = [
     {
       category: "내 정보 관리",
       children: [
@@ -93,7 +82,14 @@ export default () => {
         <Title14 style={{ marginHorizontal: 30, marginTop: 40 }}>
           {category}
         </Title14>
-        <View style={boxStyle}>{ViewChildren}</View>
+        <View
+          style={[
+            whiteRoundBg,
+            { marginTop: 20, paddingHorizontal: 30, paddingVertical: 5 },
+          ]}
+        >
+          {ViewChildren}
+        </View>
       </View>
     );
   });
@@ -108,4 +104,4 @@ export default () => {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

@@ -9,6 +9,7 @@ import { ViewRow, V0 } from "../components/View";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
+import { whiteRoundBg } from "../components/Styles";
 
 import { auth, IdTokenResult } from "../firebase";
 import { useStore } from "../Store";
@@ -16,22 +17,6 @@ import { useStore } from "../Store";
 import iconEmailColor from "../../assets/iconEmailColor.png";
 import iconPassword from "../../assets/iconPassword.png";
 import { LineSeperator } from "../components/LineDivider";
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginHorizontal: 30,
-  marginVertical: 21,
-  alignItems: "stretch",
-  justifyContent: "center",
-} as ViewProps;
 const textStyle = {
   fontSize: 16,
   color: "#999999",
@@ -91,7 +76,17 @@ export default function LoginEmail() {
         <ViewRow style={{ padding: 30, paddingTop: 6 }}>
           <Title30>이메일 로그인</Title30>
         </ViewRow>
-        <V0 style={boxStyle}>
+        <V0
+          style={[
+            whiteRoundBg,
+            {
+              marginHorizontal: 30,
+              marginVertical: 21,
+              alignItems: "stretch",
+              justifyContent: "center",
+            },
+          ]}
+        >
           <ViewRow
             style={{
               paddingHorizontal: 30,

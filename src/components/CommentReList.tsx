@@ -11,7 +11,8 @@ import ButtonComment from "./ButtonComment";
 import ButtonUnlikeComment from "./ButtonUnlikeComment";
 import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
-import useReport from "../components/useReport";
+import useReport from "./useReport";
+import { whiteRoundBg } from "./Styles";
 
 import { Comment } from "../types";
 import { useStore } from "../Store";
@@ -20,16 +21,7 @@ import { formatDateFromString } from "../Utils/CalculateDays";
 const commentModal = {
   width: 315,
   height: 171,
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
+  ...(whiteRoundBg as Object),
   paddingHorizontal: 30,
   paddingTop: 40,
   paddingBottom: 10,

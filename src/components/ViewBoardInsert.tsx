@@ -1,31 +1,18 @@
 import React from "react";
 import { ViewStyle, StyleProp, Image } from "react-native";
-import { View, ViewRow, V0 } from "./View";
+import { useMutation } from "@apollo/react-hooks";
 
+import { View, ViewRow, V0 } from "./View";
 import { TO0 } from "./TouchableOpacity";
 import { Caption16, Title22, Mint16, White16 } from "./Text";
-import { useMutation } from "@apollo/react-hooks";
-import { insertBoard } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { showMessage } from "react-native-flash-message";
 import { TextInput } from "./TextInput";
 import { boardOptions, boardTypes } from "./boardTypes";
+import { whiteRoundBg } from "./Styles";
 
-const boxStyle = {
-  width: 315,
-  height: 361,
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  padding: 30,
-} as ViewStyle;
+import { useStore } from "../Store";
+import { insertBoard } from "../graphql/mutation";
+
 const rectangleStyle = {
   width: 60,
   height: 66,
@@ -65,7 +52,7 @@ export default function ViewBoardInsert(props: {
     props.setVisible(false);
   }
   return (
-    <View style={boxStyle}>
+    <View style={[whiteRoundBg, { width: 315, height: 361, padding: 30 }]}>
       <Title22 style={{ paddingBottom: 20 }}>게시판 추가</Title22>
       <ViewRow style={{ paddingVertical: 20 }}>
         {boardOptions.map(({ icon, label, value }, index) => {

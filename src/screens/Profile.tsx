@@ -11,31 +11,17 @@ import { useDebouncedCallback } from "use-debounce";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
-import { Text, Mint13, Mint14 } from "../components/Text";
+import { Text, Mint13 } from "../components/Text";
 import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
-
 import HeaderConfirm from "../components/HeaderConfirm";
 import { LineSeperator } from "../components/LineDivider";
+import { whiteRoundBg } from "../components/Styles";
 
 import { updateUserName } from "../graphql/mutation";
 import { whoami, searchDuplicateNameWithoutMine } from "../graphql/query";
 import { auth, uploadImage } from "../firebase";
 import { useStore } from "../Store";
-
-const box = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginBottom: 50,
-} as ViewProps;
 
 const textStyle = {
   fontSize: 16,
@@ -163,7 +149,7 @@ export default function Profile(props: {
             </V0>
           </View>
 
-          <View style={box}>
+          <View style={[whiteRoundBg, { marginBottom: 50 }]}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
               <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput

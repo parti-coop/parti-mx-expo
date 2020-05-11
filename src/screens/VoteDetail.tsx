@@ -1,6 +1,6 @@
 import React from "react";
 import { Linking } from "expo";
-import { ViewStyle, TextStyle } from "react-native";
+import { TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -21,6 +21,7 @@ import ViewTitle from "../components/ViewTitle";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
 import SuggestionTabs from "../components/SuggestionTabs";
+import { whiteRoundBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
@@ -28,20 +29,6 @@ import { RootStackParamList } from "./AppContainer";
 
 import { SuggestionDetailType, File } from "../types";
 
-const box = {
-  marginTop: 40,
-  paddingBottom: 50,
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-} as ViewStyle;
 const labelStyle = {
   fontSize: 13,
   textAlign: "left",
@@ -122,7 +109,7 @@ export default function SuggestionDetail(props: {
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitle title={title} updated_at={updated_at} />
-        <View style={box}>
+        <View style={[whiteRoundBg, { marginTop: 40, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
             <View>
               <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>

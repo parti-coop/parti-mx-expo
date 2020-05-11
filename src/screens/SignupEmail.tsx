@@ -10,29 +10,14 @@ import { Margin10 } from "../components/Margin";
 import { TouchableOpacity, TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
 import ButtonCheckbox from "../components/ButtonCheckbox";
+import { LineSeperator } from "../components/LineDivider";
+import { whiteRoundBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { auth } from "../firebase";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
 import iconPassword from "../../assets/iconPassword.png";
-import { LineSeperator } from "../components/LineDivider";
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginHorizontal: 30,
-  marginVertical: 21,
-  alignItems: "stretch",
-  justifyContent: "center",
-} as ViewProps;
 const textStyle = {
   fontSize: 16,
   color: "#999999",
@@ -94,7 +79,17 @@ export default function SingupEmail(props) {
         <ViewRow style={{ paddingHorizontal: 30 }}>
           <Title30>이메일 회원가입</Title30>
         </ViewRow>
-        <V0 style={boxStyle}>
+        <V0
+          style={[
+            whiteRoundBg,
+            {
+              marginHorizontal: 30,
+              marginVertical: 21,
+              alignItems: "stretch",
+              justifyContent: "center",
+            },
+          ]}
+        >
           <ViewRow
             style={{
               paddingHorizontal: 30,

@@ -13,26 +13,11 @@ import { ViewRow } from "../components/View";
 import { TOCenter } from "../components/TouchableOpacity";
 import { EmailInput } from "../components/TextInput";
 import HeaderBack from "../components/HeaderBack";
+import { whiteRoundBg } from "../components/Styles";
 
 import { auth } from "../firebase";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginHorizontal: 30,
-  marginVertical: 21,
-  justifyContent: "center",
-  padding: 30,
-} as ViewProps;
 const roundedRectangle12 = {
   height: 56,
   borderRadius: 15,
@@ -83,7 +68,17 @@ export default function PasswordFind() {
           <Sub15>회원가입 시 등록한 이메일 주소를 입력하세요.</Sub15>
         </ViewRow>
       </TouchableWithoutFeedback>
-      <ViewRow style={boxStyle}>
+      <ViewRow
+        style={[
+          whiteRoundBg,
+          {
+            marginHorizontal: 30,
+            marginVertical: 21,
+            justifyContent: "center",
+            padding: 30,
+          },
+        ]}
+      >
         <Image source={iconEmailColor} />
         <EmailInput
           value={email}

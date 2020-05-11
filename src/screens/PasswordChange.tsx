@@ -8,27 +8,12 @@ import { View, ViewRow } from "../components/View";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { PasswordInput } from "../components/TextInput";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
+import { whiteRoundBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { auth, Firebase } from "../firebase";
 
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginHorizontal: 30,
-  marginVertical: 21,
-  justifyContent: "center",
-  padding: 30,
-} as ViewProps;
-export default (props) => {
+export default function PasswordChange(props) {
   const { goBack } = props.navigation;
   const [store, dispatch] = useStore();
   const [oldP, setOldP] = React.useState("");
@@ -73,7 +58,17 @@ export default (props) => {
           <Title30>비밀번호 변경</Title30>
         </View>
 
-        <View style={boxStyle}>
+        <View
+          style={[
+            whiteRoundBg,
+            {
+              marginHorizontal: 30,
+              marginVertical: 21,
+              justifyContent: "center",
+              padding: 30,
+            },
+          ]}
+        >
           <ViewRow>
             <Mint13>현재 비밀번호</Mint13>
             <PasswordInput
@@ -96,4 +91,4 @@ export default (props) => {
       </KeyboardAwareScrollView>
     </>
   );
-};
+}

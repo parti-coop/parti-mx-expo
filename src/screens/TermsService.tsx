@@ -1,23 +1,12 @@
 import React from "react";
-import { ScrollView, ViewStyle } from "react-native";
+import { ScrollView } from "react-native";
+import Markdown from "react-native-markdown-display";
 
 import { ViewRow } from "../components/View";
 import { Title30 } from "../components/Text";
-import Markdown from "react-native-markdown-display";
 import HeaderBack from "../components/HeaderBack";
-const box = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  padding: 30,
-} as ViewStyle;
+import { whiteRoundBg } from "../components/Styles";
+
 export default function TermsService() {
   const [md, setMd] = React.useState("");
   React.useEffect(() => {
@@ -33,7 +22,7 @@ export default function TermsService() {
       <ViewRow style={{ padding: 30, paddingTop: 6 }}>
         <Title30>이용약관</Title30>
       </ViewRow>
-      <ScrollView style={box}>
+      <ScrollView style={[whiteRoundBg, { padding: 30 }]}>
         <Markdown style={{ body: { fontSize: 16, color: "#555555" } }}>
           {md}
         </Markdown>

@@ -11,22 +11,10 @@ import { ViewRow } from "../components/View";
 import { TO1 } from "../components/TouchableOpacity";
 import { PasswordInput } from "../components/TextInput";
 import { DotMint4 } from "../components/Dots";
+import { whiteRoundBg } from "../components/Styles";
 
 import { auth, Firebase } from "../firebase";
 import { useStore } from "../Store";
-const box = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  padding: 30,
-} as ViewStyle;
 export default function AccountDelete() {
   const [password, setPassword] = React.useState("");
   const [, dispatch] = useStore();
@@ -73,7 +61,7 @@ export default function AccountDelete() {
       <ViewRow style={{ padding: 30, paddingTop: 6 }}>
         <Title30>회원탈퇴</Title30>
       </ViewRow>
-      <KeyboardAwareScrollView style={box}>
+      <KeyboardAwareScrollView style={[whiteRoundBg, { padding: 30 }]}>
         <Body16>
           회원 탈퇴 시 서비스 이용 정보를 아래와 같이 정리 합니다.
         </Body16>
