@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
-import { Text, Grey12, Title16 } from "./Text";
+import { Text, Grey12, Title16, Blue12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";
@@ -65,9 +65,12 @@ export default function TouchableSuggestionList(props: {
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{suggestion.createdBy.name}</Grey12>
-            <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
-              {votedByMe && ", 동의함"}
-            </Text>
+            {votedByMe && (
+              <>
+                <Grey12>{", "}</Grey12>
+                <Blue12>동의함</Blue12>
+              </>
+            )}
             <SmallVerticalDivider />
             <Image
               source={iconComment}
