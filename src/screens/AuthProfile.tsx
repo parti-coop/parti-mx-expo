@@ -1,39 +1,25 @@
 import React from "react";
-import { TextProps, ViewProps } from "react-native";
+import { TextProps } from "react-native";
 import uuid from "uuid";
 import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
-import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { TextInput } from "../components/TextInput";
-import { Text, Mint13 } from "../components/Text";
+import { Text, Mint13, Title22 } from "../components/Text";
 import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 
 import HeaderOnlyConfirm from "../components/HeaderOnlyConfirm";
 import { LineSeperator } from "../components/LineDivider";
+import { whiteRoundBg } from "../components/Styles";
 
 import { updateUserName } from "../graphql/mutation";
 import { searchDuplicateName } from "../graphql/query";
 import { useStore } from "../Store";
-import { auth, IdTokenResult, uploadImage } from "../firebase";
-
-const box = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-  shadowColor: "rgba(0, 0, 0, 0.15)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowRadius: 1,
-  shadowOpacity: 1,
-  marginBottom: 50,
-} as ViewProps;
+import { auth, uploadImage, getUserId } from "../firebase";
 
 const textStyle = {
   fontSize: 16,
@@ -44,7 +30,7 @@ const patternUsername = /^[ㄱ-힣a-zA-Z0-9_]*$/;
 export default function AuthProfile() {
   const email = auth.currentUser.email;
   const [, dispatch] = useStore();
-  const [userName, setUserName] = React.useState(email);
+  const [userName, setUserName] = React.useState("");
   const [photoUrl, setPhotoUrl] = React.useState(null);
   const [updateName] = useMutation(updateUserName);
   const { refetch, data } = useQuery(searchDuplicateName, {
@@ -88,12 +74,8 @@ export default function AuthProfile() {
         snap.ref.getDownloadURL()
       );
     }
-    const res: IdTokenResult = await auth.currentUser.getIdTokenResult();
-    const userId = Number(
-      res?.claims?.["https://hasura.io/jwt/claims"]?.["x-hasura-user-id"]
-    );
-    if (isNaN(userId)) {
-      console.log(res.claims);
+    const userId = await getUserId();
+    if (userId === null) {
       return showMessage({
         type: "warning",
         message: "서버로 부터 인증을 받지 못했습니다.",
@@ -118,20 +100,13 @@ export default function AuthProfile() {
       >
         <KeyboardAwareScrollView>
           <View>
-            <Text
-              style={{
-                fontSize: 22,
-                color: "#333333",
-              }}
-            >
-              프로필
-            </Text>
+            <Title22>프로필</Title22>
             <V0 style={{ marginTop: 70, marginBottom: 60 }}>
               <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
             </V0>
           </View>
 
-          <View style={box}>
+          <View style={[whiteRoundBg, { marginBottom: 50 }]}>
             <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
               <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
