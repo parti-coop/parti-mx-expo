@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "./View";
 import { Image } from "./Image";
-import appIcon from "../../assets/appIcon.png";
+import iconGroup from "../../assets/iconGroup.png";
 export default function ViewGroupImg() {
   return (
     <View
@@ -15,11 +15,7 @@ export default function ViewGroupImg() {
         overflow: "hidden",
       }}
     >
-      <Image
-        source={appIcon}
-        style={{ width: 35, height: 35, borderRadius: 20 }}
-        resizeMode="contain"
-      />
+      <Image source={iconGroup} resizeMode="contain" />
     </View>
   );
 }

@@ -4,19 +4,18 @@ import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
-import { V1, ViewRow, V0 } from "./View";
-import { Title16, Grey12 } from "./Text";
+import { V1, ViewRow } from "./View";
+import { Title16, Grey12, Red12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
-import ViewLikeCount from "./ViewLikeCount";
 
 import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { PostListType } from "../types";
-import { isAfterString } from "../Utils/CalculateDays";
+import { isAfterString, formatDateFromString } from "../Utils/CalculateDays";
 
 import iconComment from "../../assets/iconComment.png";
-import iconUserGrey from "../../assets/iconUserGrey.png";
+import iconSympathy from "../../assets/iconSympathy.png";
 import { DotRed8 } from "./Dots";
 
 export default function TouchableNoticeList(props: {
@@ -61,21 +60,23 @@ export default function TouchableNoticeList(props: {
             {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12>{post.createdBy.name}</Grey12>
+            <Grey12 style={{ fontFamily: "notosans700" }}>
+              {post.createdBy.name}{" "}
+            </Grey12>
+            <Grey12 style={{ fontFamily: "notosans700" }}>
+              {formatDateFromString(post.created_at)}
+            </Grey12>
             <SmallVerticalDivider style={{ marginLeft: 10 }} />
             <Image
               source={iconComment}
               style={{ marginRight: 8, marginLeft: 6 }}
             />
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
-            {/* {post.closed_at && <Text>{post.closed_at}</Text>} */}
+            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
+            <Image source={iconSympathy} />
+            <Red12 style={{ marginLeft: 5 }}>{likeCount}</Red12>
           </ViewRow>
         </V1>
-        <ViewLikeCount
-          style={{ position: "absolute", right: -15 }}
-          count={likeCount}
-        />
       </ViewRow>
     </TouchableOpacity>
   );

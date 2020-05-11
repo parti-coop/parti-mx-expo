@@ -15,7 +15,7 @@ import iconUser from "../../assets/iconUser.png";
 import ViewGroupImg from "./ViewGroupImg";
 import btnSearch from "../../assets/btnSearch.png";
 import btnSearchOn from "../../assets/btnSearchOn.png";
-import appIcon from "../../assets/appIcon.png";
+import partimxLogo from "../../assets/partimxLogo.png";
 import iconAdd from "../../assets/iconAdd.png";
 
 export default function CustomDrawer(props) {
@@ -53,10 +53,7 @@ export default function CustomDrawer(props) {
     <>
       <ViewRow style={{ marginLeft: 30, marginTop: 40 }}>
         <TO0 onPress={appRefresh}>
-          <Image
-            source={appIcon}
-            style={{ width: 50, height: 50, borderRadius: 15 }}
-          />
+          <Image source={partimxLogo} />
         </TO0>
 
         <TouchableOpacity
@@ -95,7 +92,6 @@ export default function CustomDrawer(props) {
         style={{
           marginTop: 83,
           marginHorizontal: 30,
-          // paddingBottom: ,
           borderBottomWidth: 1,
           borderBottomColor: "rgba(57, 202, 186, 0.2)",
         }}
@@ -111,7 +107,7 @@ export default function CustomDrawer(props) {
           onFocus={focusHandler}
           placeholder="그룹명 입력"
           selectionColor="white"
-          placeholderTextColor="rgba(57, 202, 186, 0.3)"
+          placeholderTextColor="rgba(89, 243, 201, 0.7)"
           style={{ fontSize: 17, color: "#4bdecd" }}
           onBlur={blurHandler}
         />
@@ -141,7 +137,9 @@ export default function CustomDrawer(props) {
         onPress={createNewGroup}
       >
         <Image source={iconAdd} style={{ marginRight: 19 }} />
-        <Text style={{ fontSize: 20, textAlign: "center" }}>그룹 만들기</Text>
+        <Text style={{ fontSize: 20, textAlign: "center", color: "#004d38" }}>
+          그룹 만들기
+        </Text>
       </TORowCenter>
     </>
   );

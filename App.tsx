@@ -1,6 +1,7 @@
 import React from "react";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
+import { StatusBar, SafeAreaView as SAV } from "react-native";
 import AuthSwitcher from "./src/screens/AuthSwitcher";
 import { StoreProvider } from "./src/Store";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -130,6 +131,8 @@ export default class App extends React.PureComponent {
     return (
       <ApolloProvider client={client}>
         <StoreProvider>
+          <SAV style={{ flex: 0, backgroundColor: "#000000" }} />
+          <StatusBar barStyle="light-content" />
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1, backgroundColor: "#f0f0f0" }}>
               <AuthSwitcher />

@@ -23,7 +23,7 @@ export default (props: {
       style={{
         height: 53,
         borderRadius: 25,
-        backgroundColor: "#007075",
+        backgroundColor: "#007d61",
         alignItems: "center",
         flexDirection: "row",
         marginBottom: 11,

@@ -41,7 +41,6 @@ export const ViewRow: React.FunctionComponent<ViewProps> = (props) => (
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        flexWrap: "wrap",
       },
       props.style,
     ]}

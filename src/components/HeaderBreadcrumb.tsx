@@ -10,7 +10,7 @@ import iconNavi from "../../assets/iconNavi.png";
 export default (props: { boardName?: string }) => {
   const { boardName = "제안 게시판" } = props;
   return (
-    <ViewRow style={{ paddingHorizontal: 30, flexWrap: "nowrap" }}>
+    <ViewRow style={{ paddingHorizontal: 30 }}>
       <Image source={iconHome} />
       <Image source={iconNavi} style={{ paddingHorizontal: 5 }} />
       <Text

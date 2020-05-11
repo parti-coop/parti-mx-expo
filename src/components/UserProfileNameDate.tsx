@@ -24,7 +24,7 @@ export default (props: { name: string; date: string; photoUrl?: string }) => {
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow style={{ width: "50%", flexWrap: "nowrap", marginBottom: 20 }}>
+    <ViewRow style={{ width: "50%", marginBottom: 20 }}>
       {photoUrl ? (
         userPhoto
       ) : (

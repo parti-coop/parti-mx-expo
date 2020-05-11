@@ -21,7 +21,7 @@ export default (props: { style?: ViewStyle; count?: number }) => {
         style,
       ]}
     >
-      <Image source={iconSympathy} />
+      <Image source={iconSympathy} style={{ tintColor: "white" }} />
       <White11 style={{ textAlign: "center" }}>{String(count)}</White11>
     </V0>
   );

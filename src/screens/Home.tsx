@@ -4,7 +4,7 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { useSubscription } from "@apollo/react-hooks";
 
 import { View, ViewRow, V1 } from "../components/View";
-import { Title14 } from "../components/Text";
+import { Title14, Text } from "../components/Text";
 import ViewGroupImg from "../components/ViewGroupImg";
 import ViewQrCode from "../components/ViewQrCode";
 import ViewIconInvite from "../components/ViewIconInvite";
@@ -23,10 +23,6 @@ import { useStore } from "../Store";
 
 import bgGroupMain from "../../assets/bgGroupMain.png";
 
-const titleStyle = {
-  fontSize: 28,
-  color: "#333333",
-} as TextStyle;
 export default function Home() {
   const navigation = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
@@ -81,7 +77,7 @@ export default function Home() {
             flex: 1,
             paddingTop: 39,
             paddingHorizontal: 30,
-            backgroundColor: "rgba(255,255,255,0.4)",
+            backgroundColor: "rgba(0,0,0,0.4)",
           }}
         >
           <View>
@@ -93,16 +89,20 @@ export default function Home() {
                 <ViewNotification />
               </TouchableOpacity>
             </ViewRow>
-            <View style={{ height: 52, marginTop: 19, marginRight: 80 }}>
-              <Title14 numberOfLines={1} style={[titleStyle]}>
-                {title}
-              </Title14>
-            </View>
-            <View style={{ marginTop: 8 }}>
-              <Title14 style={{ fontSize: 15, color: "#777777" }}>
-                {userStatusStr}
-              </Title14>
-            </View>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 28,
+                color: "#ffffff",
+                marginTop: 19,
+                marginRight: 80,
+              }}
+            >
+              {title}
+            </Text>
+            <Text style={{ fontSize: 15, color: "#ffffff" }}>
+              {userStatusStr}
+            </Text>
           </View>
 
           <View style={{ position: "absolute", right: 30, top: 39 }}>
