@@ -113,6 +113,33 @@ export interface NoticeDetailType extends PostDetailType {
     };
   };
 }
+export interface VoteDetailType extends PostDetailType {
+  likedUsers: {
+    created_at: string;
+    user: User;
+  }[];
+  users_aggregate: {
+    aggregate: {
+      sum: {
+        like_count: number;
+      };
+    };
+  };
+
+  candidates: {
+    body: string;
+    votes_aggregate: {
+      aggregate: {
+        sum: {
+          count: number;
+        };
+      };
+    };
+    votes: {
+      count: number;
+    };
+  };
+}
 
 export type RecommentArgs = {
   id: number;
