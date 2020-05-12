@@ -28,7 +28,7 @@ import TouchableClosingMethod from "../components/TouchableClosingMethod";
 import { File } from "../types";
 import { uploadFileUUID } from "../firebase";
 import { useStore } from "../Store";
-import { insertPost } from "../graphql/mutation";
+import { insertVote } from "../graphql/mutation";
 function promiseArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
@@ -43,7 +43,7 @@ export default function VoteNew(props: {
   route: RouteProp<RootStackParamList, "SuggestionNew">;
 }) {
   const { boardId, boardName } = props.route.params;
-  const [insert, { loading }] = useMutation(insertPost);
+  const [insert, { loading }] = useMutation(insertVote);
   const [{ group_id }, dispatch] = useStore();
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
@@ -120,6 +120,16 @@ export default function VoteNew(props: {
       const urlArr = await Promise.all(fileArr.map(promiseArray));
       files = urlArr;
     }
+    let candidateObjects = candidates.map((c, i) => ({
+      body: c,
+      order: i + 1,
+    }));
+    if (isBinary) {
+      candidateObjects = [
+        { body: "찬성", order: 1 },
+        { body: "반대", order: 2 },
+      ];
+    }
     await insert({
       variables: {
         title,
@@ -129,6 +139,7 @@ export default function VoteNew(props: {
         metadata: { isBinary, isMultiple, isAnonymous, closingMethod },
         images,
         files,
+        candidates: candidateObjects,
       },
     });
 

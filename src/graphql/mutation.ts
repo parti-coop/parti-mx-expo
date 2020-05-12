@@ -41,6 +41,7 @@ export const insertPost = gql`
         metadata: $metadata
         images: $images
         files: $files
+        candidates: { data: [{ body: "" }] }
       }
     ) {
       affected_rows
@@ -359,6 +360,47 @@ export const exitUsersGroup = gql`
 export const fileReport = gql`
   mutation($id: Int!, $body: String!, $type: String = "post") {
     insert_mx_reports(objects: { body: $body, type: $type, type_id: $id }) {
+      affected_rows
+    }
+  }
+`;
+
+export const insertVote = gql`
+  mutation(
+    $board_id: Int!
+    $group_id: Int!
+    $title: String!
+    $sContext: String
+    $body: String!
+    $metadata: jsonb = {}
+    $images: jsonb
+    $files: jsonb
+    $candidates: [mx_candidates_insert_input!]!
+  ) {
+    insert_mx_posts(
+      objects: {
+        body: $body
+        title: $title
+        context: $sContext
+        board_id: $board_id
+        metadata: $metadata
+        images: $images
+        files: $files
+        candidates: { data: $candidates }
+      }
+    ) {
+      affected_rows
+    }
+    update_mx_boards(
+      _set: { last_posted_at: "now()" }
+      where: { id: { _eq: $board_id } }
+    ) {
+      affected_rows
+    }
+    update_mx_groups(
+      _set: { last_posted_at: "now()" }
+      where: { id: { _eq: $group_id } }
+    ) {
       affected_rows
     }
   }
