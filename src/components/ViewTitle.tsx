@@ -14,13 +14,16 @@ const dateStyle = {
   textAlign: "left",
   color: "#909090",
 } as TextStyle;
-export default (props: { title: string; updated_at?: string }) => {
+export default function ViewTitle(props: {
+  title: string;
+  updated_at?: string;
+}) {
   const { title, updated_at = null } = props;
   const date = formatDateFromString(updated_at);
   return (
-    <View style={{ paddingHorizontal: 30, paddingTop: 20 }}>
+    <View style={{ paddingHorizontal: 30, paddingTop: 15 }}>
       <Text style={titleStyle}>{title}</Text>
       {!!updated_at && <Text style={dateStyle}>{date}</Text>}
     </View>
   );
-};
+}

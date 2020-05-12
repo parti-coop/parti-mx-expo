@@ -4,10 +4,8 @@ import { TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 
-import { ImageCache, ImageView } from "../components/Image";
-import { Text, Mint13, Body16 } from "../components/Text";
+import { Text, Title14, Body16 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
 import { TO0, TORow } from "../components/TouchableOpacity";
 import UserProfileWithName from "../components/UserProfileWithName";
@@ -17,15 +15,19 @@ import ButtonUnlike from "../components/ButtonUnlike";
 import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
-import ViewTitle from "../components/ViewTitle";
+import ViewTitleCalendar from "../components/ViewTitleCalendar";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
 import SuggestionTabs from "../components/SuggestionTabs";
 import { whiteRoundBg } from "../components/Styles";
+import ViewDetailImageFile from "../components/ViewDetailImageFile";
+import UserProfileNameDate from "../components/UserProfileNameDate";
+import Comments from "../components/Comments";
 
 import { useStore } from "../Store";
 import { subscribeSuggestion } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
+import { isAfterString, closingMonthDateFrom } from "../Utils/CalculateDays";
 
 import { SuggestionDetailType, File } from "../types";
 
@@ -102,22 +104,22 @@ export default function SuggestionDetail(props: {
     created_at: n.created_at,
     photo_url: n.user.photo_url,
   }));
+  const closingDays = metadata?.closingMethod?.replace("days", "");
+  const closingAt = closingMonthDateFrom(created_at, Number(closingDays));
 
   return (
     <>
       <HeaderShare id={id} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
-        <ViewTitle title={title} updated_at={updated_at} />
-        <View style={[whiteRoundBg, { marginTop: 40, paddingBottom: 50 }]}>
+        <ViewTitleCalendar title={title} value={closingAt} />
+        <View style={[whiteRoundBg, { marginTop: 30, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
-            <View>
-              <Text style={[labelStyle, { marginBottom: 19 }]}>제안자</Text>
-              <UserProfileWithName
-                name={createdBy.name}
-                photoUrl={createdBy.photo_url}
-              />
-            </View>
+            <UserProfileNameDate
+              name={createdBy.name}
+              photoUrl={createdBy.photo_url}
+              date={updated_at}
+            />
             {createdBy.id === user_id && <SelectMenu items={options} />}
           </ViewRow>
           <LineSeperator />
@@ -129,37 +131,7 @@ export default function SuggestionDetail(props: {
             <Text style={[labelStyle, { marginBottom: 19 }]}>제안 내용</Text>
             <Text style={bodyTextStyle}>{body}</Text>
           </View>
-          {images?.length > 0 && (
-            <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-              {images?.map((o: ImageInfo, i: number) => {
-                return (
-                  <TO0 onPress={() => showImageViewerHandler(i)} key={i}>
-                    <ImageCache
-                      uri={o.uri}
-                      style={{
-                        width: "100%",
-                        height: 186,
-                        marginBottom: 10,
-                        resizeMode: "cover",
-                      }}
-                    />
-                  </TO0>
-                );
-              })}
-            </View>
-          )}
-          {files?.length > 0 && (
-            <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-              <Mint13 style={{ marginBottom: 20 }}>파일</Mint13>
-              {files?.map((o: File, i: number) => {
-                return (
-                  <TORow key={i} onPress={() => openFileHandler(o)}>
-                    <Body16>{o.name}</Body16>
-                  </TORow>
-                );
-              })}
-            </View>
-          )}
+          <ViewDetailImageFile files={files} images={images} />
           <V0 style={{ marginTop: 50 }}>
             {liked > 0 ? (
               <ButtonUnlike id={id} />
@@ -172,19 +144,11 @@ export default function SuggestionDetail(props: {
             )}
           </V0>
         </View>
-        <SuggestionTabs
-          id={id}
-          comments={comments}
-          voteUsers={voteUsers}
-          scrollRef={scrollRef}
-        />
+        <ViewRow style={{ paddingVertical: 20, paddingHorizontal: 30 }}>
+          <Title14>댓글 {comments.length}</Title14>
+        </ViewRow>
+        <Comments comments={comments} postId={id} scrollRef={scrollRef} />
       </KeyboardAwareScrollView>
-      <ImageView
-        images={images}
-        imageIndex={imgIndex}
-        visible={visible}
-        onRequestClose={() => setIsVisible(false)}
-      />
     </>
   );
 }

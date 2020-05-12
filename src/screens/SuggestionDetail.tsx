@@ -86,7 +86,7 @@ export default function SuggestionDetail(props: {
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitle title={title} updated_at={updated_at} />
-        <View style={[whiteRoundBg, { marginTop: 40, paddingBottom: 50 }]}>
+        <View style={[whiteRoundBg, { marginTop: 30, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
             <View>
               <Mint13 style={{ marginBottom: 19 }}>제안자</Mint13>

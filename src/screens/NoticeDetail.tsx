@@ -93,7 +93,7 @@ export default function NoticeDetail(props: {
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitle title={title} />
-        <View style={[whiteRoundBg, { marginTop: 40, paddingBottom: 50 }]}>
+        <View style={[whiteRoundBg, { marginTop: 30, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
             <UserProfileNameDate
               name={createdBy.name}

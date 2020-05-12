@@ -17,14 +17,18 @@ const UserStyle = {
   flex: 0,
 } as ViewStyle;
 
-export default (props: { name: string; date: string; photoUrl?: string }) => {
+export default function UserProfileNameDate(props: {
+  name: string;
+  date: string;
+  photoUrl?: string;
+}) {
   const { name, date, photoUrl } = props;
   const d = formatDateFromString(date);
   const userPhoto = (
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow style={{ width: "50%", marginBottom: 20 }}>
+    <ViewRow>
       {photoUrl ? (
         userPhoto
       ) : (
@@ -38,4 +42,4 @@ export default (props: { name: string; date: string; photoUrl?: string }) => {
       </View>
     </ViewRow>
   );
-};
+}
