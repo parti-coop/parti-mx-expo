@@ -18,7 +18,11 @@ const bgMenuBg = {
   borderWidth: 2,
   borderColor: "#f35f5f",
 } as ViewProps;
-export default (props: { id: number; style?: ViewStyle; count: number }) => {
+export default function ButtonLikeComment(props: {
+  id: number;
+  style?: ViewStyle;
+  count: number;
+}) {
   const { id, style, count } = props;
   const [, dispatch] = useStore();
   const [like, { loading }] = useMutation(likeComment, {
@@ -33,7 +37,7 @@ export default (props: { id: number; style?: ViewStyle; count: number }) => {
   return (
     <TORowCenter style={[bgMenuBg, style]} onPress={pressHandler}>
       <Image source={iconAgree11} style={{ marginRight: 3 }} />
-      <Red12>{count}</Red12>
+      <Red12 style={{ fontFamily: "notosans700" }}>{count}</Red12>
     </TORowCenter>
   );
-};
+}

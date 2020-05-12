@@ -89,7 +89,9 @@ export default function SuggestionDetail(props: {
         <View style={[whiteRoundBg, { marginTop: 30, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
             <View>
-              <Mint13 style={{ marginBottom: 19 }}>제안자</Mint13>
+              <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
+                제안자
+              </Mint13>
               <UserProfileWithName
                 name={createdBy.name}
                 photoUrl={createdBy.photo_url}
@@ -99,11 +101,15 @@ export default function SuggestionDetail(props: {
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Mint13 style={{ marginBottom: 19 }}>제안 배경</Mint13>
+            <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
+              제안 배경
+            </Mint13>
             <Body16>{context}</Body16>
           </View>
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Mint13 style={{ marginBottom: 19 }}>제안 내용</Mint13>
+            <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
+              제안 내용
+            </Mint13>
             <Body16>{body}</Body16>
           </View>
           <ViewDetailImageFile files={files} images={images} />

@@ -63,11 +63,13 @@ export default function TouchableVoteList(props: {
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12>{post.createdBy.name}</Grey12>
+            <Grey12 style={{ fontFamily: "notosans700" }}>
+              {post.createdBy.name}
+            </Grey12>
             {votedByMe && (
               <>
-                <Grey12>{", "}</Grey12>
-                <Blue12>투표함</Blue12>
+                <Grey12 style={{ fontFamily: "notosans700" }}>{", "}</Grey12>
+                <Blue12 style={{ fontFamily: "notosans700" }}>투표함</Blue12>
               </>
             )}
             <SmallVerticalDivider />

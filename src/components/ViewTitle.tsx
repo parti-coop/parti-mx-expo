@@ -13,6 +13,7 @@ const dateStyle = {
   lineHeight: 25,
   textAlign: "left",
   color: "#909090",
+  fontFamily: "notosans700",
 } as TextStyle;
 export default function ViewTitle(props: {
   title: string;

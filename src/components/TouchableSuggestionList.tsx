@@ -64,11 +64,13 @@ export default function TouchableSuggestionList(props: {
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12>{suggestion.createdBy.name}</Grey12>
+            <Grey12 style={{ fontFamily: "notosans700" }}>
+              {suggestion.createdBy.name}
+            </Grey12>
             {votedByMe && (
               <>
-                <Grey12>{", "}</Grey12>
-                <Blue12>동의함</Blue12>
+                <Grey12 style={{ fontFamily: "notosans700" }}>{", "}</Grey12>
+                <Blue12 style={{ fontFamily: "notosans700" }}>동의함</Blue12>
               </>
             )}
             <SmallVerticalDivider />

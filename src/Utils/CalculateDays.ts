@@ -15,9 +15,15 @@ export function minutesDiff(date: string) {
   return minDiff;
 }
 export function closingDateFrom(created_at: string, days = 30) {
+  if (!created_at) {
+    return null;
+  }
   return format(addDays(new Date(), days), "yyyy.MM.dd");
 }
 export function closingMonthDateFrom(created_at: string, days = 30) {
+  if (!created_at) {
+    return null;
+  }
   return format(addDays(new Date(), days), "MM/dd");
 }
 

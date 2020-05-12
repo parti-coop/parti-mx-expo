@@ -37,8 +37,8 @@ export default function UserProfileNameDate(props: {
         </V0>
       )}
       <View style={{ marginLeft: 11 }}>
-        <Caption16>{name}</Caption16>
-        <Grey12>{d}</Grey12>
+        <Caption16 style={{ fontFamily: "notosans700" }}>{name}</Caption16>
+        <Grey12 style={{ fontFamily: "notosans700" }}>{d}</Grey12>
       </View>
     </ViewRow>
   );

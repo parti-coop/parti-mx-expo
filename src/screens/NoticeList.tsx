@@ -65,9 +65,9 @@ export default (props: {
           }}
         >
           <ViewRow>
-            <Title14>총</Title14>
-            <Mint14>{totalCount}</Mint14>
-            <Title14>개</Title14>
+            <Title14 style={{ fontFamily: "notosans700" }}>총</Title14>
+            <Mint14 style={{ fontFamily: "notosans700" }}>{totalCount}</Mint14>
+            <Title14 style={{ fontFamily: "notosans700" }}>개</Title14>
           </ViewRow>
           <PickerSelect
             items={[{ label: "등록순", value: "created_at" }]}

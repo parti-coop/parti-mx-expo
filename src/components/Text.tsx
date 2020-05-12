@@ -27,6 +27,28 @@ export const Text: React.FunctionComponent<TextProps> = (props) => (
   </T>
 );
 
+export const Mint12: React.FunctionComponent<TextProps> = (props) => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 12,
+        color: COLORS.MINT,
+      },
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(13),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
 export const Mint13: React.FunctionComponent<TextProps> = (props) => (
   <T
     {...props}
@@ -367,6 +389,28 @@ export const Title30: React.FunctionComponent<TextProps> = (props) => (
       Platform.select({
         android: {
           // lineHeight: lineHeight(30),
+          includeFontPadding: false,
+        },
+      }),
+      props.style,
+    ]}
+  >
+    {props.children}
+  </T>
+);
+
+export const Body12: React.FunctionComponent<TextProps> = (props) => (
+  <T
+    {...props}
+    style={[
+      {
+        fontFamily: "notosans",
+        fontSize: 12,
+        color: "#555555",
+      },
+      Platform.select({
+        android: {
+          // lineHeight: lineHeight(15),
           includeFontPadding: false,
         },
       }),

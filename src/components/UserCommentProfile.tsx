@@ -18,6 +18,7 @@ const textStyle = {
   fontSize: 16,
   textAlign: "left",
   color: "#444444",
+  fontFamily: "notosans700",
 } as TextStyle;
 export default (
   props: React.PropsWithoutRef<{ name: string; photoUrl?: string }>

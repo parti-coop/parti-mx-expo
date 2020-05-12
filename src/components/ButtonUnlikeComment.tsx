@@ -18,7 +18,11 @@ const bgMenuBg = {
   backgroundColor: "#f35f5f",
   borderColor: "#f35f5f",
 } as ViewProps;
-export default (props: { id: number; style?: ViewStyle; count: number }) => {
+export default function ButtonUnlikeComment(props: {
+  id: number;
+  style?: ViewStyle;
+  count: number;
+}) {
   const { id, style, count } = props;
   const [{ user_id }, dispatch] = useStore();
   const [unlike, { loading }] = useMutation(unlikeComment, {
@@ -36,7 +40,7 @@ export default (props: { id: number; style?: ViewStyle; count: number }) => {
         source={iconAgree11}
         style={{ marginRight: 3, tintColor: "#ffffff" }}
       />
-      <White12>{count}</White12>
+      <White12 style={{ fontFamily: "notosans700" }}>{count}</White12>
     </TORowCenter>
   );
-};
+}

@@ -72,7 +72,7 @@ export default function CommentList(props: {
         {user?.checkedPosts?.[0] && (
           <Mint13 style={{ marginLeft: 9 }}>동의</Mint13>
         )}
-        <Grey12 style={{ marginLeft: 9 }}>
+        <Grey12 style={{ marginLeft: 9, fontFamily: "notosans700" }}>
           {formatDateFromString(updated_at)}
         </Grey12>
         {user.id === user_id && <SelectMenu items={options} />}

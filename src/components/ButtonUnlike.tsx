@@ -41,9 +41,11 @@ export default function ButtonUnlike({ id }: { id: number }) {
     <TO0 onPress={unlikeHandler}>
       <ViewRowCenter style={bgMenuBgCopy}>
         <Image source={iconAgree} style={{ marginRight: 4 }} />
-        <White16>제안 동의함</White16>
+        <White16 style={{ fontFamily: "notosans700" }}>제안 동의함</White16>
       </ViewRowCenter>
-      <Mint13 style={{ marginTop: 9 }}>제안 동의 취소</Mint13>
+      <Mint13 style={{ marginTop: 9, fontFamily: "notosans700" }}>
+        제안 동의 취소
+      </Mint13>
     </TO0>
   );
 }

@@ -47,14 +47,16 @@ export default function ButtonSuggestionLike(props: {
     <>
       <TORowCenter style={bgMenuBgCopy} onPress={voteHandler}>
         <Image source={iconAgree} style={{ margin: 4, tintColor: "#f35f5f" }} />
-        <Red16>이 제안에 동의합니다</Red16>
+        <Red16 style={{ fontFamily: "notosans700" }}>
+          이 제안에 동의합니다
+        </Red16>
       </TORowCenter>
       {closingMethod === 0 && (
         <Text
           style={{
             fontSize: 12,
             textAlign: "center",
-            // color: "#f35f5f",
+            fontFamily: "notosans700",
             color: "#f35f5f",
             marginTop: 10,
           }}
