@@ -79,7 +79,7 @@ export const subscribeSuggestion = gql`
       meLiked: users(where: { user_id: { _eq: $user_id } }) {
         like_count
       }
-      likedUsers: users {
+      likedUsers: users(where: { like_count: { _gt: 0 } }) {
         created_at
         user {
           name
