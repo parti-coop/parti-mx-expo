@@ -14,9 +14,13 @@ export function minutesDiff(date: string) {
   const minDiff = timeDiff / 60 / 1000;
   return minDiff;
 }
-export function closingDateFrom(created_at: string) {
-  return format(addDays(new Date(), 30), "yyyy.MM.dd");
+export function closingDateFrom(created_at: string, days = 30) {
+  return format(addDays(new Date(), days), "yyyy.MM.dd");
 }
+export function closingMonthDateFrom(created_at: string, days = 30) {
+  return format(addDays(new Date(), days), "MM/dd");
+}
+
 export function formatDateFromString(date: string) {
   try {
     return format(new Date(date), "yyyy.MM.dd HH:mm");

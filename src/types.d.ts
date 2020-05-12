@@ -38,7 +38,7 @@ export type PostListType = {
   id: number;
   title: string;
   body: string;
-  metadata: { closed_at: string; closingMethod: number };
+  metadata: { closed_at: string; closingMethod: string };
   created_at: string;
   updated_at: string;
   users_aggregate: {
@@ -62,7 +62,15 @@ export type PostListType = {
   };
 };
 export type SuggestionListType = PostListType;
-export interface VoteListType extends PostListType {}
+export interface VoteListType extends PostListType {
+  metadata: {
+    closed_at?: string;
+    closingMethod: string;
+    isBinary: boolean;
+    isMultiple: boolean;
+    isAnonymous: boolean;
+  };
+}
 
 export type User = {
   id?: number;

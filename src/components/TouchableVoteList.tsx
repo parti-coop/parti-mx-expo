@@ -5,16 +5,16 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
-import { Text, Grey12, Title16 } from "./Text";
+import { Grey12, Title16, Blue12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";
-import { RoundDDays } from "./Round";
+import { RoundMonthDate } from "./Round";
 import { DotRed8 } from "./Dots";
 
 import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
-import { calculateDays, isAfterString } from "../Utils/CalculateDays";
+import { isAfterString, closingMonthDateFrom } from "../Utils/CalculateDays";
 import { VoteListType } from "../types";
 
 import iconComment from "../../assets/iconComment.png";
@@ -32,7 +32,8 @@ export default function TouchableVoteList(props: {
   });
   const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
-  const daysLeft = calculateDays(post.created_at);
+  const closingDays = post.metadata.closingMethod.replace("days", "");
+  const closingAt = closingMonthDateFrom(post.created_at, Number(closingDays));
   function pressHandler() {
     update();
     navigate("VoteDetail", { postId: post.id });
@@ -44,7 +45,7 @@ export default function TouchableVoteList(props: {
   return (
     <TouchableOpacity onPress={pressHandler}>
       <ViewRow style={{ justifyContent: "flex-start" }}>
-        <RoundDDays number={daysLeft} />
+        <RoundMonthDate value={closingAt} />
         <V1
           style={[
             {
@@ -63,16 +64,18 @@ export default function TouchableVoteList(props: {
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12>{post.createdBy.name}</Grey12>
-            <Text style={{ fontSize: 12, textAlign: "left", color: "#4b93dc" }}>
-              {votedByMe && ", 동의함"}
-            </Text>
+            {votedByMe && (
+              <>
+                <Grey12>{", "}</Grey12>
+                <Blue12>투표함</Blue12>
+              </>
+            )}
             <SmallVerticalDivider />
             <Image
               source={iconComment}
               style={{ marginRight: 8, marginLeft: 6 }}
             />
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
-            {/* {post.closed_at && <Text>{post.closed_at}</Text>} */}
           </ViewRow>
         </V1>
         <ViewLikeCount

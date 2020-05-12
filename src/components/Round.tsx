@@ -82,3 +82,52 @@ export function RoundDDays(
     </V0>
   );
 }
+export function RoundMonthDate(
+  props: TouchableOpacityProps & {
+    style?: ViewStyle;
+    value?: string;
+  }
+) {
+  const { style, value = "0" } = props;
+  return (
+    <V0
+      style={[
+        {
+          width: 54,
+          height: 54,
+          borderRadius: 22.2,
+          backgroundColor: "#ffffff",
+          borderStyle: "solid",
+          borderWidth: 2,
+          borderColor: "#12BD8E",
+          margin: 15,
+          flex: 0,
+        },
+        style,
+      ]}
+    >
+      <Text
+        style={{
+          fontSize: 16,
+          textAlign: "center",
+          color: "#4a9f95",
+          fontFamily: "notosans900",
+          lineHeight: 17,
+        }}
+      >
+        ~
+      </Text>
+      <Text
+        style={{
+          fontSize: 14,
+          textAlign: "left",
+          color: "#4a9f95",
+          fontFamily: "notosans900",
+          lineHeight: 15,
+        }}
+      >
+        {value}
+      </Text>
+    </V0>
+  );
+}
