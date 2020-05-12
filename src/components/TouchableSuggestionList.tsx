@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
-import { Text, Grey12, Title16, Blue12 } from "./Text";
+import { Grey12, Title16, Blue12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import ViewLikeCount from "./ViewLikeCount";

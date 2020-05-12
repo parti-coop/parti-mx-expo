@@ -11,7 +11,7 @@ import { TORowCenter } from "../components/TouchableOpacity";
 import HeaderBack from "../components/HeaderBack";
 import { whiteRoundBg } from "../components/Styles";
 
-import { auth, IdTokenResult } from "../firebase";
+import { auth, getUserId } from "../firebase";
 import { useStore } from "../Store";
 
 import iconEmailColor from "../../assets/iconEmailColor.png";
@@ -40,16 +40,9 @@ export default function LoginEmail() {
   async function loginHandler() {
     dispatch({ type: "SET_LOADING", loading: true });
     try {
-      const credential = await auth.signInWithEmailAndPassword(email, password);
-
-      const tokenResult: IdTokenResult = await credential.user.getIdTokenResult();
-      const userId = Number(
-        tokenResult?.claims?.["https://hasura.io/jwt/claims"]?.[
-          "x-hasura-user-id"
-        ]
-      );
-      if (isNaN(userId)) {
-        console.log(tokenResult);
+      await auth.signInWithEmailAndPassword(email, password);
+      const userId = await getUserId();
+      if (userId === null) {
         return showMessage({
           type: "danger",
           message: "서버로 부터 인증을 받지 못하였습니다.",
@@ -60,7 +53,7 @@ export default function LoginEmail() {
         message: "로그인 성공 하셨습니다.",
       });
       dispatch({ type: "SET_LOADING", loading: false });
-      dispatch({ type: "SET_USER", user_id: Number(userId) });
+      dispatch({ type: "SET_USER", user_id: userId });
     } catch (error) {
       showMessage({
         type: "danger",

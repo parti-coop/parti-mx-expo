@@ -27,7 +27,7 @@ export default (props: {
   const { group_id, user_id } = store;
   const [sort, setSort] = React.useState("created_at");
   const { data, error, loading } = useSubscription(subscribeNoticeList, {
-    variables: { id: boardId, userId: user_id },
+    variables: { id: boardId, user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });

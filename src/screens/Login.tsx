@@ -6,7 +6,7 @@ import { Text, Title30 } from "../components/Text";
 import { V1, ViewRow, View } from "../components/View";
 import { TouchableOpacity, TORow } from "../components/TouchableOpacity";
 
-import { signUpWithGoogle, IdTokenResult } from "../firebase";
+import { getUserId } from "../firebase";
 import { useStore } from "../Store";
 
 import iconEmail from "../../assets/iconEmail.png";
@@ -34,26 +34,21 @@ export default function Login(props) {
   function loginEmail() {
     navigate("LoginEmail");
   }
-  async function SigninGoogle() {
-    const res = await signUpWithGoogle();
-    if (res.additionalUserInfo.isNewUser) {
-      showMessage({
-        type: "info",
-        message: "아직 가입 하지 않았습니다, 가입 절차를 진행합니다.",
-      });
-      navigate("AuthProfile", { showTerms: true });
-    } else {
-      const tokenResult: IdTokenResult = await res.user.getIdTokenResult();
-      const userId = Number(
-        tokenResult?.claims?.["https://hasura.io/jwt/claims"]?.[
-          "x-hasura-user-id"
-        ]
-      );
-      if (!isNaN(userId)) {
-        dispatch({ type: "SET_USER", user_id: userId });
-      }
-    }
-  }
+  // async function SigninGoogle() {
+  //   const res = await signUpWithGoogle();
+  //   if (res.additionalUserInfo.isNewUser) {
+  //     showMessage({
+  //       type: "info",
+  //       message: "아직 가입 하지 않았습니다, 가입 절차를 진행합니다.",
+  //     });
+  //     navigate("AuthProfile", { showTerms: true });
+  //   } else {
+  //     const userId =await getUserId();
+  //     if (userId !== null) {
+  //       dispatch({ type: "SET_USER", user_id: userId });
+  //     }
+  //   }
+  // }
   return (
     <>
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>

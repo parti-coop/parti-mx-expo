@@ -55,7 +55,7 @@ export const postResult = gql`
     metadata
     created_at
     updated_at
-    users(where: { user_id: { _eq: $userId } }) {
+    users(where: { user_id: { _eq: $user_id } }) {
       like_count
       updated_at
     }

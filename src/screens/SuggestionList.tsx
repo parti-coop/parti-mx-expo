@@ -21,7 +21,7 @@ export default function SuggestionList(props: {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
   const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
-    variables: { id: boardId, userId: user_id },
+    variables: { id: boardId, user_id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });

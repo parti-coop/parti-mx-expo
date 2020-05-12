@@ -23,7 +23,7 @@ export const subscribeGroupsByUserId = gql`
 `;
 
 export const subscribePostsByBoardId = gql`
-  subscription($id: Int!, $userId: Int!) {
+  subscription($id: Int!, $user_id: Int!) {
     mx_boards_by_pk(id: $id) {
       id
       body
@@ -202,7 +202,7 @@ export const subscribeMemberCount = gql`
 `;
 
 export const subscribeNoticeList = gql`
-  subscription($id: Int!, $userId: Int!) {
+  subscription($id: Int!, $user_id: Int!) {
     mx_boards_by_pk(id: $id) {
       id
       body
