@@ -62,14 +62,15 @@ export type PostListType = {
   };
 };
 export type SuggestionListType = PostListType;
+type VoteMetadata = {
+  closed_at?: string;
+  closingMethod: string;
+  isBinary: boolean;
+  isMultiple: boolean;
+  isAnonymous: boolean;
+};
 export interface VoteListType extends PostListType {
-  metadata: {
-    closed_at?: string;
-    closingMethod: string;
-    isBinary: boolean;
-    isMultiple: boolean;
-    isAnonymous: boolean;
-  };
+  metadata: VoteMetadata;
 }
 
 export type User = {
@@ -113,11 +114,26 @@ export interface NoticeDetailType extends PostDetailType {
     };
   };
 }
+export type Candidate = {
+  id: number;
+  body: string;
+  post: {
+    id: number;
+  };
+  votes_aggregate: {
+    aggregate: {
+      sum: {
+        count: number;
+      };
+    };
+  };
+  votes: [
+    {
+      count: number;
+    }
+  ];
+};
 export interface VoteDetailType extends PostDetailType {
-  likedUsers: {
-    created_at: string;
-    user: User;
-  }[];
   users_aggregate: {
     aggregate: {
       sum: {
@@ -125,20 +141,8 @@ export interface VoteDetailType extends PostDetailType {
       };
     };
   };
-
-  candidates: {
-    body: string;
-    votes_aggregate: {
-      aggregate: {
-        sum: {
-          count: number;
-        };
-      };
-    };
-    votes: {
-      count: number;
-    };
-  };
+  candidates: Candidate[];
+  metadata: VoteMetadata;
 }
 
 export type RecommentArgs = {

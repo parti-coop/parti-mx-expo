@@ -19,6 +19,7 @@ import { whiteRoundBg } from "../components/Styles";
 import ViewDetailImageFile from "../components/ViewDetailImageFile";
 import UserProfileNameDate from "../components/UserProfileNameDate";
 import Comments from "../components/Comments";
+import TouchableCheckBar from "../components/TouchableCheckBar";
 
 import { useStore } from "../Store";
 import { subscribeVote } from "../graphql/subscription";
@@ -62,24 +63,23 @@ export default function VoteDetail(props: {
   const {
     title = "제목 로딩 중",
     body = "",
-    metadata = {},
+    metadata,
     createdBy = { photo_url: "", name: "", id: null },
     updated_at = "",
     created_at = "",
     comments = [],
     images = [],
     files = [],
-    meLiked = [],
-    likedUsers = [],
+    meLiked,
     board = { title: "" },
-    candidates = [],
+    candidates,
+    users_aggregate,
   } = vote;
-  const liked = meLiked?.[0]?.like_count ?? 0;
-  const voteUsers = likedUsers.map((n: any) => ({
-    name: n.user.name,
-    created_at: n.created_at,
-    photo_url: n.user.photo_url,
-  }));
+  const voted = !!meLiked?.[0]?.like_count;
+  const totalVoteCount = candidates?.reduce(
+    (p, c) => p + c?.votes_aggregate?.aggregate?.sum?.count || 0,
+    0
+  );
   const closingDays = metadata?.closingMethod?.replace("days", "");
   const closingAt = closingMonthDateFrom(created_at, Number(closingDays));
 
@@ -104,13 +104,30 @@ export default function VoteDetail(props: {
           </View>
           <View style={{ marginHorizontal: 30 }}>
             <ViewRow style={{ justifyContent: "space-between" }}>
-              <Mint12 style={{ fontFamily: "notosans700" }}>익명투표</Mint12>
+              <Mint12 style={{ fontFamily: "notosans700" }}>
+                {metadata?.isAnonymous && "익명투표"}
+              </Mint12>
               <ViewRow>
                 <Body12 style={{ fontFamily: "notosans700" }}>참여</Body12>
-                <Mint12 style={{ fontFamily: "notosans700" }}>100</Mint12>
+                <Mint12 style={{ fontFamily: "notosans700" }}>
+                  {users_aggregate?.aggregate?.sum?.like_count ?? 0}
+                </Mint12>
                 <Body12 style={{ fontFamily: "notosans700" }}>명</Body12>
               </ViewRow>
             </ViewRow>
+            <View style={{ marginTop: 5 }}>
+              {candidates?.map((c, i) => {
+                return (
+                  <TouchableCheckBar
+                    key={i}
+                    candidate={c}
+                    voted={voted}
+                    total={totalVoteCount}
+                    style={{ marginTop: 10 }}
+                  />
+                );
+              })}
+            </View>
           </View>
           <ViewDetailImageFile files={files} images={images} />
         </View>

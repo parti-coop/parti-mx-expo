@@ -278,7 +278,11 @@ export const subscribeVote = gql`
         }
       }
       candidates {
+        id
         body
+        post{
+          id
+        }
         votes_aggregate {
           aggregate {
             sum {

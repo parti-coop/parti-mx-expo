@@ -1,37 +1,28 @@
 import React from "react";
-import { ViewStyle, Keyboard } from "react-native";
+import { ViewStyle } from "react-native";
 
 import { Image } from "./Image";
-import { TO0, TOCenter } from "./TouchableOpacity";
-import { View } from "./View";
+import { View, V0 } from "./View";
 import bgCheckboxOff from "../../assets/bgCheckboxOff.png";
 import bgCheckboxOn from "../../assets/bgCheckboxOn.png";
 import iconFormCheckbox from "../../assets/iconFormCheckbox.png";
-export default function ButtonCheckbox(props: {
+export default function ViewCheckbox(props: {
   style?: ViewStyle;
   value: boolean;
-  setValue: (v: boolean) => void;
 }) {
-  const { value, setValue, style } = props;
-  function off() {
-    Keyboard.dismiss();
-    setValue(false);
-  }
-  function on() {
-    Keyboard.dismiss();
-    setValue(true);
-  }
+  const { value, style } = props;
+
   return (
     <View style={style}>
       {value ? (
-        <TOCenter onPress={off}>
+        <V0>
           <Image source={bgCheckboxOn} />
           <Image source={iconFormCheckbox} style={{ position: "absolute" }} />
-        </TOCenter>
+        </V0>
       ) : (
-        <TO0 onPress={on}>
+        <V0>
           <Image source={bgCheckboxOff} />
-        </TO0>
+        </V0>
       )}
     </View>
   );
