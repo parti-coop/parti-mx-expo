@@ -57,7 +57,6 @@ export default function VoteDetail(props: {
     },
     // { label: "제안 정리", handler: () => {} },
     // { label: "공지 올리기", handler: () => {} },
-    { label: "삭제하기", handler: deletePost },
   ];
 
   const {
@@ -82,7 +81,9 @@ export default function VoteDetail(props: {
   );
   const closingDays = metadata?.closingMethod?.replace("days", "");
   const closingAt = closingMonthDateFrom(created_at, Number(closingDays));
-
+  if (totalVoteCount === 0) {
+    options.push({ label: "삭제하기", handler: deletePost });
+  }
   return (
     <>
       <HeaderShare id={id} />
