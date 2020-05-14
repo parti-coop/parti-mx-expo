@@ -15,9 +15,10 @@ export interface Comment {
   updated_at: string;
   user: {
     name: string;
-    checkedPosts?: [{ count: number }];
+    checkedPosts?: [{ like_count: number }];
     photo_url: string;
     id: number;
+    candidates?: [Candidate];
   };
   likes: [
     {

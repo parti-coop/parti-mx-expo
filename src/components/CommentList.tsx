@@ -55,6 +55,12 @@ export default function CommentList(props: {
     },
     { label: "삭제하기", handler: () => setVisible(true) },
   ];
+  let attitude = null;
+  if (user?.checkedPosts?.[0]?.like_count) {
+    attitude = "동의";
+  } else if (user?.candidates?.[0]?.body) {
+    attitude = user?.candidates?.[0]?.body;
+  }
   return (
     <View
       style={[
@@ -69,9 +75,7 @@ export default function CommentList(props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        {user?.checkedPosts?.[0] && (
-          <Mint13 style={{ marginLeft: 9 }}>동의</Mint13>
-        )}
+        <Mint13 style={{ marginLeft: 9 }}>{attitude}</Mint13>
         <Grey12 style={{ marginLeft: 9, fontFamily: "notosans700" }}>
           {formatDateFromString(updated_at)}
         </Grey12>

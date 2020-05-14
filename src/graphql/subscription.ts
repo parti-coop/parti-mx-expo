@@ -1,5 +1,10 @@
 import gql from "graphql-tag";
-import { commentsResult, noticeCommentsResult, postResult } from "./fragment";
+import {
+  commentsResult,
+  noticeCommentsResult,
+  postResult,
+  voteCommentsResult,
+} from "./fragment";
 export const whoami = gql`
   subscription($email: String!) {
     mx_users(where: { email: { _eq: $email } }) {
@@ -260,9 +265,9 @@ export const subscribeVote = gql`
         order_by: { created_at: asc }
         where: { parent_id: { _is_null: true } }
       ) {
-        ...comments_result
+        ...vote_comments_result
         re(order_by: { created_at: asc }) {
-          ...comments_result
+          ...vote_comments_result
         }
       }
       created_at
@@ -280,7 +285,7 @@ export const subscribeVote = gql`
       candidates {
         id
         body
-        post{
+        post {
           id
         }
         votes_aggregate {
@@ -296,5 +301,5 @@ export const subscribeVote = gql`
       }
     }
   }
-  ${commentsResult}
+  ${voteCommentsResult}
 `;
