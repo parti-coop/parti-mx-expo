@@ -1,7 +1,7 @@
 import React from "react";
 import { ViewStyle } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
-import { insertUserCandidate } from "../graphql/mutation";
+import { insertUserCandidate, removeUserCandidate } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { Candidate } from "../types";
 
@@ -31,8 +31,18 @@ export default function TouchableCheckBar(props: {
       post_id: candidate.post.id,
     },
   });
+  const [unvote, {}] = useMutation(removeUserCandidate, {
+    variables: {
+      candidate_id: candidate.id,
+      user_id,
+      post_id: candidate.post.id,
+    },
+  });
   function insertHandler() {
     insert();
+  }
+  function deleteHandler() {
+    unvote();
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -48,7 +58,7 @@ export default function TouchableCheckBar(props: {
             </TORow>
           ) : (
             <TORow
-              onPress={insertHandler}
+              onPress={myVote ? deleteHandler : insertHandler}
               style={{
                 width: percentage + "%",
                 height: 27,

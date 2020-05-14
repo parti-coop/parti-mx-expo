@@ -427,3 +427,22 @@ export const insertUserCandidate = gql`
     }
   }
 `;
+
+export const removeUserCandidate = gql`
+  mutation($candidate_id: Int!, $user_id: Int!, $post_id: Int!) {
+    insert_mx_users_post_one(
+      object: { like_count: 0, post_id: $post_id }
+      on_conflict: { update_columns: [like_count], constraint: users_post_pkey }
+    ) {
+      like_count
+    }
+    delete_mx_users_candidates(
+      where: {
+        user_id: { _eq: $user_id }
+        candidate: { post_id: { _eq: $post_id } }
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
