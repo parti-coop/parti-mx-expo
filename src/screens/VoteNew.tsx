@@ -127,7 +127,9 @@ export default function VoteNew(props: {
     if (isBinary) {
       candidateObjects = [
         { body: "찬성", order: 1 },
-        { body: "반대", order: 2 },
+        { body: "중립", order: 2 },
+        { body: "반대", order: 3 },
+        { body: "잘 모르겠습니다", order: 4 },
       ];
     }
     await insert({
