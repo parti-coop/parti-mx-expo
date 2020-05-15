@@ -422,7 +422,28 @@ export const insertUserCandidate = gql`
     ) {
       affected_rows
     }
-    insert_mx_users_candidates_one(object: { candidate_id: $candidate_id }) {
+    insert_mx_users_candidates_one(
+      object: { candidate_id: $candidate_id }
+      on_conflict: { constraint: users_candidates_pkey, update_columns: [] }
+    ) {
+      count
+    }
+  }
+`;
+
+export const insertMultipleUserCandidate = gql`
+  mutation($candidate_id: Int!, $post_id: Int!) {
+    insert_mx_users_post_one(
+      object: { like_count: 1, post_id: $post_id }
+      on_conflict: { update_columns: [like_count], constraint: users_post_pkey }
+    ) {
+      like_count
+    }
+
+    insert_mx_users_candidates_one(
+      object: { candidate_id: $candidate_id }
+      on_conflict: { constraint: users_candidates_pkey, update_columns: [] }
+    ) {
       count
     }
   }
@@ -440,6 +461,19 @@ export const removeUserCandidate = gql`
       where: {
         user_id: { _eq: $user_id }
         candidate: { post_id: { _eq: $post_id } }
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const removeMultipleUserCandidate = gql`
+  mutation($candidate_id: Int!, $user_id: Int!) {
+    delete_mx_users_candidates(
+      where: {
+        user_id: { _eq: $user_id }
+        candidate_id: { _eq: $candidate_id }
       }
     ) {
       affected_rows

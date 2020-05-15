@@ -3,7 +3,12 @@ import { ViewStyle } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import Modal from "react-native-modal";
 import { showMessage } from "react-native-flash-message";
-import { insertUserCandidate, removeUserCandidate } from "../graphql/mutation";
+import {
+  insertUserCandidate,
+  removeUserCandidate,
+  insertMultipleUserCandidate,
+  removeMultipleUserCandidate,
+} from "../graphql/mutation";
 import { useStore } from "../Store";
 import { Candidate } from "../types";
 
@@ -43,10 +48,28 @@ export default function TouchableCheckBar(props: {
       post_id: candidate.post.id,
     },
   });
+  const [multipleInsert, {}] = useMutation(insertMultipleUserCandidate, {
+    variables: {
+      candidate_id: candidate.id,
+      post_id: candidate.post.id,
+    },
+  });
+  const [multipleUnvote, {}] = useMutation(removeMultipleUserCandidate, {
+    variables: {
+      candidate_id: candidate.id,
+      user_id,
+    },
+  });
   function insertHandler() {
+    if (candidate.post.metadata.isMultiple) {
+      return multipleInsert();
+    }
     insert();
   }
   function deleteHandler() {
+    if (candidate.post.metadata.isMultiple) {
+      return multipleUnvote();
+    }
     unvote();
   }
   React.useEffect(() => {
