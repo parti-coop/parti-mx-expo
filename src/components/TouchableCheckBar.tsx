@@ -2,6 +2,7 @@ import React from "react";
 import { ViewStyle } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import Modal from "react-native-modal";
+import { showMessage } from "react-native-flash-message";
 import { insertUserCandidate, removeUserCandidate } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { Candidate } from "../types";
@@ -52,8 +53,11 @@ export default function TouchableCheckBar(props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   function viewVotersHandler() {
+    if (candidate.post.metadata.isAnonymous) {
+      return showMessage({ type: "info", message: "익명투표 입니다." });
+    }
     if (count > 0) {
-      setVisible(true);
+      return setVisible(true);
     }
   }
   if (voted) {

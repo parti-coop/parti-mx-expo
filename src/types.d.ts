@@ -31,7 +31,7 @@ export type PostListType = {
   id: number;
   title: string;
   body: string;
-  metadata: { closed_at: string; closingMethod: string };
+  metadata: { closedAt: string; closingMethod: string };
   created_at: string;
   updated_at: string;
   users_aggregate: {
@@ -52,7 +52,7 @@ export type PostListType = {
 };
 export type SuggestionListType = PostListType;
 type VoteMetadata = {
-  closed_at?: string;
+  closedAt?: string;
   closingMethod: string;
   isBinary: boolean;
   isMultiple: boolean;
@@ -110,6 +110,7 @@ export type Candidate = {
   body: string;
   post: {
     id: number;
+    metadata: VoteMetadata;
   };
   votes_aggregate: {
     aggregate: {
