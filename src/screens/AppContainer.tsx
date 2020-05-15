@@ -26,10 +26,15 @@ import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
 import Search from "./Search";
+import VoteEdit from "./VoteEdit";
 
 import CustomDrawer from "../components/CustomDrawer";
 
-import { SuggestionDetailType, NoticeDetailType } from "../types";
+import {
+  SuggestionDetailType,
+  NoticeDetailType,
+  VoteDetailType,
+} from "../types";
 export type RootStackParamList = {
   Home: {};
   Intro: {};
@@ -53,6 +58,7 @@ export type RootStackParamList = {
   NoticeEdit: {
     notice: NoticeDetailType;
   };
+  VoteEdit: { vote: VoteDetailType };
   TermsPrivacy: {};
   TermsService: {};
   UserSetting: {};
@@ -101,6 +107,7 @@ export default function AppContainer() {
       <Drawer.Screen name="PasswordChange" component={PasswordChange} />
       <Drawer.Screen name="BoardSetting" component={BoardSetting} />
       <Drawer.Screen name="Search" component={Search} />
+      <Drawer.Screen name="VoteEdit" component={VoteEdit} />
     </Drawer.Navigator>
   );
 }

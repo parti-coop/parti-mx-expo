@@ -26,21 +26,13 @@ import CandidateEdit from "../components/CandidateEdit";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 
 import { File } from "../types";
-import { uploadFileUUID } from "../firebase";
+import { uploadGetUriArray } from "../firebase";
 import { useStore } from "../Store";
 import { insertVote } from "../graphql/mutation";
-function promiseArray(o: ImageInfo | File) {
-  return new Promise(async function (res) {
-    const uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
-      snap.ref.getDownloadURL()
-    );
-    res({ ...o, uri });
-  });
-}
 
 export default function VoteNew(props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionNew">;
-  route: RouteProp<RootStackParamList, "SuggestionNew">;
+  navigation: StackNavigationProp<RootStackParamList, "VoteNew">;
+  route: RouteProp<RootStackParamList, "VoteNew">;
 }) {
   const { boardId, boardName } = props.route.params;
   const [insert, { loading }] = useMutation(insertVote);
@@ -112,12 +104,12 @@ export default function VoteNew(props: {
     let images = null;
     dispatch({ type: "SET_LOADING", loading: true });
     if (imageArr.length > 0) {
-      const urlArr = await Promise.all(imageArr.map(promiseArray));
+      const urlArr = await Promise.all(imageArr.map(uploadGetUriArray));
       images = urlArr;
     }
     let files = null;
     if (fileArr.length > 0) {
-      const urlArr = await Promise.all(fileArr.map(promiseArray));
+      const urlArr = await Promise.all(fileArr.map(uploadGetUriArray));
       files = urlArr;
     }
     let candidateObjects = candidates.map((c, i) => ({

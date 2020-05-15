@@ -1,5 +1,6 @@
 type Modify<T, R> = Omit<T, keyof R> & R;
-
+import { File } from "./types";
+import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as firebase from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
 // import * as GoogleSignIn from "expo-google-sign-in";
@@ -65,4 +66,16 @@ export async function getUserId(refresh = false): Promise<number | null> {
   } else {
     return null;
   }
+}
+
+export async function uploadGetUriArray(o: ImageInfo | File) {
+  return new Promise(async function (res) {
+    let uri = o.uri;
+    if (uri.startsWith("file://")) {
+      uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
+        snap.ref.getDownloadURL()
+      );
+    }
+    return res({ ...o, uri });
+  });
 }

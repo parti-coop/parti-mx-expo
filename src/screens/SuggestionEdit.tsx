@@ -26,7 +26,7 @@ import ViewNewImageFile from "../components/ViewNewImageFile";
 import { useStore } from "../Store";
 import { updatePost } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
-import { uploadFileUUID } from "../firebase";
+import { uploadGetUriArray } from "../firebase";
 import { File } from "../types";
 
 import iconClosed from "../../assets/iconClosed.png";
@@ -42,18 +42,6 @@ const labelStyle: StyleProp<TextStyle> = {
   color: "#12BD8E",
   width: 80,
 };
-
-function promiseArray(o: ImageInfo | File) {
-  return new Promise(async function (res) {
-    let uri = o.uri;
-    if (uri.startsWith("file://")) {
-      uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
-        snap.ref.getDownloadURL()
-      );
-    }
-    return res({ ...o, uri });
-  });
-}
 
 export default function SuggestionEdit(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionEdit">;
@@ -101,12 +89,12 @@ export default function SuggestionEdit(props: {
     dispatch({ type: "SET_LOADING", loading: true });
     let images = null;
     if (imageArr.length > 0) {
-      const urlArr = await Promise.all(imageArr.map(promiseArray));
+      const urlArr = await Promise.all(imageArr.map(uploadGetUriArray));
       images = urlArr;
     }
     let files = null;
     if (fileArr.length > 0) {
-      const urlArr = await Promise.all(fileArr.map(promiseArray));
+      const urlArr = await Promise.all(fileArr.map(uploadGetUriArray));
       files = urlArr;
     }
     await update({
