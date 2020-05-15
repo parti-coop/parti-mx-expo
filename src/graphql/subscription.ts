@@ -295,8 +295,17 @@ export const subscribeVote = gql`
             }
           }
         }
-        votes(where: { user_id: { _eq: $user_id } }) {
+        myVote: votes(where: { user_id: { _eq: $user_id } }) {
           count
+        }
+        votes {
+          count
+          created_at
+          user {
+            name
+            photo_url
+            id
+          }
         }
       }
     }

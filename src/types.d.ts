@@ -13,18 +13,10 @@ export interface Comment {
   id: number;
   body: string;
   updated_at: string;
-  user: {
-    name: string;
-    checkedPosts?: [{ like_count: number }];
-    photo_url: string;
-    id: number;
-    candidates?: [Candidate];
-  };
+  user: User;
   likes: [
     {
-      user: {
-        name: string;
-      };
+      user: User;
     }
   ];
   likes_aggregate: {
@@ -50,12 +42,8 @@ export type PostListType = {
     };
   };
   users: Array<{ like_count: number; updated_at: string }>;
-  updatedBy: {
-    name: string;
-  };
-  createdBy: {
-    name: string;
-  };
+  updatedBy: User;
+  createdBy: User;
   comments_aggregate: {
     aggregate: {
       count: number;
@@ -75,9 +63,11 @@ export interface VoteListType extends PostListType {
 }
 
 export type User = {
-  id?: number;
+  id: number;
   name: string;
   photo_url: string;
+  checkedPosts?: [{ like_count: number }];
+  candidates?: [Candidate];
 };
 
 export type PostDetailType = {
@@ -128,11 +118,14 @@ export type Candidate = {
       };
     };
   };
-  votes: [
+  myVote: [
     {
       count: number;
+      created_at?: string;
+      user?: User;
     }
   ];
+  votes: { user: User; count: number; created_at: string }[];
 };
 export interface VoteDetailType extends PostDetailType {
   users_aggregate: {
