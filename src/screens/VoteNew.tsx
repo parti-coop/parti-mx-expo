@@ -43,6 +43,7 @@ export default function VoteNew(props: {
   const [isBinary, setBinary] = React.useState(false);
   const [isMultiple, setMultiple] = React.useState(false);
   const [isAnonymous, setAnonymous] = React.useState(false);
+  const [isResultHidden, setResultHidden] = React.useState(false);
   const [closingMethod, setClosingMethod] = React.useState("3days");
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
@@ -130,7 +131,13 @@ export default function VoteNew(props: {
         body,
         board_id: boardId,
         group_id,
-        metadata: { isBinary, isMultiple, isAnonymous, closingMethod },
+        metadata: {
+          isBinary,
+          isMultiple,
+          isAnonymous,
+          closingMethod,
+          isResultHidden,
+        },
         images,
         files,
         candidates: candidateObjects,
@@ -227,6 +234,15 @@ export default function VoteNew(props: {
               익명 투표
             </Mint13>
             <ToggleBox value={isAnonymous} changeHandler={setAnonymous} />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ paddingVertical: 15 }}>
+              종료 될 때까지 중간 투표 집계를 숨깁니다.
+            </Mint13>
+            <ToggleBox value={isResultHidden} changeHandler={setResultHidden} />
           </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>

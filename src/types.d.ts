@@ -57,6 +57,7 @@ type VoteMetadata = {
   isBinary: boolean;
   isMultiple: boolean;
   isAnonymous: boolean;
+  isResultHidden: boolean;
 };
 export interface VoteListType extends PostListType {
   metadata: VoteMetadata;

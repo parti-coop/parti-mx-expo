@@ -62,14 +62,19 @@ export default function TouchableCheckBar(props: {
       user_id,
     },
   });
+  const {
+    isMultiple = false,
+    isResultHidden = false,
+    isAnonymous = false,
+  } = candidate?.post?.metadata;
   function insertHandler() {
-    if (candidate.post.metadata.isMultiple) {
+    if (isMultiple) {
       return multipleInsert();
     }
     insert();
   }
   function deleteHandler() {
-    if (candidate.post.metadata.isMultiple) {
+    if (isMultiple) {
       return multipleUnvote();
     }
     unvote();
@@ -77,15 +82,28 @@ export default function TouchableCheckBar(props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
+
   function viewVotersHandler() {
-    if (candidate.post.metadata.isAnonymous) {
+    if (isAnonymous) {
       return showMessage({ type: "info", message: "익명투표 입니다." });
     }
     if (count > 0) {
       return setVisible(true);
     }
   }
-  if (voted) {
+
+  const OnlyCheckbox = (
+    <TORow style={style} onPress={myVote ? deleteHandler : insertHandler}>
+      <ViewCheckbox value={myVote} style={{ marginRight: 9 }} />
+      <Body16>{candidate?.body}</Body16>
+    </TORow>
+  );
+
+  if (isResultHidden) {
+    return OnlyCheckbox;
+  } else if (!voted) {
+    return OnlyCheckbox;
+  } else {
     return (
       <ViewRow style={[{}, style]}>
         <View style={{ flex: 1 }}>
@@ -147,13 +165,6 @@ export default function TouchableCheckBar(props: {
           </KeyboardAwareScrollView>
         </Modal>
       </ViewRow>
-    );
-  } else {
-    return (
-      <TORow style={style} onPress={insertHandler}>
-        <ViewCheckbox value={false} style={{ marginRight: 9 }} />
-        <Body16>{candidate?.body}</Body16>
-      </TORow>
     );
   }
 }
