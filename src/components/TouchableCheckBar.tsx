@@ -26,13 +26,15 @@ export default function TouchableCheckBar(props: {
   style?: ViewStyle;
   candidate: Candidate;
   total: number;
+  max: number;
   voted: boolean;
 }) {
-  const { style, candidate, total = 0, voted = false } = props;
+  const { style, candidate, total = 0, voted = false, max = 1 } = props;
   const [{ user_id }, dispatch] = useStore();
   const myVote = !!candidate?.myVote?.[0]?.count;
   const count = candidate?.votes_aggregate?.aggregate?.sum?.count || 0;
   const percentage = Math.round((count * 100) / total) || 0;
+  const width = Math.round((count * 100) / max) || 0;
   const [isVisible, setVisible] = React.useState(false);
   const [insert, { loading }] = useMutation(insertUserCandidate, {
     variables: {
@@ -96,7 +98,7 @@ export default function TouchableCheckBar(props: {
             <TORow
               onPress={myVote ? deleteHandler : insertHandler}
               style={{
-                width: percentage + "%",
+                width: width + "%",
                 height: 27,
                 borderRadius: 13.5,
                 backgroundColor: "#e9c149",

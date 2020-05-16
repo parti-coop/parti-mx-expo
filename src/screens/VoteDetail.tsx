@@ -79,6 +79,11 @@ export default function VoteDetail(props: {
     (p, c) => p + c?.votes_aggregate?.aggregate?.sum?.count || 0,
     0
   );
+  const maxVoteCount = Math.max(
+    ...(candidates?.map(
+      (c) => c?.votes_aggregate?.aggregate?.sum?.count || 0
+    ) ?? [])
+  );
   const closingDays = metadata?.closingMethod?.replace("days", "");
   const closingAt = closingMonthDateFrom(created_at, Number(closingDays));
   if (totalVoteCount === 0) {
@@ -123,6 +128,7 @@ export default function VoteDetail(props: {
                     key={i}
                     candidate={c}
                     voted={voted}
+                    max={maxVoteCount}
                     total={totalVoteCount}
                     style={{ marginTop: 10 }}
                   />
