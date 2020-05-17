@@ -1,8 +1,14 @@
 import React from "react";
-import { ViewStyle, StyleProp } from "react-native";
+import {
+  ViewStyle,
+  StyleProp,
+  GestureResponderEvent,
+  Dimensions,
+} from "react-native";
 import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@apollo/react-hooks";
 import { showMessage } from "react-native-flash-message";
+import Modal from "react-native-modal";
 
 import { View, ViewRow } from "./View";
 import { Image } from "./Image";
@@ -11,8 +17,10 @@ import { Mint15, Title14, Title15 } from "./Text";
 
 import { updateBoardPermission } from "../graphql/mutation";
 
-import selectbox from "../../assets/selectbox.png";
 import iconSelected from "../../assets/iconSelected.png";
+import btnFormSelect from "../../assets/btnFormSelect.png";
+
+const windowHeight = Dimensions.get("window").height;
 const boxStyle: StyleProp<ViewStyle> = {
   backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.32)",
@@ -27,7 +35,6 @@ const boxStyle: StyleProp<ViewStyle> = {
   borderTopLeftRadius: 0,
   width: 207,
   position: "absolute",
-  left: 50,
   zIndex: 1,
 };
 
@@ -44,6 +51,10 @@ export default function ButtonBoardType(props: {
   const [isVisible, setVisible] = React.useState(false);
   const [permission, setPermission] = React.useState(props.permission);
   const [update, { error }] = useMutation(updateBoardPermission);
+  const [position, setPosition] = React.useState<{
+    top?: number;
+    bottom?: number;
+  }>({ top: 0 });
   const boardType = options.find((o) => o.value === permission).label;
   function valueChangeHandler(value: string) {
     setPermission(value);
@@ -67,17 +78,29 @@ export default function ButtonBoardType(props: {
   if (error) {
     console.log(error);
   }
+  function toggleHandler(event: GestureResponderEvent) {
+    const { pageY } = event.nativeEvent;
+    if (pageY > windowHeight - 200) {
+      setPosition({ bottom: 0 });
+    } else {
+      setPosition({ top: pageY });
+    }
+    setVisible(!isVisible);
+  }
   return (
     <>
-      <TORow
-        style={[{ width: 70 }, style]}
-        onPress={() => setVisible(!isVisible)}
-      >
+      <TORow style={[{ width: 70 }, style]} onPress={toggleHandler}>
         <Title14 style={{ flex: 1 }}>{boardType}</Title14>
-        <Image source={selectbox} />
+        <Image source={btnFormSelect} />
       </TORow>
-      {isVisible && (
-        <View style={[boxStyle]}>
+      <Modal
+        isVisible={isVisible}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        backdropOpacity={0}
+        onBackdropPress={() => setVisible(false)}
+      >
+        <View style={[boxStyle, position]}>
           {options.map((item, i) => (
             <TouchableOpacity
               key={i}
@@ -100,7 +123,7 @@ export default function ButtonBoardType(props: {
             </TouchableOpacity>
           ))}
         </View>
-      )}
+      </Modal>
     </>
   );
 }

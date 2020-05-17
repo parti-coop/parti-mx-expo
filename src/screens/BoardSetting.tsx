@@ -1,14 +1,10 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useSubscription } from "@apollo/react-hooks";
 
-import { RootStackParamList } from "./AppContainer";
-import { Text, Title22, Mint13 } from "../components/Text";
-import { ViewRow, View } from "../components/View";
-import { TouchableOpacity, TO1 } from "../components/TouchableOpacity";
+import { Title22, Mint13 } from "../components/Text";
+import { View } from "../components/View";
+import {} from "../components/TouchableOpacity";
 import BoardSettingList from "../components/BoardSettingList";
 import ButtonBoardInsert from "../components/ButtonBoardInsert";
 import HeaderBack from "../components/HeaderBack";
