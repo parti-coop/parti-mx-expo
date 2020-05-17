@@ -35,7 +35,7 @@
     "expo-google-sign-in": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-secure-store": "~8.1.0",
-    "expo-updates": "~0.1.2",
+    "expo-updates": "~0.2.1",
     "firebase": "7.9.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
