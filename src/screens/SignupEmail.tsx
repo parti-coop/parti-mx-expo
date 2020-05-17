@@ -46,6 +46,12 @@ export default function SingupEmail(props) {
     if (checkboxes.includes(false)) {
       return showMessage({ type: "warning", message: "약관에 동의해주세요" });
     }
+    if (password.length < 8) {
+      return showMessage({
+        type: "warning",
+        message: "비밀번호는 8자 이상이어야 합니다.",
+      });
+    }
     dispatch({ type: "SET_LOADING", loading: true });
     try {
       const credential = await auth.createUserWithEmailAndPassword(

@@ -15,7 +15,7 @@ import { auth, Firebase } from "../firebase";
 
 export default function PasswordChange(props) {
   const { goBack } = props.navigation;
-  const [store, dispatch] = useStore();
+  const [, dispatch] = useStore();
   const [oldP, setOldP] = React.useState("");
   const [newP, setNewP] = React.useState("");
   function resetInput() {
@@ -30,6 +30,12 @@ export default function PasswordChange(props) {
   async function reauth() {
     if (!(oldP && newP)) {
       return showMessage({ type: "info", message: "모두 입력하십시오" });
+    }
+    if (newP.length < 8) {
+      return showMessage({
+        type: "warning",
+        message: "비밀번호는 8자 이상이어야 합니다.",
+      });
     }
     const credential = Firebase.auth.EmailAuthProvider.credential(
       auth.currentUser.email,
