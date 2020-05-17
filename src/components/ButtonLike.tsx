@@ -22,20 +22,24 @@ const bgMenuBgCopy = {
   borderColor: "#f35f5f",
 } as ViewStyle;
 
-export default (props: {
+export default function ButtonLike(props: {
   id: number;
   created_at: string;
-  closingMethod: number;
-}) => {
+  closingMethod: string;
+}) {
   const [, dispatch] = useStore();
-  const { created_at, closingMethod = 0, id } = props;
+  const { created_at, closingMethod = "30days", id } = props;
   const [vote, { loading }] = useMutation(likeSuggestion, {
     variables: { id },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  const closingAt = closingDateFrom(created_at);
+  let after = 30;
+  try {
+    after = Number(closingMethod.replace("days", ""));
+  } catch (error) {}
+  const closingAt = closingDateFrom(created_at, after);
   function voteHandler() {
     vote().then(() =>
       showMessage({
@@ -50,18 +54,16 @@ export default (props: {
         <Image source={iconAgree} style={{ margin: 4, tintColor: "#f35f5f" }} />
         <Red16>이 제안에 동의합니다</Red16>
       </TORowCenter>
-      {closingMethod === 0 && (
-        <Text
-          style={{
-            fontSize: 12,
-            textAlign: "center",
-            color: "#f35f5f",
-            marginTop: 10,
-          }}
-        >
-          {closingAt}까지 동의할 수 있습니다
-        </Text>
-      )}
+      <Text
+        style={{
+          fontSize: 12,
+          textAlign: "center",
+          color: "#f35f5f",
+          marginTop: 10,
+        }}
+      >
+        {closingAt}까지 동의할 수 있습니다
+      </Text>
     </>
   );
-};
+}
