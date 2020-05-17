@@ -480,3 +480,30 @@ export const removeMultipleUserCandidate = gql`
     }
   }
 `;
+
+export const updateVote = gql`
+  mutation(
+    $id: Int!
+    $title: String!
+    $body: String!
+    $metadata: jsonb = {}
+    $images: jsonb
+    $files: jsonb
+    $deletingIds: [Int!]
+    $candidates: [mx_candidates_insert_input!]!
+  ) {
+    update_mx_posts(
+      where: { id: { _eq: $id } }
+      _set: { body: $body, title: $title, images: $images, files: $files }
+      _append: { metadata: $metadata }
+    ) {
+      affected_rows
+    }
+    delete_mx_candidates(where: { id: { _in: $deletingIds } }) {
+      affected_rows
+    }
+    insert_mx_candidates(objects: $candidates) {
+      affected_rows
+    }
+  }
+`;

@@ -41,7 +41,7 @@ export default function TouchableClosingMethod(props: {
   items: Array<{ value: Value; label: string }>;
 }) {
   const { items, value, onChange } = props;
-  const currentItem = items.find((i) => i.value === value);
+  const currentItem = items.find((i) => i.value === value) ?? items[0];
   const [isVisible, setVisible] = React.useState(false);
   const [position, setPosition] = React.useState<{
     top?: number;

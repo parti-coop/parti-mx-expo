@@ -22,7 +22,7 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { bgStyle, textStyle } from "../components/Styles";
 import BottomImageFile from "../components/BottomImageFile";
 import ViewNewImageFile from "../components/ViewNewImageFile";
-import CandidateEdit from "../components/CandidateEdit";
+import CandidateNew from "../components/CandidateNew";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 
 import { File } from "../types";
@@ -58,6 +58,12 @@ export default function VoteNew(props: {
     setBody("");
     setImageArr([]);
     setFileArr([]);
+    setClosingMethod("3days");
+    setResultHidden(false);
+    setAnonymous(false);
+    setMultiple(false);
+    setBinary(false);
+    setCandidates(["", ""]);
   }
   useFocusEffect(
     React.useCallback(() => {
@@ -147,6 +153,11 @@ export default function VoteNew(props: {
     navigate("VoteList");
   }
   React.useEffect(() => {
+    if (isBinary) {
+      setMultiple(false);
+    }
+  }, [isBinary]);
+  React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
@@ -191,7 +202,7 @@ export default function VoteNew(props: {
               style={{ paddingHorizontal: 30, paddingVertical: 20, flex: 1 }}
             >
               <Mint13 style={{}}>투표 항목</Mint13>
-              <CandidateEdit values={candidates} setValues={setCandidates} />
+              <CandidateNew values={candidates} setValues={setCandidates} />
             </View>
           </View>
         )}

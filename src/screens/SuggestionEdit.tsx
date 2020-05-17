@@ -4,7 +4,11 @@ import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { launchImageLibraryAsync } from "expo-image-picker";
-import { useNavigation, RouteProp } from "@react-navigation/native";
+import {
+  useNavigation,
+  RouteProp,
+  useFocusEffect,
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import * as DocumentPicker from "expo-document-picker";
 
@@ -28,8 +32,6 @@ import { updatePost } from "../graphql/mutation";
 import { RootStackParamList } from "./AppContainer";
 import { uploadGetUriArray } from "../firebase";
 import { File } from "../types";
-
-import iconClosed from "../../assets/iconClosed.png";
 
 const options = [
   { label: "30일 후 종료", value: 0 },
@@ -117,14 +119,15 @@ export default function SuggestionEdit(props: {
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
-  React.useEffect(() => {
+  function resetInput() {
     setTitle(suggestion.title);
     setSContext(suggestion.context);
     setBody(suggestion.body);
     setClosingMethod(suggestion.metadata?.closingMethod ?? 0);
     setImageArr(suggestion.images ?? []);
     setFileArr(suggestion.files ?? []);
-  }, [suggestion]);
+  }
+  useFocusEffect(React.useCallback(resetInput, [suggestion]));
   return (
     <>
       <HeaderConfirm onPress={updateHandler} />
@@ -153,7 +156,7 @@ export default function SuggestionEdit(props: {
               paddingHorizontal: 30,
             }}
           >
-            <Text style={labelStyle}>종료 방법</Text>
+            <Text style={[labelStyle, { paddingVertical: 15 }]}>종료 방법</Text>
             <TouchableClosingMethod
               value={closingMethod}
               onChange={setClosingMethod}
@@ -171,7 +174,7 @@ export default function SuggestionEdit(props: {
               placeholder="제안 배경을 입력해 주세요"
               placeholderTextColor="#999999"
               onChangeText={setSContext}
-              style={[textStyle, , { minHeight: 50 }]}
+              style={[textStyle, { minHeight: 50 }]}
               ref={contextRef}
             />
           </View>

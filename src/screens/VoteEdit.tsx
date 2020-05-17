@@ -22,47 +22,72 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import { bgStyle, textStyle } from "../components/Styles";
 import BottomImageFile from "../components/BottomImageFile";
 import ViewNewImageFile from "../components/ViewNewImageFile";
-import CandidateEdit from "../components/CandidateEdit";
+import CandidateEdit, {
+  removingIds,
+  addingCandidates,
+} from "../components/CandidateEdit";
 import TouchableClosingMethod from "../components/TouchableClosingMethod";
 
 import { uploadGetUriArray } from "../firebase";
 import { File } from "../types";
 import { useStore } from "../Store";
-import { updatePost } from "../graphql/mutation";
+import { updateVote } from "../graphql/mutation";
 
 export default function VoteEdit(props: {
   navigation: StackNavigationProp<RootStackParamList, "VoteEdit">;
   route: RouteProp<RootStackParamList, "VoteEdit">;
 }) {
   const { vote } = props.route.params;
-  const [update, { loading }] = useMutation(updatePost);
-  const [{ group_id }, dispatch] = useStore();
-  const [title, setTitle] = React.useState("");
-  const [body, setBody] = React.useState("");
-  const [candidates, setCandidates] = React.useState(["", ""]);
-  const [isBinary, setBinary] = React.useState(false);
-  const [isMultiple, setMultiple] = React.useState(false);
-  const [isAnonymous, setAnonymous] = React.useState(false);
-  const [closingMethod, setClosingMethod] = React.useState("3days");
-  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
-    []
+  const [update, { loading }] = useMutation(updateVote);
+  const [, dispatch] = useStore();
+  const [title, setTitle] = React.useState(vote.title);
+  const [body, setBody] = React.useState(vote.body);
+  const [candidates, setCandidates] = React.useState(
+    [...vote.candidates] ?? []
   );
-  const [fileArr, setFileArr] = React.useState<Array<File>>([]);
+  const [isBinary, setBinary] = React.useState(vote.metadata.isBinary ?? false);
+  const [isMultiple, setMultiple] = React.useState(
+    vote.metadata.isMultiple ?? false
+  );
+  const [isAnonymous, setAnonymous] = React.useState(
+    vote.metadata.isAnonymous ?? false
+  );
+  const [isResultHidden, setResultHidden] = React.useState(
+    vote.metadata.isResultHidden ?? false
+  );
+  const [closingMethod, setClosingMethod] = React.useState(
+    vote.metadata.closingMethod ?? "3days"
+  );
+  const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
+    vote.images ?? []
+  );
+  const [fileArr, setFileArr] = React.useState<Array<File>>(vote.files ?? []);
   const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
-
   const { goBack } = useNavigation();
+
   function resetInput() {
-    setTitle("");
-    setBody("");
-    setImageArr([]);
-    setFileArr([]);
+    setTitle(vote.title);
+    setBody(vote.body);
+    setClosingMethod(vote.metadata?.closingMethod ?? "3days");
+    setResultHidden(vote.metadata?.isResultHidden ?? false);
+    setAnonymous(vote.metadata?.isAnonymous ?? false);
+    setMultiple(vote.metadata?.isMultiple ?? false);
+    setBinary(vote.metadata?.isBinary ?? false);
+    setImageArr(vote.images ?? []);
+    setFileArr(vote.files ?? []);
+    setCandidates([...vote.candidates] ?? []);
+    removingIds.length = 0;
+    for (let i in addingCandidates) {
+      delete addingCandidates[i];
+    }
   }
-  useFocusEffect(
-    React.useCallback(() => {
-      return resetInput;
-    }, [])
-  );
+  React.useEffect(() => {
+    if (isBinary) {
+      setMultiple(false);
+    }
+  }, [isBinary]);
+  useFocusEffect(React.useCallback(resetInput, [vote]));
   async function imageUploadHandler() {
     Keyboard.dismiss();
     return launchImageLibraryAsync({
@@ -100,7 +125,6 @@ export default function VoteEdit(props: {
         type: "warning",
       });
     }
-
     let images = null;
     dispatch({ type: "SET_LOADING", loading: true });
     if (imageArr.length > 0) {
@@ -112,26 +136,28 @@ export default function VoteEdit(props: {
       const urlArr = await Promise.all(fileArr.map(uploadGetUriArray));
       files = urlArr;
     }
-    let candidateObjects = candidates.map((c, i) => ({
-      body: c,
-      order: i + 1,
-    }));
-    if (isBinary) {
-      candidateObjects = [
-        { body: "찬성", order: 1 },
-        { body: "중립", order: 2 },
-        { body: "반대", order: 3 },
-        { body: "잘 모르겠습니다", order: 4 },
-      ];
+    const candidateArray = [];
+    for (const body in addingCandidates) {
+      const order = addingCandidates[body];
+      candidateArray.push({ order, body, post_id: vote.id });
     }
+    console.log(candidateArray, removingIds, addingCandidates);
     await update({
       variables: {
         body,
         title,
-        metadata: { closingMethod },
+        metadata: {
+          isBinary,
+          isMultiple,
+          isAnonymous,
+          closingMethod,
+          isResultHidden,
+        },
         id: vote.id,
         images,
         files,
+        candidates: candidateArray,
+        deletingIds: removingIds,
       },
     });
     showMessage({
@@ -152,7 +178,7 @@ export default function VoteEdit(props: {
         <View
           style={{ paddingHorizontal: 28, paddingBottom: 30, paddingTop: 20 }}
         >
-          <Title22>글 쓰기</Title22>
+          <Title22>투표 수정</Title22>
         </View>
         <View style={bgStyle}>
           <ViewRow style={{ paddingHorizontal: 30 }}>
@@ -228,6 +254,15 @@ export default function VoteEdit(props: {
               익명 투표
             </Mint13>
             <ToggleBox value={isAnonymous} changeHandler={setAnonymous} />
+          </ViewRow>
+          <LineSeperator />
+          <ViewRow
+            style={{ paddingHorizontal: 30, justifyContent: "space-between" }}
+          >
+            <Mint13 style={{ paddingVertical: 15 }}>
+              종료 될 때까지 중간 투표 집계를 숨깁니다.
+            </Mint13>
+            <ToggleBox value={isResultHidden} changeHandler={setResultHidden} />
           </ViewRow>
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
