@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Vibration, Keyboard } from "react-native";
+import {} from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp, useFocusEffect } from "@react-navigation/native";
@@ -7,9 +7,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { useNavigation } from "@react-navigation/native";
-import { launchImageLibraryAsync } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
-import * as DocumentPicker from "expo-document-picker";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Title22, Mint13 } from "../components/Text";
@@ -55,24 +53,6 @@ export default function NoticeNew(props: {
       return resetInput;
     }, [])
   );
-
-  async function imageUploadHandler() {
-    Keyboard.dismiss();
-    return launchImageLibraryAsync({
-      quality: 1,
-    }).then(({ cancelled, ...res }) => {
-      if (cancelled !== true) {
-        setImageArr([...imageArr, res as ImageInfo]);
-      }
-    });
-  }
-  async function fileUploadHandler() {
-    const file = await DocumentPicker.getDocumentAsync();
-    const { type, ...rest } = file;
-    if (type === "success") {
-      setFileArr([...fileArr, rest as File]);
-    }
-  }
 
   async function insertPressHandler() {
     if (!title.trim()) {
@@ -172,8 +152,10 @@ export default function NoticeNew(props: {
             setImageArr={setImageArr}
           />
           <BottomImageFile
-            onFile={fileUploadHandler}
-            onImage={imageUploadHandler}
+            imageArr={imageArr}
+            fileArr={fileArr}
+            setFileArr={setFileArr}
+            setImageArr={setImageArr}
           />
         </View>
       </KeyboardAwareScrollView>

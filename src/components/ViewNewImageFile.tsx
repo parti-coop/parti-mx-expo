@@ -55,15 +55,11 @@ export default function BottomImageFile(props: {
         <>
           <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
             {imageArr.map((o, i) => (
-              <TWF0
-                key={i}
-                style={{ marginBottom: 10 }}
-                onLongPress={() => imageLongpressHandler(i)}
-              >
+              <TWF0 key={i} onLongPress={() => imageLongpressHandler(i)}>
                 <Image
                   source={o}
                   resizeMode="cover"
-                  style={{ width: "100%", height: 186 }}
+                  style={{ width: "100%", height: 186, marginBottom: 10 }}
                 />
               </TWF0>
             ))}
