@@ -33,7 +33,7 @@ export default function CommentReList(props: {
   style?: ViewStyle;
 }) {
   const { comment, edit: editHandler, style, recomment } = props;
-  const { id, body, likes_aggregate, user, updated_at, likes } = comment;
+  const { id, body, likes_aggregate, user, updated_at, likes, post } = comment;
   const [isVisible, setVisible] = React.useState(false);
   const [{ user_id }] = useStore();
   const [report] = useReport(id, "comment");
@@ -57,8 +57,10 @@ export default function CommentReList(props: {
   let attitude = null;
   if (user?.checkedPosts?.[0]?.like_count) {
     attitude = "동의";
-  } else if (user?.candidates?.[0]?.body) {
-    attitude = user?.candidates?.[0]?.body;
+  } else if (user?.votes?.length > 0) {
+    if (post.metadata.isAnonymous !== true) {
+      attitude = user.votes.map((v) => v.candidate.body).join(",");
+    }
   }
   return (
     <View

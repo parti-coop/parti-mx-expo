@@ -152,7 +152,14 @@ export default function TouchableCheckBar(props: {
             style={[whiteRoundBg, { marginVertical: 100 }]}
             contentContainerStyle={{ flex: 0 }}
           >
-            <ViewRow style={{ padding: 30, flex: 0 }}>
+            <ViewRow
+              style={{
+                padding: 30,
+                flex: 0,
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+              }}
+            >
               {candidate.votes.map((u, i: number) => (
                 <UserProfileNameDate
                   name={u.user.name}

@@ -28,20 +28,18 @@ export const voteCommentsResult = gql`
   fragment vote_comments_result on mx_comments {
     id
     body
+    post {
+      metadata
+    }
     updated_at
     user {
       id
       name
       photo_url
-      candidates(
-        where: {
-          _and: [
-            { post_id: { _eq: $id } }
-            { votes: { user_id: { _eq: $user_id } } }
-          ]
+      votes(where: { candidate: { post_id: { _eq: $id } } }) {
+        candidate {
+          body
         }
-      ) {
-        body
       }
     }
     likes(where: { user_id: { _eq: $user_id } }) {

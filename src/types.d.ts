@@ -25,6 +25,7 @@ export interface Comment {
     };
   };
   re?: Comment[];
+  post?: VoteDetailType;
 }
 
 export type PostListType = {
@@ -68,7 +69,7 @@ export type User = {
   name: string;
   photo_url: string;
   checkedPosts?: [{ like_count: number }];
-  candidates?: [Candidate];
+  votes?: Vote[];
 };
 
 export type PostDetailType = {
@@ -106,6 +107,13 @@ export interface NoticeDetailType extends PostDetailType {
     };
   };
 }
+export type Vote = {
+  user: User;
+  count: number;
+  created_at: string;
+  candidate: Candidate;
+};
+
 export type Candidate = {
   id: number;
   body: string;
@@ -127,7 +135,7 @@ export type Candidate = {
       user?: User;
     }
   ];
-  votes: { user: User; count: number; created_at: string }[];
+  votes: Vote[];
 };
 export interface VoteDetailType extends PostDetailType {
   users_aggregate: {
