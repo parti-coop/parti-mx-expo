@@ -1,5 +1,5 @@
 import React from "react";
-import { ViewStyle, StyleProp } from "react-native";
+import { ViewStyle, StyleProp, Platform } from "react-native";
 import Modal from "react-native-modal";
 
 import { Image } from "./Image";
@@ -8,6 +8,7 @@ import { White15 } from "./Text";
 import { TouchableOpacity, TOCenter } from "./TouchableOpacity";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
+const minus = Platform.select({ios: 1, android: 2})
 
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
@@ -46,8 +47,8 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     btnRef.current.measure(
       (x, y, width, height: number, pageX: number, pageY: number) =>
         setLayout({
-          top: pageY + height / 2 - 1,
-          left: pageX - 182 + width / 2 - 1,
+          top: pageY + height / 2 - minus,
+          left: pageX - 182 + width / 2 - minus,
         })
     );
     setVisible(true);
