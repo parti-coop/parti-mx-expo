@@ -3,7 +3,6 @@ import { File } from "./types";
 import { ImageInfo } from "expo-image-picker/src/ImagePicker.types";
 import * as firebase from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
-// import * as GoogleSignIn from "expo-google-sign-in";
 // import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
