@@ -1,7 +1,7 @@
 import React from "react";
-import { Keyboard, TextProps, ViewProps } from "react-native";
+import { TextProps } from "react-native";
 import uuid from "uuid";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useMutation } from "@apollo/react-hooks";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
@@ -11,7 +11,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { RootStackParamList } from "./AppContainer";
 import { TextInput } from "../components/TextInput";
-import { Text, Mint13 } from "../components/Text";
+import { Text, Mint13, Title22 } from "../components/Text";
 import { View, ViewRow, ViewColumnStretch, V0 } from "../components/View";
 import UserProfileBig from "../components/UserProfileBig";
 import HeaderConfirm from "../components/HeaderConfirm";
@@ -66,13 +66,14 @@ export default function Profile(props: {
       setUserName(data.mx_users[0].name ?? "");
     }
   }, [userNameQuery]);
+  useFocusEffect(
+    React.useCallback(() => {
+      setUserName(userNameQuery?.data?.mx_users?.[0]?.name ?? "");
+    }, [])
+  );
   React.useEffect(() => {
     const { data } = searchDuplicateQuery;
     if (data?.mx_users?.length) {
-      showMessage({
-        type: "warning",
-        message: warningMsg,
-      });
       setInUse(true);
     } else {
       setInUse(false);
@@ -128,20 +129,11 @@ export default function Profile(props: {
   return (
     <>
       <HeaderConfirm onPress={saveHandler} />
-      <ViewColumnStretch
-        style={{ alignItems: "stretch", marginHorizontal: 30, marginTop: 12 }}
-      >
+      <ViewColumnStretch style={{ alignItems: "stretch", marginTop: 12 }}>
         <KeyboardAwareScrollView>
-          <View>
-            <Text
-              style={{
-                fontSize: 22,
-                color: "#333333",
-              }}
-            >
-              프로필
-            </Text>
-            <V0 style={{ marginTop: 70, marginBottom: 60 }}>
+          <View style={{ paddingHorizontal: 30 }}>
+            <Title22>프로필</Title22>
+            <V0 style={{ marginTop: 50, marginBottom: 30 }}>
               <UserProfileBig
                 url={photoUrl ?? prevPhoroUrl}
                 setUrl={setPhotoUrl}
@@ -149,8 +141,8 @@ export default function Profile(props: {
             </V0>
           </View>
 
-          <View style={[whiteRoundBg, { marginBottom: 50 }]}>
-            <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
+          <View style={[whiteRoundBg]}>
+            <ViewRow style={{ paddingTop: 26, paddingHorizontal: 25 }}>
               <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
                 value={userName}
@@ -168,8 +160,7 @@ export default function Profile(props: {
             <View
               style={{
                 paddingVertical: 5,
-                paddingHorizontal: 30,
-                paddingLeft: 80,
+                paddingLeft: 75,
                 paddingBottom: 26,
               }}
             >
@@ -185,7 +176,7 @@ export default function Profile(props: {
                 ))}
             </View>
             <LineSeperator />
-            <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 30 }}>
+            <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 25 }}>
               <Mint13 style={{ width: 40 }}>이메일</Mint13>
               <Text style={textStyle}>{email}</Text>
             </ViewRow>

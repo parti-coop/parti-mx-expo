@@ -43,7 +43,7 @@ export default function AuthProfile() {
 
   React.useEffect(() => {
     if (data?.mx_users?.length) {
-      showMessage({ type: "warning", message: warningMsg });
+      // showMessage({ type: "warning", message: warningMsg });
       setInUse(true);
     } else {
       setInUse(false);
@@ -95,19 +95,17 @@ export default function AuthProfile() {
   return (
     <>
       <HeaderOnlyConfirm onPress={saveHandler} />
-      <ViewColumnStretch
-        style={{ alignItems: "stretch", marginHorizontal: 30, marginTop: 12 }}
-      >
+      <ViewColumnStretch style={{ alignItems: "stretch", marginTop: 12 }}>
         <KeyboardAwareScrollView>
-          <View>
+          <View style={{ marginHorizontal: 30 }}>
             <Title22>프로필</Title22>
-            <V0 style={{ marginTop: 70, marginBottom: 60 }}>
+            <V0 style={{ marginTop: 50, marginBottom: 30 }}>
               <UserProfileBig url={photoUrl} setUrl={setPhotoUrl} />
             </V0>
           </View>
 
           <View style={[whiteRoundBg, { marginBottom: 50 }]}>
-            <ViewRow style={{ paddingTop: 26, paddingHorizontal: 30 }}>
+            <ViewRow style={{ paddingTop: 26, paddingHorizontal: 25 }}>
               <Mint13 style={{ width: 40 }}>닉네임</Mint13>
               <TextInput
                 value={userName}
@@ -126,7 +124,7 @@ export default function AuthProfile() {
               style={{
                 paddingVertical: 5,
                 paddingHorizontal: 30,
-                paddingLeft: 80,
+                paddingLeft: 75,
                 paddingBottom: 26,
               }}
             >
@@ -142,7 +140,7 @@ export default function AuthProfile() {
                 ))}
             </View>
             <LineSeperator />
-            <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 30 }}>
+            <ViewRow style={{ paddingVertical: 26, paddingHorizontal: 25 }}>
               <Mint13 style={{ width: 40 }}>이메일</Mint13>
               <Text style={textStyle}>{email}</Text>
             </ViewRow>
