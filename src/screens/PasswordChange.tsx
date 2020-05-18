@@ -78,7 +78,7 @@ export default function PasswordChange(props) {
             <PasswordInput
               value={oldP}
               onChangeText={setOldP}
-              placeholder="현재 비밀번호"
+              placeholder="현재 비밀번호 입력"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
@@ -88,7 +88,7 @@ export default function PasswordChange(props) {
             <PasswordInput
               value={newP}
               onChangeText={setNewP}
-              placeholder="신규 비밀번호"
+              placeholder="신규 비밀번호 입력"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
