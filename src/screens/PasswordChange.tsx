@@ -1,14 +1,14 @@
 import React from "react";
-import { ViewProps } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { Mint13, Title30 } from "../components/Text";
+import { Mint13, Title22 } from "../components/Text";
 import { View, ViewRow } from "../components/View";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { PasswordInput } from "../components/TextInput";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { whiteRoundBg } from "../components/Styles";
+import { LineSeperatorFull } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { auth, Firebase } from "../firebase";
@@ -61,35 +61,34 @@ export default function PasswordChange(props) {
       <HeaderConfirm onPress={reauth} />
       <KeyboardAwareScrollView>
         <View style={{ padding: 30, paddingTop: 6 }}>
-          <Title30>비밀번호 변경</Title30>
+          <Title22>비밀번호 변경</Title22>
         </View>
 
         <View
           style={[
             whiteRoundBg,
             {
-              marginHorizontal: 30,
-              marginVertical: 21,
               justifyContent: "center",
-              padding: 30,
+              paddingHorizontal: 20,
             },
           ]}
         >
-          <ViewRow>
+          <ViewRow style={{ paddingVertical: 10 }}>
             <Mint13>현재 비밀번호</Mint13>
             <PasswordInput
               value={oldP}
               onChangeText={setOldP}
-              placeholder="현재 비밀번호 입력"
+              placeholder="현재 비밀번호"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
-          <ViewRow>
+          <LineSeperatorFull />
+          <ViewRow style={{ paddingVertical: 10 }}>
             <Mint13>신규 비밀번호</Mint13>
             <PasswordInput
               value={newP}
               onChangeText={setNewP}
-              placeholder="신규 비밀번호 입력"
+              placeholder="신규 비밀번호"
               style={{ fontSize: 16 }}
             />
           </ViewRow>
