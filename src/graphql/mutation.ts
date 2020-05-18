@@ -128,7 +128,7 @@ export const insertComment = gql`
 `;
 
 export const updateComment = gql`
-  mutation($id: Int!, $body: String!) {
+  mutation($id: Int!, $body: String) {
     update_mx_comments(_set: { body: $body }, where: { id: { _eq: $id } }) {
       affected_rows
     }

@@ -25,6 +25,7 @@ const boxStyle: StyleProp<ViewStyle> = {
   borderTopRightRadius: 0,
   position: "absolute",
 };
+let hideHandler = () => {};
 export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
   const { items, style } = props;
   const [isVisible, setVisible] = React.useState(false);
@@ -39,7 +40,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     handler: (value?: any) => any;
   }) {
     setVisible(false);
-    item.handler(item?.value);
+    hideHandler = () => setTimeout(() => item.handler(item?.value), 100);
   }
   function openModal() {
     btnRef.current.measure(
@@ -50,6 +51,10 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
         })
     );
     setVisible(true);
+  }
+  function backdropPressHandler() {
+    hideHandler = () => {};
+    setVisible(false);
   }
   return (
     <View
@@ -83,23 +88,33 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
         animationIn="fadeIn"
         animationOut="fadeOut"
         backdropOpacity={0}
-        onBackdropPress={() => setVisible(false)}
+        onBackdropPress={backdropPressHandler}
+        onModalHide={hideHandler}
       >
         <View style={[boxStyle, layout]}>
-          {items.map((item, i) => (
-            <TouchableOpacity
-              key={i}
-              onPress={(e) => changeHandler(item)}
-              style={{ paddingHorizontal: 25 }}
-            >
-              <White15 style={{ marginVertical: 12 }}>{item.label}</White15>
-              {i !== items.length - 1 && (
-                <View
-                  style={{ width: 131, height: 1, backgroundColor: "#2ea497" }}
-                />
-              )}
-            </TouchableOpacity>
-          ))}
+          {items.map((item, i) => {
+            function pressHandler() {
+              changeHandler(item);
+            }
+            return (
+              <TouchableOpacity
+                key={i}
+                onPress={pressHandler}
+                style={{ paddingHorizontal: 25 }}
+              >
+                <White15 style={{ marginVertical: 12 }}>{item.label}</White15>
+                {i !== items.length - 1 && (
+                  <View
+                    style={{
+                      width: 131,
+                      height: 1,
+                      backgroundColor: "#2ea497",
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </Modal>
     </View>

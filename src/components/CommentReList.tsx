@@ -54,6 +54,12 @@ export default function CommentReList(props: {
     },
     { label: "삭제하기", handler: () => setVisible(true) },
   ];
+  let attitude = null;
+  if (user?.checkedPosts?.[0]?.like_count) {
+    attitude = "동의";
+  } else if (user?.candidates?.[0]?.body) {
+    attitude = user?.candidates?.[0]?.body;
+  }
   return (
     <View
       style={[
@@ -69,9 +75,7 @@ export default function CommentReList(props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        {user?.checkedPosts?.[0] && (
-          <Blue12 style={{ marginLeft: 9 }}>동의</Blue12>
-        )}
+        <Blue12 style={{ marginLeft: 9 }}>{attitude}</Blue12>
         <Grey12 style={{ marginLeft: 9, fontFamily: "notosans700" }}>
           {formatDateFromString(updated_at)}
         </Grey12>
@@ -111,13 +115,21 @@ export default function CommentReList(props: {
             <Body16>이 댓글을 삭제 하시겠습니까?</Body16>
             <ViewRowCenter style={{ marginTop: 30 }}>
               <TO1 style={{ padding: 20 }} onPress={() => setVisible(false)}>
-                <Text style={{ fontSize: 16, color: "#999999" }}>취소</Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "#999999",
+                    fontFamily: "notosans700",
+                  }}
+                >
+                  취소
+                </Text>
               </TO1>
               <View
                 style={{ width: 1, height: 13, backgroundColor: "#d6d6d6" }}
               />
               <TO1 style={{ padding: 20 }} onPress={deleteHandler}>
-                <Red16>삭제</Red16>
+                <Red16 style={{ fontFamily: "notosans700" }}>삭제</Red16>
               </TO1>
             </ViewRowCenter>
           </View>

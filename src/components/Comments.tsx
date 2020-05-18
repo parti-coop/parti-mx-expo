@@ -75,8 +75,8 @@ export default function Comments(props: {
         setComm("@" + reUser.name + " " + comm);
       }
     }
-    textinput.current.focus();
-    props.scrollRef.current.scrollToEnd();
+    // textinput.current.focus();
+    // props.scrollRef.current.scrollToEnd();
   }
   async function sendHandler() {
     setComm("");
