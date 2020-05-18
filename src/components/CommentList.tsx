@@ -4,7 +4,7 @@ import Modal from "react-native-modal";
 
 import UserCommentProfile from "./UserCommentProfile";
 import { View, ViewRow, V0, ViewRowCenter } from "./View";
-import { Text, Grey12, Body16, Red16, Mint13 } from "./Text";
+import { Text, Grey12, Body16, Red16, Mint13, Blue12 } from "./Text";
 import { TO1, TO0 } from "./TouchableOpacity";
 import ButtonLikeComment from "./ButtonLikeComment";
 import ButtonComment from "./ButtonComment";
@@ -75,7 +75,7 @@ export default function CommentList(props: {
     >
       <ViewRow>
         <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        <Mint13 style={{ marginLeft: 9 }}>{attitude}</Mint13>
+        <Blue12 style={{ marginLeft: 9 }}>{attitude}</Blue12>
         <Grey12 style={{ marginLeft: 9, fontFamily: "notosans700" }}>
           {formatDateFromString(updated_at)}
         </Grey12>
