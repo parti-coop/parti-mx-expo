@@ -57,12 +57,14 @@ export const TO0: React.FunctionComponent<TouchableOpacityProps> = (props) => (
     {props.children}
   </TO>
 );
-
-export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = (
-  props
-) => (
+// : React.FunctionComponent<TouchableOpacityProps>
+export const TOCenter = React.forwardRef<
+  TO,
+  TouchableOpacityProps & { children: React.ReactNode }
+>((props, ref) => (
   <TO
     {...props}
+    ref={ref}
     style={[
       {
         alignItems: "center",
@@ -73,7 +75,7 @@ export const TOCenter: React.FunctionComponent<TouchableOpacityProps> = (
   >
     {props.children}
   </TO>
-);
+));
 
 export const TORow: React.FunctionComponent<TouchableOpacityProps> = (
   props
