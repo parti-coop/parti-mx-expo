@@ -25,9 +25,9 @@ export default (props: {
   const [store, dispatch] = useStore();
   const boardId = props.route.params.id;
   const { group_id, user_id } = store;
-  const [sort, setSort] = React.useState("created_at");
+  const [sort, setSort] = React.useState({ created_at: "desc" });
   const { data, error, loading } = useSubscription(subscribeNoticeList, {
-    variables: { id: boardId, user_id },
+    variables: { id: boardId, user_id, sort: [sort] },
   });
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
@@ -70,7 +70,24 @@ export default (props: {
             <Title14 style={{ fontFamily: "notosans700" }}>개</Title14>
           </ViewRow>
           <PickerSelect
-            items={[{ label: "등록순", value: "created_at" }]}
+            items={[
+              { label: "최신 등록 순", value: { created_at: "desc" } },
+              { label: "오래된 등록 순", value: { created_at: "asc" } },
+              { label: "최신 수정 순", value: { updated_at: "desc" } },
+              { label: "오래된 수정 순", value: { updated_at: "asc" } },
+              {
+                label: "많은 댓글 순",
+                value: { comments_aggregate: { count: "desc" } },
+              },
+              {
+                label: "많은 공감 순",
+                value: { users_aggregate: { sum: { like_count: "desc" } } },
+              },
+              {
+                label: "많은 조회 순",
+                value: { users_aggregate: { sum: { view_count: "desc" } } },
+              },
+            ]}
             onValueChange={(value) => setSort(value)}
             value={sort}
             placeholder={{}}

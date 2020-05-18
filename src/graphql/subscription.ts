@@ -207,7 +207,7 @@ export const subscribeMemberCount = gql`
 `;
 
 export const subscribeNoticeList = gql`
-  subscription($id: Int!, $user_id: Int!) {
+  subscription($id: Int!, $user_id: Int!, $sort: [mx_posts_order_by!]) {
     mx_boards_by_pk(id: $id) {
       id
       body
@@ -219,7 +219,7 @@ export const subscribeNoticeList = gql`
         }
       }
       announcements: posts(
-        order_by: { updated_at: desc }
+        order_by: $sort
         limit: 20
         where: { metadata: { _contains: { announcement: true } } }
       ) {
@@ -227,7 +227,7 @@ export const subscribeNoticeList = gql`
       }
 
       posts: posts(
-        order_by: { updated_at: desc }
+        order_by: $sort
         limit: 20
         where: { _not: { metadata: { _contains: { announcement: true } } } }
       ) {
