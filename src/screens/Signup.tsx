@@ -54,9 +54,9 @@ export default function Singup(props) {
     <>
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>
         <Title30>회원가입</Title30>
-        <ViewRow>
+        <ViewRow style={{ marginTop: 10 }}>
           <Sub16>이미 계정이 있으신가요?</Sub16>
-          <TouchableOpacity onPress={login} style={{ marginTop: 10 }}>
+          <TouchableOpacity onPress={login}>
             <Mint16 style={{ marginLeft: 10 }}>로그인</Mint16>
           </TouchableOpacity>
         </ViewRow>

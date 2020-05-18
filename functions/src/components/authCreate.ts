@@ -6,12 +6,10 @@ type UserRecord = admin.auth.UserRecord;
 
 const query = `
 mutation($email: String!, $uid: String!) {
-  insert_mx_users(
-    objects: { email: $email,firebase_uid: $uid, name: $email }
+  insert_mx_users_one(
+    object: { email: $email,firebase_uid: $uid, name: $email }
   ) {
-    returning {
-      id
-    }
+   id
   }
 }`;
 
@@ -29,8 +27,10 @@ export default functions
         "x-hasura-admin-secret": ADMIN_SECRET,
         "x-hasura-use-backend-only-permissions": "true",
       },
-    }).then((r) => r.json());
-    const userId = res.data?.insert_mx_users?.returning[0]?.id;
+    })
+      .then((r) => r.json())
+      .catch(console.error);
+    const userId = res.data?.insert_mx_users_one?.id;
     let customClaims;
     if (user.email && user.email.indexOf("@parti.") !== -1) {
       customClaims = {

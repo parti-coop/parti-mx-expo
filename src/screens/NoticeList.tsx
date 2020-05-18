@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Platform } from "react-native";
 import { RootStackParamList } from "./AppContainer";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -97,10 +97,10 @@ export default (props: {
                 paddingRight: 20,
               },
               inputAndroid: {
-                paddingRight: 20,
+                paddingRight: 120,
               },
               iconContainer: {
-                top: 5,
+                top: Platform.select({ ios: 5, android: 22 }),
               },
             }}
           />

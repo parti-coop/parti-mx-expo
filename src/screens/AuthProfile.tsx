@@ -77,8 +77,9 @@ export default function AuthProfile() {
     const userId = await getUserId();
     if (userId === null) {
       return showMessage({
-        type: "warning",
-        message: "서버로 부터 인증을 받지 못했습니다.",
+        type: "danger",
+        message:
+          "서버로 부터 인증을 받지 못했습니다. 관리자에게 문의 바랍니다.",
       });
     }
     await updateName({

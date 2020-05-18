@@ -53,9 +53,9 @@ export default function Login(props) {
     <>
       <View style={{ marginTop: 83, marginHorizontal: 60 }}>
         <Title30>로그인</Title30>
-        <ViewRow>
+        <ViewRow style={{ marginTop: 10 }}>
           <Text style={[textStyle]}>아직 계정이 없으신가요?</Text>
-          <TouchableOpacity onPress={register} style={{ marginTop: 10 }}>
+          <TouchableOpacity onPress={register}>
             <Text style={[textStyle, { color: "#12BD8E", marginLeft: 10 }]}>
               회원가입
             </Text>
