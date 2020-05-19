@@ -19,24 +19,26 @@ import { isAfterString } from "../Utils/CalculateDays";
 
 export default function TouchableBoardList(props: {
   board: Board;
+  countObj: { [board_id: string]: number };
   style?: StyleProp<ViewStyle>;
 }) {
   const { navigate } = useNavigation();
-  const { board } = props;
+  const { board, countObj } = props;
   const [{ user_id }] = useStore();
   const [increment] = useMutation(incrementUserBoardCheck, {
     variables: { user_id, board_id: board.id },
   });
-
-  let minutes = "비어있습니다";
+  // console.log(board.newPostCount);
+  // let minutes = "비어있습니다";
   const isNew = isAfterString(
     board?.last_posted_at,
     board?.users?.[0]?.updated_at
   );
-  const lastPostedDate = new Date(board.last_posted_at);
-  if (board.last_posted_at) {
-    minutes = formatDistanceToNow(lastPostedDate, { locale: ko });
-  }
+  // const lastPostedDate = new Date(board.last_posted_at);
+  // if (board.last_posted_at) {
+  //   minutes = formatDistanceToNow(lastPostedDate, { locale: ko });
+  // }
+  const newPostCount = countObj[board.id] || 0;
 
   function goToBoard() {
     increment();
@@ -94,7 +96,9 @@ export default function TouchableBoardList(props: {
             </V0>
           )}
           {isNew && <DotRed8 style={{ marginLeft: 10 }} />}
-          <Mint14 style={{ marginLeft: 5 }}>{minutes}</Mint14>
+          {newPostCount > 0 && (
+            <Mint14 style={{ marginLeft: 5 }}>새 글 {newPostCount}</Mint14>
+          )}
         </ViewRow>
         <Text
           style={{

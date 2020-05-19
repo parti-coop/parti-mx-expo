@@ -1,9 +1,18 @@
 import React from "react";
-import { Share, ImageBackground, TextStyle } from "react-native";
-import { useNavigation, DrawerActions } from "@react-navigation/native";
-import { useSubscription } from "@apollo/react-hooks";
+import { Share, ImageBackground } from "react-native";
+import {
+  useNavigation,
+  DrawerActions,
+  useFocusEffect,
+} from "@react-navigation/native";
+import { useSubscription, useQuery } from "@apollo/react-hooks";
 
-import { View, ViewRow, V1 } from "../components/View";
+import { subscribeBoardsByGroupId } from "../graphql/subscription";
+import { queryNewPostCount } from "../graphql/query";
+import { useStore } from "../Store";
+import { GroupBoardNewPostCount } from "../types";
+
+import { View, ViewRow } from "../components/View";
 import { Title14, Text } from "../components/Text";
 import ViewGroupImg from "../components/ViewGroupImg";
 import ViewQrCode from "../components/ViewQrCode";
@@ -14,21 +23,26 @@ import TouchableBoardList from "../components/TouchableBoardList";
 import { TouchableOpacity, TO0 } from "../components/TouchableOpacity";
 import { Alert1 } from "../components/Alert";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-
 import ButtonJoinGroup from "../components/ButtonJoinGroup";
 import ViewGroupManage from "../components/ViewGroupManage";
 
-import { subscribeBoardsByGroupId } from "../graphql/subscription";
-import { useStore } from "../Store";
-
 import bgGroupMain from "../../assets/bgGroupMain.png";
-
 export default function Home() {
   const navigation = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
+  const newPostCountQuery = useQuery<GroupBoardNewPostCount>(
+    queryNewPostCount,
+    {
+      variables: { group_id, user_id },
+      fetchPolicy: "network-only",
+    }
+  );
+
   const { data, loading, error } = useSubscription(subscribeBoardsByGroupId, {
     variables: { group_id, user_id },
   });
+  const [newPostCountObj, setNewPostCountObj] = React.useState({});
+
   if (error) {
     console.warn(error);
   }
@@ -39,6 +53,11 @@ export default function Home() {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
+  useFocusEffect(() => {
+    try {
+      newPostCountQuery?.refetch();
+    } catch (error) {}
+  });
   function toggleDrawer() {
     navigation.dispatch(DrawerActions.toggleDrawer());
   }
@@ -53,6 +72,15 @@ export default function Home() {
   const userStatus: "organizer" | "user" | undefined | "requested" =
     users?.[0]?.status;
   const hasJoined = userStatus === "user" || userStatus === "organizer";
+  React.useEffect(() => {
+    if (newPostCountQuery.data) {
+      const emptyObj = {};
+      newPostCountQuery.data?.get_new_post_count.every(
+        (b) => (emptyObj[b.board_id] = b.new_count || 0)
+      );
+      setNewPostCountObj(emptyObj);
+    }
+  }, [newPostCountQuery.data]);
   let userStatusStr = "";
   switch (userStatus) {
     case "requested":
@@ -133,9 +161,14 @@ export default function Home() {
             <Title14>목록</Title14>
             {userStatus === "organizer" && <ButtonBoardSetting />}
           </ViewRow>
-          {boards.map((b: any, index: number) => (
-            <TouchableBoardList key={index} board={b} />
-          ))}
+          {newPostCountObj &&
+            boards.map((b: any, index: number) => (
+              <TouchableBoardList
+                key={index}
+                board={b}
+                countObj={newPostCountObj}
+              />
+            ))}
         </View>
         {hasJoined && (
           <ViewGroupManage

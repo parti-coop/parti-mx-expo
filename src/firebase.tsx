@@ -58,7 +58,6 @@ export type IdTokenResult = Modify<
 
 export async function getUserId(refresh = false): Promise<number | null> {
   const res: IdTokenResult = await auth.currentUser.getIdTokenResult(refresh);
-  console.log(res);
   const string =
     res?.claims?.["https://hasura.io/jwt/claims"]?.["x-hasura-user-id"];
   if (string === undefined) {

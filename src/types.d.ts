@@ -7,6 +7,7 @@ export type Board = {
   updated_at: string;
   last_posted_at: string;
   users: Array<{ updated_at: string }>;
+  newPostCount?: number;
 };
 
 export interface Comment {
@@ -175,4 +176,11 @@ export interface SearchResultType {
     type: string;
     title: string;
   };
+}
+
+export interface GroupBoardNewPostCount {
+  get_new_post_count: {
+    board_id: number;
+    new_count: number;
+  }[];
 }

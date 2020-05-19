@@ -206,3 +206,12 @@ export const searchPosts = gql`
     }
   }
 `;
+
+export const queryNewPostCount = gql`
+  query($group_id: Int!, $user_id: Int!) {
+    get_new_post_count(args: { groupid: $group_id, userid: $user_id }) {
+      board_id
+      new_count
+    }
+  }
+`;
