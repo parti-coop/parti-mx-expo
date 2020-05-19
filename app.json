@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "0.2.1",
+    "version": "0.3.0",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "splash": {
@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "coop.parti.p2020",
-      "buildNumber": "0.2.1",
+      "buildNumber": "0.3.0",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.959324853924-sidevonq158kslcnvb1uln3059dson7v"
@@ -36,7 +36,7 @@
     },
     "android": {
       "package": "coop.parti.p2020",
-      "versionCode": 6,
+      "versionCode": 7,
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleSignIn": {
