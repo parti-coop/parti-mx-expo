@@ -1,9 +1,8 @@
 import React from "react";
-import { TextInput as T, TextInputProps, Platform } from "react-native";
+import { TextInput as T, TextInputProps } from "react-native";
 import { ViewRow } from "./View";
 import { TouchableOpacity } from "./TouchableOpacity";
-import { getRandomColor } from "../Utils/RandomColorGenerator";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 export const TextInput = React.forwardRef<T, TextInputProps>(
   (props, ref: React.Ref<T>) => (
     <T
@@ -19,9 +18,7 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
         },
         props.style,
       ]}
-    >
-      {props.children}
-    </T>
+    />
   )
 );
 
@@ -47,9 +44,7 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
         },
         props.style,
       ]}
-    >
-      {props.children}
-    </T>
+    />
   )
 );
 
@@ -86,13 +81,23 @@ export const PasswordInput = React.forwardRef<
         props.style,
       ]}
     >
-      <TextInput
+      <T
         ref={ref}
         placeholder="비밀번호 (8자 이상)"
         maxLength={100}
         enablesReturnKeyAutomatically={true}
         secureTextEntry={secure.secureTextEntry}
         placeholderTextColor="#c5c5c5"
+        style={[
+          {
+            fontFamily: "notosans",
+            fontSize: 16,
+            flex: 1,
+            paddingHorizontal: 20,
+            height: 50,
+          },
+          props.style,
+        ]}
         {...props}
       />
       {props.showEye && (

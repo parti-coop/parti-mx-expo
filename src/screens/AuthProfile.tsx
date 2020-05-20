@@ -43,7 +43,6 @@ export default function AuthProfile() {
 
   React.useEffect(() => {
     if (data?.mx_users?.length) {
-      // showMessage({ type: "warning", message: warningMsg });
       setInUse(true);
     } else {
       setInUse(false);

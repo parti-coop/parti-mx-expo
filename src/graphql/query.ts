@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export const whoami = gql`
   query($id: Int!) {
-    mx_users(where: { id: { _eq: $id } }) {
+    mx_users_by_pk(id: $id) {
       name
       email
       photo_url

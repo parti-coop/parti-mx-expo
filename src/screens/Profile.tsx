@@ -58,18 +58,18 @@ export default function Profile(props: {
     }
   }, 1000);
   const warningMsg = `"${userName}" 은 이미 사용중인 닉네임 입니다.`;
-  const prevPhoroUrl = userNameQuery?.data?.mx_users?.[0]?.photo_url;
+  const prevPhoroUrl = userNameQuery?.data?.mx_users_by_pk?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
-    if (data?.mx_users?.length) {
+    if (data) {
       dispatch({ type: "SET_LOADING", loading });
-      setUserName(data.mx_users[0].name ?? "");
+      setUserName(data?.mx_users_by_pk?.name ?? "");
     }
   }, [userNameQuery]);
   useFocusEffect(
     React.useCallback(() => {
-      setUserName(userNameQuery?.data?.mx_users?.[0]?.name ?? "");
-    }, [])
+      setUserName(userNameQuery?.data?.mx_users_by_pk?.name ?? "");
+    }, [userNameQuery.data])
   );
   React.useEffect(() => {
     const { data } = searchDuplicateQuery;
@@ -94,12 +94,6 @@ export default function Profile(props: {
       return showMessage({
         type: "warning",
         message: warningMsg,
-      });
-    }
-    if (userName.trim().length === 0) {
-      return showMessage({
-        type: "warning",
-        message: "닉네임을 입력하세요.",
       });
     }
     if (userName.trim().length === 0) {
