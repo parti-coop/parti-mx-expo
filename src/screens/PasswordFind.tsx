@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Title30, Sub15, White16 } from "../components/Text";
 import { Image } from "../components/Image";
 import { ViewRow } from "../components/View";
-import { TOCenter } from "../components/TouchableOpacity";
+import { TO0 } from "../components/TouchableOpacity";
 import { EmailInput } from "../components/TextInput";
 import HeaderBack from "../components/HeaderBack";
 import { whiteRoundBg } from "../components/Styles";
@@ -91,9 +91,9 @@ export default function PasswordFind() {
           }}
         />
       </ViewRow>
-      <TOCenter onPress={sendEmail} style={roundedRectangle12}>
+      <TO0 onPress={sendEmail} style={roundedRectangle12}>
         <White16>보내기</White16>
-      </TOCenter>
+      </TO0>
     </>
   );
 }

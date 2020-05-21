@@ -4,8 +4,9 @@ import { ViewStyle, TouchableOpacityProps } from "react-native";
 import { Image } from "./Image";
 import { V0 } from "./View";
 import { Text } from "./Text";
-import { TOCenter } from "./TouchableOpacity";
+import { TO0 } from "./TouchableOpacity";
 
+import iconClosed from "../../assets/iconClosed.png";
 import iconSearch from "../../assets/iconSearch.png";
 export function Round35(
   props: TouchableOpacityProps & {
@@ -16,7 +17,7 @@ export function Round35(
 ) {
   const { padding = 30, source = iconSearch, style, ...prop } = props;
   return (
-    <TOCenter {...prop} style={{ padding }}>
+    <TO0 {...prop} style={{ padding }}>
       <V0
         style={[
           {
@@ -30,7 +31,7 @@ export function Round35(
       >
         <Image source={source} style={{ tintColor: "white" }} />
       </V0>
-    </TOCenter>
+    </TO0>
   );
 }
 export function RoundDDays(
@@ -129,5 +130,28 @@ export function RoundMonthDate(
         {value}
       </Text>
     </V0>
+  );
+}
+export function RoundClear(
+  props: TouchableOpacityProps & {
+    style?: ViewStyle;
+  }
+) {
+  const { style } = props;
+  return (
+    <TO0
+      {...props}
+      style={[
+        {
+          width: 30,
+          height: 30,
+          borderRadius: 10,
+          backgroundColor: "#12BD8E",
+        },
+        style,
+      ]}
+    >
+      <Image source={iconClosed} style={{ tintColor: "white" }} />
+    </TO0>
   );
 }

@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 import { Image } from "./Image";
 import { View } from "./View";
 import { White15 } from "./Text";
-import { TouchableOpacity, TOCenter } from "./TouchableOpacity";
+import { TouchableOpacity, TO0 } from "./TouchableOpacity";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
 const minus = Platform.select({ios: 1, android: 2})
@@ -68,7 +68,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
         style,
       ]}
     >
-      <TOCenter
+      <TO0
         onPress={openModal}
         style={{
           borderTopEndRadius: 5,
@@ -83,7 +83,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           source={btnDetailMore}
           style={isVisible && { tintColor: "white" }}
         />
-      </TOCenter>
+      </TO0>
       <Modal
         isVisible={isVisible}
         animationIn="fadeIn"
