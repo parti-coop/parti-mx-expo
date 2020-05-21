@@ -12,11 +12,12 @@ import { SmallVerticalDivider } from "./LineDivider";
 import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { PostListType } from "../types";
-import { isAfterString, formatDateFromString } from "../Utils/CalculateDays";
+import { isAfterString, semanticDate } from "../Utils/CalculateDays";
+import { DotRed8 } from "./Dots";
 
 import iconComment from "../../assets/iconComment.png";
 import iconSympathy from "../../assets/iconSympathy.png";
-import { DotRed8 } from "./Dots";
+import iconUserGrey from "../../assets/iconUserGrey.png";
 
 export default function TouchableNoticeList(props: {
   post: PostListType;
@@ -60,11 +61,12 @@ export default function TouchableNoticeList(props: {
             {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
+            <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12 style={{ fontFamily: "notosans700" }}>
               {post.createdBy.name}{" "}
             </Grey12>
             <Grey12 style={{ fontFamily: "notosans700" }}>
-              {formatDateFromString(post.created_at)}
+              ({semanticDate(post.created_at)})
             </Grey12>
             <SmallVerticalDivider style={{ marginLeft: 10 }} />
             <Image

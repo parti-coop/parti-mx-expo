@@ -1,4 +1,10 @@
-import { differenceInDays, addDays, format, isAfter } from "date-fns";
+import {
+  differenceInDays,
+  addDays,
+  format,
+  isAfter,
+  formatDistanceToNow,
+} from "date-fns";
 import { ko } from "date-fns/locale";
 export function calculateDays(date: string) {
   // const time = (_ => _.setDate(_.getDate() + 30))(new Date(date));
@@ -55,5 +61,18 @@ export function isAfterString(date1: string, date2: string) {
     return isAfter(d1, d2);
   } catch (error) {
     return false;
+  }
+}
+
+export function semanticDate(date: string) {
+  try {
+    const newDate = new Date(date);
+    const now = new Date();
+    if (isAfter(now, addDays(newDate, 1))) {
+      return format(newDate, "yy-MM-dd");
+    }
+    return formatDistanceToNow(newDate, { locale: ko }) + " 전";
+  } catch (error) {
+    return error.message;
   }
 }
