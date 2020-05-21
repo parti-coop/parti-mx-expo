@@ -5,10 +5,9 @@ import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
-import { Grey12, Title16, Blue12 } from "./Text";
+import { Grey12, Title16, Blue12, Red12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
-import ViewLikeCount from "./ViewLikeCount";
 import { RoundMonthDate } from "./Round";
 import { DotRed8 } from "./Dots";
 
@@ -19,6 +18,7 @@ import { VoteListType } from "../types";
 
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
+import iconSympathy from "../../assets/iconSympathy.png";
 
 export default function TouchableVoteList(props: {
   post: VoteListType;
@@ -90,12 +90,11 @@ export default function TouchableVoteList(props: {
               style={{ marginRight: 8, marginLeft: 6 }}
             />
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
+            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
+            <Image source={iconSympathy} />
+            <Red12 style={{ marginLeft: 5 }}>{voteCount}</Red12>
           </ViewRow>
         </V1>
-        <ViewLikeCount
-          style={{ position: "absolute", right: -15 }}
-          count={voteCount}
-        />
       </ViewRow>
     </TouchableOpacity>
   );
