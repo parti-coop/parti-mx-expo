@@ -60,7 +60,7 @@ export default (props: {
 
         <TouchableOpacity onPress={exitGroup} style={btnStyle}>
           <Image source={iconOut} style={{ marginBottom: 10 }} />
-          <Text style={{ fontSize: 16, color: "#ffffff" }}>그룹 나가기</Text>
+          <Text style={{ fontSize: 16, color: "#ffffff" }}>그룹 탈퇴</Text>
         </TouchableOpacity>
       </View>
     </View>
