@@ -5,7 +5,6 @@ import {
   KeyboardAvoidingViewProps,
   TouchableWithoutFeedback,
   Keyboard,
-  View,
 } from "react-native";
 export const KeyboardAvoidingView = React.forwardRef<
   K,
@@ -34,4 +33,18 @@ export const KeyboardAvoidingView = React.forwardRef<
       <>{props.children}</>
     </TouchableWithoutFeedback>
   </K>
+));
+export const KAV = React.forwardRef<
+  K,
+  KeyboardAvoidingViewProps & { children: React.ReactNode }
+>((props, ref: React.Ref<K>) => (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <K
+      keyboardVerticalOffset={Platform.select({ ios: 44, android: 0 })}
+      {...props}
+      ref={ref}
+    >
+      <>{props.children}</>
+    </K>
+  </TouchableWithoutFeedback>
 ));
