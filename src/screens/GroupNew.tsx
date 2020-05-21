@@ -4,6 +4,11 @@ import * as ImagePicker from "expo-image-picker";
 import { StackHeaderProps } from "@react-navigation/stack";
 import uuid from "uuid";
 import { useMutation } from "@apollo/react-hooks";
+import {
+  useNavigation,
+  RouteProp,
+  useFocusEffect,
+} from "@react-navigation/native";
 
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { Mint16, Title22, Sub16 } from "../components/Text";
@@ -82,6 +87,11 @@ export default (props: StackHeaderProps) => {
       setGroupName("");
     };
   }, [loading]);
+  function resetInput() {
+    setGroupName("");
+    setImgUrl(null);
+  }
+  useFocusEffect(React.useCallback(resetInput, []));
   return (
     <>
       <HeaderConfirm onPress={save} />
@@ -113,7 +123,7 @@ export default (props: StackHeaderProps) => {
           </V1>
           <TORowCenter style={{ marginTop: 30 }} onPress={addImage}>
             <Image source={iconPhoto} style={{ marginRight: 5 }} />
-            <Mint16>{bg_img_url ? "사진 추가" : "사진 변경"}</Mint16>
+            <Mint16>{bg_img_url ? "사진 변경" : "사진 추가"}</Mint16>
           </TORowCenter>
         </View>
       </KeyboardAwareScrollView>
