@@ -18,13 +18,21 @@ export function closingDateFrom(created_at: string, days = 30) {
   if (!created_at) {
     return null;
   }
-  return format(addDays(new Date(created_at), days), "yyyy.MM.dd");
+  try {
+    return format(addDays(new Date(created_at), days), "yyyy.MM.dd");
+  } catch (error) {
+    return error.message;
+  }
 }
 export function closingMonthDateFrom(created_at: string, days = 30) {
   if (!created_at) {
     return null;
   }
-  return format(addDays(new Date(created_at), days), "MM/dd");
+  try {
+    return format(addDays(new Date(created_at), days), "MM/dd");
+  } catch (error) {
+    return error.message;
+  }
 }
 
 export function formatDateFromString(date: string) {

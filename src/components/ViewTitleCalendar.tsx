@@ -17,7 +17,7 @@ export default function ViewTitleCalendar(props: {
       <ViewRow style={{ marginTop: 5 }}>
         <Image source={iconCalendar} style={{ marginRight: 6 }} />
         <Grey12>{value}</Grey12>
-        <Grey12>일까지</Grey12>
+        <Grey12>까지</Grey12>
       </ViewRow>
     </View>
   );

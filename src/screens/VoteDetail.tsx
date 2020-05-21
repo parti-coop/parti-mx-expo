@@ -84,8 +84,18 @@ export default function VoteDetail(props: {
       (c) => c?.votes_aggregate?.aggregate?.sum?.count || 0
     ) ?? [])
   );
-  const closingDays = metadata?.closingMethod?.replace("days", "");
-  const closingAt = closingMonthDateFrom(created_at, Number(closingDays));
+  let closingAt = null;
+  switch (metadata?.closingMethod) {
+    case "manual":
+      closingAt = "정리 할 때";
+      break;
+    default: {
+      const closingDays = Number(metadata?.closingMethod?.replace("days", ""));
+      if (closingDays) {
+        closingAt = closingMonthDateFrom(created_at, closingDays);
+      }
+    }
+  }
   if (totalVoteCount === 0) {
     options.push({ label: "삭제하기", handler: deletePost });
   }

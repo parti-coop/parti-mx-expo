@@ -32,8 +32,20 @@ export default function TouchableVoteList(props: {
   });
   const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
-  const closingDays = post.metadata.closingMethod.replace("days", "");
-  const closingAt = closingMonthDateFrom(post.created_at, Number(closingDays));
+  let closingAt = null;
+  switch (post.metadata.closingMethod) {
+    case "manual":
+      closingAt = "정리 시";
+      break;
+    default: {
+      const closingDays = Number(
+        post.metadata.closingMethod.replace("days", "")
+      );
+      if (closingDays) {
+        closingAt = closingMonthDateFrom(post.created_at, closingDays);
+      }
+    }
+  }
   function pressHandler() {
     update();
     navigate("VoteDetail", { postId: post.id });
