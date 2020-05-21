@@ -10,7 +10,6 @@ export const TextInput = React.forwardRef<T, TextInputProps>(
       {...props}
       style={[
         {
-          fontFamily: "notosans",
           fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
@@ -36,7 +35,6 @@ export const EmailInput = React.forwardRef<T, TextInputProps>(
       {...props}
       style={[
         {
-          fontFamily: "notosans",
           fontSize: 16,
           flex: 1,
           paddingHorizontal: 20,
@@ -71,15 +69,12 @@ export const PasswordInput = React.forwardRef<
   }
   return (
     <ViewRow
-      style={[
-        {
-          flex: 1,
-          paddingHorizontal: 0,
-          alignContent: "stretch",
-          alignItems: "stretch",
-        },
-        props.style,
-      ]}
+      style={{
+        flex: 1,
+        paddingHorizontal: 0,
+        alignContent: "stretch",
+        alignItems: "stretch",
+      }}
     >
       <T
         ref={ref}
@@ -88,9 +83,9 @@ export const PasswordInput = React.forwardRef<
         enablesReturnKeyAutomatically={true}
         secureTextEntry={secure.secureTextEntry}
         placeholderTextColor="#c5c5c5"
+        {...props}
         style={[
           {
-            fontFamily: "notosans",
             fontSize: 16,
             flex: 1,
             paddingHorizontal: 20,
@@ -98,7 +93,6 @@ export const PasswordInput = React.forwardRef<
           },
           props.style,
         ]}
-        {...props}
       />
       {props.showEye && (
         <TouchableOpacity
