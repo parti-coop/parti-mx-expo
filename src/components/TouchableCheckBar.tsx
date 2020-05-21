@@ -154,9 +154,8 @@ export default function TouchableCheckBar(props: {
           >
             <ViewRow
               style={{
-                padding: 30,
+                padding: 20,
                 flex: 0,
-                justifyContent: "space-between",
                 flexWrap: "wrap",
               }}
             >
@@ -166,6 +165,7 @@ export default function TouchableCheckBar(props: {
                   key={i}
                   date={u.created_at}
                   photoUrl={u.user.photo_url}
+                  style={{ padding: 10 }}
                 />
               ))}
             </ViewRow>

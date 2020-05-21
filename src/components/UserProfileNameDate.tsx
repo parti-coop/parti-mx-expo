@@ -21,14 +21,15 @@ export default function UserProfileNameDate(props: {
   name: string;
   date: string;
   photoUrl?: string;
+  style?: ViewStyle;
 }) {
-  const { name, date, photoUrl } = props;
+  const { name, date, photoUrl, style } = props;
   const d = formatDateFromString(date);
   const userPhoto = (
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow>
+    <ViewRow style={style}>
       {photoUrl ? (
         userPhoto
       ) : (
