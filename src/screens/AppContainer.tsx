@@ -1,5 +1,5 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import Intro from "./Intro";
 import Home from "./Home";
@@ -67,47 +67,37 @@ export type RootStackParamList = {
   BoardSetting: {};
   Search: {};
 };
-const Drawer = createDrawerNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppContainer() {
   return (
-    <Drawer.Navigator
-      initialRouteName={"Intro"}
-      drawerContentOptions={{ activeTintColor: "#e91e63" }}
-      drawerContent={(props) => <CustomDrawer {...props} />}
-      drawerStyle={{
-        backgroundColor: "#00a580",
-        width: 330,
-        borderBottomRightRadius: 20,
-        borderTopRightRadius: 20,
-      }}
-    >
-      <Drawer.Screen name="Intro" component={Intro} />
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="GroupNew" component={GroupNew} />
-      <Drawer.Screen name="GroupSetting" component={GroupSetting} />
-      <Drawer.Screen name="Member" component={Member} />
-      <Drawer.Screen name="QRcode" component={QRcode} />
-      <Drawer.Screen name="SuggestionList" component={SuggestionList} />
-      <Drawer.Screen name="VoteList" component={VoteList} />
-      <Drawer.Screen name="NoticeList" component={NoticeList} />
-      <Drawer.Screen name="SuggestionNew" component={SuggestionNew} />
-      <Drawer.Screen name="VoteNew" component={VoteNew} />
-      <Drawer.Screen name="NoticeNew" component={NoticeNew} />
-      <Drawer.Screen name="SuggestionDetail" component={SuggestionDetail} />
-      <Drawer.Screen name="VoteDetail" component={VoteDetail} />
-      <Drawer.Screen name="NoticeDetail" component={NoticeDetail} />
-      <Drawer.Screen name="SuggestionEdit" component={SuggestionEdit} />
-      <Drawer.Screen name="NoticeEdit" component={NoticeEdit} />
-      <Drawer.Screen name="TermsPrivacy" component={TermsPrivacy} />
-      <Drawer.Screen name="TermsService" component={TermsService} />
-      <Drawer.Screen name="UserSetting" component={UserSetting} />
-      <Drawer.Screen name="AccountDelete" component={AccountDelete} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="PasswordChange" component={PasswordChange} />
-      <Drawer.Screen name="BoardSetting" component={BoardSetting} />
-      <Drawer.Screen name="Search" component={Search} />
-      <Drawer.Screen name="VoteEdit" component={VoteEdit} />
-    </Drawer.Navigator>
+    <Stack.Navigator initialRouteName={"Intro"} headerMode="none">
+      <Stack.Screen name="Intro" component={Intro} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="GroupNew" component={GroupNew} />
+      <Stack.Screen name="GroupSetting" component={GroupSetting} />
+      <Stack.Screen name="Member" component={Member} />
+      <Stack.Screen name="QRcode" component={QRcode} />
+      <Stack.Screen name="SuggestionList" component={SuggestionList} />
+      <Stack.Screen name="VoteList" component={VoteList} />
+      <Stack.Screen name="NoticeList" component={NoticeList} />
+      <Stack.Screen name="SuggestionNew" component={SuggestionNew} />
+      <Stack.Screen name="VoteNew" component={VoteNew} />
+      <Stack.Screen name="NoticeNew" component={NoticeNew} />
+      <Stack.Screen name="SuggestionDetail" component={SuggestionDetail} />
+      <Stack.Screen name="VoteDetail" component={VoteDetail} />
+      <Stack.Screen name="NoticeDetail" component={NoticeDetail} />
+      <Stack.Screen name="SuggestionEdit" component={SuggestionEdit} />
+      <Stack.Screen name="NoticeEdit" component={NoticeEdit} />
+      <Stack.Screen name="TermsPrivacy" component={TermsPrivacy} />
+      <Stack.Screen name="TermsService" component={TermsService} />
+      <Stack.Screen name="UserSetting" component={UserSetting} />
+      <Stack.Screen name="AccountDelete" component={AccountDelete} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="PasswordChange" component={PasswordChange} />
+      <Stack.Screen name="BoardSetting" component={BoardSetting} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="VoteEdit" component={VoteEdit} />
+    </Stack.Navigator>
   );
 }

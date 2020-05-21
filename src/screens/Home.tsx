@@ -6,12 +6,14 @@ import {
   useFocusEffect,
 } from "@react-navigation/native";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import { queryNewPostCount } from "../graphql/query";
 import { useStore } from "../Store";
 import { GroupBoardNewPostCount } from "../types";
 
+import CustomDrawer from "../components/CustomDrawer";
 import { View, ViewRow } from "../components/View";
 import { Title14, Text } from "../components/Text";
 import ViewGroupImg from "../components/ViewGroupImg";
@@ -27,7 +29,26 @@ import ButtonJoinGroup from "../components/ButtonJoinGroup";
 import ViewGroupManage from "../components/ViewGroupManage";
 
 import bgGroupMain from "../../assets/bgGroupMain.png";
-export default function Home() {
+const Drawer = createDrawerNavigator();
+export default function HomeContainer() {
+  return (
+    <Drawer.Navigator
+      initialRouteName={"Home"}
+      drawerContentOptions={{ activeTintColor: "#e91e63" }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
+      drawerStyle={{
+        backgroundColor: "#008489",
+        width: 330,
+        borderBottomRightRadius: 20,
+        borderTopRightRadius: 20,
+      }}
+    >
+      <Drawer.Screen name="Home" component={Home} />
+    </Drawer.Navigator>
+  );
+}
+
+function Home() {
   const navigation = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
   const newPostCountQuery = useQuery<GroupBoardNewPostCount>(

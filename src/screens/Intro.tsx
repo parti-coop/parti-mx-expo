@@ -11,6 +11,7 @@ function Intro(props) {
       props.navigation.navigate("Home");
     }
   }, [group_id]);
+
   return null;
 }
 export default function IntroContainer() {
