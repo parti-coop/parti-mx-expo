@@ -96,12 +96,6 @@ export default function VoteEdit(props: {
         type: "warning",
       });
     }
-    if (title?.trim()?.length > 20) {
-      return showMessage({
-        message: "투표명을 20자 이내로 입력해주세요.",
-        type: "warning",
-      });
-    }
     if (!body?.trim()) {
       return showMessage({
         message: "투표 내용을 입력해주세요.",
@@ -172,6 +166,7 @@ export default function VoteEdit(props: {
               value={title}
               autoFocus
               onChangeText={setTitle}
+              maxLength={50}
               placeholderTextColor="#999999"
               style={[textStyle]}
               onSubmitEditing={() => contextRef.current.focus()}

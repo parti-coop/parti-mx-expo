@@ -102,6 +102,7 @@ export default function NoticeEdit(props: {
               value={title}
               autoFocus
               onChangeText={setTitle}
+              maxLength={50}
               placeholderTextColor="#999999"
               style={textStyle}
               onSubmitEditing={() => contextRef.current.focus()}

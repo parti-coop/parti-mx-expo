@@ -121,6 +121,7 @@ export default function SuggestionEdit(props: {
             <Text style={[labelStyle, { paddingVertical: 15 }]}>제안명</Text>
             <TextInput
               value={title}
+              maxLength={50}
               autoFocus
               onChangeText={setTitle}
               placeholderTextColor="#999999"

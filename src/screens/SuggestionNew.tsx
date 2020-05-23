@@ -71,12 +71,6 @@ export default function SuggestionNew(props: {
         type: "warning",
       });
     }
-    if (title?.trim()?.length > 20) {
-      return showMessage({
-        message: "제안명을 20자 이내로 입력해주세요.",
-        type: "warning",
-      });
-    }
     if (!body?.trim()) {
       return showMessage({
         message: "제안 내용을 입력해주세요.",
@@ -134,6 +128,7 @@ export default function SuggestionNew(props: {
             <Mint13 style={{ paddingVertical: 15, width: 80 }}>제안명</Mint13>
             <TextInput
               value={title}
+              maxLength={50}
               autoFocus
               onChangeText={setTitle}
               placeholderTextColor="#999999"
