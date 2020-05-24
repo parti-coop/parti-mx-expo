@@ -7,9 +7,14 @@ type UserRecord = admin.auth.UserRecord;
 const query = `
 mutation($email: String!, $uid: String!) {
   insert_mx_users_one(
-    object: { email: $email,firebase_uid: $uid, name: $email }
+    object: {
+      email: $email
+      firebase_uid: $uid
+      name: $email
+      groups: { data: [{ group_id: 5 }, { group_id: 25 }] }
+    }
   ) {
-   id
+    id
   }
 }`;
 
