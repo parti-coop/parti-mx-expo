@@ -3,17 +3,27 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Intro from "./Intro";
 import Home from "./Home";
+
 import SuggestionList from "./SuggestionList";
-import VoteList from "./VoteList";
-import NoticeList from "./NoticeList";
 import SuggestionNew from "./SuggestionNew";
-import VoteNew from "./VoteNew";
-import NoticeNew from "./NoticeNew";
-import SuggestionEdit from "./SuggestionEdit";
-import NoticeEdit from "./NoticeEdit";
 import SuggestionDetail from "./SuggestionDetail";
+import SuggestionEdit from "./SuggestionEdit";
+
+import VoteList from "./VoteList";
+import VoteNew from "./VoteNew";
 import VoteDetail from "./VoteDetail";
+import VoteEdit from "./VoteEdit";
+
+import NoticeNew from "./NoticeNew";
+import NoticeList from "./NoticeList";
 import NoticeDetail from "./NoticeDetail";
+import NoticeEdit from "./NoticeEdit";
+
+import EventNew from "./EventNew";
+import EventList from "./EventList";
+import EventDetail from "./EventDetail";
+import EventEdit from "./EventEdit";
+
 import UserSetting from "./UserSetting";
 import QRcode from "./QRcode";
 import TermsPrivacy from "./TermsPrivacy";
@@ -26,9 +36,6 @@ import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
 import Search from "./Search";
-import VoteEdit from "./VoteEdit";
-
-import CustomDrawer from "../components/CustomDrawer";
 
 import {
   SuggestionDetailType,
@@ -38,27 +45,34 @@ import {
 export type RootStackParamList = {
   Home: {};
   Intro: {};
-  SuggestionList: { id: number };
-  VoteList: { id: number };
-  NoticeList: { id: number };
   GroupNew: {};
-  AccountDelete: {};
   GroupSetting: { title: string; bg_img_url: string };
-  Member: { userStatus: "organizer" | "user" };
-  QRcode: {};
+  AccountDelete: {};
+
+  SuggestionList: { id: number };
   SuggestionNew: { boardId: number; boardName: string };
-  VoteNew: { boardId: number; boardName: string };
-  NoticeNew: { boardId: number; boardName: string };
   SuggestionDetail: { postId: number };
-  VoteDetail: { postId: number };
-  NoticeDetail: { postId: number };
   SuggestionEdit: {
     suggestion: SuggestionDetailType;
   };
-  NoticeEdit: {
-    notice: NoticeDetailType;
-  };
+
+  VoteList: { id: number };
+  VoteNew: { boardId: number; boardName: string };
+  VoteDetail: { postId: number };
   VoteEdit: { vote: VoteDetailType };
+
+  NoticeList: { id: number };
+  NoticeNew: { boardId: number; boardName: string };
+  NoticeDetail: { postId: number };
+  NoticeEdit: { notice: NoticeDetailType };
+
+  EventList: { id: number };
+  EventNew: { boardId: number; boardName: string };
+  EventDetail: { postId: number };
+  EventEdit: { vote: VoteDetailType };
+
+  Member: { userStatus: "organizer" | "user" };
+  QRcode: {};
   TermsPrivacy: {};
   TermsService: {};
   UserSetting: {};
@@ -78,17 +92,27 @@ export default function AppContainer() {
       <Stack.Screen name="GroupSetting" component={GroupSetting} />
       <Stack.Screen name="Member" component={Member} />
       <Stack.Screen name="QRcode" component={QRcode} />
+
       <Stack.Screen name="SuggestionList" component={SuggestionList} />
-      <Stack.Screen name="VoteList" component={VoteList} />
-      <Stack.Screen name="NoticeList" component={NoticeList} />
       <Stack.Screen name="SuggestionNew" component={SuggestionNew} />
-      <Stack.Screen name="VoteNew" component={VoteNew} />
-      <Stack.Screen name="NoticeNew" component={NoticeNew} />
       <Stack.Screen name="SuggestionDetail" component={SuggestionDetail} />
-      <Stack.Screen name="VoteDetail" component={VoteDetail} />
-      <Stack.Screen name="NoticeDetail" component={NoticeDetail} />
       <Stack.Screen name="SuggestionEdit" component={SuggestionEdit} />
+
+      <Stack.Screen name="VoteList" component={VoteList} />
+      <Stack.Screen name="VoteNew" component={VoteNew} />
+      <Stack.Screen name="VoteDetail" component={VoteDetail} />
+      <Stack.Screen name="VoteEdit" component={VoteEdit} />
+
+      <Stack.Screen name="NoticeList" component={NoticeList} />
+      <Stack.Screen name="NoticeNew" component={NoticeNew} />
+      <Stack.Screen name="NoticeDetail" component={NoticeDetail} />
       <Stack.Screen name="NoticeEdit" component={NoticeEdit} />
+
+      <Stack.Screen name="EventList" component={EventList} />
+      <Stack.Screen name="EventNew" component={EventNew} />
+      <Stack.Screen name="EventDetail" component={EventDetail} />
+      <Stack.Screen name="EventEdit" component={EventEdit} />
+
       <Stack.Screen name="TermsPrivacy" component={TermsPrivacy} />
       <Stack.Screen name="TermsService" component={TermsService} />
       <Stack.Screen name="UserSetting" component={UserSetting} />
@@ -97,7 +121,6 @@ export default function AppContainer() {
       <Stack.Screen name="PasswordChange" component={PasswordChange} />
       <Stack.Screen name="BoardSetting" component={BoardSetting} />
       <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="VoteEdit" component={VoteEdit} />
     </Stack.Navigator>
   );
 }

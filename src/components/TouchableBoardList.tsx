@@ -43,6 +43,8 @@ export default function TouchableBoardList(props: {
   function goToBoard() {
     increment();
     switch (board.type) {
+      case boardTypes.EVENT:
+        return navigate("EventList", { id: board.id });
       case boardTypes.SUGGESTION:
         return navigate("SuggestionList", { id: board.id });
       case boardTypes.NOTICE:

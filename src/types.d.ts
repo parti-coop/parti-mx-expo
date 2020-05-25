@@ -61,8 +61,17 @@ type VoteMetadata = {
   isAnonymous: boolean;
   isResultHidden: boolean;
 };
+type EventMetadata = {
+  eventDate: string;
+  place: string;
+  deadline: string;
+  countPeople: number;
+};
 export interface VoteListType extends PostListType {
   metadata: VoteMetadata;
+}
+export interface EventListType extends PostListType {
+  metadata: EventMetadata;
 }
 
 export type User = {

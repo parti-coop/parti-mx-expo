@@ -34,6 +34,7 @@ export default function ViewBoardInsert(props: {
       case boardTypes.NOTICE:
       case boardTypes.SUGGESTION:
       case boardTypes.VOTE:
+      case boardTypes.EVENT:
         return setType(value);
     }
   }

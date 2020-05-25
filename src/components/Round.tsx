@@ -8,6 +8,8 @@ import { TO0 } from "./TouchableOpacity";
 
 import iconClosed from "../../assets/iconClosed.png";
 import iconSearch from "../../assets/iconSearch.png";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 export function Round35(
   props: TouchableOpacityProps & {
     padding?: number;
@@ -153,5 +155,59 @@ export function RoundClear(
     >
       <Image source={iconClosed} style={{ tintColor: "white" }} />
     </TO0>
+  );
+}
+export function RoundEventDate(props: { style?: ViewStyle; value?: string }) {
+  const { style, value = "" } = props;
+  let eventDate = null,
+    monthDate = null,
+    day = null;
+  try {
+    eventDate = new Date(value);
+    monthDate = format(eventDate, "M/dd");
+    day = format(eventDate, "eee", { locale: ko });
+  } catch (error) {
+    console.warn(error);
+  }
+  return (
+    <V0
+      style={[
+        {
+          width: 54,
+          height: 54,
+          borderRadius: 22.2,
+          backgroundColor: "#ffffff",
+          borderStyle: "solid",
+          borderWidth: 2,
+          borderColor: "#12BD8E",
+          margin: 15,
+          flex: 0,
+        },
+        style,
+      ]}
+    >
+      <Text
+        style={{
+          fontSize: 16,
+          textAlign: "center",
+          color: "#4a9f95",
+          fontFamily: "notosans900",
+          lineHeight: 20,
+        }}
+      >
+        {monthDate}
+      </Text>
+      <Text
+        style={{
+          fontSize: 14,
+          textAlign: "left",
+          color: "#4a9f95",
+          fontFamily: "notosans900",
+          lineHeight: 18 ,
+        }}
+      >
+        {day}
+      </Text>
+    </V0>
   );
 }
