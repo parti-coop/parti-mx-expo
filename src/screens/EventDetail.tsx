@@ -8,7 +8,7 @@ import { Mint13, Body16 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
 import UserProfileWithName from "../components/UserProfileWithName";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
-import ButtonSuggestionLike from "../components/ButtonSuggestionLike";
+import ButtonEventLike from "../components/ButtonEventLike";
 import ButtonUnlike from "../components/ButtonUnlike";
 import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
@@ -16,25 +16,25 @@ import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
 import ViewTitle from "../components/ViewTitle";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
-import SuggestionTabs from "../components/SuggestionTabs";
+import EventTabs from "../components/EventTabs";
 import ViewDetailImageFile from "../components/ViewDetailImageFile";
 import { whiteRoundBg } from "../components/Styles";
 
 import { useStore } from "../Store";
-import { subscribeSuggestion } from "../graphql/subscription";
+import { subscribeEvent } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
-import { SuggestionDetailType } from "../types";
+import { EventDetailType } from "../types";
 
-export default function SuggestionDetail(props: {
-  navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
-  route: RouteProp<RootStackParamList, "SuggestionDetail">;
+export default function EventDetail(props: {
+  navigation: StackNavigationProp<RootStackParamList, "EventDetail">;
+  route: RouteProp<RootStackParamList, "EventDetail">;
 }) {
   const [{ user_id }, dispatch] = useStore();
   const id = props.route.params.postId;
 
   const [deletePost] = usePostDelete(id);
-  const { data, loading } = useSubscription(subscribeSuggestion, {
+  const { data, loading } = useSubscription(subscribeEvent, {
     variables: { id, user_id },
   });
   const scrollRef = React.useRef(null);
@@ -44,13 +44,13 @@ export default function SuggestionDetail(props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
 
-  const suggestion: SuggestionDetailType = data?.mx_posts_by_pk ?? {};
+  const event: EventDetailType = data?.mx_posts_by_pk ?? {};
   const options = [
     {
       label: "수정하기",
       handler: () =>
-        navigate("SuggestionEdit", {
-          suggestion,
+        navigate("EventEdit", {
+          event,
         }),
     },
     // { label: "제안 정리", handler: () => {} },
@@ -61,8 +61,7 @@ export default function SuggestionDetail(props: {
   const {
     title = "제목 로딩 중",
     body = "",
-    context = "",
-    metadata = {},
+    metadata,
     createdBy = { photo_url: "", name: "", id: null },
     updated_at = "",
     created_at = "",
@@ -72,9 +71,9 @@ export default function SuggestionDetail(props: {
     meLiked = [],
     likedUsers = [],
     board = { title: "" },
-  } = suggestion;
+  } = event;
   const liked = meLiked?.[0]?.like_count ?? 0;
-  const voteUsers = likedUsers.map((n: any) => ({
+  const participants = likedUsers.map((n: any) => ({
     name: n.user.name,
     created_at: n.created_at,
     photo_url: n.user.photo_url,
@@ -102,12 +101,6 @@ export default function SuggestionDetail(props: {
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
             <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
-              제안 배경
-            </Mint13>
-            <Body16>{context}</Body16>
-          </View>
-          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
               제안 내용
             </Mint13>
             <Body16>{body}</Body16>
@@ -117,7 +110,7 @@ export default function SuggestionDetail(props: {
             {liked > 0 ? (
               <ButtonUnlike id={id} />
             ) : (
-              <ButtonSuggestionLike
+              <ButtonEventLike
                 id={id}
                 created_at={created_at}
                 closingMethod={metadata?.closingMethod}
@@ -125,10 +118,10 @@ export default function SuggestionDetail(props: {
             )}
           </V0>
         </View>
-        <SuggestionTabs
+        <EventTabs
           id={id}
           comments={comments}
-          voteUsers={voteUsers}
+          users={participants}
           scrollRef={scrollRef}
         />
       </KeyboardAwareScrollView>

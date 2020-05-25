@@ -13,12 +13,14 @@ import { DotRed8 } from "./Dots";
 
 import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
-import { calculateDays, isAfterString } from "../Utils/CalculateDays";
+import { isAfterString } from "../Utils/CalculateDays";
 import { EventListType } from "../types";
 
 import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
 import iconSympathy from "../../assets/iconSympathy.png";
+import iconCalendar from "../../assets/iconCalendar.png";
+import { format } from "date-fns";
 
 export default function TouchableEventList(props: {
   post: EventListType;
@@ -41,6 +43,12 @@ export default function TouchableEventList(props: {
     post?.updated_at,
     post?.users?.[0]?.updated_at
   );
+  let deadline = null;
+  try {
+    deadline = format(new Date(post.metadata.deadline), "M/dd");
+  } catch (error) {
+    console.warn(error);
+  }
   return (
     <TouchableOpacity onPress={pressHandler}>
       <ViewRow style={{ justifyContent: "flex-start" }}>
@@ -56,21 +64,28 @@ export default function TouchableEventList(props: {
             style,
           ]}
         >
-          <ViewRow style={{ justifyContent: "flex-start" }}>
+          <ViewRow>
             <Title16 numberOfLines={1}>{post.title}</Title16>
             {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
           </ViewRow>
-          <ViewRow style={{ justifyContent: "flex-start" }}>
+          <ViewRow>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12 style={{ fontFamily: "notosans700" }}>
-              {post.createdBy.name}
+              {post.metadata.countPeople}명 모집, {voteCount}명 신청
+              {votedByMe && (
+                <>
+                  <Grey12 style={{ fontFamily: "notosans700" }}>{", "}</Grey12>
+                  <Blue12 style={{ fontFamily: "notosans700" }}>신청함</Blue12>
+                </>
+              )}
             </Grey12>
-            {votedByMe && (
-              <>
-                <Grey12 style={{ fontFamily: "notosans700" }}>{", "}</Grey12>
-                <Blue12 style={{ fontFamily: "notosans700" }}>동의함</Blue12>
-              </>
-            )}
+          </ViewRow>
+
+          <ViewRow>
+            <Image source={iconCalendar} style={{ marginRight: 8 }} />
+            <Grey12 style={{ fontFamily: "notosans700" }}>
+              {deadline}일까지
+            </Grey12>
             <SmallVerticalDivider />
             <Image
               source={iconComment}

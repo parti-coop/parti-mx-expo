@@ -108,6 +108,12 @@ export interface SuggestionDetailType extends PostDetailType {
   }[];
   context: string;
 }
+export interface EventDetailType extends PostDetailType {
+  likedUsers: {
+    created_at: string;
+    user: User;
+  }[];
+}
 export interface NoticeDetailType extends PostDetailType {
   users_aggregate: {
     aggregate: {

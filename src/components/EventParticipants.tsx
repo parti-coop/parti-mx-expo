@@ -1,27 +1,27 @@
 import React from "react";
-import UserProfileNameDate from "../components/UserProfileNameDate";
+import UserProfileNameDate from "./UserProfileNameDate";
 import { View, ViewRow, V0 } from "./View";
 import { Body16 } from "./Text";
-export default function SuggestionVoted(props: {
-  voteUsers: Array<{
+export default function EventParticipants(props: {
+  users: Array<{
     name: string;
     created_at: string;
     photo_url: string;
   }>;
 }) {
-  const { voteUsers } = props;
+  const { users } = props;
   return (
     <View
       style={{ borderRadius: 25, backgroundColor: "#ffffff", marginBottom: 50 }}
     >
-      {voteUsers.length > 0 ? (
+      {users.length > 0 ? (
         <ViewRow
           style={{
             padding: 20,
             flexWrap: "wrap",
           }}
         >
-          {voteUsers.map((u, i: number) => (
+          {users.map((u, i: number) => (
             <UserProfileNameDate
               name={u.name}
               key={i}
@@ -33,7 +33,7 @@ export default function SuggestionVoted(props: {
         </ViewRow>
       ) : (
         <V0 style={{ padding: 50 }}>
-          <Body16>아직 제안동의가 없습니다</Body16>
+          <Body16>아직 참여자가 없습니다</Body16>
         </V0>
       )}
     </View>
