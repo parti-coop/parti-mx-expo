@@ -98,7 +98,6 @@ declare global {
     }
   }
 }
-global.fetch = fetch;
 const client = new ApolloClient({
   link: authLink.concat(link),
   cache: new InMemoryCache(),

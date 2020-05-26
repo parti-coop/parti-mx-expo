@@ -76,3 +76,17 @@ export function semanticDate(date: string) {
     return error.message;
   }
 }
+export function getEventDate(date: string) {
+  try {
+    const newDate = new Date(date);
+    return format(newDate, "yyyy/MM/dd(eee) HH:mm", { locale: ko });
+  } catch (error) {
+    return error.message;
+  }
+}
+export function getUnix(date: Date) {
+  return Math.round(date.getTime() / 1000);
+}
+export function getIosDateRef(date: Date) {
+  return getUnix(date) - getUnix(new Date("2001-01-01"));
+}

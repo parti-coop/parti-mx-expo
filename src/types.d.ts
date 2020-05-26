@@ -113,6 +113,7 @@ export interface EventDetailType extends PostDetailType {
     created_at: string;
     user: User;
   }[];
+  metadata: EventMetadata;
 }
 export interface NoticeDetailType extends PostDetailType {
   users_aggregate: {

@@ -6,21 +6,23 @@ import { RouteProp, useNavigation } from "@react-navigation/native";
 
 import { Mint13, Body16 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
-import UserProfileWithName from "../components/UserProfileWithName";
+import UserProfileNameDate from "../components/UserProfileNameDate";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonEventLike from "../components/ButtonEventLike";
 import ButtonUnlike from "../components/ButtonUnlike";
 import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
-import ViewTitle from "../components/ViewTitle";
+import ViewEventTitle from "../components/ViewEventTitle";
 import { LineSeperator } from "../components/LineDivider";
 import SelectMenu from "../components/SelectMenu";
 import EventTabs from "../components/EventTabs";
 import ViewDetailImageFile from "../components/ViewDetailImageFile";
 import { whiteRoundBg } from "../components/Styles";
+import TOEventAddCalendar from "../components/TOEventAddCalendar";
 
 import { useStore } from "../Store";
+import { getEventDate } from "../Utils/CalculateDays";
 import { subscribeEvent } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
@@ -79,42 +81,54 @@ export default function EventDetail(props: {
     photo_url: n.user.photo_url,
   }));
 
+  const eventEnum = [
+    ["모임 일시", getEventDate(metadata?.eventDate)],
+    ["모임 장소", metadata?.place],
+    ["모집 인원", metadata?.countPeople],
+    ["신청 기간", getEventDate(metadata?.deadline)],
+  ];
   return (
     <>
       <HeaderShare id={id} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
-        <ViewTitle title={title} updated_at={updated_at} />
+        <ViewEventTitle title={title} date={metadata?.deadline} />
         <View style={[whiteRoundBg, { marginTop: 30, paddingBottom: 50 }]}>
           <ViewRow style={{ margin: 30, marginBottom: 20 }}>
-            <View>
-              <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
-                제안자
-              </Mint13>
-              <UserProfileWithName
-                name={createdBy.name}
-                photoUrl={createdBy.photo_url}
-              />
-            </View>
+            <UserProfileNameDate
+              name={createdBy.name}
+              photoUrl={createdBy.photo_url}
+              date={updated_at}
+            />
             {createdBy.id === user_id && <SelectMenu items={options} />}
           </ViewRow>
           <LineSeperator />
-          <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
-              제안 내용
-            </Mint13>
+
+          {eventEnum.map(([t, b], index) => {
+            return (
+              <View key={index} style={{ marginHorizontal: 30, marginTop: 20 }}>
+                <Mint13 style={{ marginBottom: 5, fontFamily: "notosans700" }}>
+                  {t}
+                </Mint13>
+                <Body16>{b}</Body16>
+              </View>
+            );
+          })}
+
+          <View style={{ marginHorizontal: 30, marginTop: 25 }}>
             <Body16>{body}</Body16>
           </View>
           <ViewDetailImageFile files={files} images={images} />
+          <TOEventAddCalendar
+            metadata={metadata}
+            title={title}
+            style={{ marginTop: 40 }}
+          />
           <V0 style={{ marginTop: 50 }}>
             {liked > 0 ? (
               <ButtonUnlike id={id} />
             ) : (
-              <ButtonEventLike
-                id={id}
-                created_at={created_at}
-                closingMethod={metadata?.closingMethod}
-              />
+              <ButtonEventLike id={id} created_at={created_at} />
             )}
           </V0>
         </View>
