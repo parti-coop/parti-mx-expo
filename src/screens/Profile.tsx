@@ -57,7 +57,7 @@ export default function Profile(props: {
       firstFetch();
     }
   }, 1000);
-  const warningMsg = `"${userName}" 은 이미 사용중인 닉네임 입니다.`;
+  const warningMsg = `"${userName}": 이미 사용중인 닉네임 입니다.`;
   const prevPhoroUrl = userNameQuery?.data?.mx_users_by_pk?.photo_url;
   React.useEffect(() => {
     const { data, loading } = userNameQuery;
@@ -165,7 +165,7 @@ export default function Profile(props: {
                   </Text>
                 ) : (
                   <Text style={{ fontSize: 12 }}>
-                    "{userName}"은 사용가능 합니다.
+                    "{userName}": 사용가능한 닉네임 입니다.
                   </Text>
                 ))}
             </View>

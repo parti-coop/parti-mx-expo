@@ -39,7 +39,7 @@ export default function AuthProfile() {
   });
   const [isInUse, setInUse] = React.useState(false);
   const [debouncedCallback] = useDebouncedCallback(refetch, 1000);
-  const warningMsg = `"${userName}" 은 이미 사용중인 닉네임 입니다.`;
+  const warningMsg = `"${userName}": 이미 사용중인 닉네임 입니다.`;
 
   React.useEffect(() => {
     if (data?.mx_users?.length) {
@@ -135,7 +135,7 @@ export default function AuthProfile() {
                   </Text>
                 ) : (
                   <Text style={{ fontSize: 12 }}>
-                    "{userName}"은 사용가능 합니다.
+                    "{userName}": 사용가능한 닉네임 입니다.
                   </Text>
                 ))}
             </View>
