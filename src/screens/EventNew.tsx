@@ -1,5 +1,4 @@
 import React from "react";
-import {} from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation } from "@apollo/react-hooks";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
@@ -25,7 +24,7 @@ import { File } from "../types";
 import { uploadGetUriArray } from "../firebase";
 import { useStore } from "../Store";
 import { insertPost } from "../graphql/mutation";
-import { addDays, addMonths } from "date-fns";
+import { addDays } from "date-fns";
 
 export default function EventNew(props: {
   navigation: StackNavigationProp<RootStackParamList, "EventNew">;
@@ -46,7 +45,6 @@ export default function EventNew(props: {
     []
   );
   const [fileArr, setFileArr] = React.useState<Array<File>>([]);
-  const contextRef = React.useRef(null);
   const scrollRef = React.useRef(null);
   const { navigate } = useNavigation();
   function resetInput() {
@@ -108,8 +106,51 @@ export default function EventNew(props: {
     dispatch({ type: "SET_LOADING", loading });
   }, [loading]);
   function countPeopleHandler(text: string) {
-    setCountPeople(Number(text));
+    const no = Number(text) || 0;
+    setCountPeople(no);
   }
+  const eventEnum = [
+    [
+      "모임명*",
+      <TextInput
+        value={title}
+        maxLength={50}
+        autoFocus
+        onChangeText={setTitle}
+        placeholderTextColor="#999999"
+        style={[textStyle]}
+        placeholder="모임명을 입력해 주세요"
+      />,
+    ],
+    ["일시*", <TouchableCalendar useDate={[eventDate, setEventDate]} />],
+    [
+      "장소",
+      <TextInput
+        value={place}
+        maxLength={50}
+        onChangeText={setPlace}
+        placeholderTextColor="#999999"
+        style={textStyle}
+        placeholder="예) 서울 시청 동그라미홀"
+      />,
+    ],
+    [
+      "모집인원*",
+      <>
+        <TextInput
+          value={String(countPeople)}
+          maxLength={10}
+          onChangeText={countPeopleHandler}
+          placeholderTextColor="#999999"
+          style={textStyle}
+          placeholder="100"
+          keyboardType="numeric"
+        />
+        <Body16>명</Body16>
+      </>,
+    ],
+    ["신청 마감일*", <TouchableCalendar useDate={[deadline, setDeadline]} />],
+  ];
   return (
     <>
       <HeaderConfirm onPress={insertPressHandler} />
@@ -121,60 +162,25 @@ export default function EventNew(props: {
           <Title22>글 쓰기</Title22>
         </View>
         <View style={bgStyle}>
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 15, width: 80 }}>모임명*</Mint13>
-            <TextInput
-              value={title}
-              maxLength={50}
-              autoFocus
-              onChangeText={setTitle}
-              placeholderTextColor="#999999"
-              style={[textStyle]}
-              onSubmitEditing={() => contextRef.current.focus()}
-              placeholder="모임명을 입력해 주세요"
-            />
-          </ViewRow>
-          <LineSeperator />
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 15, width: 80 }}>일시*</Mint13>
-            <TouchableCalendar useDate={[eventDate, setEventDate]} />
-          </ViewRow>
-
-          <LineSeperator />
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 15, width: 80 }}>장소</Mint13>
-            <TextInput
-              value={place}
-              maxLength={50}
-              onChangeText={setPlace}
-              placeholderTextColor="#999999"
-              style={textStyle}
-              placeholder="예) 서울 시청 동그라미홀"
-            />
-          </ViewRow>
-          <LineSeperator />
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 15, width: 80 }}>
-              모집인원*
-            </Mint13>
-            <TextInput
-              value={String(countPeople)}
-              maxLength={10}
-              onChangeText={countPeopleHandler}
-              placeholderTextColor="#999999"
-              style={textStyle}
-              placeholder="100"
-              keyboardType="numeric"
-            />
-            <Body16>명</Body16>
-          </ViewRow>
-          <LineSeperator />
-          <ViewRow style={{ paddingHorizontal: 30 }}>
-            <Mint13 style={{ paddingVertical: 15, width: 80 }}>
-              신청 마감일*
-            </Mint13>
-            <TouchableCalendar useDate={[deadline, setDeadline]} />
-          </ViewRow>
+          {eventEnum.map(([t, b], index) => {
+            return (
+              <View key={index}>
+                <ViewRow style={{ paddingHorizontal: 30 }}>
+                  <Mint13
+                    style={{
+                      paddingVertical: 15,
+                      width: 80,
+                      fontFamily: "notosans700",
+                    }}
+                  >
+                    {t}
+                  </Mint13>
+                  {b}
+                </ViewRow>
+                {index !== eventEnum.length - 1 && <LineSeperator />}
+              </View>
+            );
+          })}
         </View>
         <View style={[bgStyle, { marginTop: 10 }]}>
           <View
@@ -184,7 +190,14 @@ export default function EventNew(props: {
               flex: 1,
             }}
           >
-            <Mint13 style={{ paddingBottom: 10 }}>제안 내용</Mint13>
+            <Mint13
+              style={{
+                paddingBottom: 10,
+                fontFamily: "notosans700",
+              }}
+            >
+              제안 내용
+            </Mint13>
             <AutoGrowingTextInput
               value={body}
               multiline

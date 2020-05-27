@@ -41,6 +41,7 @@ import {
   SuggestionDetailType,
   NoticeDetailType,
   VoteDetailType,
+  EventDetailType,
 } from "../types";
 export type RootStackParamList = {
   Home: {};
@@ -69,7 +70,7 @@ export type RootStackParamList = {
   EventList: { id: number };
   EventNew: { boardId: number; boardName: string };
   EventDetail: { postId: number };
-  EventEdit: { vote: VoteDetailType };
+  EventEdit: { event: EventDetailType };
 
   Member: { userStatus: "organizer" | "user" };
   QRcode: {};

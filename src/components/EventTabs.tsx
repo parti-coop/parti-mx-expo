@@ -57,7 +57,7 @@ export default function EventTabs(props: {
           style={{ paddingLeft: 20, paddingVertical: 20 }}
         >
           <Title14 style={showComments && { color: "rgba(51, 51, 51, 0.5)" }}>
-            제안동의 {users.length}
+            참석자 {users.length}
           </Title14>
         </TO0>
       </ViewRow>

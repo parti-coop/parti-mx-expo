@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -55,8 +54,6 @@ export default function EventDetail(props: {
           event,
         }),
     },
-    // { label: "제안 정리", handler: () => {} },
-    // { label: "공지 올리기", handler: () => {} },
     { label: "삭제하기", handler: deletePost },
   ];
 
