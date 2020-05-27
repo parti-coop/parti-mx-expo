@@ -7,7 +7,7 @@ import { ko } from "date-fns/locale";
 
 import { View, ViewRow, V0 } from "./View";
 import { Text, Title18, Mint14, Purple12 } from "./Text";
-import { DotRed8 } from "./Dots";
+import { DotRed } from "./Dots";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
 import { boardTypes } from "./boardTypes";
@@ -97,7 +97,7 @@ export default function TouchableBoardList(props: {
               <Purple12>전체공개</Purple12>
             </V0>
           )}
-          {isNew && <DotRed8 style={{ marginLeft: 10 }} />}
+          {isNew && <DotRed style={{ marginLeft: 10 }} />}
           {newPostCount > 0 && (
             <Mint14 style={{ marginLeft: 5 }}>새 글 {newPostCount}</Mint14>
           )}

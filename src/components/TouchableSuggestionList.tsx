@@ -9,7 +9,7 @@ import { Grey12, Title16, Blue12, Red12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 import { RoundDDays } from "./Round";
-import { DotRed8 } from "./Dots";
+import { DotRed } from "./Dots";
 
 import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
@@ -60,7 +60,7 @@ export default function TouchableSuggestionList(props: {
         >
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Title16 numberOfLines={1}>{suggestion.title}</Title16>
-            {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
+            {hasChecked && <DotRed style={{ marginLeft: 4 }} size={4} />}
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />

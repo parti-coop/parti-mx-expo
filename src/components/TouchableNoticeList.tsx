@@ -13,7 +13,7 @@ import { incrementUserPostCheck } from "../graphql/mutation";
 import { useStore } from "../Store";
 import { PostListType } from "../types";
 import { isAfterString, semanticDate } from "../Utils/CalculateDays";
-import { DotRed8 } from "./Dots";
+import { DotRed } from "./Dots";
 
 import iconComment from "../../assets/iconComment.png";
 import iconSympathy from "../../assets/iconSympathy.png";
@@ -58,7 +58,7 @@ export default function TouchableNoticeList(props: {
         >
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Title16 numberOfLines={1}>{post.title}</Title16>
-            {hasChecked && <DotRed8 style={{ marginLeft: 4 }} />}
+            {hasChecked && <DotRed style={{ marginLeft: 4 }} size={4} />}
           </ViewRow>
           <ViewRow style={{ justifyContent: "flex-start" }}>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />

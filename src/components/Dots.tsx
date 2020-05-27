@@ -3,16 +3,17 @@ import { ViewStyle } from "react-native";
 
 import { View } from "./View";
 
-export function DotRed8(props: { style?: ViewStyle }) {
+export function DotRed(props: { style?: ViewStyle; size?: number }) {
+  const { style, size = 8 } = props;
   return (
     <View
       style={[
-        props.style,
+        style,
         {
-          width: 8,
-          height: 8,
+          width: size,
+          height: size,
           backgroundColor: "#ff4848",
-          borderRadius: 4,
+          borderRadius: size / 2,
         },
       ]}
     />
