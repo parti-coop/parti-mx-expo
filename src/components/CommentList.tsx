@@ -14,6 +14,7 @@ import useCommentDelete from "./useCommentDelete";
 import CommentReList from "./CommentReList";
 import useReport from "./useReport";
 import { whiteRoundBg } from "./Styles";
+import { boardTypes } from "./boardTypes";
 
 import { Comment, RecommentArgs } from "../types";
 import { formatDateFromString } from "../Utils/CalculateDays";
@@ -66,7 +67,13 @@ export default function CommentList(props: {
   ];
   let attitude = null;
   if (user?.checkedPosts?.[0]?.like_count) {
-    attitude = "동의";
+    if (post?.board?.type === boardTypes.EVENT) {
+      attitude = "참석";
+    } else if (post?.board?.type === boardTypes.SUGGESTION) {
+      attitude = "동의";
+    } else {
+      attitude = "동의";
+    }
   } else if (user?.votes?.length > 0) {
     if (post.metadata.isAnonymous !== true) {
       attitude = user.votes.map((v) => v.candidate.body).join(",");

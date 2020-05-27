@@ -4,6 +4,11 @@ export const commentsResult = gql`
     id
     body
     updated_at
+    post {
+      board {
+        type
+      }
+    }
     user {
       id
       name

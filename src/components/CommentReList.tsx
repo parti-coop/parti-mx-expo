@@ -13,6 +13,7 @@ import SelectMenu from "./SelectMenu";
 import useCommentDelete from "./useCommentDelete";
 import useReport from "./useReport";
 import { whiteRoundBg } from "./Styles";
+import { boardTypes } from "./boardTypes";
 
 import { Comment } from "../types";
 import { useStore } from "../Store";
@@ -56,7 +57,13 @@ export default function CommentReList(props: {
   ];
   let attitude = null;
   if (user?.checkedPosts?.[0]?.like_count) {
-    attitude = "동의";
+    if (post?.board?.type === boardTypes.EVENT) {
+      attitude = "참석";
+    } else if (post?.board?.type === boardTypes.SUGGESTION) {
+      attitude = "동의";
+    } else {
+      attitude = "동의";
+    }
   } else if (user?.votes?.length > 0) {
     if (post.metadata.isAnonymous !== true) {
       attitude = user.votes.map((v) => v.candidate.body).join(",");

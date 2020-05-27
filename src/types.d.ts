@@ -99,6 +99,7 @@ export type PostDetailType = {
   }[];
   board: {
     title: string;
+    type: string;
   };
 };
 export interface SuggestionDetailType extends PostDetailType {
