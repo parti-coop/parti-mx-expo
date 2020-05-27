@@ -77,7 +77,7 @@ export default function TouchableBoardList(props: {
           marginRight: 50,
         }}
       >
-        <ViewRow style={{ justifyContent: "flex-start" }}>
+        <ViewRow>
           <Title18 numberOfLines={1} style={{ flex: 1 }}>
             {board.title}
           </Title18>

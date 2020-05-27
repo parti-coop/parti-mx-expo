@@ -56,23 +56,24 @@ export default function TouchableNoticeList(props: {
             style,
           ]}
         >
-          <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Title16 numberOfLines={1}>{post.title}</Title16>
-            {hasChecked && <DotRed style={{ marginLeft: 4 }} size={4} />}
+          <ViewRow>
+            {hasChecked && (
+              <DotRed
+                style={{ marginLeft: -4, alignSelf: "flex-start" }}
+                size={4}
+              />
+            )}
+            <Title16 numberOfLines={2}>{post.title}</Title16>
           </ViewRow>
-          <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Image source={iconUserGrey} style={{ marginRight: 8 }} />
+          <ViewRow>
             <Grey12 style={{ fontFamily: "notosans700" }}>
               {post.createdBy.name}{" "}
             </Grey12>
             <Grey12 style={{ fontFamily: "notosans700" }}>
               ({semanticDate(post.created_at)})
             </Grey12>
-            <SmallVerticalDivider style={{ marginLeft: 10 }} />
-            <Image
-              source={iconComment}
-              style={{ marginRight: 8, marginLeft: 6 }}
-            />
+            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
+            <Grey12>댓글</Grey12>
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
             <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
             <Image source={iconSympathy} />

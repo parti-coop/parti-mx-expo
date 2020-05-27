@@ -56,7 +56,7 @@ export default function TouchableVoteList(props: {
   );
   return (
     <TouchableOpacity onPress={pressHandler}>
-      <ViewRow style={{ justifyContent: "flex-start" }}>
+      <ViewRow>
         <RoundMonthDate value={closingAt} />
         <V1
           style={[
@@ -69,11 +69,16 @@ export default function TouchableVoteList(props: {
             style,
           ]}
         >
-          <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Title16 numberOfLines={1}>{post.title}</Title16>
-            {hasChecked && <DotRed style={{ marginLeft: 4 }} size={4} />}
+          <ViewRow>
+            {hasChecked && (
+              <DotRed
+                style={{ marginLeft: -4, alignSelf: "flex-start" }}
+                size={4}
+              />
+            )}
+            <Title16 numberOfLines={2}>{post.title}</Title16>
           </ViewRow>
-          <ViewRow style={{ justifyContent: "flex-start" }}>
+          <ViewRow>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12 style={{ fontFamily: "notosans700" }}>
               {post.createdBy.name}

@@ -63,11 +63,11 @@ export default function SuggestionList(props: {
             marginBottom: 60,
           }}
         >
-          {posts.map((sugg: any, i: number) => {
+          {posts.map((post: any, i: number) => {
             return (
               <TouchableSuggestionList
                 key={i}
-                suggestion={sugg}
+                post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
               />
             );

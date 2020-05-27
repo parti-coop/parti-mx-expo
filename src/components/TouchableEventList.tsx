@@ -51,7 +51,7 @@ export default function TouchableEventList(props: {
   }
   return (
     <TouchableOpacity onPress={pressHandler}>
-      <ViewRow style={{ justifyContent: "flex-start" }}>
+      <ViewRow>
         <RoundEventDate value={post.metadata.eventDate} />
         <V1
           style={[

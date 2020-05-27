@@ -21,31 +21,29 @@ import iconUserGrey from "../../assets/iconUserGrey.png";
 import iconSympathy from "../../assets/iconSympathy.png";
 
 export default function TouchableSuggestionList(props: {
-  suggestion: SuggestionListType;
+  post: SuggestionListType;
   style?: StyleProp<ViewStyle>;
 }) {
   const { navigate } = useNavigation();
-  const { suggestion, style } = props;
+  const { post, style } = props;
   const [{ user_id }] = useStore();
   const [update] = useMutation(incrementUserPostCheck, {
-    variables: { user_id, post_id: suggestion.id },
+    variables: { user_id, post_id: post.id },
   });
-  const voteCount =
-    suggestion?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
-  const votedByMe =
-    suggestion.users.length > 0 && suggestion.users[0].like_count > 0;
-  const daysLeft = calculateDays(suggestion.created_at);
+  const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
+  const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
+  const daysLeft = calculateDays(post.created_at);
   function pressHandler() {
     update();
-    navigate("SuggestionDetail", { postId: suggestion.id });
+    navigate("SuggestionDetail", { postId: post.id });
   }
   const hasChecked = isAfterString(
-    suggestion?.updated_at,
-    suggestion?.users?.[0]?.updated_at
+    post?.updated_at,
+    post?.users?.[0]?.updated_at
   );
   return (
     <TouchableOpacity onPress={pressHandler}>
-      <ViewRow style={{ justifyContent: "flex-start" }}>
+      <ViewRow>
         <RoundDDays number={daysLeft} />
         <V1
           style={[
@@ -58,14 +56,19 @@ export default function TouchableSuggestionList(props: {
             style,
           ]}
         >
-          <ViewRow style={{ justifyContent: "flex-start" }}>
-            <Title16 numberOfLines={1}>{suggestion.title}</Title16>
-            {hasChecked && <DotRed style={{ marginLeft: 4 }} size={4} />}
+          <ViewRow>
+            {hasChecked && (
+              <DotRed
+                style={{ marginLeft: -4, alignSelf: "flex-start" }}
+                size={4}
+              />
+            )}
+            <Title16 numberOfLines={2}>{post.title}</Title16>
           </ViewRow>
-          <ViewRow style={{ justifyContent: "flex-start" }}>
+          <ViewRow>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
             <Grey12 style={{ fontFamily: "notosans700" }}>
-              {suggestion.createdBy.name}
+              {post.createdBy.name}
             </Grey12>
             {votedByMe && (
               <>
@@ -78,7 +81,7 @@ export default function TouchableSuggestionList(props: {
               source={iconComment}
               style={{ marginRight: 8, marginLeft: 6 }}
             />
-            <Grey12>{suggestion.comments_aggregate.aggregate.count}</Grey12>
+            <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
             <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
             <Image source={iconSympathy} />
             <Red12 style={{ marginLeft: 5 }}>{voteCount}</Red12>
