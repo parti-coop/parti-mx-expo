@@ -133,7 +133,7 @@ export default function CustomDrawer(props) {
             onBlur={blurHandler}
             returnKeyType="search"
           />
-          <RoundClear onPress={clear} />
+          {isSearching && <RoundClear onPress={clear} />}
         </ViewRow>
       </KAV>
       <ScrollView
