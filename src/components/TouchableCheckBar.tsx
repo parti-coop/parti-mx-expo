@@ -21,6 +21,7 @@ import iconFormCheckbox from "../../assets/iconFormCheckbox.png";
 import { TORow } from "./TouchableOpacity";
 import ViewCheckbox from "./ViewCheckbox";
 import UserProfileNameDate from "./UserProfileNameDate";
+import COLORS from "./Colors";
 
 export default function TouchableCheckBar(props: {
   style?: ViewStyle;
@@ -139,7 +140,17 @@ export default function TouchableCheckBar(props: {
           style={{ width: "25%", justifyContent: "flex-end" }}
           onPress={viewVotersHandler}
         >
-          <Mint14>{count}표</Mint14>
+          <View
+            style={{ borderBottomWidth: 1, borderBottomColor: COLORS.MINT }}
+          >
+            <Mint14
+              style={{
+                fontFamily: "notosans700",
+              }}
+            >
+              {count}표
+            </Mint14>
+          </View>
           <Body14>({percentage}%)</Body14>
         </TORow>
         <Modal
