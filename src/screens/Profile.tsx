@@ -68,7 +68,9 @@ export default function Profile(props: {
   }, [userNameQuery]);
   useFocusEffect(
     React.useCallback(() => {
-      setUserName(userNameQuery?.data?.mx_users_by_pk?.name ?? "");
+      try {
+        userNameQuery.refetch();
+      } catch (error) {}
     }, [userNameQuery.data])
   );
   React.useEffect(() => {
