@@ -42,7 +42,7 @@ export default function VoteNew(props: {
   const [isMultiple, setMultiple] = React.useState(false);
   const [isAnonymous, setAnonymous] = React.useState(false);
   const [isResultHidden, setResultHidden] = React.useState(false);
-  const [closingMethod, setClosingMethod] = React.useState("3days");
+  const [closingMethod, setClosingMethod] = React.useState("7days");
   const [imageArr, setImageArr] = React.useState<Array<ImageInfo | undefined>>(
     []
   );
@@ -56,7 +56,7 @@ export default function VoteNew(props: {
     setBody("");
     setImageArr([]);
     setFileArr([]);
-    setClosingMethod("3days");
+    setClosingMethod("7days");
     setResultHidden(false);
     setAnonymous(false);
     setMultiple(false);
@@ -79,6 +79,13 @@ export default function VoteNew(props: {
     if (!body?.trim()) {
       return showMessage({
         message: "투표 내용을 입력해주세요.",
+        type: "warning",
+      });
+    }
+
+    if (candidates.filter((c) => c.trim().length > 0).length < 2) {
+      return showMessage({
+        message: "항목을 2개 이상 입력해주세요",
         type: "warning",
       });
     }
