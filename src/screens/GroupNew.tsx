@@ -20,7 +20,7 @@ import { LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { createNewGroup } from "../graphql/mutation";
-import { uploadImage } from "../firebase";
+import { uploadFileUUIDGetUrl } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";
 import iconNoImg from "../../assets/iconNoImg.png";
@@ -73,9 +73,8 @@ export default (props: StackHeaderProps) => {
     dispatch({ type: "SET_LOADING", loading: true });
     let url = null;
     if (bg_img_url) {
-      url = await uploadImage(bg_img_url, `bgImg/${uuid.v4()}`).then((snap) =>
-        snap.ref.getDownloadURL()
-      );
+      console.log("new photo uploading");
+      url = await uploadFileUUIDGetUrl(bg_img_url, `bgImg`);
     }
     const group_id = await createGroup(url);
     dispatch({ type: "SET_GROUP", group_id });

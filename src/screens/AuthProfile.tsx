@@ -19,7 +19,7 @@ import { whiteRoundBg } from "../components/Styles";
 import { updateUserName } from "../graphql/mutation";
 import { searchDuplicateName } from "../graphql/query";
 import { useStore } from "../Store";
-import { auth, uploadImage, getUserId } from "../firebase";
+import { auth, uploadFileUUIDGetUrl, getUserId } from "../firebase";
 
 const textStyle = {
   fontSize: 16,
@@ -68,10 +68,7 @@ export default function AuthProfile() {
     dispatch({ type: "SET_LOADING", loading: true });
     let url = null;
     if (photoUrl) {
-      console.log("new photo uploading");
-      url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
-        snap.ref.getDownloadURL()
-      );
+      url = await uploadFileUUIDGetUrl(photoUrl, "profile");
     }
     const userId = await getUserId();
     if (userId === null) {

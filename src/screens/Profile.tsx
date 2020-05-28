@@ -20,7 +20,7 @@ import { whiteRoundBg } from "../components/Styles";
 
 import { updateUserName } from "../graphql/mutation";
 import { whoami, searchDuplicateNameWithoutMine } from "../graphql/query";
-import { auth, uploadImage } from "../firebase";
+import { auth, uploadFileUUIDGetUrl } from "../firebase";
 import { useStore } from "../Store";
 
 const textStyle = {
@@ -105,10 +105,7 @@ export default function Profile(props: {
     dispatch({ type: "SET_LOADING", loading: true });
     let url = photoUrl;
     if (photoUrl && photoUrl !== prevPhoroUrl) {
-      console.log("new photo uploading");
-      url = await uploadImage(photoUrl, `profile/${uuid.v4()}`).then((snap) =>
-        snap.ref.getDownloadURL()
-      );
+      url = await uploadFileUUIDGetUrl(photoUrl, `profile`);
     }
     await updateName({
       variables: {

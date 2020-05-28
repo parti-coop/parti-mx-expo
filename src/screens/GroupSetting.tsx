@@ -12,16 +12,17 @@ import { RootStackParamList } from "./AppContainer";
 import { Title22, Mint16 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
 import { View, V1 } from "../components/View";
-import { TORowCenter } from "../components/TouchableOpacity";
+import { TORowCenter, TO0 } from "../components/TouchableOpacity";
 import HeaderConfirm from "../components/HeaderConfirm";
 import { LineSeperator } from "../components/LineDivider";
 
 import { useStore } from "../Store";
 import { updateGroupName } from "../graphql/mutation";
-import { uploadImage } from "../firebase";
+import { uploadFileUUIDGetUrl } from "../firebase";
 
 import iconPhoto from "../../assets/iconPhoto.png";
 import iconNoImg from "../../assets/iconNoImg.png";
+import iconClosed from "../../assets/iconClosed.png";
 
 const boxStyle = {
   backgroundColor: "#ffffff",
@@ -51,16 +52,16 @@ export default (props: {
   const [update, { loading }] = useMutation(updateGroupName);
   async function save() {
     dispatch({ type: "SET_LOADING", loading: true });
+    let bg_img_url = null;
     if (imgUrl) {
-      const bg_img_url = await uploadImage(
-        imgUrl,
-        `${group_id}/bgImg`
-      ).then((snap) => snap.ref.getDownloadURL());
-      await update({ variables: { bg_img_url, group_id, groupName } });
-      props.navigation.goBack();
-    } else {
-      await update({ variables: { group_id, groupName } });
+      if (imgUrl !== props.route.params.bg_img_url) {
+        bg_img_url = await uploadFileUUIDGetUrl(imgUrl, `bgImg`);
+      } else {
+        bg_img_url = props.route.params.bg_img_url;
+      }
     }
+    await update({ variables: { bg_img_url, group_id, groupName } });
+    props.navigation.goBack();
     showMessage({ type: "success", message: "변경 하였습니다." });
   }
 
@@ -76,6 +77,9 @@ export default (props: {
         }
       })
       .catch(alert);
+  }
+  function removeImageHandler() {
+    setImgUrl(null);
   }
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading });
@@ -103,14 +107,30 @@ export default (props: {
           <LineSeperator />
           <V1 style={{ margin: 30, marginBottom: 0 }}>
             {imgUrl ? (
-              <ImageCache
-                uri={imgUrl}
-                resizeMode="cover"
-                style={{
-                  width: "100%",
-                  height: 150,
-                }}
-              />
+              <>
+                <ImageCache
+                  uri={imgUrl}
+                  resizeMode="cover"
+                  style={{
+                    width: "100%",
+                    height: 150,
+                  }}
+                />
+                <TO0
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 10,
+                    backgroundColor: "#12BD8E",
+                    top: -8,
+                    right: -8,
+                    position: "absolute",
+                  }}
+                  onPress={removeImageHandler}
+                >
+                  <Image source={iconClosed} style={{ tintColor: "white" }} />
+                </TO0>
+              </>
             ) : (
               <Image
                 source={iconNoImg}

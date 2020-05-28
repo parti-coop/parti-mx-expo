@@ -31,11 +31,12 @@ export const auth = firebase.auth();
 //     alert("login: Error:" + message);
 //   }
 // }
-export const uploadFileUUID = async (uri: string, dir: string) => {
+export async function uploadFileUUIDGetUrl(uri: string, dir: string) {
   const path = `${dir}/${uuid.v4()}`;
   console.log({ path });
-  return uploadImage(uri, path);
-};
+  const res = await uploadImage(uri, path);
+  return res.ref.getDownloadURL();
+}
 export const uploadImage = async (uri: string, path: string) => {
   const response = await fetch(uri);
   const blob = await response.blob();
@@ -71,9 +72,7 @@ export async function uploadGetUriArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     let uri = o.uri;
     if (uri.startsWith("file://")) {
-      uri = await uploadFileUUID(o.uri, "posts").then((snap) =>
-        snap.ref.getDownloadURL()
-      );
+      uri = await uploadFileUUIDGetUrl(o.uri, "posts");
     }
     return res({ ...o, uri });
   });
