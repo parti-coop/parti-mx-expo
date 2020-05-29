@@ -154,6 +154,7 @@ export default function Profile(props: {
               style={{
                 paddingVertical: 5,
                 paddingLeft: 75,
+                paddingRight: 30,
                 paddingBottom: 26,
               }}
             >

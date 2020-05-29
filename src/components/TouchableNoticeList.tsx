@@ -40,47 +40,44 @@ export default function TouchableNoticeList(props: {
   }
   return (
     <TouchableOpacity onPress={pressHandler}>
-      <ViewRow
-        style={{
-          justifyContent: "flex-start",
-          paddingHorizontal: 30,
-        }}
+      <V1
+        style={[
+          {
+            paddingHorizontal: 30,
+            alignItems: "flex-start",
+            paddingVertical: 19,
+            borderBottomColor: "#e4e4e4",
+          },
+          style,
+        ]}
       >
-        <V1
-          style={[
-            {
-              alignItems: "flex-start",
-              paddingVertical: 19,
-              borderBottomColor: "#e4e4e4",
-            },
-            style,
-          ]}
-        >
-          <ViewRow>
-            {hasChecked && (
-              <DotRed
-                style={{ marginLeft: -4, alignSelf: "flex-start" }}
-                size={4}
-              />
-            )}
-            <Title16 numberOfLines={2}>{post.title}</Title16>
-          </ViewRow>
-          <ViewRow>
-            <Grey12 style={{ fontFamily: "notosans700" }}>
-              {post.createdBy.name}{" "}
-            </Grey12>
-            <Grey12 style={{ fontFamily: "notosans700" }}>
-              ({semanticDate(post.created_at)})
-            </Grey12>
-            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
-            <Grey12>댓글</Grey12>
-            <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
-            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
-            <Image source={iconSympathy} />
-            <Red12 style={{ marginLeft: 5 }}>{likeCount}</Red12>
-          </ViewRow>
-        </V1>
-      </ViewRow>
+        <ViewRow>
+          {hasChecked && (
+            <DotRed
+              style={{ marginLeft: -4, alignSelf: "flex-start" }}
+              size={4}
+            />
+          )}
+          <Title16 numberOfLines={2}>{post.title}</Title16>
+        </ViewRow>
+        <ViewRow>
+          <Grey12
+            style={{ fontFamily: "notosans700", flexShrink: 1 }}
+            numberOfLines={1}
+          >
+            {post.createdBy.name}{" "}
+          </Grey12>
+          <Grey12 style={{ fontFamily: "notosans700" }}>
+            ({semanticDate(post.created_at)})
+          </Grey12>
+          <SmallVerticalDivider />
+          <Grey12>댓글 </Grey12>
+          <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
+          <SmallVerticalDivider />
+          <Image source={iconSympathy} />
+          <Red12 style={{ marginLeft: 5 }}>{likeCount}</Red12>
+        </ViewRow>
+      </V1>
     </TouchableOpacity>
   );
 }

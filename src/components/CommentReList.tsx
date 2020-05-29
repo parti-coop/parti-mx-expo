@@ -83,9 +83,13 @@ export default function CommentReList(props: {
       ]}
     >
       <ViewRow>
-        <UserCommentProfile name={user.name} photoUrl={user.photo_url} />
-        <Blue12 style={{ marginLeft: 9 }}>{attitude}</Blue12>
-        <Grey12 style={{ marginLeft: 9, fontFamily: "notosans700" }}>
+        <UserCommentProfile
+          name={user.name}
+          photoUrl={user.photo_url}
+          style={{ flexShrink: 1 }}
+        />
+        <Blue12 style={{ marginLeft: 5 }}>{attitude}</Blue12>
+        <Grey12 style={{ marginLeft: 5, fontFamily: "notosans700" }}>
           {formatDateFromString(updated_at)}
         </Grey12>
         {user.id === user_id && <SelectMenu items={options} />}

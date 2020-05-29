@@ -29,7 +29,7 @@ export default function UserProfileNameDate(props: {
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow style={style}>
+    <ViewRow style={[{ flexShrink: 1 }, style]}>
       {photoUrl ? (
         userPhoto
       ) : (
@@ -37,8 +37,10 @@ export default function UserProfileNameDate(props: {
           <Image source={IconUser} resizeMode="center" />
         </V0>
       )}
-      <View style={{ marginLeft: 11 }}>
-        <Caption16 style={{ fontFamily: "notosans700" }}>{name}</Caption16>
+      <View style={{ marginLeft: 11, flexShrink: 1 }}>
+        <Caption16 style={{ fontFamily: "notosans700" }} numberOfLines={1}>
+          {name}
+        </Caption16>
         <Grey12 style={{ fontFamily: "notosans700" }}>{d}</Grey12>
       </View>
     </ViewRow>

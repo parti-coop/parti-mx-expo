@@ -37,7 +37,7 @@ export const SmallVerticalDivider = (props: { style?: ViewStyle }) => {
           width: 1,
           height: 11,
           backgroundColor: "#dedede",
-          marginHorizontal: 4,
+          marginHorizontal: 10,
         },
         props.style,
       ]}

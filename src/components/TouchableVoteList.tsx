@@ -80,7 +80,10 @@ export default function TouchableVoteList(props: {
           </ViewRow>
           <ViewRow>
             <Image source={iconUserGrey} style={{ marginRight: 8 }} />
-            <Grey12 style={{ fontFamily: "notosans700" }}>
+            <Grey12
+              style={{ fontFamily: "notosans700", flexShrink: 1 }}
+              numberOfLines={1}
+            >
               {post.createdBy.name}
             </Grey12>
             {votedByMe && (
@@ -90,12 +93,9 @@ export default function TouchableVoteList(props: {
               </>
             )}
             <SmallVerticalDivider />
-            <Image
-              source={iconComment}
-              style={{ marginRight: 8, marginLeft: 6 }}
-            />
+            <Grey12>댓글 </Grey12>
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
-            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
+            <SmallVerticalDivider />
             <Image source={iconSympathy} />
             <Red12 style={{ marginLeft: 5 }}>{voteCount}</Red12>
           </ViewRow>

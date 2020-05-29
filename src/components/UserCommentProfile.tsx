@@ -12,23 +12,23 @@ const UserStyle = {
   height: 29,
   borderRadius: 10,
   backgroundColor: "#c1c1c1",
-  flex: 0,
 } as ViewStyle;
 const textStyle = {
   fontSize: 16,
-  textAlign: "left",
   color: "#444444",
   fontFamily: "notosans700",
 } as TextStyle;
-export default (
-  props: React.PropsWithoutRef<{ name: string; photoUrl?: string }>
-) => {
-  const { photoUrl, name } = props;
+export default function UserCommentProfile(props: {
+  name: string;
+  photoUrl?: string;
+  style?: ViewStyle;
+}) {
+  const { photoUrl, name, style } = props;
   const userPhoto = (
     <Image source={{ uri: photoUrl }} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow>
+    <ViewRow style={style}>
       {photoUrl ? (
         userPhoto
       ) : (
@@ -37,9 +37,9 @@ export default (
         </V0>
       )}
 
-      <View style={{ marginLeft: 9 }}>
-        <Text style={textStyle}>{name}</Text>
+      <View style={{ marginLeft: 9, flexShrink: 1 }}>
+        <Text style={textStyle} numberOfLines={1}>{name}</Text>
       </View>
     </ViewRow>
   );
-};
+}

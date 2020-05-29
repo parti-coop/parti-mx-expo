@@ -8,7 +8,7 @@ import { White15 } from "./Text";
 import { TouchableOpacity, TO0 } from "./TouchableOpacity";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
-const minus = Platform.select({ios: 1, android: 2})
+const minus = Platform.select({ ios: 1, android: 2 });
 
 const boxStyle: StyleProp<ViewStyle> = {
   width: 182,
@@ -61,9 +61,11 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     <View
       style={[
         {
-          flex: 1,
+          // flex: 1,
           alignItems: "flex-end",
           zIndex: 1,
+          // backgroundColor: "blue",
+          // overflow: "hidden",
         },
         style,
       ]}

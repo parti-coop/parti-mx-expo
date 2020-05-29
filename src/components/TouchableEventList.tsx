@@ -92,7 +92,7 @@ export default function TouchableEventList(props: {
               style={{ marginRight: 8, marginLeft: 6 }}
             />
             <Grey12>{post.comments_aggregate.aggregate.count}</Grey12>
-            <SmallVerticalDivider style={{ marginHorizontal: 10 }} />
+            <SmallVerticalDivider />
             <Image source={iconSympathy} />
             <Red12 style={{ marginLeft: 5 }}>{voteCount}</Red12>
           </ViewRow>

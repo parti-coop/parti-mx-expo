@@ -14,18 +14,19 @@ const UserStyle = {
 } as ViewStyle;
 const textStyle = {
   fontSize: 16,
-  textAlign: "left",
   color: "#444444",
 } as TextStyle;
-export default (
-  props: React.PropsWithoutRef<{ name: string; photoUrl?: string }>
-) => {
-  const { photoUrl, name } = props;
+export default function UserProfileWithName(props: {
+  name: string;
+  photoUrl?: string;
+  style?: ViewStyle;
+}) {
+  const { photoUrl, name, style } = props;
   const userPhoto = (
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow>
+    <ViewRow style={[{ flexShrink: 1 }, style]}>
       {photoUrl ? (
         userPhoto
       ) : (
@@ -34,9 +35,11 @@ export default (
         </V0>
       )}
 
-      <View style={{ marginLeft: 11 }}>
-        <Text style={textStyle}>{name}</Text>
+      <View style={{ marginLeft: 11, flexShrink: 1 }}>
+        <Text style={textStyle} numberOfLines={1}>
+          {name}
+        </Text>
       </View>
     </ViewRow>
   );
-};
+}
