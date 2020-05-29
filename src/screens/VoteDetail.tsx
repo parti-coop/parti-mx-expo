@@ -5,9 +5,9 @@ import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 
-import { Mint12, Title14, Body16, Body12 } from "../components/Text";
+import { Mint12, Title14, Body16, Body12, White16 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
-import { TO0, TORow } from "../components/TouchableOpacity";
+import { TO0, TORowCenter } from "../components/TouchableOpacity";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
@@ -20,6 +20,7 @@ import ViewDetailImageFile from "../components/ViewDetailImageFile";
 import UserProfileNameDate from "../components/UserProfileNameDate";
 import Comments from "../components/Comments";
 import TouchableCheckBar from "../components/TouchableCheckBar";
+import COLORS from "../components/Colors";
 
 import { useStore } from "../Store";
 import { subscribeVote } from "../graphql/subscription";
@@ -74,7 +75,13 @@ export default function VoteDetail(props: {
     candidates,
     users_aggregate,
   } = vote;
-  const voted = !!meLiked?.[0]?.like_count;
+  const [isVoted, setVoted] = React.useState(false);
+  React.useEffect(() => {
+    setVoted(!!meLiked?.[0]?.like_count);
+  }, [vote]);
+  function revoteHandler() {
+    setVoted(false);
+  }
   const totalVoteCount = candidates?.reduce(
     (p, c) => p + c?.votes_aggregate?.aggregate?.sum?.count || 0,
     0
@@ -137,7 +144,7 @@ export default function VoteDetail(props: {
                   <TouchableCheckBar
                     key={i}
                     candidate={c}
-                    voted={voted}
+                    voted={isVoted}
                     max={maxVoteCount}
                     total={totalVoteCount}
                     style={{ marginTop: 10 }}
@@ -145,6 +152,23 @@ export default function VoteDetail(props: {
                 );
               })}
             </View>
+            {isVoted && (
+              <TORowCenter
+                style={{
+                  borderRadius: 16,
+                  backgroundColor: COLORS.MINT,
+                  alignSelf: "center",
+                  paddingHorizontal: 20,
+                  height: 33,
+                  marginTop: 45,
+                }}
+                onPress={revoteHandler}
+              >
+                <White16 style={{ fontFamily: "notosans700" }}>
+                  다시 투표하기
+                </White16>
+              </TORowCenter>
+            )}
           </View>
           <ViewDetailImageFile files={files} images={images} />
         </View>
