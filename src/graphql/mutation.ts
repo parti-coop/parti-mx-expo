@@ -124,6 +124,12 @@ export const insertComment = gql`
     ) {
       affected_rows
     }
+    update_mx_posts_by_pk(
+      pk_columns: { id: $post_id }
+      _set: { last_commented_at: "now()" }
+    ) {
+      id
+    }
   }
 `;
 

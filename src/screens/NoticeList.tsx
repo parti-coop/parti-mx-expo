@@ -71,22 +71,26 @@ export default (props: {
           </ViewRow>
           <PickerSelect
             items={[
-              { label: "최신 등록 순", value: { created_at: "desc" } },
-              { label: "오래된 등록 순", value: { created_at: "asc" } },
-              { label: "최신 수정 순", value: { updated_at: "desc" } },
-              { label: "오래된 수정 순", value: { updated_at: "asc" } },
+              { label: "최근 등록순", value: { created_at: "desc" } },
+              // { label: "오래된 등록 순", value: { created_at: "asc" } },
+              { label: "최근 업데이트순", value: { updated_at: "desc" } },
               {
-                label: "많은 댓글 순",
-                value: { comments_aggregate: { count: "desc" } },
+                label: "최근 댓글순",
+                value: { last_commented_at: "desc_nulls_last" },
               },
-              {
-                label: "많은 공감 순",
-                value: { users_aggregate: { sum: { like_count: "desc" } } },
-              },
-              {
-                label: "많은 조회 순",
-                value: { users_aggregate: { sum: { view_count: "desc" } } },
-              },
+              // {
+              //   label: "많은 댓글순",
+              //   value: { comments_aggregate: { count: "desc" } },
+              // },
+              // { label: "오래된 수정 순", value: { updated_at: "asc" } },
+              // {
+              //   label: "많은 공감 순",
+              //   value: { users_aggregate: { sum: { like_count: "desc" } } },
+              // },
+              // {
+              //   label: "많은 조회 순",
+              //   value: { users_aggregate: { sum: { view_count: "desc" } } },
+              // },
             ]}
             onValueChange={(value) => setSort(value)}
             value={sort}
