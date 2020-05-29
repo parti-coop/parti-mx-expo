@@ -135,10 +135,10 @@ export default class App extends React.PureComponent {
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1, backgroundColor: "#f0f0f0" }}>
               <AuthSwitcher />
-              <FlashMessage ref="myLocalFlashMessage" />
               <LoadingIndicator2 />
             </SafeAreaView>
           </SafeAreaProvider>
+          <FlashMessage ref="myLocalFlashMessage" />
         </StoreProvider>
       </ApolloProvider>
     );
