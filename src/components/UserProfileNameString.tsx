@@ -13,13 +13,18 @@ const UserStyle = {
   flex: 0,
 } as ViewStyle;
 
-export default (props: { name: string; sub: string; photoUrl?: string }) => {
-  const { name, sub, photoUrl } = props;
+export default function UserProfileNameString(props: {
+  name: string;
+  sub: string;
+  photoUrl?: string;
+  style?: ViewStyle;
+}) {
+  const { name, sub, photoUrl, style } = props;
   const userPhoto = (
     <ImageCache uri={photoUrl} style={UserStyle as ImageStyle} />
   );
   return (
-    <ViewRow style={{ width: "50%", marginBottom: 20 }}>
+    <ViewRow style={{ marginBottom: 20, flexShrink: 1 }}>
       {photoUrl ? (
         userPhoto
       ) : (
@@ -27,10 +32,10 @@ export default (props: { name: string; sub: string; photoUrl?: string }) => {
           <Image source={IconUser} resizeMode="center" />
         </V0>
       )}
-      <View style={{ marginLeft: 11 }}>
-        <Caption16>{name}</Caption16>
+      <View style={{ marginLeft: 11, flex: 1 }}>
+        <Caption16 numberOfLines={1}>{name}</Caption16>
         <Grey12>{sub}</Grey12>
       </View>
     </ViewRow>
   );
-};
+}

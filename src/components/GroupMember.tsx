@@ -3,21 +3,15 @@ import { ScrollView } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { useDebounce } from "use-debounce";
 
-import { Title22, Mint16, Caption16 } from "../components/Text";
-import { ViewRow, V1 } from "../components/View";
-import { TORow } from "../components/TouchableOpacity";
+import { ViewRow } from "../components/View";
 import UserProfileNameString from "./UserProfileNameString";
 import SelectMenu from "../components/SelectMenu";
 import useSetOrganizer from "../components/useSetOrganizer";
 import useUserGroupDelete from "../components/useUserGroupDelete";
 
 import { useStore } from "../Store";
+import { UserGroup } from "../types";
 import { searchMembers } from "../graphql/query";
-interface UserGroup {
-  user: { name: string; email: string; photo_url: string; id: number };
-  status: string;
-  created_at: string;
-}
 
 export default function GroupMember(props: {
   searchKeyword: string;

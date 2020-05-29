@@ -78,9 +78,16 @@ export type User = {
   id: number;
   name: string;
   photo_url: string;
+  email?: string;
   checkedPosts?: [{ like_count: number }];
   votes?: Vote[];
 };
+
+export interface UserGroup {
+  user: User;
+  status: string;
+  created_at: string;
+}
 
 export type PostDetailType = {
   id: number;

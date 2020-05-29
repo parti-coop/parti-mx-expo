@@ -7,21 +7,19 @@ import { RootStackParamList } from "./AppContainer";
 import { KeyboardAvoidingView } from "../components/KeyboardAvoidingView";
 import { Title22, Title14 } from "../components/Text";
 import { TextInput } from "../components/TextInput";
-import { ViewRow, View } from "../components/View";
+import { ViewRow, V1 } from "../components/View";
 import { TO0 } from "../components/TouchableOpacity";
 import { SmallVerticalDivider } from "../components/LineDivider";
 import HeaderBack from "../components/HeaderBack";
 import GroupMember from "../components/GroupMember";
+import COLORS from "../components/Colors";
 
 import { useStore } from "../Store";
 import { getMemberCount } from "../graphql/query";
 // import { subscribeMemberCount } from "../graphql/subscription";
 
 import iconSearch from "../../assets/iconSearch.png";
-const boxStyle = {
-  borderRadius: 25,
-  backgroundColor: "#ffffff",
-};
+
 export default function Member(props: {
   route: RouteProp<RootStackParamList, "Member">;
 }) {
@@ -71,7 +69,7 @@ export default function Member(props: {
             </ViewRow>
           </TO0>
         </ViewRow>
-        <View style={boxStyle}>
+        <V1 style={{ borderRadius: 25, backgroundColor: "#ffffff" }}>
           <ViewRow style={{ marginHorizontal: 30, paddingVertical: 10 }}>
             <TextInput
               value={searchKeyword}
@@ -79,7 +77,7 @@ export default function Member(props: {
               placeholder="닉네임 입력"
               style={{ fontSize: 16, color: "#999999", paddingLeft: 0 }}
             />
-            <Image source={iconSearch} style={{ tintColor: "#12BD8E" }} />
+            <Image source={iconSearch} style={{ tintColor: COLORS.MINT }} />
           </ViewRow>
           <GroupMember
             searchKeyword={searchKeyword}
@@ -87,7 +85,7 @@ export default function Member(props: {
             refetchCount={refetch}
             userStatus={userStatus}
           />
-        </View>
+        </V1>
       </KeyboardAvoidingView>
     </>
   );
