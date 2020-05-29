@@ -85,7 +85,7 @@ export default function AccountDelete() {
         <PasswordInput
           value={password}
           onChangeText={setPassword}
-          autoFocus={true}
+          // autoFocus={true}
           onSubmitEditing={exitHandler}
           style={{ marginVertical: 20 }}
         />
