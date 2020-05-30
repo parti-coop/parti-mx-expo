@@ -124,12 +124,7 @@ export default function TouchableCheckBar(props: {
                 paddingHorizontal: 15,
               }}
             >
-              {myVote && (
-                <Image
-                  source={iconFormCheckbox}
-                  style={{ tintColor: "white" }}
-                />
-              )}
+              {myVote && <Image source={iconFormCheckbox} />}
               <White16 style={{ position: "absolute", left: 35 }}>
                 {candidate?.body}
               </White16>

@@ -3,9 +3,8 @@ import { ViewStyle, Keyboard } from "react-native";
 
 import { Image } from "./Image";
 import { TO0 } from "./TouchableOpacity";
-import { View } from "./View";
-import bgCheckboxOff from "../../assets/bgCheckboxOff.png";
-import bgCheckboxOn from "../../assets/bgCheckboxOn.png";
+import { View, V0 } from "./View";
+import COLORS from "./Colors";
 import iconFormCheckbox from "../../assets/iconFormCheckbox.png";
 export default function ButtonCheckbox(props: {
   style?: ViewStyle;
@@ -25,12 +24,26 @@ export default function ButtonCheckbox(props: {
     <View style={style}>
       {value ? (
         <TO0 onPress={off}>
-          <Image source={bgCheckboxOn} />
+          <V0
+            style={{
+              width: 27,
+              height: 27,
+              borderRadius: 14,
+              backgroundColor: COLORS.MINT,
+            }}
+          />
           <Image source={iconFormCheckbox} style={{ position: "absolute" }} />
         </TO0>
       ) : (
         <TO0 onPress={on}>
-          <Image source={bgCheckboxOff} />
+          <V0
+            style={{
+              width: 27,
+              height: 27,
+              borderRadius: 14,
+              backgroundColor: "#c1c1c1",
+            }}
+          />
         </TO0>
       )}
     </View>

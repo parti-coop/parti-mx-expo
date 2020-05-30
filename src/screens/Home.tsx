@@ -34,10 +34,9 @@ export default function HomeContainer() {
   return (
     <Drawer.Navigator
       initialRouteName={"Home"}
-      drawerContentOptions={{ activeTintColor: "#e91e63" }}
       drawerContent={(props) => <CustomDrawer {...props} />}
       drawerStyle={{
-        backgroundColor: "#008489",
+        backgroundColor: "#00a580",
         width: 330,
         borderBottomRightRadius: 20,
         borderTopRightRadius: 20,

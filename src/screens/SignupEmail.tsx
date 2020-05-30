@@ -2,7 +2,7 @@ import React from "react";
 import { Keyboard, ViewProps, TextProps, Image } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
-import { Text, Title30, Body16 } from "../components/Text";
+import { Text, Title30, Mint16 } from "../components/Text";
 import { EmailInput, PasswordInput } from "../components/TextInput";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import { ViewRow, V0, View } from "../components/View";
@@ -12,6 +12,7 @@ import HeaderBack from "../components/HeaderBack";
 import ButtonCheckbox from "../components/ButtonCheckbox";
 import { LineSeperator } from "../components/LineDivider";
 import { whiteRoundBg } from "../components/Styles";
+import COLORS from "../components/Colors";
 
 import { useStore } from "../Store";
 import { auth } from "../firebase";
@@ -128,8 +129,8 @@ export default function SingupEmail(props) {
             <ButtonCheckbox value={checkboxes[0]} setValue={checkboxHandler1} />
             <Margin10 />
             <TouchableOpacity onPress={() => navigate("TermsService")}>
-              <Body16>서비스 이용약관</Body16>
-              <View style={{ height: 1, backgroundColor: "black" }} />
+              <Mint16>서비스 이용약관</Mint16>
+              <View style={{ height: 1, backgroundColor: COLORS.MINT }} />
             </TouchableOpacity>
             <Text>에 동의합니다 (필수)</Text>
           </ViewRow>
@@ -137,8 +138,8 @@ export default function SingupEmail(props) {
             <ButtonCheckbox value={checkboxes[1]} setValue={checkboxHandler2} />
             <Margin10 />
             <TouchableOpacity onPress={() => navigate("TermsPrivacy")}>
-              <Body16>개인정보 처리방침</Body16>
-              <View style={{ height: 1, backgroundColor: "black" }} />
+              <Mint16>개인정보 처리방침</Mint16>
+              <View style={{ height: 1, backgroundColor: COLORS.MINT }} />
             </TouchableOpacity>
             <Text>에 동의합니다 (필수)</Text>
           </ViewRow>
