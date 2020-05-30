@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Title30, Sub15, White16 } from "../components/Text";
 import { Image } from "../components/Image";
-import { ViewRow } from "../components/View";
+import { ViewRow, View } from "../components/View";
 import { TO0 } from "../components/TouchableOpacity";
 import { EmailInput } from "../components/TextInput";
 import HeaderBack from "../components/HeaderBack";
@@ -63,10 +63,10 @@ export default function PasswordFind() {
     <>
       <HeaderBack />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ViewRow style={{ padding: 30, paddingTop: 6 }}>
+        <View style={{ padding: 30, paddingTop: 6 }}>
           <Title30>비밀번호 찾기</Title30>
           <Sub15>회원가입 시 등록한 이메일 주소를 입력하세요.</Sub15>
-        </ViewRow>
+        </View>
       </TouchableWithoutFeedback>
       <ViewRow
         style={[
