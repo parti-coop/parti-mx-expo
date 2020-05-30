@@ -43,7 +43,7 @@ export default function ViewBoardEdit(props: {
       return;
     }
     await update();
-    showMessage({ type: "success", message: "게시판을 만들었습니다." });
+    showMessage({ type: "success", message: "게시판 이름을 수정했습니다." });
     props.setVisible(false);
   }
   return (
