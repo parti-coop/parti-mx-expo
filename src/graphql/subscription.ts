@@ -15,7 +15,10 @@ export const whoami = gql`
 
 export const subscribeGroupsByUserId = gql`
   subscription($user_id: Int!) {
-    mx_users_group(where: { user_id: { _eq: $user_id } }) {
+    mx_users_group(
+      where: { user_id: { _eq: $user_id } }
+      order_by: { updated_at: desc_nulls_last }
+    ) {
       updated_at
       group {
         title
