@@ -1,28 +1,21 @@
 import React from "react";
-import { ViewStyle, StyleProp, Platform } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import Modal from "react-native-modal";
 
 import { Image } from "./Image";
 import { View } from "./View";
 import { White15 } from "./Text";
 import { TouchableOpacity, TO0 } from "./TouchableOpacity";
+import { whiteRoundBg } from "./Styles";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
-const minus = Platform.select({ ios: 1, android: 2 });
-
 const boxStyle: StyleProp<ViewStyle> = {
+  ...(whiteRoundBg as Object),
   width: 182,
   backgroundColor: "#12BD8E",
   shadowColor: "rgba(0, 0, 0, 0.32)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
   shadowRadius: 5,
-  shadowOpacity: 1,
   paddingVertical: 5,
-  borderRadius: 25,
   borderTopRightRadius: 0,
   position: "absolute",
 };
@@ -41,14 +34,14 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     handler: (value?: any) => any;
   }) {
     setVisible(false);
-    hideHandler = () => setTimeout(() => item.handler(item?.value), 100);
+    hideHandler = () => setTimeout(() => item.handler(item?.value), 1);
   }
   function openModal() {
     btnRef.current.measure(
       (x, y, width, height: number, pageX: number, pageY: number) =>
         setLayout({
-          top: pageY + height / 2 - minus,
-          left: pageX - 182 + width / 2 - minus,
+          top: pageY + height / 2 - 2.5,
+          left: pageX - 182 + width / 2 - 2.5,
         })
     );
     setVisible(true);
