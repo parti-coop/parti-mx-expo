@@ -60,7 +60,7 @@ export default function TOEventAddCalendar(props: {
       if (defaultCalendars) {
         defaultCalendarId = defaultCalendars.id;
       } else {
-        defaultCalendarId = createCalendar();
+        defaultCalendarId = await createCalendar();
       }
     }
     // console.log(defaultCalendarId);
