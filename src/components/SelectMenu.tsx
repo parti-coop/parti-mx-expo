@@ -61,7 +61,7 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     <View
       style={[
         {
-          // flex: 1,
+          flex: 1,
           alignItems: "flex-end",
           zIndex: 1,
           // backgroundColor: "blue",
