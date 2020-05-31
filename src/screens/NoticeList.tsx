@@ -12,6 +12,7 @@ import TouchableNoticeList from "../components/TouchableNoticeList";
 import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";
 import { Image } from "../components/Image";
+import { flatWhiteBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { subscribeNoticeList } from "../graphql/subscription";
@@ -109,15 +110,7 @@ export default (props: {
             }}
           />
         </ViewRow>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#d4e7e4",
-            marginHorizontal: 30,
-            borderRadius: 25,
-            marginBottom: 20,
-          }}
-        >
+        <View style={[flatWhiteBg, { backgroundColor: "#d4e7e4" }]}>
           {announcements.map((post: any, i: number) => {
             return (
               <TouchableNoticeList
@@ -130,15 +123,7 @@ export default (props: {
             );
           })}
         </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#ffffff",
-            marginHorizontal: 30,
-            borderRadius: 25,
-            marginBottom: 60,
-          }}
-        >
+        <View style={flatWhiteBg}>
           {posts.map((post: any, i: number) => {
             return (
               <TouchableNoticeList

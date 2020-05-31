@@ -10,6 +10,7 @@ import { View, ViewRow } from "../components/View";
 import TouchableEventList from "../components/TouchableEventList";
 import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";
+import { flatWhiteBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
@@ -44,25 +45,10 @@ export default function EventList(props: {
         <View style={{ paddingHorizontal: 30 }}>
           <Title24>{title}</Title24>
         </View>
-
-        <ViewRow
-          style={{
-            justifyContent: "space-between",
-            marginVertical: 20,
-            paddingHorizontal: 30,
-          }}
-        >
+        <ViewRow style={{ marginVertical: 20, paddingHorizontal: 30 }}>
           <Title14>진행중 모임</Title14>
         </ViewRow>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#ffffff",
-            marginHorizontal: 30,
-            borderRadius: 25,
-            marginBottom: 60,
-          }}
-        >
+        <View style={flatWhiteBg}>
           {posts.map((post: any, i: number) => {
             return (
               <TouchableEventList

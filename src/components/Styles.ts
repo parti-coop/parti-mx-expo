@@ -24,3 +24,10 @@ export const textStyle: StyleProp<TextStyle> = {
   paddingHorizontal: 0,
   flex: 1,
 };
+export const flatWhiteBg: StyleProp<ViewStyle> = {
+  backgroundColor: "#ffffff",
+  marginHorizontal: 30,
+  borderRadius: 25,
+  // marginBottom: 60,
+  marginBottom: 20,
+};
