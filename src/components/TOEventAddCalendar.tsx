@@ -3,6 +3,7 @@ import { Platform, ViewStyle, Linking } from "react-native";
 import Modal from "react-native-modal";
 import * as Calendar from "expo-calendar";
 import { addHours } from "date-fns";
+import { showMessage } from "react-native-flash-message";
 
 import { Body16, Mint13 } from "./Text";
 import { V0 } from "./View";
@@ -10,6 +11,7 @@ import { Image } from "./Image";
 import { TORow } from "./TouchableOpacity";
 import { EventMetadata } from "../types";
 import { whiteRoundBg } from "./Styles";
+import COLORS from "./Colors";
 
 import { getIosDateRef } from "../Utils/CalculateDays";
 import iconGoogleCalendar from "../../assets/iconGoogleCalendar.png";
@@ -23,64 +25,78 @@ export default function TOEventAddCalendar(props: {
   const { metadata, style, title } = props;
 
   const [isVisible, setVisible] = React.useState(false);
-
   async function createCalendar() {
-    const { status } = await Calendar.requestCalendarPermissionsAsync();
-    if (status === "granted") {
-      const calendars = await Calendar.getCalendarsAsync();
-      // return console.log(calendars);
-      const defaultCalendar = calendars.find(
-        (each) => each.source.name === "Default"
-      );
-      if (!defaultCalendar) {
-        return false;
-      }
-      const details = Platform.select({
-        ios: {
-          url: "https://parti.mx",
-        },
-        android: {
-          timeZone: null,
-          endTimeZone: null,
-          organizerEmail: null,
-          accessLevel: null,
-          guestsCanModify: false,
-          guestsCanInviteOthers: false,
-          guestsCanSeeGuests: false,
-        },
-      });
-      let startDate = null,
-        endDate = null;
-      try {
-        startDate = new Date(metadata?.eventDate);
-        endDate = addHours(new Date(metadata?.eventDate), 1.5);
-      } catch (error) {
-        startDate = new Date();
-        endDate = addHours(new Date(), 1.5);
-      }
-      const evnetId = await Calendar.createEventAsync(defaultCalendar.id, {
-        title,
-        startDate,
-        endDate,
-        location: metadata?.place,
-        ...details,
-      });
+    const newCalendarSource = {
+      isLocalAccount: true,
+      name: "parti.mx",
+      type: "com.google",
+    };
 
-      if (Platform.OS === "ios") {
-        Linking.openURL("calshow:" + getIosDateRef(startDate));
-      } else if (Platform.OS === "android") {
-        Calendar.openEventInCalendar(evnetId);
-        // Linking.openURL('content://com.android.calendar/time/');
+    const newCalendarID = await Calendar.createCalendarAsync({
+      title: "빠띠 믹스",
+      color: COLORS.MINT,
+      entityType: Calendar.EntityTypes.EVENT,
+      source: newCalendarSource,
+      name: "parti.mx",
+      ownerAccount: "personal",
+      accessLevel: Calendar.CalendarAccessLevel.OWNER,
+    });
+
+    return newCalendarID;
+  }
+  async function createEventHandler() {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status !== "granted") {
+      return showMessage({ type: "danger", message: status });
+    }
+    let defaultCalendarId = null;
+    if (Platform.OS === "ios") {
+      defaultCalendarId = (await Calendar.getDefaultCalendarAsync()).id;
+    } else if (Platform.OS === "android") {
+      const calendars = await Calendar.getCalendarsAsync();
+      const defaultCalendars = calendars.find(
+        (each) => each.source.name === "parti.mx"
+      );
+      if (defaultCalendars) {
+        defaultCalendarId = defaultCalendars.id;
+      } else {
+        defaultCalendarId = createCalendar();
       }
-    } else {
-      console.log(status);
+    }
+    // console.log(defaultCalendarId);
+    const details = Platform.select({
+      ios: {
+        url: "https://parti.mx",
+      },
+    });
+    let startDate = null,
+      endDate = null;
+    try {
+      startDate = new Date(metadata?.eventDate);
+      endDate = addHours(new Date(metadata?.eventDate), 1.5);
+    } catch (error) {
+      startDate = new Date();
+      endDate = addHours(new Date(), 1.5);
+    }
+    const evnetId = await Calendar.createEventAsync(defaultCalendarId, {
+      title,
+      startDate,
+      endDate,
+      location: metadata?.place,
+      ...details,
+    });
+    console.log(evnetId);
+    if (Platform.OS === "ios") {
+      Linking.openURL("calshow:" + getIosDateRef(startDate));
+    } else if (Platform.OS === "android") {
+      Calendar.openEventInCalendar(evnetId);
     }
   }
   return (
     <>
       <TORow
         style={[{ paddingHorizontal: 30 }, style]}
-        onPress={createCalendar}
+        onPress={createEventHandler}
       >
         <Image source={iconGoogleCalendar} />
         <Mint13 style={{ fontFamily: "notosans700", marginHorizontal: 8 }}>
