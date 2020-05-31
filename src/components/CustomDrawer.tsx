@@ -137,11 +137,10 @@ export default function CustomDrawer(props) {
         </ViewRow>
       </KAV>
       <ScrollView
-        style={{ paddingTop: 42, marginBottom: 10 }}
         contentContainerStyle={{
           flexGrow: 1,
           marginHorizontal: 30,
-          paddingVertical: 10,
+          paddingVertical: 40,
         }}
       >
         {isSearching ? (
