@@ -10,6 +10,21 @@ export type Board = {
   newPostCount?: number;
 };
 
+export interface VoteBoardList {
+  mx_boards_by_pk: {
+    id: string;
+    body: string;
+    title: string;
+    slug: string;
+    posts_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+    posts: VoteListType[];
+  };
+}
+
 export interface Comment {
   id: number;
   body: string;

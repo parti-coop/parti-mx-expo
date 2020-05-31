@@ -13,6 +13,7 @@ import ButtonNew from "../components/ButtonNew";
 import { flatWhiteBg } from "../components/Styles";
 
 import { useStore } from "../Store";
+import { VoteBoardList } from "../types";
 import { subscribePostsByBoardId } from "../graphql/subscription";
 
 export default function VoteList(props: {
@@ -21,9 +22,12 @@ export default function VoteList(props: {
 }) {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
-  const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
-    variables: { id: boardId, user_id },
-  });
+  const { data, error, loading } = useSubscription<VoteBoardList>(
+    subscribePostsByBoardId,
+    {
+      variables: { id: boardId, user_id },
+    }
+  );
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
     dispatch({ type: "SET_GROUP", group_id });
@@ -49,7 +53,7 @@ export default function VoteList(props: {
           <Title14>진행중인 투표</Title14>
         </ViewRow>
         <View style={flatWhiteBg}>
-          {posts.map((post: any, i: number) => {
+          {posts.map((post, i) => {
             return (
               <TouchableVoteList
                 key={i}
