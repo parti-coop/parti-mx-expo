@@ -5,7 +5,7 @@ import * as Calendar from "expo-calendar";
 import { addHours } from "date-fns";
 import { showMessage } from "react-native-flash-message";
 
-import { Body16, Mint13 } from "./Text";
+import { Mint13 } from "./Text";
 import { V0 } from "./View";
 import { Image } from "./Image";
 import { TORow } from "./TouchableOpacity";
@@ -16,7 +16,7 @@ import COLORS from "./Colors";
 import { getIosDateRef } from "../Utils/CalculateDays";
 import iconGoogleCalendar from "../../assets/iconGoogleCalendar.png";
 import iconAddForm from "../../assets/iconAddForm.png";
-
+const PARTI_CALENDAR_NAME = "parti.mx";
 export default function TOEventAddCalendar(props: {
   metadata?: EventMetadata;
   title?: string;
@@ -28,7 +28,7 @@ export default function TOEventAddCalendar(props: {
   async function createCalendar() {
     const newCalendarSource = {
       isLocalAccount: true,
-      name: "parti.mx",
+      name: PARTI_CALENDAR_NAME,
       type: "com.google",
     };
 
@@ -37,7 +37,7 @@ export default function TOEventAddCalendar(props: {
       color: COLORS.MINT,
       entityType: Calendar.EntityTypes.EVENT,
       source: newCalendarSource,
-      name: "parti.mx",
+      name: PARTI_CALENDAR_NAME,
       ownerAccount: "personal",
       accessLevel: Calendar.CalendarAccessLevel.OWNER,
     });
@@ -55,12 +55,21 @@ export default function TOEventAddCalendar(props: {
     } else if (Platform.OS === "android") {
       const calendars = await Calendar.getCalendarsAsync();
       const defaultCalendars = calendars.find(
-        (each) => each.source.name === "parti.mx"
+        (each) => each.accessLevel === "owner"
       );
+
       if (defaultCalendars) {
         defaultCalendarId = defaultCalendars.id;
       } else {
-        defaultCalendarId = await createCalendar();
+        const partiCalendars = calendars.find(
+          (each) => each.source.name === PARTI_CALENDAR_NAME
+        );
+        if (partiCalendars) {
+          defaultCalendarId = partiCalendars.id;
+          // return await Calendar.deleteCalendarAsync(defaultCalendarId);
+        } else {
+          defaultCalendarId = await createCalendar();
+        }
       }
     }
     // console.log(defaultCalendarId);
@@ -85,7 +94,7 @@ export default function TOEventAddCalendar(props: {
       location: metadata?.place,
       ...details,
     });
-    console.log(evnetId);
+    // console.log(evnetId);
     if (Platform.OS === "ios") {
       Linking.openURL("calshow:" + getIosDateRef(startDate));
     } else if (Platform.OS === "android") {
