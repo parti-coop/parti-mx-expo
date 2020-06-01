@@ -97,10 +97,11 @@ export type User = {
   checkedPosts?: [{ like_count: number }];
   votes?: Vote[];
 };
+export type UserStatus = "requested" | "organizer" | "user" | undefined;
 
 export interface UserGroup {
   user: User;
-  status: string;
+  status: UserStatus;
   created_at: string;
 }
 

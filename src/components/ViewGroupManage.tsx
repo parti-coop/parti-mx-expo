@@ -8,6 +8,7 @@ import { TouchableOpacity } from "./TouchableOpacity";
 import useGroupExit from "./useGroupExit";
 import { Image } from "./Image";
 import { useStore } from "../Store";
+import { UserStatus } from "../types";
 
 import iconOut from "../../assets/iconOut.png";
 import iconMember from "../../assets/iconMember.png";
@@ -26,10 +27,10 @@ export default (props: {
   bg_img_url: string;
   title: string;
   userCount: string;
-  userStatus: "requested" | "organizer" | "user" | undefined;
+  userStatus: UserStatus;
 }) => {
   const { bg_img_url, title, userCount, userStatus } = props;
-  const [{ group_id, user_id }, dispatch] = useStore();
+  const [{ group_id }] = useStore();
   const { navigate } = useNavigation();
   const exitGroup = useGroupExit();
   function navigateMember() {
