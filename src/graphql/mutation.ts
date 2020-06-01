@@ -212,6 +212,7 @@ export const createNewGroup = gql`
             }
             { title: "소식 게시판", body: "소식 게시판입니다", type: "notice" }
             { title: "투표 게시판", body: "투표 게시판입니다", type: "vote" }
+            { title: "모임 게시판", body: "모임 게시판입니다", type: "event" }
           ]
         }
       }
