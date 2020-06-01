@@ -6,15 +6,12 @@ import { Image } from "./Image";
 import { View } from "./View";
 import { White15 } from "./Text";
 import { TouchableOpacity, TO0 } from "./TouchableOpacity";
-import { whiteRoundBg } from "./Styles";
+import { mintBg } from "./Styles";
 
 import btnDetailMore from "../../assets/btnDetailMore.png";
 const boxStyle: StyleProp<ViewStyle> = {
-  ...(whiteRoundBg as Object),
+  ...(mintBg as Object),
   width: 182,
-  backgroundColor: "#12BD8E",
-  shadowColor: "rgba(0, 0, 0, 0.32)",
-  shadowRadius: 5,
   paddingVertical: 5,
   borderTopRightRadius: 0,
   position: "absolute",
@@ -102,7 +99,6 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
                 {i !== items.length - 1 && (
                   <View
                     style={{
-                      width: 131,
                       height: 1,
                       backgroundColor: "#2ea497",
                     }}

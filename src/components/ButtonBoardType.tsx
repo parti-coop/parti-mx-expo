@@ -14,6 +14,7 @@ import { View, ViewRow } from "./View";
 import { Image } from "./Image";
 import { TORow, TouchableOpacity } from "./TouchableOpacity";
 import { Mint15, Title14, Title15 } from "./Text";
+import { whiteRoundBg } from "./Styles";
 
 import { updateBoardPermission } from "../graphql/mutation";
 
@@ -22,16 +23,9 @@ import btnFormSelect from "../../assets/btnFormSelect.png";
 
 const windowHeight = Dimensions.get("window").height;
 const boxStyle: StyleProp<ViewStyle> = {
-  backgroundColor: "#ffffff",
+  ...(whiteRoundBg as Object),
   shadowColor: "rgba(0, 0, 0, 0.32)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
   shadowRadius: 5,
-  shadowOpacity: 1,
-  borderRadius: 25,
   borderTopLeftRadius: 0,
   width: 207,
   position: "absolute",

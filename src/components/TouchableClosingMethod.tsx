@@ -11,26 +11,21 @@ import { View } from "./View";
 import { Mint15, Body15, Body16 } from "./Text";
 import { TORow } from "./TouchableOpacity";
 import { Image } from "./Image";
+import { whiteRoundBg } from "./Styles";
 
 import iconSelected from "../../assets/iconSelected.png";
 import btnFormSelect from "../../assets/btnFormSelect.png";
 const windowHeight = Dimensions.get("window").height;
+
 const boxStyle: StyleProp<ViewStyle> = {
+  ...(whiteRoundBg as Object),
   width: 207,
-  backgroundColor: "#ffffff",
   shadowColor: "rgba(0, 0, 0, 0.32)",
-  elevation: 1,
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
   shadowRadius: 5,
-  shadowOpacity: 1,
   paddingHorizontal: 25,
   paddingVertical: 20,
   position: "absolute",
   right: 0,
-  borderRadius: 25,
   borderTopRightRadius: 0,
 };
 type Value = number | string;

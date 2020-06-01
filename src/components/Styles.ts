@@ -1,4 +1,6 @@
 import { StyleProp, ViewStyle, TextStyle } from "react-native";
+import COLORS from "./Colors";
+
 export const whiteRoundBg: StyleProp<ViewStyle> = {
   borderRadius: 25,
   backgroundColor: "#ffffff",
@@ -10,6 +12,12 @@ export const whiteRoundBg: StyleProp<ViewStyle> = {
   },
   shadowRadius: 1,
   shadowOpacity: 1,
+};
+export const mintBg: StyleProp<ViewStyle> = {
+  ...(whiteRoundBg as Object),
+  shadowRadius: 1,
+  shadowColor: "rgba(0, 0, 0, 0.32)",
+  backgroundColor: COLORS.MINT,
 };
 export const bgStyle: StyleProp<ViewStyle> = {
   ...whiteRoundBg,
