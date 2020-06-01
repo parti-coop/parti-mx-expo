@@ -7,6 +7,7 @@ import { Text } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import useGroupExit from "./useGroupExit";
 import { Image } from "./Image";
+import { useStore } from "../Store";
 
 import iconOut from "../../assets/iconOut.png";
 import iconMember from "../../assets/iconMember.png";
@@ -28,6 +29,7 @@ export default (props: {
   userStatus: "requested" | "organizer" | "user" | undefined;
 }) => {
   const { bg_img_url, title, userCount, userStatus } = props;
+  const [{ group_id, user_id }, dispatch] = useStore();
   const { navigate } = useNavigation();
   const exitGroup = useGroupExit();
   function navigateMember() {
@@ -57,11 +59,12 @@ export default (props: {
             <Text style={{ fontSize: 16, color: "#ffffff" }}>그룹 설정</Text>
           </TouchableOpacity>
         )}
-
-        <TouchableOpacity onPress={exitGroup} style={btnStyle}>
-          <Image source={iconOut} style={{ marginBottom: 10 }} />
-          <Text style={{ fontSize: 16, color: "#ffffff" }}>그룹 탈퇴</Text>
-        </TouchableOpacity>
+        {![5, 25].includes(group_id) && (
+          <TouchableOpacity onPress={exitGroup} style={btnStyle}>
+            <Image source={iconOut} style={{ marginBottom: 10 }} />
+            <Text style={{ fontSize: 16, color: "#ffffff" }}>그룹 탈퇴</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
