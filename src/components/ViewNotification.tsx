@@ -1,18 +1,23 @@
 import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
 import Modal from "react-native-modal";
+import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { View } from "./View";
 import { White15 } from "./Text";
 import { mintBg } from "./Styles";
 import COLORS from "./Colors";
+import { useStore } from "../Store";
 import { NotificationType } from "../types";
 import { TO0, TORow } from "./TouchableOpacity";
 import { notificationOptions } from "./notificationTypes";
+import useNotification from "./useNotification";
 
+import { updateUserGroupNotification } from "../graphql/mutation";
 import iconNotification from "../../assets/iconNotification.png";
 import iconSelected from "../../assets/iconSelected.png";
+
 const boxStyle: StyleProp<ViewStyle> = {
   ...(mintBg as Object),
   width: 222,
@@ -20,13 +25,23 @@ const boxStyle: StyleProp<ViewStyle> = {
   borderTopLeftRadius: 0,
   position: "absolute",
 };
+
 export default function ViewNotification(props: {
   style?: ViewStyle;
   type: NotificationType;
 }) {
   const { style, type } = props;
   const [isVisible, setVisible] = React.useState(false);
+  const [{ group_id, user_id }, dispatch] = useStore();
+  const [pushToken] = useNotification();
+  const [update, { loading, error }] = useMutation(updateUserGroupNotification);
+  if (error) {
+    console.log(error);
+  }
 
+  React.useEffect(() => {
+    dispatch({ type: "SET_LOADING", loading });
+  }, [loading]);
   const [layout, setLayout] = React.useState({
     top: 0,
     left: 0,
@@ -34,6 +49,8 @@ export default function ViewNotification(props: {
   const btnRef = React.useRef(null);
   function changeHandler(value: string) {
     setVisible(false);
+    update({ variables: { group_id, user_id, notification_type: value } });
+    pushToken();
   }
   function openModal() {
     btnRef.current.measure(

@@ -247,6 +247,16 @@ export const updateUserGroupCheck = gql`
     }
   }
 `;
+export const updateUserGroupNotification = gql`
+  mutation($group_id: Int!, $user_id: Int!, $notification_type: String) {
+    update_mx_users_group_by_pk(
+      pk_columns: { group_id: $group_id, user_id: $user_id }
+      _set: { notification_type: $notification_type }
+    ) {
+      notification_type
+    }
+  }
+`;
 export const incrementUserBoardCheck = gql`
   mutation($board_id: Int!, $user_id: Int!) {
     update_mx_users_board(
@@ -503,6 +513,17 @@ export const updateVote = gql`
     }
     insert_mx_candidates(objects: $candidates) {
       affected_rows
+    }
+  }
+`;
+
+export const updateNotificationToken = gql`
+  mutation($user_id: Int!, $push_tokens: jsonb) {
+    update_mx_users_by_pk(
+      pk_columns: { id: $user_id }
+      _set: { push_tokens: $push_tokens }
+    ) {
+      push_tokens
     }
   }
 `;

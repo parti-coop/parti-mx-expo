@@ -43,6 +43,14 @@ export interface HomeGroup {
     ];
   };
 }
+export interface Whoami {
+  mx_users_by_pk: {
+    name: string;
+    email: string;
+    photo_url: string;
+    push_tokens: { token: string; created_at: string };
+  };
+}
 
 export interface Comment {
   id: number;

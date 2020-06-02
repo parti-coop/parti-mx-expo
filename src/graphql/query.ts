@@ -5,6 +5,7 @@ export const whoami = gql`
       name
       email
       photo_url
+      push_tokens
     }
   }
 `;
