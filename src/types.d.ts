@@ -24,6 +24,25 @@ export interface VoteBoardList {
     posts: VoteListType[];
   };
 }
+export interface HomeGroup {
+  mx_groups_by_pk: {
+    id: string;
+    title: string;
+    bg_img_url: string;
+    boards: Board[];
+    users_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+    users: [
+      {
+        status: UserStatus;
+        notification_type: NotificationType;
+      }
+    ];
+  };
+}
 
 export interface Comment {
   id: number;
@@ -98,11 +117,13 @@ export type User = {
   votes?: Vote[];
 };
 export type UserStatus = "requested" | "organizer" | "user" | undefined;
+export type NotificationType = "all" | "mine" | "related" | null;
 
 export interface UserGroup {
   user: User;
   status: UserStatus;
   created_at: string;
+  notification_type: NotificationType;
 }
 
 export type PostDetailType = {

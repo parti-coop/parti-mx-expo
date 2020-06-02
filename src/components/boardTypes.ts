@@ -3,12 +3,12 @@ import iconCommunityGray from "../../assets/iconCommunityGray.png";
 import iconSuggestGray from "../../assets/iconSuggestGray.png";
 import iconVoteGray from "../../assets/iconVoteGray.png";
 
-export const boardTypes = {
-  NOTICE: "notice",
-  SUGGESTION: "suggestion",
-  EVENT: "event",
-  VOTE: "vote",
-};
+export enum boardTypes {
+  NOTICE = "notice",
+  SUGGESTION = "suggestion",
+  EVENT = "event",
+  VOTE = "vote",
+}
 
 export const boardOptions = [
   { value: boardTypes.NOTICE, label: "소식", icon: iconNewsGray },

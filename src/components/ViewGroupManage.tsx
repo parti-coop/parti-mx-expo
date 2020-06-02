@@ -26,7 +26,7 @@ const btnStyle = {
 export default (props: {
   bg_img_url: string;
   title: string;
-  userCount: string;
+  userCount: number;
   userStatus: UserStatus;
 }) => {
   const { bg_img_url, title, userCount, userStatus } = props;

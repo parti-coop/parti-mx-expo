@@ -178,6 +178,7 @@ export const subscribeBoardsByGroupId = gql`
       }
       users(where: { user_id: { _eq: $user_id } }) {
         status
+        notification_type
       }
     }
   }

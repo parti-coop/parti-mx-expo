@@ -1,5 +1,5 @@
 import React from "react";
-import { Share, ImageBackground } from "react-native";
+import { ImageBackground } from "react-native";
 import {
   useNavigation,
   DrawerActions,
@@ -11,7 +11,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { subscribeBoardsByGroupId } from "../graphql/subscription";
 import { queryNewPostCount } from "../graphql/query";
 import { useStore } from "../Store";
-import { GroupBoardNewPostCount } from "../types";
+import { GroupBoardNewPostCount, HomeGroup } from "../types";
 
 import CustomDrawer from "../components/CustomDrawer";
 import { View, ViewRow } from "../components/View";
@@ -58,9 +58,12 @@ function Home() {
     }
   );
 
-  const { data, loading, error } = useSubscription(subscribeBoardsByGroupId, {
-    variables: { group_id, user_id },
-  });
+  const { data, loading, error } = useSubscription<HomeGroup>(
+    subscribeBoardsByGroupId,
+    {
+      variables: { group_id, user_id },
+    }
+  );
   const [newPostCountObj, setNewPostCountObj] = React.useState({});
 
   if (error) {
@@ -84,13 +87,13 @@ function Home() {
   const {
     title = "그룹 로딩 중...",
     boards = [],
-    users_aggregate = {},
-    users = {},
+    users_aggregate,
+    users,
     bg_img_url = null,
   } = data?.mx_groups_by_pk ?? {};
   const userCount = users_aggregate?.aggregate?.count;
-  const userStatus: "organizer" | "user" | undefined | "requested" =
-    users?.[0]?.status;
+  const userStatus = users?.[0]?.status;
+  const notificationType = users?.[0]?.notification_type;
   const hasJoined = userStatus === "user" || userStatus === "organizer";
   React.useEffect(() => {
     if (newPostCountQuery.data) {
@@ -101,18 +104,17 @@ function Home() {
       setNewPostCountObj(emptyObj);
     }
   }, [newPostCountQuery.data]);
-  let userStatusStr = "";
-  switch (userStatus) {
-    case "requested":
-      userStatusStr = "가입 신청 중";
-      break;
-    case "user":
-      userStatusStr = "유저";
-      break;
-    case "organizer":
-      userStatusStr = "오거나이저";
-      break;
-  }
+  const userStatusStr = React.useMemo(() => {
+    switch (userStatus) {
+      case "requested":
+        return "가입 신청 중";
+      case "user":
+        return "유저";
+      case "organizer":
+        return "오거나이저";
+    }
+  }, [userStatus]);
+
   return (
     <>
       <View style={{ height: 197 }} />
@@ -133,9 +135,7 @@ function Home() {
               <TouchableOpacity onPress={toggleDrawer}>
                 <ViewGroupImg />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => Alert1()}>
-                <ViewNotification />
-              </TouchableOpacity>
+              <ViewNotification type={notificationType} />
             </ViewRow>
             <Text
               numberOfLines={1}
