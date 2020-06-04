@@ -83,7 +83,7 @@ export default function VoteNew(props: {
       });
     }
 
-    if (candidates.filter((c) => c.trim().length > 0).length < 2) {
+    if (!isBinary && candidates.filter((c) => c.trim().length > 0).length < 2) {
       return showMessage({
         message: "항목을 2개 이상 입력해주세요",
         type: "warning",
