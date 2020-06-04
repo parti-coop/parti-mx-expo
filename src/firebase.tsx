@@ -71,7 +71,7 @@ export async function getUserId(refresh = false): Promise<number | null> {
 export async function uploadGetUriArray(o: ImageInfo | File) {
   return new Promise(async function (res) {
     let uri = o.uri;
-    if (uri.startsWith("file://")) {
+    if (uri.startsWith("file:/")) {
       uri = await uploadFileUUIDGetUrl(o.uri, "posts");
     }
     return res({ ...o, uri });
