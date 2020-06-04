@@ -120,7 +120,6 @@ export default function Comments(props: {
           onChange={(e) => setComm(e.nativeEvent.text)}
           style={{ flex: 1, fontSize: 17, paddingLeft: 0 }}
           placeholderTextColor="#12BD8E"
-          textAlignVertical="top"
           ref={textinput}
           autoFocus={autoFocus}
           onSubmitEditing={sendHandler}

@@ -48,34 +48,37 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     setVisible(false);
   }
   return (
-    <View
-      style={[
-        {
-          flex: 1,
-          alignItems: "flex-end",
-          zIndex: 1,
-          // backgroundColor: "blue",
-          // overflow: "hidden",
-        },
-        style,
-      ]}
-    >
-      <TO0
-        onPress={openModal}
-        style={{
-          borderTopEndRadius: 5,
-          borderTopStartRadius: 5,
-          width: 36,
-          height: 35,
-          backgroundColor: isVisible ? "#12BD8E" : "#ffffff",
-        }}
-        ref={btnRef}
+    <>
+      <View
+        style={[
+          {
+            flexGrow: 1,
+            alignItems: "flex-end",
+            zIndex: 1,
+            // backgroundColor: "blue",
+            // overflow: "hidden",
+          },
+          style,
+        ]}
       >
-        <Image
-          source={btnDetailMore}
-          style={isVisible && { tintColor: "white" }}
-        />
-      </TO0>
+        <TO0
+          onPress={openModal}
+          style={{
+            borderTopEndRadius: 5,
+            borderTopStartRadius: 5,
+            width: 36,
+            height: 35,
+            zIndex: 2,
+            backgroundColor: isVisible ? "#12BD8E" : "#ffffff",
+          }}
+          ref={btnRef}
+        >
+          <Image
+            source={btnDetailMore}
+            style={isVisible && { tintColor: "white" }}
+          />
+        </TO0>
+      </View>
       <Modal
         isVisible={isVisible}
         animationIn="fadeIn"
@@ -109,6 +112,6 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
           })}
         </View>
       </Modal>
-    </View>
+    </>
   );
 };
