@@ -37,8 +37,8 @@ export default (props: { style?: StyleProp<ViewStyle>; items: Array<any> }) => {
     btnRef.current.measure(
       (x, y, width, height: number, pageX: number, pageY: number) =>
         setLayout({
-          top: pageY + height / 2 - 2.5,
-          left: pageX - 182 + width / 2 - 2.5,
+          top: pageY + height / 2 - 3.0,
+          left: pageX - 182 + width / 2 - 2.8,
         })
     );
     setVisible(true);
