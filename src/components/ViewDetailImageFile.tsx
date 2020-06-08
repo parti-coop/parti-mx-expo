@@ -36,7 +36,8 @@ export default function BottomImageFile(props: {
                   uri={o.uri}
                   style={{
                     width: "100%",
-                    height: 186,
+                    // height: 186,
+                    aspectRatio: o.width / o.height,
                     marginBottom: 10,
                     resizeMode: "cover",
                   }}
