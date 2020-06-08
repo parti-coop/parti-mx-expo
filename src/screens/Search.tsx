@@ -57,6 +57,8 @@ export default function Search() {
                     return navigate("NoticeDetail", { postId: id });
                   case boardTypes.VOTE:
                     return navigate("VoteDetail", { postId: id });
+                  case boardTypes.EVENT:
+                    return navigate("EventDetail", { postId: id });
                 }
               }
               return (
