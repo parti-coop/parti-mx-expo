@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Notifications } from "expo";
@@ -10,7 +9,7 @@ import { Alert1 } from "./Alert";
 import { Whoami } from "../types";
 import { whoami } from "../graphql/query";
 import { updateNotificationToken } from "../graphql/mutation";
-import { boardTypes } from "./boardTypes";
+import useNavigateToPost from "./useNavigateToPost";
 async function expoNotification() {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
@@ -31,29 +30,13 @@ async function expoNotification() {
 }
 export default function useNotification() {
   const [{ user_id }, dispatch] = useStore();
-  const { navigate } = useNavigation();
-  const navigateToPost = React.useCallback(function (
-    type: boardTypes,
-    id: number
-  ) {
-    switch (type) {
-      case boardTypes.SUGGESTION:
-        return navigate("SuggestionDetail", { postId: id });
-      case boardTypes.NOTICE:
-        return navigate("NoticeDetail", { postId: id });
-      case boardTypes.VOTE:
-        return navigate("VoteDetail", { postId: id });
-      case boardTypes.EVENT:
-        return navigate("EventDetail", { postId: id });
-    }
-  },
-  []);
+  const navigatePost = useNavigateToPost();
   React.useEffect(() => {
     const unsubscribe = Notifications.addListener((noti) => {
       if (noti.origin === "selected") {
         const { group_id, post_id, boardType } = noti.data || {};
         dispatch({ type: "SET_GROUP", group_id });
-        navigateToPost(boardType, post_id);
+        navigatePost(boardType, post_id);
       }
     });
     return unsubscribe.remove;

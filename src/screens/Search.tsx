@@ -12,6 +12,7 @@ import { TO0, TouchableOpacity } from "../components/TouchableOpacity";
 import { Round35 } from "../components/Round";
 import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
 import { boardTypes } from "../components/boardTypes";
+import useNavigateToPost from "../components/useNavigateToPost";
 
 import { useStore } from "../Store";
 import { searchPosts } from "../graphql/query";
@@ -24,7 +25,7 @@ import iconCommentUser from "../../assets/iconCommentUser.png";
 export default function Search() {
   const { navigate, goBack } = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
-
+  const navigatePost = useNavigateToPost();
   const [keyword, setKeyword] = React.useState("");
   const [debouncedKeyword] = useDebounce(`%${keyword}%`, 500);
   function backHandler() {
@@ -50,16 +51,7 @@ export default function Search() {
               const { title, createdBy, created_at, board, id } = posts;
               const date = formatDateFromString(created_at);
               function postPressHandler() {
-                switch (board.type) {
-                  case boardTypes.SUGGESTION:
-                    return navigate("SuggestionDetail", { postId: id });
-                  case boardTypes.NOTICE:
-                    return navigate("NoticeDetail", { postId: id });
-                  case boardTypes.VOTE:
-                    return navigate("VoteDetail", { postId: id });
-                  case boardTypes.EVENT:
-                    return navigate("EventDetail", { postId: id });
-                }
+                navigatePost(board.type as boardTypes, id);
               }
               return (
                 <TouchableOpacity key={index} onPress={postPressHandler}>
