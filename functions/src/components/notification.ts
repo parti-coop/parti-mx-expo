@@ -102,8 +102,9 @@ export default functions
         break;
     }
     const tokensArr = board.group.users.map((u) => u.user.push_tokens.token);
+    const tokensUniqueArr = [...new Set(tokensArr)];
     const messages: ExpoPushMessage[] = [];
-    for (const pushToken of tokensArr) {
+    for (const pushToken of tokensUniqueArr) {
       if (!Expo.isExpoPushToken(pushToken)) {
         console.error(`Push token ${pushToken} is not a valid Expo push token`);
         continue;
