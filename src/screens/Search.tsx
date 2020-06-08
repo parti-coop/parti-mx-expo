@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { useDebounce } from "use-debounce";
+// import { useDebouncedCallback } from "use-debounce";
 
 import { Image } from "../components/Image";
 import { ViewRow, V0, View } from "../components/View";
@@ -13,6 +13,7 @@ import { Round35 } from "../components/Round";
 import { SmallVerticalDivider, LineSeperator } from "../components/LineDivider";
 import { boardTypes } from "../components/boardTypes";
 import useNavigateToPost from "../components/useNavigateToPost";
+import { RoundClear } from "../components/Round";
 
 import { useStore } from "../Store";
 import { searchPosts } from "../graphql/query";
@@ -23,24 +24,27 @@ import iconBack from "../../assets/iconBack.png";
 import iconCommentUser from "../../assets/iconCommentUser.png";
 
 export default function Search() {
-  const { navigate, goBack } = useNavigation();
+  const { goBack } = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
   const navigatePost = useNavigateToPost();
   const [keyword, setKeyword] = React.useState("");
-  const [debouncedKeyword] = useDebounce(`%${keyword}%`, 500);
-  function backHandler() {
-    goBack();
-  }
+  // const [debouncedKeyword] = useDebounce(`%${keyword}%`, 500);
+  const backHandler = React.useCallback(() => goBack(), []);
 
   const [search, { loading, data, error }] = useLazyQuery(searchPosts, {
-    variables: { searchKeyword: debouncedKeyword, group_id, user_id },
+    fetchPolicy: "network-only",
   });
   if (error) {
     console.log(error);
   }
-  function searchHandler() {
-    search();
-  }
+  const searchHandler = React.useCallback(
+    () =>
+      search({
+        variables: { searchKeyword: `%${keyword}%`, group_id, user_id },
+      }),
+    [keyword]
+  );
+  const clearHandler = React.useCallback(() => setKeyword(""), []);
 
   function results() {
     if (keyword.length && data) {
@@ -64,7 +68,10 @@ export default function Search() {
                         source={iconCommentUser}
                         style={{ marginRight: 8, tintColor: "#909090" }}
                       />
-                      <Grey12 style={{ marginRight: 8 }}>
+                      <Grey12
+                        numberOfLines={1}
+                        style={{ marginRight: 8, flexShrink: 1 }}
+                      >
                         {createdBy.name}
                       </Grey12>
                       <Grey12>{date}</Grey12>
@@ -106,6 +113,7 @@ export default function Search() {
           value={keyword}
           onChangeText={setKeyword}
           placeholder="검색어를 입력해 주세요"
+          returnKeyType="search"
           onSubmitEditing={searchHandler}
           style={{
             fontSize: 16,
@@ -113,6 +121,7 @@ export default function Search() {
             borderBottomColor: "#e4e4e4",
           }}
         />
+        {!!keyword.length && <RoundClear onPress={clearHandler} />}
         <Round35 onPress={searchHandler} />
       </ViewRow>
       <Text
