@@ -5,7 +5,7 @@ import { showMessage } from "react-native-flash-message";
 import { auth } from "../firebase";
 import { useStore } from "../Store";
 
-export default () => {
+export default function useLogout() {
   const [, dispatch] = useStore();
   function handler() {
     Alert.alert("로그아웃", "로그아웃 하시겠습니까?", [
@@ -25,4 +25,4 @@ export default () => {
     ]);
   }
   return handler;
-};
+}

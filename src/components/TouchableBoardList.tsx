@@ -1,9 +1,7 @@
 import React from "react";
-import { ViewStyle, StyleProp, Platform } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
-import { formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
 
 import { View, ViewRow, V0 } from "./View";
 import { Text, Title18, Mint14, Purple12 } from "./Text";
@@ -28,16 +26,10 @@ export default function TouchableBoardList(props: {
   const [increment] = useMutation(incrementUserBoardCheck, {
     variables: { user_id, board_id: board.id },
   });
-  // console.log(board.newPostCount);
-  // let minutes = "비어있습니다";
   const isNew = isAfterString(
     board?.last_posted_at,
     board?.users?.[0]?.updated_at
   );
-  // const lastPostedDate = new Date(board.last_posted_at);
-  // if (board.last_posted_at) {
-  //   minutes = formatDistanceToNow(lastPostedDate, { locale: ko });
-  // }
   const newPostCount = countObj[board.id] || 0;
 
   function goToBoard() {
