@@ -55,7 +55,8 @@ export default function TOEventAddCalendar(props: {
     } else if (Platform.OS === "android") {
       const calendars = await Calendar.getCalendarsAsync();
       const defaultCalendars = calendars.find(
-        (each) => each.accessLevel === "owner"
+        (each) => each.isPrimary
+        // (each) => each.accessLevel === "owner"
       );
 
       if (defaultCalendars) {
