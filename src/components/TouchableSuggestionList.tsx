@@ -33,10 +33,13 @@ export default function TouchableSuggestionList(props: {
   const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
   const daysLeft = calculateDays(post.created_at);
-  function pressHandler() {
-    update();
-    navigate("SuggestionDetail", { postId: post.id });
-  }
+  const pressHandler = React.useCallback(
+    function () {
+      update();
+      navigate("SuggestionDetail", { postId: post.id });
+    },
+    [post.id]
+  );
   const hasChecked = isAfterString(
     post?.updated_at,
     post?.users?.[0]?.updated_at

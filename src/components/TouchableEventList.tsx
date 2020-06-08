@@ -35,10 +35,13 @@ export default function TouchableEventList(props: {
 
   const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
-  function pressHandler() {
-    update();
-    navigate("EventDetail", { postId: post.id });
-  }
+  const pressHandler = React.useCallback(
+    function () {
+      update();
+      navigate("EventDetail", { postId: post.id });
+    },
+    [post.id]
+  );
   const hasChecked = isAfterString(
     post?.updated_at,
     post?.users?.[0]?.updated_at

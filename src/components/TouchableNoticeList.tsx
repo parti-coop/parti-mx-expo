@@ -34,10 +34,13 @@ export default function TouchableNoticeList(props: {
     post?.updated_at,
     post?.users?.[0]?.updated_at
   );
-  function pressHandler() {
-    update();
-    navigate("NoticeDetail", { postId: post.id });
-  }
+  const pressHandler = React.useCallback(
+    function () {
+      update();
+      navigate("NoticeDetail", { postId: post.id });
+    },
+    [post.id]
+  );
   return (
     <TouchableOpacity onPress={pressHandler}>
       <V1

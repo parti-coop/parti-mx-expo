@@ -46,10 +46,13 @@ export default function TouchableVoteList(props: {
       }
     }
   }
-  function pressHandler() {
-    update();
-    navigate("VoteDetail", { postId: post.id });
-  }
+  const pressHandler = React.useCallback(
+    function () {
+      update();
+      navigate("VoteDetail", { postId: post.id });
+    },
+    [post.id]
+  );
   const hasChecked = isAfterString(
     post?.updated_at,
     post?.users?.[0]?.updated_at
