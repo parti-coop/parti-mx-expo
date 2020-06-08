@@ -85,19 +85,20 @@ export default functions
     const { board } = queryResult.data.mx_posts_by_pk;
     const group_id = board.group.id;
     const groupTitle = board.group.title;
-    let boardType = null;
-    switch (board.type) {
+    const boardType = board.type;
+    let boardTypeStr = null;
+    switch (boardType) {
       case "suggestion":
-        boardType = "제안이";
+        boardTypeStr = "제안이";
         break;
       case "vote":
-        boardType = "투표가";
+        boardTypeStr = "투표가";
         break;
       case "event":
-        boardType = "모임이";
+        boardTypeStr = "모임이";
         break;
       case "notice":
-        boardType = "공지가";
+        boardTypeStr = "공지가";
         break;
     }
     const tokensArr = board.group.users.map((u) => u.user.push_tokens.token);
@@ -110,8 +111,8 @@ export default functions
       messages.push({
         to: pushToken,
         sound: "default",
-        body: `${postTitle}: ${groupTitle} 그룹에 새로운 ${boardType} 만들어졌습니다.`,
-        data: { post_id, group_id },
+        body: `${postTitle}: ${groupTitle} 그룹에 새로운 ${boardTypeStr} 만들어졌습니다.`,
+        data: { post_id, group_id, boardType },
       });
     }
 
