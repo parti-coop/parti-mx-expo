@@ -159,7 +159,7 @@ export default function VoteDetail(props: {
                   backgroundColor: COLORS.MINT,
                   alignSelf: "center",
                   paddingHorizontal: 20,
-                  height: 33,
+                  minHeight: 33,
                   marginTop: 45,
                 }}
                 onPress={revoteHandler}

@@ -14,8 +14,8 @@ import { likeSuggestion } from "../graphql/mutation";
 import iconAgree from "../../assets/iconAgree.png";
 
 const bgMenuBgCopy = {
-  width: 184,
-  height: 33,
+  minHeight: 33,
+  paddingHorizontal: 15,
   borderRadius: 16.5,
   borderStyle: "solid",
   borderWidth: 2,

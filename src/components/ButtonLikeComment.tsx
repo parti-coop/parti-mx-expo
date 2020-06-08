@@ -11,8 +11,8 @@ import { likeComment } from "../graphql/mutation";
 
 import iconAgree11 from "../../assets/iconAgree11.png";
 const bgMenuBg = {
-  width: 51,
-  height: 23,
+  minHeight: 23,
+  paddingHorizontal: 15,
   borderRadius: 11.5,
   borderStyle: "solid",
   borderWidth: 2,

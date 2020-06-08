@@ -137,20 +137,24 @@ function Home() {
               </TouchableOpacity>
               <ViewNotification type={notificationType} />
             </ViewRow>
-            <Text
-              numberOfLines={1}
+            <View
               style={{
-                fontSize: 28,
-                color: "#ffffff",
-                marginTop: 19,
+                marginTop: 5,
                 marginRight: 80,
+                height: 115,
+                justifyContent: "center",
               }}
             >
-              {title}
-            </Text>
-            <Text style={{ fontSize: 15, color: "#ffffff" }}>
-              {userStatusStr}
-            </Text>
+              <Text
+                numberOfLines={1}
+                style={{ fontSize: 28, color: "#ffffff" }}
+              >
+                {title}
+              </Text>
+              <Text style={{ fontSize: 15, color: "#ffffff" }}>
+                {userStatusStr}
+              </Text>
+            </View>
           </View>
 
           <View style={{ position: "absolute", right: 30, top: 39 }}>

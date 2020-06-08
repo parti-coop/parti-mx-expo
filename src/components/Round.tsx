@@ -61,6 +61,7 @@ export function RoundDDays(
       ]}
     >
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 16,
           textAlign: "center",
@@ -72,6 +73,7 @@ export function RoundDDays(
         D
       </Text>
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 14,
           textAlign: "left",
@@ -110,6 +112,7 @@ export function RoundMonthDate(
       ]}
     >
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 16,
           textAlign: "center",
@@ -121,6 +124,7 @@ export function RoundMonthDate(
         ~
       </Text>
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 14,
           textAlign: "left",
@@ -187,6 +191,7 @@ export function RoundEventDate(props: { style?: ViewStyle; value?: string }) {
       ]}
     >
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 16,
           textAlign: "center",
@@ -198,12 +203,13 @@ export function RoundEventDate(props: { style?: ViewStyle; value?: string }) {
         {monthDate}
       </Text>
       <Text
+        maxFontSizeMultiplier={1.1}
         style={{
           fontSize: 14,
           textAlign: "left",
           color: "#4a9f95",
           fontFamily: "notosans900",
-          lineHeight: 18 ,
+          lineHeight: 18,
         }}
       >
         {day}
