@@ -58,8 +58,13 @@ export default function BottomImageFile(props: {
               <TWF0 key={i} onLongPress={() => imageLongpressHandler(i)}>
                 <Image
                   source={o}
-                  resizeMode="cover"
-                  style={{ width: "100%", height: 186, marginBottom: 10 }}
+                  resizeMode="contain"
+                  style={{
+                    width: "100%",
+                    aspectRatio: o.width / o.height,
+                    marginBottom: 10,
+                    height: "auto",
+                  }}
                 />
               </TWF0>
             ))}
