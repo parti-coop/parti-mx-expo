@@ -14,12 +14,14 @@ import { flatWhiteBg } from "../components/Styles";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
+import useNavigateToPost from "../components/useNavigateToPost";
 
 export default function SuggestionList(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionList">;
   route: RouteProp<RootStackParamList, "SuggestionList">;
 }) {
   const [{ group_id, user_id }, dispatch] = useStore();
+  const navigatePost = useNavigateToPost();
   const boardId = props.route.params.id;
   const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
     variables: { id: boardId, user_id },
@@ -55,6 +57,7 @@ export default function SuggestionList(props: {
                 key={i}
                 post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
+                onPress={navigatePost}
               />
             );
           })}

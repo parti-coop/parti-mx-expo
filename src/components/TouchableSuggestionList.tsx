@@ -1,7 +1,5 @@
 import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
@@ -11,35 +9,25 @@ import { SmallVerticalDivider } from "./LineDivider";
 import { RoundDDays } from "./Round";
 import { DotRed } from "./Dots";
 
-import { incrementUserPostCheck } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { calculateDays, isAfterString } from "../Utils/CalculateDays";
 import { SuggestionListType } from "../types";
 
-import iconComment from "../../assets/iconComment.png";
 import iconUserGrey from "../../assets/iconUserGrey.png";
 import iconSympathy from "../../assets/iconSympathy.png";
+import { boardTypes } from "./boardTypes";
 
 export default function TouchableSuggestionList(props: {
   post: SuggestionListType;
   style?: StyleProp<ViewStyle>;
+  onPress: (type: boardTypes, post_id: number) => void;
 }) {
-  const { navigate } = useNavigation();
-  const { post, style } = props;
-  const [{ user_id }] = useStore();
-  const [update] = useMutation(incrementUserPostCheck, {
-    variables: { user_id, post_id: post.id },
-  });
+  const { post, style, onPress } = props;
   const voteCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const votedByMe = post.users.length > 0 && post.users[0].like_count > 0;
   const daysLeft = calculateDays(post.created_at);
-  const pressHandler = React.useCallback(
-    function () {
-      update();
-      navigate("SuggestionDetail", { postId: post.id });
-    },
-    [post.id]
-  );
+  function pressHandler() {
+    onPress(boardTypes.SUGGESTION, post.id);
+  }
   const hasChecked = isAfterString(
     post?.updated_at,
     post?.users?.[0]?.updated_at

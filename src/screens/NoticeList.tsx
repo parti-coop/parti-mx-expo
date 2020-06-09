@@ -13,6 +13,7 @@ import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";
 import { Image } from "../components/Image";
 import { flatWhiteBg } from "../components/Styles";
+import useNavigateToPost from "../components/useNavigateToPost";
 
 import { useStore } from "../Store";
 import { subscribeNoticeList } from "../graphql/subscription";
@@ -27,9 +28,11 @@ export default (props: {
   const boardId = props.route.params.id;
   const { group_id, user_id } = store;
   const [sort, setSort] = React.useState({ created_at: "desc" });
+  const navigatePost = useNavigateToPost();
   const { data, error, loading } = useSubscription(subscribeNoticeList, {
     variables: { id: boardId, user_id, sort: [sort] },
   });
+
   React.useEffect(() => {
     dispatch({ type: "SET_LOADING", loading: true });
     dispatch({ type: "SET_GROUP", group_id });
@@ -119,6 +122,7 @@ export default (props: {
                 style={
                   announcements.length !== i + 1 && { borderBottomWidth: 1 }
                 }
+                onPress={navigatePost}
               />
             );
           })}
@@ -130,6 +134,7 @@ export default (props: {
                 key={i}
                 post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
+                onPress={navigatePost}
               />
             );
           })}

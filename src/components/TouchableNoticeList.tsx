@@ -1,7 +1,5 @@
 import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@apollo/react-hooks";
 
 import { Image } from "./Image";
 import { V1, ViewRow } from "./View";
@@ -9,38 +7,27 @@ import { Title16, Grey12, Red12 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import { SmallVerticalDivider } from "./LineDivider";
 
-import { incrementUserPostCheck } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { PostListType } from "../types";
 import { isAfterString, semanticDate } from "../Utils/CalculateDays";
 import { DotRed } from "./Dots";
 
-import iconComment from "../../assets/iconComment.png";
 import iconSympathy from "../../assets/iconSympathy.png";
-import iconUserGrey from "../../assets/iconUserGrey.png";
-
+import { boardTypes } from "./boardTypes";
 export default function TouchableNoticeList(props: {
   post: PostListType;
   style?: StyleProp<ViewStyle>;
+  onPress: (type: boardTypes, post_id: number) => void;
 }) {
-  const { navigate } = useNavigation();
-  const { post, style } = props;
-  const [{ user_id }] = useStore();
-  const [update, { data }] = useMutation(incrementUserPostCheck, {
-    variables: { user_id, post_id: post.id },
-  });
+  const { post, style, onPress } = props;
   const likeCount = post?.users_aggregate?.aggregate?.sum?.like_count ?? 0;
   const hasChecked = isAfterString(
     post?.updated_at,
     post?.users?.[0]?.updated_at
   );
-  const pressHandler = React.useCallback(
-    function () {
-      update();
-      navigate("NoticeDetail", { postId: post.id });
-    },
-    [post.id]
-  );
+  function pressHandler() {
+    onPress(boardTypes.NOTICE, post.id);
+  }
+
   return (
     <TouchableOpacity onPress={pressHandler}>
       <V1

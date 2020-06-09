@@ -11,6 +11,7 @@ import TouchableEventList from "../components/TouchableEventList";
 import HeaderList from "../components/HeaderList";
 import ButtonNew from "../components/ButtonNew";
 import { flatWhiteBg } from "../components/Styles";
+import useNavigateToPost from "../components/useNavigateToPost";
 
 import { useStore } from "../Store";
 import { subscribePostsByBoardId } from "../graphql/subscription";
@@ -21,6 +22,7 @@ export default function EventList(props: {
 }) {
   const [{ group_id, user_id }, dispatch] = useStore();
   const boardId = props.route.params.id;
+  const navigatePost = useNavigateToPost();
   const { data, error, loading } = useSubscription(subscribePostsByBoardId, {
     variables: { id: boardId, user_id },
   });
@@ -55,6 +57,7 @@ export default function EventList(props: {
                 key={i}
                 post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
+                onPress={navigatePost}
               />
             );
           })}

@@ -15,12 +15,14 @@ import { flatWhiteBg } from "../components/Styles";
 import { useStore } from "../Store";
 import { VoteBoardList } from "../types";
 import { subscribePostsByBoardId } from "../graphql/subscription";
+import useNavigateToPost from "../components/useNavigateToPost";
 
 export default function VoteList(props: {
   navigation: StackNavigationProp<RootStackParamList, "VoteList">;
   route: RouteProp<RootStackParamList, "VoteList">;
 }) {
   const [{ group_id, user_id }, dispatch] = useStore();
+  const navigatePost = useNavigateToPost();
   const boardId = props.route.params.id;
   const { data, error, loading } = useSubscription<VoteBoardList>(
     subscribePostsByBoardId,
@@ -59,6 +61,7 @@ export default function VoteList(props: {
                 key={i}
                 post={post}
                 style={posts.length !== i + 1 && { borderBottomWidth: 1 }}
+                onPress={navigatePost}
               />
             );
           })}
