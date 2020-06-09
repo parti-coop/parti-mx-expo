@@ -27,6 +27,7 @@ import { Alert1 } from "../components/Alert";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonJoinGroup from "../components/ButtonJoinGroup";
 import ViewGroupManage from "../components/ViewGroupManage";
+import useNavigateToBoard from "../components/useNavigateToBoard";
 
 import bgGroupMain from "../../assets/bgGroupMain.png";
 const Drawer = createDrawerNavigator();
@@ -50,6 +51,7 @@ export default function HomeContainer() {
 function Home() {
   const navigation = useNavigation();
   const [{ group_id, user_id }, dispatch] = useStore();
+  const navigateToBoard = useNavigateToBoard();
   const newPostCountQuery = useQuery<GroupBoardNewPostCount>(
     queryNewPostCount,
     {
@@ -191,6 +193,7 @@ function Home() {
                 key={index}
                 board={b}
                 countObj={newPostCountObj}
+                onPress={navigateToBoard}
               />
             ))}
         </View>

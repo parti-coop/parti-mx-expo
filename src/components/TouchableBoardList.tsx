@@ -1,7 +1,5 @@
 import React from "react";
 import { ViewStyle, StyleProp } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@apollo/react-hooks";
 
 import { View, ViewRow, V0 } from "./View";
 import { Text, Title18, Mint14, Purple12 } from "./Text";
@@ -9,44 +7,26 @@ import { DotRed } from "./Dots";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupType from "./ViewGroupType";
 import { boardTypes } from "./boardTypes";
-
 import { Board } from "../types";
-import { incrementUserBoardCheck } from "../graphql/mutation";
-import { useStore } from "../Store";
 import { isAfterString } from "../Utils/CalculateDays";
 
 export default function TouchableBoardList(props: {
   board: Board;
   countObj: { [board_id: string]: number };
   style?: StyleProp<ViewStyle>;
+  onPress: (board_type: boardTypes, board_id: number) => void;
 }) {
-  const { navigate } = useNavigation();
-  const { board, countObj } = props;
-  const [{ user_id }] = useStore();
-  const [increment] = useMutation(incrementUserBoardCheck, {
-    variables: { user_id, board_id: board.id },
-  });
+  const { board, countObj, onPress } = props;
+
   const isNew = isAfterString(
     board?.last_posted_at,
     board?.users?.[0]?.updated_at
   );
   const newPostCount = countObj[board.id] || 0;
-
   function goToBoard() {
-    increment();
-    switch (board.type) {
-      case boardTypes.EVENT:
-        return navigate("EventList", { id: board.id });
-      case boardTypes.SUGGESTION:
-        return navigate("SuggestionList", { id: board.id });
-      case boardTypes.NOTICE:
-        return navigate("NoticeList", { id: board.id });
-      case boardTypes.VOTE:
-        return navigate("VoteList", { id: board.id });
-      default:
-        return navigate("SuggestionList", { id: board.id });
-    }
+    onPress(board.type, board.id);
   }
+  const isForAll = board?.permission === "all";
   return (
     <TouchableOpacity
       style={[
@@ -70,26 +50,28 @@ export default function TouchableBoardList(props: {
         }}
       >
         <ViewRow>
-          <Title18 numberOfLines={1} style={{ flex: 1 }}>
-            {board.title}
-          </Title18>
-          {board?.permission === "all" && (
+          <ViewRow style={{ flex: 1 }}>
+            <Title18 numberOfLines={1}>{board.title}</Title18>
             <V0
               style={[
                 {
                   padding: 1,
                   paddingHorizontal: 10,
                   borderWidth: 1,
-                  borderColor: "#cb6794",
+                  borderColor: isForAll ? "#cb6794" : "#4aacc7",
                   borderRadius: 10,
                   marginLeft: 10,
                 },
               ]}
             >
-              <Purple12>전체공개</Purple12>
+              {isForAll ? (
+                <Purple12>전체공개</Purple12>
+              ) : (
+                <Purple12 style={{ color: "#4aacc7" }}>멤버공개</Purple12>
+              )}
             </V0>
-          )}
-          {isNew && <DotRed style={{ marginLeft: 10 }} />}
+            {isNew && <DotRed style={{ marginLeft: 10 }} />}
+          </ViewRow>
           {newPostCount > 0 && (
             <Mint14 style={{ marginLeft: 5 }}>새 글 {newPostCount}</Mint14>
           )}

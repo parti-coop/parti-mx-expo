@@ -2,13 +2,19 @@ export type Board = {
   id: number;
   title: string;
   body: string;
-  permission: string;
-  type: string;
+  permission: "member" | "all";
+  type: boardTypes;
   updated_at: string;
   last_posted_at: string;
   users: Array<{ updated_at: string }>;
   newPostCount?: number;
 };
+export enum boardTypes {
+  NOTICE = "notice",
+  SUGGESTION = "suggestion",
+  EVENT = "event",
+  VOTE = "vote",
+}
 
 export interface VoteBoardList {
   mx_boards_by_pk: {
