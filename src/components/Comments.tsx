@@ -8,6 +8,7 @@ import { View, ViewRow, V0 } from "./View";
 import { Title16, Blue16, Body16 } from "./Text";
 import { TextInput } from "./TextInput";
 import { TO0 } from "./TouchableOpacity";
+import COLORS from "./Colors";
 import CommentList from "./CommentList";
 
 import { insertComment, updateComment } from "../graphql/mutation";
@@ -119,18 +120,18 @@ export default function Comments(props: {
           placeholder="댓글입력"
           onChange={(e) => setComm(e.nativeEvent.text)}
           style={{ flex: 1, fontSize: 17, paddingLeft: 0 }}
-          placeholderTextColor="#12BD8E"
+          placeholderTextColor={COLORS.MINT}
           ref={textinput}
           autoFocus={autoFocus}
           onSubmitEditing={sendHandler}
         />
         <TO0 onPress={sendHandler}>
-          <Image source={iconSend} />
+          <Image source={iconSend} style={{ tintColor: COLORS.MINT }} />
         </TO0>
       </ViewRow>
       <View
         style={{
-          borderBottomColor: "#12BD8E",
+          borderBottomColor: COLORS.MINT,
           borderBottomWidth: 1,
           marginBottom: 17,
           marginHorizontal: 30,
