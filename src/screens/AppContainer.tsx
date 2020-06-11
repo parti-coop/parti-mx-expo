@@ -45,7 +45,7 @@ import {
 } from "../types";
 export type RootStackParamList = {
   Home: {};
-  Intro: {};
+  Intro: { groupId?: number };
   GroupNew: {};
   GroupSetting: { title: string; bg_img_url: string };
   AccountDelete: {};
@@ -83,7 +83,6 @@ export type RootStackParamList = {
   Search: {};
 };
 const Stack = createStackNavigator<RootStackParamList>();
-
 export default function AppContainer() {
   return (
     <Stack.Navigator initialRouteName={"Intro"} headerMode="none">

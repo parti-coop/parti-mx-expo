@@ -16,7 +16,8 @@ export default (props: { id: number; type: boardTypes }) => {
   const [{ group_id }] = useStore();
   const { goBack } = useNavigation();
   const shareLink = React.useCallback(() => {
-    const url = Linking.makeUrl("share", { id: String(id), type, group_id });
+    const triple = Linking.makeUrl(`${group_id}/${type}/${id}`);
+    const url = triple.replace("parti-mx:///", "parti-mx://");
     const shareObj = Platform.select({
       ios: {
         title: "제안 공유",
@@ -24,7 +25,7 @@ export default (props: { id: number; type: boardTypes }) => {
       },
       android: {
         title: "제안 공유",
-        message: "제안을 공유합니다" + url,
+        message: "제안을 공유합니다.\n" + url,
       },
     });
     Share.share(shareObj);

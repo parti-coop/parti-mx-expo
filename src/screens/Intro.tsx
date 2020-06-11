@@ -4,17 +4,22 @@ import CustomDrawer from "../components/CustomDrawer";
 import { useStore } from "../Store";
 
 const Drawer = createDrawerNavigator();
-function Intro(props) {
-  const [{ group_id }] = useStore();
+function IntroNull() {
+  return null;
+}
+export default function IntroContainer(props) {
+  const groupId = props.route.params?.groupId ?? null;
+  const [{ group_id }, dispatch] = useStore();
   React.useEffect(() => {
     if (group_id !== null) {
       props.navigation.navigate("Home");
     }
   }, [group_id]);
-
-  return null;
-}
-export default function IntroContainer() {
+  React.useEffect(() => {
+    if (groupId !== null) {
+      dispatch({ type: "SET_GROUP", group_id: groupId });
+    }
+  }, [groupId]);
   return (
     <Drawer.Navigator
       initialRouteName={"Intro"}
@@ -27,7 +32,7 @@ export default function IntroContainer() {
       }}
       drawerType={"permanent"}
     >
-      <Drawer.Screen name="Intro" component={Intro} />
+      <Drawer.Screen name="Intro" component={IntroNull} />
     </Drawer.Navigator>
   );
 }
