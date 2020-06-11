@@ -23,8 +23,14 @@ const linking = {
             },
             NoticeDetail: { path: "notice/:postId", parse: { postId: Number } },
             EventDetail: { path: "event/:postId", parse: { postId: Number } },
+            NoMatch: "*"
           },
         },
+      },
+    },
+    AuthMain: {
+      NoMatch: {
+        path: "*",
       },
     },
   },

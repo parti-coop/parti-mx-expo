@@ -36,6 +36,7 @@ import Profile from "./Profile";
 import PasswordChange from "./PasswordChange";
 import BoardSetting from "./BoardSetting";
 import Search from "./Search";
+import NoMatch from "./NoMatch";
 
 import {
   SuggestionDetailType,
@@ -81,6 +82,7 @@ export type RootStackParamList = {
   PasswordChange: {};
   BoardSetting: {};
   Search: {};
+  NoMatch: {};
 };
 const Stack = createStackNavigator<RootStackParamList>();
 export default function AppContainer() {
@@ -121,6 +123,7 @@ export default function AppContainer() {
       <Stack.Screen name="PasswordChange" component={PasswordChange} />
       <Stack.Screen name="BoardSetting" component={BoardSetting} />
       <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="NoMatch" component={NoMatch} />
     </Stack.Navigator>
   );
 }
