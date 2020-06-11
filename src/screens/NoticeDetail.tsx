@@ -6,6 +6,7 @@ import { RouteProp, useNavigation } from "@react-navigation/native";
 import { Body16, Title14 } from "../components/Text";
 import { View, V0, ViewRow } from "../components/View";
 import UserProfileNameDate from "../components/UserProfileNameDate";
+import Hyperlink from "../components/Hyperlink";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonPostLike from "../components/ButtonPostLike";
 import ButtonPostUnlike from "../components/ButtonPostUnlike";
@@ -104,7 +105,7 @@ export default function NoticeDetail(props: {
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginTop: 40 }}>
-            <Body16>{body}</Body16>
+            <Hyperlink text={body} />
           </View>
           <ViewDetailImageFile files={files} images={images} />
           <V0 style={{ marginTop: 50 }}>

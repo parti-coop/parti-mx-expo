@@ -25,6 +25,7 @@ import { subscribeSuggestion } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
 import { SuggestionDetailType } from "../types";
+import Hyperlink from "../components/Hyperlink";
 
 export default function SuggestionDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
@@ -110,7 +111,7 @@ export default function SuggestionDetail(props: {
             <Mint13 style={{ marginBottom: 19, fontFamily: "notosans700" }}>
               제안 내용
             </Mint13>
-            <Body16>{body}</Body16>
+            <Hyperlink text={body} />
           </View>
           <ViewDetailImageFile files={files} images={images} />
           <V0 style={{ marginTop: 50 }}>

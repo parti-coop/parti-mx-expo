@@ -1,6 +1,5 @@
 import React from "react";
 import { Linking } from "expo";
-import { TextStyle } from "react-native";
 import { useSubscription } from "@apollo/react-hooks";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation } from "@react-navigation/native";
@@ -20,6 +19,7 @@ import ViewDetailImageFile from "../components/ViewDetailImageFile";
 import UserProfileNameDate from "../components/UserProfileNameDate";
 import Comments from "../components/Comments";
 import TouchableCheckBar from "../components/TouchableCheckBar";
+import Hyperlink from "../components/Hyperlink";
 import COLORS from "../components/Colors";
 
 import { useStore } from "../Store";
@@ -123,7 +123,7 @@ export default function VoteDetail(props: {
           </ViewRow>
           <LineSeperator />
           <View style={{ marginHorizontal: 30, marginVertical: 15 }}>
-            <Body16>{body}</Body16>
+            <Hyperlink text={body} />
           </View>
           <View style={{ marginHorizontal: 30 }}>
             <ViewRow style={{ justifyContent: "space-between" }}>

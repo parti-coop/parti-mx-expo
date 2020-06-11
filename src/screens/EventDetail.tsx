@@ -26,6 +26,7 @@ import { subscribeEvent } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
 import { EventDetailType } from "../types";
+import Hyperlink from "../components/Hyperlink";
 
 export default function EventDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "EventDetail">;
@@ -113,7 +114,7 @@ export default function EventDetail(props: {
           })}
 
           <View style={{ marginHorizontal: 30, marginTop: 25 }}>
-            <Body16>{body}</Body16>
+            <Hyperlink text={body} />
           </View>
           <ViewDetailImageFile files={files} images={images} />
           <TOEventAddCalendar

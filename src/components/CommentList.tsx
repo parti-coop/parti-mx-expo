@@ -19,6 +19,7 @@ import { boardTypes } from "./boardTypes";
 import { Comment, RecommentArgs } from "../types";
 import { formatDateFromString } from "../Utils/CalculateDays";
 import { useStore } from "../Store";
+import Hyperlink from "./Hyperlink";
 
 const commentModal = {
   width: 315,
@@ -109,7 +110,7 @@ export default function CommentList(props: {
         {user.id === user_id && body && <SelectMenu items={options} />}
       </ViewRow>
       <View style={{ marginVertical: 10 }}>
-        {!!body ? <Body16>{body}</Body16> : <Grey15>삭제되었습니다.</Grey15>}
+        <Hyperlink text={body} />
       </View>
       <ViewRow>
         <ButtonComment recomment={recommentHandler} />

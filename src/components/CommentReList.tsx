@@ -18,6 +18,7 @@ import { boardTypes } from "./boardTypes";
 import { Comment } from "../types";
 import { useStore } from "../Store";
 import { formatDateFromString } from "../Utils/CalculateDays";
+import Hyperlink from "./Hyperlink";
 
 const commentModal = {
   width: 315,
@@ -96,7 +97,7 @@ export default function CommentReList(props: {
       </ViewRow>
 
       <Text style={{ color: "#555555", fontSize: 16, marginVertical: 10 }}>
-        {body}
+        <Hyperlink text={body} />
       </Text>
       <ViewRow>
         <ButtonComment recomment={recommentHandler} />
