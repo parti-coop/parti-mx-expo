@@ -28,6 +28,7 @@ import { subscribeNotice } from "../graphql/subscription";
 import { RootStackParamList } from "./AppContainer";
 
 import { NoticeDetailType } from "../types";
+import { boardTypes } from "../components/boardTypes";
 
 export default function NoticeDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "NoticeDetail">;
@@ -90,7 +91,7 @@ export default function NoticeDetail(props: {
   }
   return (
     <>
-      <HeaderShare id={id} />
+      <HeaderShare id={id} type={boardTypes.NOTICE} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitle title={title} />

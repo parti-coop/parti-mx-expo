@@ -27,6 +27,7 @@ import { RootStackParamList } from "./AppContainer";
 
 import { EventDetailType } from "../types";
 import Hyperlink from "../components/Hyperlink";
+import { boardTypes } from "../components/boardTypes";
 
 export default function EventDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "EventDetail">;
@@ -87,7 +88,7 @@ export default function EventDetail(props: {
   ];
   return (
     <>
-      <HeaderShare id={id} />
+      <HeaderShare id={id} type={boardTypes.EVENT} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewEventTitle title={title} date={metadata?.deadline} />

@@ -28,6 +28,7 @@ import { RootStackParamList } from "./AppContainer";
 import { closingMonthDateFrom } from "../Utils/CalculateDays";
 
 import { VoteDetailType, File } from "../types";
+import { boardTypes } from "../components/boardTypes";
 
 export default function VoteDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "VoteDetail">;
@@ -108,7 +109,7 @@ export default function VoteDetail(props: {
   }
   return (
     <>
-      <HeaderShare id={id} />
+      <HeaderShare id={id} type={boardTypes.VOTE} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitleCalendar title={title} value={closingAt} />

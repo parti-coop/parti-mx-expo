@@ -26,6 +26,7 @@ import { RootStackParamList } from "./AppContainer";
 
 import { SuggestionDetailType } from "../types";
 import Hyperlink from "../components/Hyperlink";
+import { boardTypes } from "../components/boardTypes";
 
 export default function SuggestionDetail(props: {
   navigation: StackNavigationProp<RootStackParamList, "SuggestionDetail">;
@@ -83,7 +84,7 @@ export default function SuggestionDetail(props: {
 
   return (
     <>
-      <HeaderShare id={id} />
+      <HeaderShare id={id} type={boardTypes.SUGGESTION} />
       <KeyboardAwareScrollView ref={scrollRef}>
         <HeaderBreadcrumb boardName={board.title} />
         <ViewTitle title={title} updated_at={updated_at} />
