@@ -25,9 +25,7 @@ export default function Hyperlink(props: Props) {
   const [og, setOg] = React.useState(null);
   React.useEffect(() => {
     if (text) {
-      getLinkPreview(text, {
-        imagesPropertyType: "og",
-      })
+      getLinkPreview(text)
         .then(
           (data: {
             url: string;
