@@ -8,18 +8,12 @@ function IntroNull() {
   return null;
 }
 export default function IntroContainer(props) {
-  const groupId = props.route.params?.groupId ?? null;
-  const [{ group_id }, dispatch] = useStore();
+  const [{ group_id }] = useStore();
   React.useEffect(() => {
     if (group_id !== null) {
       props.navigation.navigate("Home");
     }
-  }, [group_id]);
-  React.useEffect(() => {
-    if (groupId !== null) {
-      dispatch({ type: "SET_GROUP", group_id: groupId });
-    }
-  }, [groupId]);
+  }, []);
   return (
     <Drawer.Navigator
       initialRouteName={"Intro"}

@@ -8,31 +8,19 @@ import { useStore } from "../Store";
 const linking = {
   prefixes: ["https://parti.mx", "parti-mx://"],
   config: {
-    Intro: {
-      path: ":groupId",
-      parse: { groupId: Number },
-      screens: {
-        Home: {
-          path: "",
-          screens: {
-            Profile: "profile",
-            VoteDetail: { path: "vote/:postId", parse: { postId: Number } },
-            SuggestionDetail: {
-              path: "suggestion/:postId",
-              parse: { postId: Number },
-            },
-            NoticeDetail: { path: "notice/:postId", parse: { postId: Number } },
-            EventDetail: { path: "event/:postId", parse: { postId: Number } },
-            NoMatch: "*"
-          },
-        },
-      },
+    Profile: "profile",
+    VoteDetail: {
+      initialRouteName: "Home",
+      path: "vote/:postId",
+      parse: { postId: Number },
     },
-    AuthMain: {
-      NoMatch: {
-        path: "*",
-      },
+    SuggestionDetail: {
+      path: "suggestion/:postId",
+      parse: { postId: Number },
     },
+    NoticeDetail: { path: "notice/:postId", parse: { postId: Number } },
+    EventDetail: { path: "event/:postId", parse: { postId: Number } },
+    NoMatch: "*",
   },
 };
 

@@ -46,7 +46,7 @@ import {
 } from "../types";
 export type RootStackParamList = {
   Home: {};
-  Intro: { groupId?: number };
+  Intro: {};
   GroupNew: {};
   GroupSetting: { title: string; bg_img_url: string };
   AccountDelete: {};

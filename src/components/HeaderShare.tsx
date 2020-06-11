@@ -16,7 +16,7 @@ export default (props: { id: number; type: boardTypes }) => {
   const [{ group_id }] = useStore();
   const { goBack } = useNavigation();
   const shareLink = React.useCallback(() => {
-    const triple = Linking.makeUrl(`${group_id}/${type}/${id}`);
+    const triple = Linking.makeUrl(`${type}/${id}`);
     const url = triple.replace("parti-mx:///", "parti-mx://");
     const shareObj = Platform.select({
       ios: {
