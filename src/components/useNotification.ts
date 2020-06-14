@@ -39,7 +39,11 @@ export default function useNotification() {
         navigatePost(boardType, post_id);
       }
     });
-    return unsubscribe.remove;
+    return async function () {
+      try {
+        unsubscribe.remove;
+      } catch (error) {}
+    };
   }, []);
   const { error, data, refetch } = useQuery<Whoami>(whoami, {
     variables: { id: user_id },
