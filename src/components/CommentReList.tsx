@@ -95,10 +95,9 @@ export default function CommentReList(props: {
         </Grey12>
         {user.id === user_id && <SelectMenu items={options} />}
       </ViewRow>
-
-      <Text style={{ color: "#555555", fontSize: 16, marginVertical: 10 }}>
+      <View style={{ marginVertical: 10 }}>
         <Hyperlink text={body} />
-      </Text>
+      </View>
       <ViewRow>
         <ButtonComment recomment={recommentHandler} />
         <TO0 style={{ marginLeft: 20 }} onPress={report}>
