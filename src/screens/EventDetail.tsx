@@ -8,7 +8,7 @@ import { View, V0, ViewRow } from "../components/View";
 import UserProfileNameDate from "../components/UserProfileNameDate";
 import { KeyboardAwareScrollView } from "../components/KeyboardAwareScrollView";
 import ButtonEventLike from "../components/ButtonEventLike";
-import ButtonUnlike from "../components/ButtonUnlike";
+import ButtonEventCancel from "../components/ButtonEventCancel";
 import usePostDelete from "../components/usePostDelete";
 import HeaderShare from "../components/HeaderShare";
 import HeaderBreadcrumb from "../components/HeaderBreadcrumb";
@@ -125,7 +125,7 @@ export default function EventDetail(props: {
           />
           <V0 style={{ marginTop: 50 }}>
             {liked > 0 ? (
-              <ButtonUnlike id={id} />
+              <ButtonEventCancel id={id} />
             ) : (
               <ButtonEventLike id={id} created_at={created_at} />
             )}

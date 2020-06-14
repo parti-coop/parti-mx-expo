@@ -41,10 +41,10 @@ export default function ButtonEventCancel({ id }: { id: number }) {
     <TO0 onPress={unlikeHandler}>
       <ViewRowCenter style={bgMenuBgCopy}>
         <Image source={iconAgree} style={{ marginRight: 4 }} />
-        <White16 style={{ fontFamily: "notosans700" }}>참석 신청함</White16>
+        <White16 style={{ fontFamily: "notosans700" }}>모임 신청 완료</White16>
       </ViewRowCenter>
       <Mint13 style={{ marginTop: 9, fontFamily: "notosans700" }}>
-        참석 취소
+        모임 신청 취소
       </Mint13>
     </TO0>
   );
