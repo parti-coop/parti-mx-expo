@@ -51,7 +51,13 @@ export default function TouchableBoardList(props: {
       >
         <ViewRow>
           <ViewRow style={{ flex: 1 }}>
-            <Title18 numberOfLines={1}>{board.title}</Title18>
+            {isNew && (
+              <DotRed
+                style={{ marginLeft: -4, alignSelf: "flex-start" }}
+                size={4}
+              />
+            )}
+            <Title18 numberOfLines={1} style={{flexShrink: 1}}>{board.title}</Title18>
             <V0
               style={[
                 {
@@ -70,11 +76,10 @@ export default function TouchableBoardList(props: {
                 <Purple12 style={{ color: "#4aacc7" }}>멤버공개</Purple12>
               )}
             </V0>
-            {isNew && <DotRed style={{ marginLeft: 10 }} />}
+            {newPostCount > 0 && (
+              <Mint14 style={{ marginLeft: 5 }}>새 글 {newPostCount}</Mint14>
+            )}
           </ViewRow>
-          {newPostCount > 0 && (
-            <Mint14 style={{ marginLeft: 5 }}>새 글 {newPostCount}</Mint14>
-          )}
         </ViewRow>
         <Text
           style={{
