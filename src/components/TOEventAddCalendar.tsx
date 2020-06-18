@@ -86,7 +86,7 @@ export default function TOEventAddCalendar(props: {
       endDate = addHours(new Date(metadata?.eventDate), 1.5);
     } catch (error) {
       startDate = new Date();
-      endDate = addHours(new Date(), 1.5);
+      endDate = addHours(new Date(), 2);
     }
     const evnetId = await Calendar.createEventAsync(defaultCalendarId, {
       title,
