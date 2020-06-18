@@ -146,7 +146,7 @@ export default function CustomDrawer(props) {
         {isSearching ? (
           <MySearchList searchKeyword={searchKeyword} navigate={navigate} />
         ) : (
-          <MyGroupList navigate={navigate} />
+          <MyGroupList />
         )}
       </ScrollView>
       <TORowCenter

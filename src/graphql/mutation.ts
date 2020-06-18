@@ -235,7 +235,7 @@ export const updateBoard = gql`
     }
   }
 `;
-export const updateUserGroupCheck = gql`
+export const incrementUserGroupCheck = gql`
   mutation($group_id: Int!, $user_id: Int!) {
     update_mx_users_group(
       _inc: { count_click: 1 }

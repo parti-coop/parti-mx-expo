@@ -19,6 +19,7 @@ export const subscribeGroupsByUserId = gql`
       where: { user_id: { _eq: $user_id } }
       order_by: { updated_at: desc_nulls_last }
     ) {
+      group_id
       updated_at
       group {
         title

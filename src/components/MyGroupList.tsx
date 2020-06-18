@@ -3,24 +3,25 @@ import { useSubscription } from "@apollo/react-hooks";
 
 import TouchableSideNavGroupList from "./TouchableSideNavGroupList";
 import { Text } from "./Text";
+import useNavigateToGroup from "./useNavigateToGroup";
 
 import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { useStore } from "../Store";
 import { UserGroup } from "../types";
 
-export default function MyGroupList(props) {
+export default function MyGroupList() {
   const [{ user_id }] = useStore();
-  const { loading, data } = useSubscription<>(subscribeGroupsByUserId, {
+  const { loading, data } = useSubscription(subscribeGroupsByUserId, {
     variables: { user_id },
   });
-  const { navigate } = props;
+  const navigateToGroup = useNavigateToGroup();
 
   return !loading && data && data.mx_users_group.length > 0 ? (
     data.mx_users_group.map((usersGroup: UserGroup, i: number) => (
       <TouchableSideNavGroupList
         usersGroup={usersGroup}
         key={i}
-        navigate={navigate}
+        onPress={navigateToGroup}
       />
     ))
   ) : (

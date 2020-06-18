@@ -140,6 +140,7 @@ export interface UserGroup {
   notification_type: NotificationType;
   updated_at: string;
   group?: Group;
+  group_id: number;
 }
 
 export interface Group {

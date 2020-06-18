@@ -3,15 +3,16 @@ import { useLazyQuery } from "@apollo/react-hooks";
 
 import TouchableSideNavGroupSearchList from "./TouchableSideNavGroupSearchList";
 import { Text } from "./Text";
-
+import useNavigateToGroup from "./useNavigateToGroup";
 import { searchGroups } from "../graphql/query";
 
 export default function MySearchList(props) {
-  const { navigate, searchKeyword } = props;
+  const { searchKeyword } = props;
   const [update, { data, refetch }] = useLazyQuery(searchGroups, {
     variables: { searchKeyword: `%${searchKeyword}%` },
     fetchPolicy: "network-only",
   });
+  const navigateToGroup = useNavigateToGroup();
   React.useEffect(() => {
     if (refetch) {
       refetch;
@@ -31,7 +32,7 @@ export default function MySearchList(props) {
       <TouchableSideNavGroupSearchList
         group={group}
         key={i}
-        navigate={navigate}
+        onPress={navigateToGroup}
       />
     ));
   } else {
