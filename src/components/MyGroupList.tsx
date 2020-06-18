@@ -6,16 +6,17 @@ import { Text } from "./Text";
 
 import { subscribeGroupsByUserId } from "../graphql/subscription";
 import { useStore } from "../Store";
+import { UserGroup } from "../types";
 
-export default props => {
+export default function MyGroupList(props) {
   const [{ user_id }] = useStore();
-  const { loading, data } = useSubscription(subscribeGroupsByUserId, {
-    variables: { user_id }
+  const { loading, data } = useSubscription<>(subscribeGroupsByUserId, {
+    variables: { user_id },
   });
   const { navigate } = props;
 
   return !loading && data && data.mx_users_group.length > 0 ? (
-    data.mx_users_group.map((usersGroup: any, i: number) => (
+    data.mx_users_group.map((usersGroup: UserGroup, i: number) => (
       <TouchableSideNavGroupList
         usersGroup={usersGroup}
         key={i}
@@ -29,4 +30,4 @@ export default props => {
       그룹 참여 링크를 다시 눌러주세요.{"\n"}
     </Text>
   );
-};
+}

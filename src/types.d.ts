@@ -138,6 +138,15 @@ export interface UserGroup {
   status: UserStatus;
   created_at: string;
   notification_type: NotificationType;
+  updated_at: string;
+  group?: Group;
+}
+
+export interface Group {
+  title: string;
+  id: number;
+  updated_at: string;
+  last_posted_at: string;
 }
 
 export type PostDetailType = {

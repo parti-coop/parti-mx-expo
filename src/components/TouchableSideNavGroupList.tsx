@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 
-import { Text, White16 } from "./Text";
+import { White16 } from "./Text";
 import { TouchableOpacity } from "./TouchableOpacity";
 import ViewGroupImg from "./ViewGroupImg";
 import ViewNewRed from "./ViewNewRed";
@@ -9,13 +9,11 @@ import ViewNewRed from "./ViewNewRed";
 import { useStore } from "../Store";
 import { isAfterString } from "../Utils/CalculateDays";
 import { updateUserGroupCheck } from "../graphql/mutation";
-export default (props: {
-  usersGroup: {
-    group: { title: string; id: number; last_posted_at: string };
-    updated_at: string;
-  };
+import { UserGroup } from "../types";
+export default function TouchableSideNavGroupList(props: {
+  usersGroup: UserGroup;
   navigate: (route: string) => void;
-}) => {
+}) {
   const [{ user_id }, dispatch] = useStore();
   const { group, updated_at } = props.usersGroup;
   const isNew = isAfterString(group.last_posted_at, updated_at);
@@ -46,4 +44,4 @@ export default (props: {
       {isNew && <ViewNewRed />}
     </TouchableOpacity>
   );
-};
+}
