@@ -18,10 +18,10 @@ import FlashMessage from "react-native-flash-message";
 import LoadingIndicator2 from "./src/components/LoadingIndicator2";
 import { setContext } from "apollo-link-context";
 import { auth, IdTokenResult } from "./src/firebase";
-const HASURA_DOMAIN = `hasura-load-balancer-1241189389.ap-northeast-2.elb.amazonaws.com/v1/graphql`;
+const HASURA_DOMAIN = `api.parti.mx/v1/graphql`;
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${HASURA_DOMAIN}`,
+  uri: `wss://${HASURA_DOMAIN}`,
   options: {
     reconnect: true,
     lazy: true,
@@ -40,7 +40,7 @@ const httpLink = ApolloLink.from([
     if (networkError) console.log(`[Network error]: ${networkError}`);
   }),
   new HttpLink({
-    uri: `http://${HASURA_DOMAIN}`,
+    uri: `https://${HASURA_DOMAIN}`,
     credentials: "same-origin",
   }),
 ]);
