@@ -6,7 +6,19 @@ interface Config extends functions.config.Config {
     url: string;
     secret: string;
   };
+  slack: {
+    signing_secret: string;
+    bot_token: string;
+    user_token: string;
+  };
+  partigroups: {
+    access_token: "65da0462a3f04af26a567ef70043a350af8e451938546bf949580418d5034727";
+  };
 }
 const config = functions.config() as Config;
 export const HASURA_GRAPHQL_ENGINE_URL = config.hasura.url;
 export const ADMIN_SECRET = config.hasura.secret;
+export const SLACK_SIGNING_SECRET = config.slack.signing_secret;
+export const GROUPS_ACCESS_TOKEN = config.partigroups.access_token;
+export const SLACK_USER_TOKEN = config.slack.user_token;
+export const SLACK_BOT_TOKEN = config.slack.bot_token;

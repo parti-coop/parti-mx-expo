@@ -15,10 +15,15 @@
   "main": "lib/index.js",
   "dependencies": {
     "@types/firebase": "^3.2.1",
+    "@types/jquery": "^3.3.38",
+    "@types/jsdom": "^16.2.3",
     "@types/node": "^13.13.9",
+    "amo-html-to-mrkdwn": "^3.4.1",
     "expo-server-sdk": "^3.5.0",
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.2",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.2.2",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
