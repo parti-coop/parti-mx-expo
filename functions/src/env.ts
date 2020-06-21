@@ -12,7 +12,7 @@ interface Config extends functions.config.Config {
     user_token: string;
   };
   partigroups: {
-    access_token: "65da0462a3f04af26a567ef70043a350af8e451938546bf949580418d5034727";
+    access_token: string;
   };
 }
 const config = functions.config() as Config;
