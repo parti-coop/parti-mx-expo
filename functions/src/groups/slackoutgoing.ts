@@ -10,15 +10,15 @@ const exampleBody = {
   api_app_id: "A014ZMLEMQU",
   event: {
     type: "link_shared",
-    channel: "DUEQW2423",
+    channel: "C013S4D4LA1",
     user: "UUF5PUFP0",
     event_ts: "1592698544.474776",
     thread_ts: "123456621.1855",
-    message_ts: "1592702863.002900",
+    message_ts: "1592786723.000500",
     links: [
       {
         domain: "parti.xyz",
-        url: "https://union.parti.xyz/posts/34856",
+        url: "https://union.parti.xyz/posts/35042",
       },
     ],
   },
@@ -95,7 +95,7 @@ export default functions
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: markdown.text,
+                text: markdown.text.substr(0, 3000),
               },
             },
           ],
@@ -113,7 +113,7 @@ export default functions
       ts: message_ts,
       unfurls: aggregatedBlocks,
     };
-    // console.log(unfurlData);
+    // return console.log(JSON.stringify(unfurlData));
     const res = await fetch("https://slack.com/api/chat.unfurl", {
       method: "post",
       body: JSON.stringify(unfurlData),
