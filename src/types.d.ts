@@ -264,7 +264,7 @@ export interface SearchResultType {
 }
 
 export interface GroupBoardNewPostCount {
-  get_new_post_count: {
+  mx_get_new_post_count: {
     board_id: number;
     new_count: number;
   }[];

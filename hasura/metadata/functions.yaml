@@ -1,3 +1,6 @@
 - function:
+    schema: mx
+    name: get_new_post_count
+- function:
     schema: public
     name: get_new_post_count

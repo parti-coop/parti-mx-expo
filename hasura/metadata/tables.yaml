@@ -1565,3 +1565,33 @@
   - role: user
     permission:
       filter: {}
+- table:
+    schema: mx
+    name: board_new_post_count
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - board_id
+      - new_count
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - new_count
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - new_count
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}

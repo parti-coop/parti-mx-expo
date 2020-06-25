@@ -100,7 +100,7 @@ function Home() {
   React.useEffect(() => {
     if (newPostCountQuery.data) {
       const emptyObj = {};
-      newPostCountQuery.data?.get_new_post_count.every(
+      newPostCountQuery.data?.mx_get_new_post_count.every(
         (b) => (emptyObj[b.board_id] = b.new_count || 0)
       );
       setNewPostCountObj(emptyObj);
