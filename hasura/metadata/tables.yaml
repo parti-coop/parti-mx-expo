@@ -1,0 +1,1567 @@
+- table:
+    schema: mx
+    name: boards
+  object_relationships:
+  - name: group
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: groups
+        column_mapping:
+          group_id: id
+  array_relationships:
+  - name: posts
+    using:
+      foreign_key_constraint_on:
+        column: board_id
+        table:
+          schema: mx
+          name: posts
+  - name: users
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users_board
+        column_mapping:
+          id: board_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        created_by: x-hasura-user-id
+        updated_by: x-hasura-user-id
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - title
+      - body
+      - logo
+      - slug
+      - group_id
+      - permission
+      - type
+      - last_posted_at
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - title
+      - body
+      - logo
+      - slug
+      - group_id
+      - permission
+      - type
+      - last_posted_at
+      filter:
+        permission:
+          _eq: all
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - created_by
+      - group_id
+      - id
+      - updated_by
+      - body
+      - logo
+      - permission
+      - slug
+      - title
+      - type
+      - created_at
+      - last_posted_at
+      - updated_at
+      filter:
+        _or:
+        - permission:
+            _eq: all
+        - _and:
+          - permission:
+              _eq: member
+          - group:
+              users:
+                _and:
+                - user_id:
+                    _eq: X-Hasura-User-Id
+                - status:
+                    _in:
+                    - user
+                    - organizer
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_by
+      - group_id
+      - id
+      - updated_by
+      - body
+      - logo
+      - permission
+      - slug
+      - title
+      - type
+      - created_at
+      - last_posted_at
+      - updated_at
+      filter: {}
+      check: null
+      set:
+        updated_by: x-hasura-user-id
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: candidates
+  object_relationships:
+  - name: post
+    using:
+      foreign_key_constraint_on: post_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: votes
+    using:
+      foreign_key_constraint_on:
+        column: candidate_id
+        table:
+          schema: mx
+          name: users_candidates
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-User-Id
+      columns:
+      - id
+      - body
+      - order
+      - post_id
+      - user_id
+      - created_at
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - body
+      - order
+      - post_id
+      - user_id
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - body
+      - order
+      - post_id
+      - user_id
+      - created_at
+      filter: {}
+      check: {}
+      set:
+        user_id: x-hasura-User-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: comments
+  object_relationships:
+  - name: parent
+    using:
+      foreign_key_constraint_on: parent_id
+  - name: post
+    using:
+      foreign_key_constraint_on: post_id
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users
+        column_mapping:
+          user_id: id
+  array_relationships:
+  - name: likes
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: comments_like
+        column_mapping:
+          id: comment_id
+  - name: re
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: comments
+        column_mapping:
+          id: parent_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - body
+      - created_at
+      - id
+      - parent_id
+      - post_id
+      - updated_at
+      - user_id
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - body
+      - id
+      - parent_id
+      - post_id
+      - user_id
+      filter:
+        post:
+          board:
+            permission:
+              _eq: all
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - body
+      - created_at
+      - id
+      - parent_id
+      - post_id
+      - updated_at
+      - user_id
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - body
+      - created_at
+      - id
+      - parent_id
+      - post_id
+      - updated_at
+      - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: comments_like
+  object_relationships:
+  - name: comment
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: comments
+        column_mapping:
+          comment_id: id
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users
+        column_mapping:
+          user_id: id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+      filter:
+        comment:
+          post:
+            board:
+              permission:
+                _eq: all
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: groups
+  array_relationships:
+  - name: boards
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: boards
+        column_mapping:
+          id: group_id
+  - name: users
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users_group
+        column_mapping:
+          id: group_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        created_by: x-hasura-user-id
+        updated_by: x-hasura-user-id
+      columns:
+      - bg_img_url
+      - created_at
+      - created_by
+      - id
+      - last_posted_at
+      - private
+      - slug
+      - title
+      - updated_at
+      - updated_by
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - bg_img_url
+      - created_at
+      - created_by
+      - id
+      - last_posted_at
+      - private
+      - slug
+      - title
+      - updated_at
+      - updated_by
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - bg_img_url
+      - created_at
+      - created_by
+      - id
+      - last_posted_at
+      - private
+      - slug
+      - title
+      - updated_at
+      - updated_by
+      filter: {}
+      check: null
+      set:
+        updated_by: x-hasura-user-id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        created_by:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: mx
+    name: posts
+  object_relationships:
+  - name: board
+    using:
+      foreign_key_constraint_on: board_id
+  - name: createdBy
+    using:
+      foreign_key_constraint_on: created_by
+  - name: updatedBy
+    using:
+      foreign_key_constraint_on: updated_by
+  array_relationships:
+  - name: candidates
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          schema: mx
+          name: candidates
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          schema: mx
+          name: comments
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: post_id
+        table:
+          schema: mx
+          name: users_post
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        created_by: x-hasura-user-id
+        updated_by: x-hasura-user-id
+      columns:
+      - board_id
+      - created_by
+      - id
+      - updated_by
+      - files
+      - images
+      - metadata
+      - body
+      - conclusion
+      - context
+      - title
+      - created_at
+      - updated_at
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - files
+      - images
+      - title
+      - board_id
+      - body
+      - metadata
+      - context
+      - conclusion
+      filter:
+        board:
+          permission:
+            _eq: all
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - body
+      - closed_at
+      - conclusion
+      - context
+      - created_at
+      - created_by
+      - files
+      - id
+      - images
+      - last_commented_at
+      - metadata
+      - title
+      - updated_at
+      - updated_by
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - body
+      - closed_at
+      - conclusion
+      - context
+      - created_at
+      - created_by
+      - files
+      - id
+      - images
+      - last_commented_at
+      - metadata
+      - title
+      - updated_at
+      - updated_by
+      filter: {}
+      check: null
+      set:
+        updated_by: x-hasura-user-id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        created_by:
+          _eq: X-Hasura-User-Id
+  event_triggers:
+  - name: notification_for_new_post
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: https://asia-northeast1-parti-2020.cloudfunctions.net/notification
+- table:
+    schema: mx
+    name: reports
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - user_id
+      - type
+      - type_id
+      - body
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - user_id
+      - type
+      - type_id
+      - body
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - user_id
+      - type
+      - type_id
+      - body
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: users
+  array_relationships:
+  - name: candidates
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: mx
+          name: candidates
+  - name: checkedBoards
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users_board
+        column_mapping:
+          id: user_id
+  - name: checkedPosts
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: mx
+          name: users_post
+  - name: comments
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: comments
+        column_mapping:
+          id: user_id
+  - name: createdPosts
+    using:
+      foreign_key_constraint_on:
+        column: created_by
+        table:
+          schema: mx
+          name: posts
+  - name: groups
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users_group
+        column_mapping:
+          id: user_id
+  - name: updatedPosts
+    using:
+      foreign_key_constraint_on:
+        column: updated_by
+        table:
+          schema: mx
+          name: posts
+  - name: votes
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: mx
+          name: users_candidates
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - email
+      - created_at
+      - updated_at
+      - name
+      - firebase_uid
+      - photo_url
+      - term_service
+      - term_privacy
+      - push_tokens
+      backend_only: true
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - id
+      - push_tokens
+      - email
+      - firebase_uid
+      - name
+      - photo_url
+      - created_at
+      - term_privacy
+      - term_service
+      - updated_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - push_tokens
+      - email
+      - firebase_uid
+      - name
+      - photo_url
+      - created_at
+      - term_privacy
+      - term_service
+      - updated_at
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: mx
+    name: users_board
+  object_relationships:
+  - name: board
+    using:
+      foreign_key_constraint_on: board_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - user_id
+      - board_id
+      - created_at
+      - updated_at
+      - count_click
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - count_click
+      - user_id
+      - created_at
+      - updated_at
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - count_click
+      - user_id
+      - created_at
+      - updated_at
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: users_candidates
+  object_relationships:
+  - name: candidate
+    using:
+      foreign_key_constraint_on: candidate_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - user_id
+      - candidate_id
+      - count
+      - created_at
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - candidate_id
+      - count
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - candidate_id
+      - count
+      - created_at
+      filter: {}
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: users_group
+  object_relationships:
+  - name: group
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: groups
+        column_mapping:
+          group_id: id
+  - name: user
+    using:
+      manual_configuration:
+        remote_table:
+          schema: mx
+          name: users
+        column_mapping:
+          user_id: id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-User-Id
+      columns:
+      - count_click
+      - created_at
+      - group_id
+      - notification_type
+      - status
+      - updated_at
+      - user_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - count_click
+      - created_at
+      - group_id
+      - notification_type
+      - status
+      - updated_at
+      - user_id
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - count_click
+      - created_at
+      - group_id
+      - notification_type
+      - status
+      - updated_at
+      - user_id
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: mx
+    name: users_post
+  object_relationships:
+  - name: post
+    using:
+      foreign_key_constraint_on: post_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        user_id: x-hasura-user-id
+      columns:
+      - user_id
+      - post_id
+      - created_at
+      - updated_at
+      - like_count
+      - view_count
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - like_count
+      - view_count
+      filter:
+        post:
+          board:
+            permission:
+              _eq: all
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - post_id
+      - user_id
+      - created_at
+      - updated_at
+      - view_count
+      - like_count
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - post_id
+      - user_id
+      - created_at
+      - updated_at
+      - view_count
+      - like_count
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: parti_2020
+    name: boards
+  object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
+  array_relationships:
+  - name: suggestions
+    using:
+      foreign_key_constraint_on:
+        column: board_id
+        table:
+          schema: parti_2020
+          name: suggestions
+  - name: usersBoardCheck
+    using:
+      foreign_key_constraint_on:
+        column: board_id
+        table:
+          schema: parti_2020
+          name: users_board
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - title
+      - body
+      - logo
+      - slug
+      - group_id
+      - is_member_only
+      - type
+      - last_posted_at
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - title
+      - body
+      - logo
+      - slug
+      - group_id
+      - is_member_only
+      - type
+      - last_posted_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - created_by
+      - updated_by
+      - title
+      - body
+      - logo
+      - slug
+      - group_id
+      - is_member_only
+      - type
+      - last_posted_at
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: comments
+  object_relationships:
+  - name: suggestion
+    using:
+      foreign_key_constraint_on: suggestion_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  array_relationships:
+  - name: likes
+    using:
+      foreign_key_constraint_on:
+        column: comment_id
+        table:
+          schema: parti_2020
+          name: comments_like
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - user_id
+      - suggestion_id
+      - body
+      - created_at
+      - updated_at
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - user_id
+      - suggestion_id
+      - body
+      - created_at
+      - updated_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - user_id
+      - suggestion_id
+      - body
+      - created_at
+      - updated_at
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: comments_like
+  object_relationships:
+  - name: comment
+    using:
+      foreign_key_constraint_on: comment_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - comment_id
+      - created_at
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: groups
+  array_relationships:
+  - name: boards
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: parti_2020
+          name: boards
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: parti_2020
+          name: users_group
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_by
+      - slug
+      - title
+      - created_at
+      - updated_at
+      - private
+      - board_default_id
+      - bg_img_url
+      - last_posted_at
+      - updated_by
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_by
+      - slug
+      - title
+      - created_at
+      - updated_at
+      - private
+      - board_default_id
+      - bg_img_url
+      - last_posted_at
+      - updated_by
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_by
+      - slug
+      - title
+      - created_at
+      - updated_at
+      - private
+      - board_default_id
+      - bg_img_url
+      - last_posted_at
+      - updated_by
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: suggestions
+  object_relationships:
+  - name: board
+    using:
+      foreign_key_constraint_on: board_id
+  - name: createdBy
+    using:
+      foreign_key_constraint_on: created_by
+  - name: updatedBy
+    using:
+      foreign_key_constraint_on: updated_by
+  array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: suggestion_id
+        table:
+          schema: parti_2020
+          name: comments
+  - name: votes
+    using:
+      foreign_key_constraint_on:
+        column: suggestion_id
+        table:
+          schema: parti_2020
+          name: vote
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - created_by
+      - board_id
+      - body
+      - created_at
+      - updated_at
+      - updated_by
+      - is_open
+      - update_permission
+      - closed_at
+      - closed_by
+      - context
+      - title
+      - closing_method
+      - files
+      - images
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_by
+      - board_id
+      - body
+      - created_at
+      - updated_at
+      - updated_by
+      - is_open
+      - update_permission
+      - closed_at
+      - closed_by
+      - context
+      - title
+      - closing_method
+      - files
+      - images
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_by
+      - board_id
+      - body
+      - created_at
+      - updated_at
+      - updated_by
+      - is_open
+      - update_permission
+      - closed_at
+      - closed_by
+      - context
+      - title
+      - closing_method
+      - files
+      - images
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: users
+  array_relationships:
+  - name: boardsCheck
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: parti_2020
+          name: users_board
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: parti_2020
+          name: comments
+  - name: createdSuggestions
+    using:
+      foreign_key_constraint_on:
+        column: created_by
+        table:
+          schema: parti_2020
+          name: suggestions
+  - name: groupsCheck
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: parti_2020
+          name: users_group
+  - name: likedComments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: parti_2020
+          name: comments_like
+  - name: updatedSuggestions
+    using:
+      foreign_key_constraint_on:
+        column: updated_by
+        table:
+          schema: parti_2020
+          name: suggestions
+  - name: votes
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: parti_2020
+          name: vote
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - id
+      - email
+      - created_at
+      - updated_at
+      - name
+      - firebase_uid
+      - photo_url
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - email
+      - created_at
+      - updated_at
+      - name
+      - firebase_uid
+      - photo_url
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - email
+      - created_at
+      - updated_at
+      - name
+      - firebase_uid
+      - photo_url
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: users_board
+  object_relationships:
+  - name: board
+    using:
+      foreign_key_constraint_on: board_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - user_id
+      - board_id
+      - created_at
+      - updated_at
+      - count_click
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - board_id
+      - created_at
+      - updated_at
+      - count_click
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - board_id
+      - created_at
+      - updated_at
+      - count_click
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: users_group
+  object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - user_id
+      - group_id
+      - created_at
+      - status
+      - updated_at
+      - count_click
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - group_id
+      - created_at
+      - status
+      - updated_at
+      - count_click
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - group_id
+      - created_at
+      - status
+      - updated_at
+      - count_click
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: parti_2020
+    name: vote
+  object_relationships:
+  - name: suggestion
+    using:
+      foreign_key_constraint_on: suggestion_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - user_id
+      - suggestion_id
+      - created_at
+      - updated_at
+      - count
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - suggestion_id
+      - created_at
+      - updated_at
+      - count
+      filter: {}
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - user_id
+      - suggestion_id
+      - created_at
+      - updated_at
+      - count
+      filter: {}
+      check: null
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+- table:
+    schema: public
+    name: board_new_post_count
+  insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+      - board_id
+      - new_count
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - new_count
+      filter: {}
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - board_id
+      - new_count
+      filter: {}
+      check: {}
+  delete_permissions:
+  - role: user
+    permission:
+      filter: {}
